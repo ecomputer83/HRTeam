@@ -59,6 +59,53 @@
         </ul>
       </li>
       <li class="menu-title">
+        <span>Recruitment</span>
+      </li>
+      <li class="policies">
+        <router-link to="/job-profile"><i class="la la la-user
+"></i> <span>Job Profile</span></router-link>
+      </li>
+      <li class="policies">
+        <router-link to="/vacancies"><i class="la la la-search"></i> <span>Vacancies</span></router-link>
+      </li>
+      <li class="policies">
+        <router-link to="/applications"><i class="la la la-user"></i> <span>Applications</span></router-link>
+      </li>
+      <li class="policies">
+        <router-link to="/applicants"><i class="la la la-user"></i> <span>Applicants</span></router-link>
+      </li>
+      <li class="policies">
+        <router-link to="/talent-search"><i class="la la la-user"></i> <span>Talent Search</span></router-link>
+      </li>
+      <li class="policies">
+        <router-link to="/onboarding"><i class="la la la-user"></i> <span>Onboarding</span></router-link>
+      </li>
+      <li class="menu-title">
+        <span>Employees</span>
+      </li>
+      <li class="policies">
+        <router-link to="/employees"><i class="la la la-user
+"></i> <span>Employees</span></router-link>
+      </li>
+      <li class="policies">
+        <router-link to="/leaves"><i class="la la la-user"></i> <span>Leave</span></router-link>
+      </li>
+      <li class="policies">
+        <router-link to="/attendance"><i class="la la la-user"></i> <span>Attendants</span></router-link>
+      </li>
+      <li class="policies">
+        <router-link to="/departments"><i class="la la la-user"></i> <span>Departments</span></router-link>
+      </li>
+      <li class="policies">
+        <router-link to="/designations"><i class="la la la-user"></i> <span>Designations</span></router-link>
+      </li>
+      <li class="policies">
+        <router-link to="/timesheet"><i class="la la la-user"></i> <span>Timesheets</span></router-link>
+      </li>
+      <li class="policies">
+        <router-link to="/disciplinary-measures"><i class="la la la-user"></i> <span>Disciplinary Measures</span></router-link>
+      </li>
+      <li class="menu-title">
         <span>Employees</span>
       </li>
       <li class="submenu">
