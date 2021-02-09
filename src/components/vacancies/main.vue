@@ -39,7 +39,6 @@
                           <th>HR Interview</th>
                           <th>Supervisor Interview</th>
                           <th>Contract Negotiation</th>
-                          <th></th>
                         </tr>
                       </thead>
                       <tbody>

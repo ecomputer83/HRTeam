@@ -38,6 +38,10 @@ import './assets/style/style.css'
 import 'vue-full-calendar/node_modules/fullcalendar/dist/fullcalendar.css'
 import './components/main.js'
 import Raphael from 'raphael/raphael'
+import VueQuillEditor from 'vue-quill-editor'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 global.Raphael = Raphael
 Vue.config.productionTip = false
 Vue.use(Antd);
@@ -45,6 +49,7 @@ Vue.use(Button);
 Vue.use(VueSlimScroll)
 Vue.use(datePicker)
 Vue.use( CKEditor );
+Vue.use(VueQuillEditor, /* { default global options } */)
 Vue.component('layout-header', LayoutHeader);
 Vue.component('layout-headerEmployee', LayoutHeaderEmployee);
 Vue.component('layout-headerApp', LayoutHeaderApp);

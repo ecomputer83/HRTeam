@@ -35,30 +35,494 @@
                   </ul>
                   <ul class="tabs">
                     <li
-                      data-tab-target="#home"
-                      id="home_tab"
-                      v-on:click="setTab('home')"
+                      data-tab-target="#details"
+                      id="details_tab"
+                      v-on:click="setTab('details')"
                       class="active tab"
                     >
-                      Overview
+                      Details
                     </li>
                     <li
-                      data-tab-target="#pricing"
-                      id="pricing_tab"
-                      v-on:click="setTab('pricing')"
+                      data-tab-target="#job_requisition"
+                      id="job_requisition_tab"
+                      v-on:click="setTab('job_requisition')"
                       class="tab"
                     >
                       Job Requisition
                     </li>
                   </ul>
                   <div class="tab-content">
-                    <div id="home_content" data-tab-content class="active">
-                      <h1>Home</h1>
-                      <p>This is the home</p>
+                    <div id="details_content" data-tab-content class="active">
+                      <div class="d-flex justify-content-between flex-wrap">
+                        <div class="col-xs-12 col-md-4 job-card">
+                          <div class="table-responsive">
+                            <p>Overview</p>
+                            <table class="datatable table mb-0">
+                              <tbody>
+                                <tr>
+                                  <td>Vacancy Id</td>
+                                  <td><p class="ml-3 mb-0">vid</p></td>
+                                </tr>
+                                <tr>
+                                  <td>Based on Job Profile</td>
+                                  <td>
+                                    <div class="custom-control custom-switch">
+                                      <input
+                                        type="checkbox form-control"
+                                        class="custom-control-input"
+                                        id="customSwitch1"
+                                      />
+                                      <label
+                                        class="custom-control-label"
+                                        for="customSwitch1"
+                                      ></label>
+                                    </div>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Job Profile</td>
+                                  <td>
+                                    <select
+                                      name="job profile"
+                                      id="job_profile"
+                                      class="form-control"
+                                    >
+                                      <option value="prof 1">prof 1</option>
+                                      <option value="prof 2">prof 2</option>
+                                      <option value="prof 3">prof 3</option>
+                                      <option value="prof 4">prof 4</option>
+                                    </select>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Quantity of Position</td>
+                                  <td>
+                                    <input
+                                      class="form-control"
+                                      type="text"
+                                      value="2"
+                                    />
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Department</td>
+                                  <td>
+                                    <select
+                                      name="department"
+                                      id="department"
+                                      class="form-control"
+                                    >
+                                      <option value="dept 1">dept 1</option>
+                                      <option value="dept 2">dept 2</option>
+                                      <option value="dept 3">dept 3</option>
+                                      <option value="dept 4">dept 4</option>
+                                    </select>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Description</td>
+                                  <td>
+                                    <textarea
+                                      style="height: auto !important"
+                                      class="form-control"
+                                      type="text"
+                                    >
+Manager for all accounts in his area</textarea
+                                    >
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        <div class="col-xs-12 col-md-8 p-0 pl-sm-3">
+                          <div class="col-md-12 job-card">
+                            <div class="table-responsive">
+                              <p>Vacancy Details</p>
+                              <div
+                                class="active d-flex justify-content-between flex-wrap"
+                              >
+                                <div
+                                  class="datatable table mb-0 col-xs-12 col-md-6 p-0 pr-sm-3"
+                                >
+                                  <table class="w-100">
+                                    <tbody>
+                                      <tr>
+                                        <td>Position</td>
+                                        <td>
+                                          <select
+                                            name="job profile"
+                                            id="job_profile"
+                                            class="form-control"
+                                          >
+                                            <option value="">----</option>
+                                            <option value="Position 1">
+                                              Position 1
+                                            </option>
+                                            <option value="Position 2">
+                                              Position 2
+                                            </option>
+                                            <option value="Position 3">
+                                              Position 3
+                                            </option>
+                                            <option value="Position 4">
+                                              Position 4
+                                            </option>
+                                          </select>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>Company Website URL</td>
+                                        <td>
+                                          <input
+                                            class="form-control"
+                                            type="text"
+                                            value="---"
+                                          />
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>Company Logo URL</td>
+                                        <td>
+                                          <input
+                                            class="form-control"
+                                            type="text"
+                                            value="---"
+                                          />
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>Budget</td>
+                                        <td>
+                                          <input
+                                            class="form-control"
+                                            type="text"
+                                            value="---"
+                                          />
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>Expected Costs</td>
+                                        <td>
+                                          <input
+                                            class="form-control"
+                                            type="text"
+                                            value="---"
+                                          />
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>Currency</td>
+                                        <td>
+                                          <select
+                                            name="department"
+                                            id="department"
+                                            class="form-control"
+                                          >
+                                            <option value="currency 1">
+                                              currency 1
+                                            </option>
+                                            <option value="currency 2">
+                                              currency 2
+                                            </option>
+                                            <option value="currency 3">
+                                              currency 3
+                                            </option>
+                                            <option value="currency 4">
+                                              currency 4
+                                            </option>
+                                          </select>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                                <div
+                                  class="datatable table mb-0 col-xs-12 col-md-6 p-0 pl-sm-3"
+                                >
+                                  <table class="w-100">
+                                    <tbody>
+                                      <tr>
+                                        <td>Requested By</td>
+                                        <td>
+                                          <select
+                                            name="requestor"
+                                            id="requestor"
+                                            class="form-control"
+                                          >
+                                            <option value="requestor 1">
+                                              requestor 1
+                                            </option>
+                                            <option value="requestor 2">
+                                              requestor 2
+                                            </option>
+                                            <option value="requestor 3">
+                                              requestor 3
+                                            </option>
+                                            <option value="requestor 4">
+                                              requestor 4
+                                            </option>
+                                          </select>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>Requested On</td>
+                                        <td>
+                                          <input
+                                            type="date"
+                                            class="form-control"
+                                            name=""
+                                            id=""
+                                          />
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>Application Period From</td>
+                                        <td>
+                                          <input
+                                            type="date"
+                                            class="form-control"
+                                            name=""
+                                            id=""
+                                          />
+                                          <input
+                                            type="time"
+                                            class="form-control"
+                                            name=""
+                                            id=""
+                                          />
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>Application Period Until</td>
+                                        <td>
+                                          <input
+                                            type="date"
+                                            class="form-control"
+                                            name=""
+                                            id=""
+                                          />
+                                          <input
+                                            type="time"
+                                            class="form-control"
+                                            name=""
+                                            id=""
+                                          />
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>Interview Location</td>
+                                        <td>
+                                          <select
+                                            name="location"
+                                            id="location"
+                                            class="form-control"
+                                          >
+                                            <option value="location 1">
+                                              location 1
+                                            </option>
+                                            <option value="location 2">
+                                              location 2
+                                            </option>
+                                            <option value="location 3">
+                                              location 3
+                                            </option>
+                                            <option value="location 4">
+                                              location 4
+                                            </option>
+                                          </select>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-12 job-card">
+                            <div class="table-responsive">
+                              <p>Job Details</p>
+                              <div
+                                class="active d-flex justify-content-between flex-wrap"
+                              >
+                                <div
+                                  class="datatable table mb-0 col-xs-12 col-md-6 p-0 pr-sm-3"
+                                >
+                                  <table class="w-100">
+                                    <tbody>
+                                      <tr>
+                                        <td>Start Date</td>
+                                        <td>
+                                          <input
+                                            type="date"
+                                            class="form-control"
+                                            name=""
+                                            id=""
+                                          />
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>Professional Experience</td>
+                                        <td>
+                                          <select
+                                            name="experience"
+                                            id="experience"
+                                            class="form-control"
+                                          >
+                                            <option value="experience 1">
+                                              experience 1
+                                            </option>
+                                            <option value="experience 2">
+                                              experience 2
+                                            </option>
+                                            <option value="experience 3">
+                                              experience 3
+                                            </option>
+                                            <option value="experience 4">
+                                              experience 4
+                                            </option>
+                                          </select>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>Job Location</td>
+                                        <td>
+                                          <select
+                                            name="Job Location"
+                                            id="Job_Location"
+                                            class="form-control"
+                                          >
+                                            <option value="Job Location 1">
+                                              Job Location 1
+                                            </option>
+                                            <option value="Job Location 2">
+                                              Job Location 2
+                                            </option>
+                                            <option value="Job Location 3">
+                                              Job Location 3
+                                            </option>
+                                            <option value="Job Location 4">
+                                              Job Location 4
+                                            </option>
+                                          </select>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                                <div
+                                  class="datatable table mb-0 col-xs-12 col-md-6 p-0 pl-sm-3"
+                                >
+                                  <table class="w-100">
+                                    <tbody>
+                                      <tr>
+                                        <td>Enable Self Rating</td>
+                                        <td>
+                                          <div
+                                            class="custom-control custom-switch"
+                                          >
+                                            <input
+                                              type="checkbox form-control"
+                                              class="custom-control-input"
+                                              id="customSwitch1"
+                                            />
+                                            <label
+                                              class="custom-control-label"
+                                              for="customSwitch1"
+                                            ></label>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>Accommodation Provided</td>
+                                        <td>
+                                          <div
+                                            class="custom-control custom-switch"
+                                          >
+                                            <input
+                                              type="checkbox form-control"
+                                              class="custom-control-input"
+                                              id="customSwitch1"
+                                            />
+                                            <label
+                                              class="custom-control-label"
+                                              for="customSwitch1"
+                                            ></label>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>Traveling Required</td>
+                                        <td>
+                                          <select
+                                            name="traveling"
+                                            id="traveling"
+                                            class="form-control"
+                                          >
+                                            <option value="">----</option>
+                                            <option value="Not Required">
+                                              Not Required
+                                            </option>
+                                            <option value="Occasionally">
+                                              Occasionally
+                                            </option>
+                                          </select>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div id="pricing_content" data-tab-content>
-                      <h1>Pricing</h1>
-                      <p>Some information on pricing</p>
+                    <div id="job_requisition_content" data-tab-content>
+                      <div class="d-flex flex-wrap">
+                        <div class="col-xs-12 col-md-12 job-card">
+                          <div class="d-flex align-items-center">
+                            <label for="requisition_title" class="mr-5 mb-0"
+                              >Title </label
+                            ><input
+                              value="title"
+                              type="text"
+                              class="form-control"
+                              name="requisition_title"
+                              id="requisition_title"
+                            />
+                          </div>
+                          <hr />
+                        </div>
+                        <div class="col-xs-12 col-md-6 p-0 pr-sm-2">
+                          <div class="job-card">
+                            <p>Header</p>
+                            <quill-editor
+                              v-model="content"
+                              ref="myQuillEditor"
+                              :options="editorOption"
+                              @blur="onEditorBlur($event)"
+                              @focus="onEditorFocus($event)"
+                              @ready="onEditorReady($event)"
+                            >
+                            </quill-editor>
+                          </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6 p-0 pl-sm-2">
+                          <div class="job-card">
+                            <p>Job Definition</p>
+                            <quill-editor
+                              v-model="content"
+                              ref="myQuillEditor"
+                              :options="editorOption"
+                              @blur="onEditorBlur($event)"
+                              @focus="onEditorFocus($event)"
+                              @ready="onEditorReady($event)"
+                            >
+                            </quill-editor>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -82,7 +546,22 @@ export default {
     LayoutSidebar,
   },
   created() {},
-  mounted() {},
+  mounted() {
+    console.log("this is current quill instance object", this.editor);
+  },
+  computed: {
+    editor() {
+      return this.$refs.myQuillEditor.quill;
+    },
+  },
+  data() {
+    return {
+      content: "<h2>I am Example</h2>",
+      editorOption: {
+
+      },
+    };
+  },
   methods: {
     setTab: function (tabid) {
       const tabContents = document.querySelectorAll("[data-tab-content]");
@@ -97,6 +576,19 @@ export default {
       });
       tab.classList.add("active");
       target.classList.add("active");
+    },
+    onEditorBlur(quill) {
+      console.log("editor blur!", quill);
+    },
+    onEditorFocus(quill) {
+      console.log("editor focus!", quill);
+    },
+    onEditorReady(quill) {
+      console.log("editor ready!", quill);
+    },
+    onEditorChange({ quill, html, text }) {
+      console.log("editor change!", quill, html, text);
+      this.content = html;
     },
   },
   name: "vacancies-detail",
@@ -222,5 +714,29 @@ export default {
 .tab-content {
   margin-left: 20px;
   margin-right: 20px;
+}
+.job-card {
+  border: 1px solid #d4cbcb;
+  margin: 15px 0;
+  padding: 15px;
+  height: fit-content;
+}
+.table td {
+  border-top: none !important;
+  border-bottom: 1px solid #d4cbcb !important;
+}
+textarea {
+  height: auto !important;
+}
+.form-control {
+  border: none !important;
+  height: 35px !important;
+}
+.form-control:hover,
+.form-control:focus {
+  border: 1px solid #d4cbcb !important;
+}
+.custom-switch {
+  padding-left: 50px;
 }
 </style>
