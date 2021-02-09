@@ -19,6 +19,7 @@ import timesheet from '@/components/timesheet'
 import employeeslist from '@/components/employeeslist'
 import disciplinaryMeasures from '@/components/disciplinaryMeasures'
 import JobProfileInfo from '@/components/JobProfileInfo'
+import editApplicant from '@/components/editApplicant'
 
 Vue.use(Router)
 const router = new Router({
@@ -119,6 +120,11 @@ const router = new Router({
       path: '/job-profile-info',
       name: 'jobprofileinfo',
       component: JobProfileInfo
+    },
+    {
+      path: '/edit-applicant',
+      name: 'editapplicant',
+      component: editApplicant
     },
     {
       path: '/vacancies/:id',

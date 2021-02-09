@@ -43,7 +43,11 @@
                       </thead>
                       <tbody>
                         <tr>
-                          <td>Tiger Nixon</td>
+                          <td>
+                            <router-link to="/job-profile-info">
+                              Account Manager
+                            </router-link>
+                          </td>
                           <td>System Architect</td>
                           <td>Edinburgh</td>
                           <td class="text-right">
@@ -64,7 +68,11 @@
                                             </td>
                         </tr>
                         <tr>
-                          <td>Tiger Nixon</td>
+                          <td>
+                            <router-link to="/job-profile-info">
+                              Account Manager
+                            </router-link>
+                          </td>
                           <td>System Architect</td>
                           <td>Edinburgh</td>
                           <td class="text-right">
@@ -85,7 +93,11 @@
                                             </td>
                         </tr>
                         <tr>
-                          <td>Tiger Nixon</td>
+                          <td>
+                            <router-link to="/job-profile-info">
+                              Account Manager
+                            </router-link>
+                          </td>
                           <td>System Architect</td>
                           <td>Edinburgh</td>
                           <td class="text-right">
@@ -106,7 +118,11 @@
                                             </td>
                         </tr>
                         <tr>
-                          <td>Tiger Nixon</td>
+                          <td>
+                            <router-link to="/job-profile-info">
+                              Account Manager
+                            </router-link>
+                          </td>
                           <td>System Architect</td>
                           <td>Edinburgh</td>
                           <td class="text-right">
@@ -127,7 +143,11 @@
                                             </td>
                         </tr>
                         <tr>
-                          <td>Tiger Nixon</td>
+                          <td>
+                            <router-link to="/job-profile-info">
+                              Account Manager
+                            </router-link>
+                          </td>
                           <td>System Architect</td>
                           <td>Edinburgh</td>
                           <td class="text-right">
@@ -148,7 +168,11 @@
                                             </td>
                         </tr>
                         <tr>
-                          <td>Tiger Nixon</td>
+                          <td>
+                            <router-link to="/job-profile-info">
+                              Account Manager
+                            </router-link>
+                          </td>
                           <td>System Architect</td>
                           <td>Edinburgh</td>
                           <td class="text-right">
@@ -169,13 +193,21 @@
                                             </td>
                         </tr>
                         <tr>
-                          <td>Tiger Nixon</td>
+                          <td>
+                            <router-link to="/job-profile-info">
+                              Account Manager
+                            </router-link>
+                          </td>
                           <td>System Architect</td>
                           <td>Edinburgh</td>
                           
                         </tr>
                         <tr>
-                          <td>Tiger Nixon</td>
+                          <td>
+                            <router-link to="/job-profile-info">
+                              Account Manager
+                            </router-link>
+                          </td>
                           <td>System Architect</td>
                           <td>Edinburgh</td>
                           <td class="text-right">
