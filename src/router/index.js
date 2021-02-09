@@ -20,6 +20,7 @@ import employeeslist from '@/components/employeeslist'
 import disciplinaryMeasures from '@/components/disciplinaryMeasures'
 import JobProfileInfo from '@/components/JobProfileInfo'
 // import editApplicant from '@/components/editApplicant'
+import createOrganization from '@/components/createOrganization'
 
 Vue.use(Router)
 const router = new Router({
@@ -130,6 +131,11 @@ const router = new Router({
       path: '/vacancies/:id',
       name: 'vacancyDetail',
       component: VacancyDetail
+    },
+    {
+      path: '/create-organization',
+      name: 'createorganization',
+      component: createOrganization
     }
   ],
   linkActiveClass: "active",
