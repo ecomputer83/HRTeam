@@ -5,7 +5,8 @@ import employeedashboard from '@/components/employeedashboard'
 import JobProfile from '@/components/JobProfile'
 import Applications from '@/components/Applications'
 import Applicants from '@/components/Applicants'
-import Vacancies from '@/components/Vacancies'
+import Vacancies from '@/components/vacancies/main'
+import VacancyDetail from '@/components/vacancies/details'
 import TalentSearch from '@/components/TalentSearch'
 import Onboarding from '@/components/Onboarding'
 import employees from '@/components/employees'
@@ -118,6 +119,11 @@ const router = new Router({
       path: '/job-profile-info',
       name: 'jobprofileinfo',
       component: JobProfileInfo
+    },
+    {
+      path: '/vacancies/:id',
+      name: 'vacancyDetail',
+      component: VacancyDetail
     }
   ],
   linkActiveClass: "active",
