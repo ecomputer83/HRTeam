@@ -5,7 +5,8 @@ import employeedashboard from '@/components/employeedashboard'
 import JobProfile from '@/components/JobProfile'
 import Applications from '@/components/Applications'
 import Applicants from '@/components/Applicants'
-import Vacancies from '@/components/Vacancies'
+import Vacancies from '@/components/vacancies/main'
+import VacancyDetail from '@/components/vacancies/details'
 import TalentSearch from '@/components/TalentSearch'
 import Onboarding from '@/components/Onboarding'
 import employees from '@/components/employees'
@@ -18,7 +19,7 @@ import timesheet from '@/components/timesheet'
 import employeeslist from '@/components/employeeslist'
 import disciplinaryMeasures from '@/components/disciplinaryMeasures'
 import JobProfileInfo from '@/components/JobProfileInfo'
-import editApplicant from '@/components/editApplicant'
+// import editApplicant from '@/components/editApplicant'
 import createOrganization from '@/components/createOrganization'
 import leaveTypeForm from '@/components/leaveTypeForm'
 import rank from '@/components/rank'
@@ -123,10 +124,15 @@ const router = new Router({
       name: 'jobprofileinfo',
       component: JobProfileInfo
     },
+    // {
+    //   path: '/edit-applicant',
+    //   name: 'editapplicant',
+    //   component: editApplicant
+    // },
     {
-      path: '/edit-applicant',
-      name: 'editapplicant',
-      component: editApplicant
+      path: '/vacancies/:id',
+      name: 'vacancyDetail',
+      component: VacancyDetail
     },
     {
       path: '/create-organization',
