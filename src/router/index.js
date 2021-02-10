@@ -20,6 +20,8 @@ import disciplinaryMeasures from '@/components/disciplinaryMeasures'
 import JobProfileInfo from '@/components/JobProfileInfo'
 import editApplicant from '@/components/editApplicant'
 import createOrganization from '@/components/createOrganization'
+import leaveTypeForm from '@/components/leaveTypeForm'
+import rank from '@/components/rank'
 
 Vue.use(Router)
 const router = new Router({
@@ -130,6 +132,16 @@ const router = new Router({
       path: '/create-organization',
       name: 'createorganization',
       component: createOrganization
+    },
+    {
+      path: '/leave-type-form',
+      name: 'leavetypeform',
+      component: leaveTypeForm
+    },
+    {
+      path: '/rank',
+      name: 'rank',
+      component: rank
     }
   ],
   linkActiveClass: "active",

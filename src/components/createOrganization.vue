@@ -19,11 +19,11 @@
           </div>
           <!-- /Page Header -->
 
-          <div class="row flex-column justify-content-center">
-            <div class="col-xl-6">
+          <div class="row flex-column">
+            <div class="col-xl-6 mx-auto">
               <div class="card flex-fill">
                 <div class="card-header">
-                  <h4 class="card-title text-center">Create Organization</h4>
+                  <h4 class="card-title text-center my-auto">Create Organization</h4>
                 </div>
                 <div class="card-body">
                   <form @submit.prevent="handleCreateOrg">
@@ -83,10 +83,10 @@
                 </div>
               </div>
             </div>
-            <div v-if="this.isCreateOrg" class="col-xl-6">
+            <div v-if="this.isCreateOrg" class="col-xl-6 mx-auto">
               <div class="card flex-fill">
                 <div class="card-header">
-                  <h4 class="card-title text-center">Create Admin Account</h4>
+                  <h4 class="card-title text-center my-auto">Create Admin Account</h4>
                 </div>
                 <div class="card-body">
                   <form>
@@ -147,13 +147,14 @@ export default {
     return {
       email: "",
       isCreateOrg: false,
+      username: this.email,
     };
   },
   methods: {
     handleCreateOrg() {
       console.log(this.email);
       this.isCreateOrg = true;
-    },
+    }
   },
   name: "createorganization",
 };

@@ -5,10 +5,8 @@
       <layout-sidebar></layout-sidebar>
       <!-- Page Wrapper -->
       <div class="page-wrapper">
-
         <!-- Page Content -->
         <div class="content container-fluid">
-
           <!-- Page Header -->
           <div class="page-header">
             <div class="row">
@@ -23,29 +21,26 @@
           <!-- /Page Header -->
 
           <div class="row">
-    <h1>This is the job profile</h1>
-  </div>
-        <!-- /Page Content -->
+            <h1>This is the job profile</h1>
+          </div>
+          <!-- /Page Content -->
+        </div>
       </div>
+      <!-- /Page Wrapper -->
     </div>
-    <!-- /Page Wrapper -->
-  </div>
   </div>
 </template>
 <script>
-  import LayoutHeader from '@/components/layouts/Header.vue'
-  import LayoutSidebar from '@/components/layouts/Sidebar.vue'
-  import Vue from 'vue'
-  export default {
-    components: {
-      LayoutHeader,
-      LayoutSidebar,
-    },
-    mounted() {
-      
-    },
-    methods: {
-    },
-    name: 'vacancies'
-  }
-</Script>
+import LayoutHeader from "@/components/layouts/Header.vue";
+import LayoutSidebar from "@/components/layouts/Sidebar.vue";
+import Vue from "vue";
+export default {
+  components: {
+    LayoutHeader,
+    LayoutSidebar
+  },
+  mounted() {},
+  methods: {},
+  name: "vacancies"
+};
+</script>

@@ -1215,7 +1215,7 @@
 </template>
 
 <script>
-	  import LayoutHeaderEmployee from '@/components/layouts/HeaderEmployee.vue'
+	import LayoutHeaderEmployee from '@/components/layouts/HeaderEmployee.vue'
   import LayoutSidebarGoals from '@/components/layouts/SidebarGoals.vue'
 export default {
 	components: {
