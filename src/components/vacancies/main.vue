@@ -44,7 +44,11 @@
                       <tbody>
                         <tr v-for="i in 10">
                           <td style="max-width: unset">
-                            <router-link :to="`/vacancies/vid${i}`"> <span>Account Manager - Job Title</span></router-link>
+                            <router-link :to="`/vacancies/vid${i}`">
+                              <span
+                                >Account Manager - Job Title</span
+                              ></router-link
+                            >
                           </td>
                           <td>2</td>
                           <td>0</td>
@@ -79,13 +83,13 @@ import Vue from "vue";
 export default {
   components: {
     LayoutHeader,
-    LayoutSidebar,
+    LayoutSidebar
   },
   mounted() {},
   methods: {},
-  name: "vacancies",
+  name: "vacancies"
 };
-</Script>
+</script>
 
 <style scoped>
 .datatable > thead > tr > th,

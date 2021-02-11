@@ -33,16 +33,23 @@
                           <th>Aptitude</th>
                           <th>Expected Salary</th>
                           <th>Received On</th>
-                          <th>Applicant Type</th>]
+                          <th>Applicant Type</th>
+                          ]
                         </tr>
                       </thead>
                       <tbody>
                         <tr v-for="i in 5">
                           <td style="max-width: unset">
-                            <router-link :to="`/applications/aid${i}`"> <span>John Doe</span></router-link>
+                            <router-link :to="`/applications/aid${i}`">
+                              <span>John Doe</span></router-link
+                            >
                           </td>
                           <td style="max-width: unset">
-                            <router-link :to="`/vacancies/vid${i}`"> <span>Account Manager - Job Title</span></router-link>
+                            <router-link :to="`/vacancies/vid${i}`">
+                              <span
+                                >Account Manager - Job Title</span
+                              ></router-link
+                            >
                           </td>
                           <td>1: New</td>
                           <td>Good</td>
@@ -71,13 +78,13 @@ import Vue from "vue";
 export default {
   components: {
     LayoutHeader,
-    LayoutSidebar,
+    LayoutSidebar
   },
   mounted() {},
   methods: {},
-  name: "applications",
+  name: "applications"
 };
-</Script>
+</script>
 
 <style scoped>
 .datatable > thead > tr > th,
