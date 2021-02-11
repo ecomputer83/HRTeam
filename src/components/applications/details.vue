@@ -25,34 +25,33 @@
               <div class="card">
                 <div class="card-body">
                   <ul class="timeline">
-                    <li class="passed-tl">1: Requested</li>
-                    <li class="passed-tl">2: Enrichment</li>
-                    <li class="passed-tl">3: Approval</li>
-                    <li class="passed-tl">4: Publishing</li>
-                    <li class="active-tl">5: Receiving Applications(11 Mo)</li>
-                    <li>6: Selecting Candidates</li>
-                    <li>7: Post-Processing</li>
+                    <li>1: New</li>
+                    <li class="active-tl">2: Initial Validation (9 Mon)</li>
+                    <li>3: Line Manager Feedback</li>
+                    <li>4: Phone Interview</li>
+                    <li>5: Face-To-Face Interview</li>
+                    <li>6: Contract Negotiation</li>
                   </ul>
-                  <ul class="tabs">
+                   <ul class="tabs">
                     <li
-                      data-tab-target="#details"
-                      id="details_tab"
-                      v-on:click="setTab('details')"
+                      data-tab-target="#general"
+                      id="general_tab"
+                      v-on:click="setTab('general')"
                       class="active tab"
                     >
-                      Details
+                      General
                     </li>
                     <li
-                      data-tab-target="#job_requisition"
-                      id="job_requisition_tab"
-                      v-on:click="setTab('job_requisition')"
+                      data-tab-target="#evaluation"
+                      id="evaluation_tab"
+                      v-on:click="setTab('evaluation')"
                       class="tab"
                     >
-                      Job Requisition
+                      Evaluation
                     </li>
                   </ul>
                   <div class="tab-content">
-                    <div id="details_content" data-tab-content class="active">
+                    <div id="general_content" data-tab-content class="active">
                       <div class="d-flex justify-content-between flex-wrap">
                         <div class="col-xs-12 col-md-4 job-card">
                           <div class="table-responsive">
@@ -478,7 +477,7 @@ Manager for all accounts in his area</textarea
                         </div>
                       </div>
                     </div>
-                    <div id="job_requisition_content" data-tab-content>
+                    <div id="evaluation_content" data-tab-content>
                       <div class="d-flex flex-wrap">
                         <div class="col-xs-12 col-md-12 job-card">
                           <div class="d-flex align-items-center">

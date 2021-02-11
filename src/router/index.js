@@ -3,7 +3,8 @@ import Router from 'vue-router'
 import index from '@/components/index'
 import employeedashboard from '@/components/employeedashboard'
 import JobProfile from '@/components/JobProfile'
-import Applications from '@/components/Applications'
+import Applications from '@/components/applications/main'
+import ApplicationDetail from '@/components/applications/details'
 import Applicants from '@/components/Applicants'
 import Vacancies from '@/components/vacancies/main'
 import VacancyDetail from '@/components/vacancies/details'
@@ -131,6 +132,11 @@ const router = new Router({
       path: '/vacancies/:id',
       name: 'vacancyDetail',
       component: VacancyDetail
+    },
+    {
+      path: '/applications/:id',
+      name: 'applicationDetail',
+      component: ApplicationDetail
     },
     {
       path: '/create-organization',
