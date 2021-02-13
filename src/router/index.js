@@ -23,6 +23,16 @@ import JobProfileInfo from '@/components/JobProfileInfo'
 import createOrganization from '@/components/createOrganization'
 import leaveTypeForm from '@/components/leaveTypeForm'
 import rank from '@/components/rank'
+import profile from '@/components/profile'
+import attendanceEmployee from '@/components/attendanceEmployee'
+import timesheetEmployee from '@/components/timesheetEmployee'
+import colleagues from '@/components/colleagues'
+import leaveRequest from '@/components/leaveRequest'
+import companies from '@/components/companies'
+import ranks from '@/components/ranks'
+import leaveTypeOrgAdmin from '@/components/leaveTypeOrgAdmin'
+
+
 
 Vue.use(Router)
 const router = new Router({
@@ -45,7 +55,7 @@ const router = new Router({
       component: employees
     },
     {
-      path: '/employeeslist',
+      path: '/employees-list',
       name: 'employeeslist',
       component: employeeslist
     },
@@ -148,7 +158,47 @@ const router = new Router({
       path: '/rank',
       name: 'rank',
       component: rank
-    }
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: profile
+    },
+    {
+      path: '/attendance-employee',
+      name: 'attendanceemployee',
+      component: attendanceEmployee
+    },
+    {
+      path: '/timesheet-employee',
+      name: 'timesheetemployee',
+      component: timesheetEmployee
+    },
+    {
+      path: '/colleagues',
+      name: 'colleagues',
+      component: colleagues
+    },
+    {
+      path: '/leave-request',
+      name: 'leaverequest',
+      component: leaveRequest
+    },
+    {
+      path: '/companies',
+      name: 'companies',
+      component: companies
+    },
+    {
+      path: '/ranks',
+      name: 'ranks',
+      component: ranks
+    },
+    {
+      path: '/leave-type-org-admin',
+      name: 'leavetypeorgadmin',
+      component: leaveTypeOrgAdmin
+    },
   ],
   linkActiveClass: "active",
 })
