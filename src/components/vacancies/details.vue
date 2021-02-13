@@ -30,8 +30,8 @@
                     <li class="passed-tl">3: Approval</li>
                     <li class="passed-tl">4: Publishing</li>
                     <li class="active-tl">5: Receiving Applications(11 Mo)</li>
-                    <li>Selecting Candidates</li>
-                    <li>Post-Processing</li>
+                    <li>6: Selecting Candidates</li>
+                    <li>7: Post-Processing</li>
                   </ul>
                   <ul class="tabs">
                     <li
@@ -543,7 +543,7 @@ import Vue from "vue";
 export default {
   components: {
     LayoutHeader,
-    LayoutSidebar,
+    LayoutSidebar
   },
   created() {},
   mounted() {
@@ -552,26 +552,24 @@ export default {
   computed: {
     editor() {
       return this.$refs.myQuillEditor.quill;
-    },
+    }
   },
   data() {
     return {
       content: "<h2>I am Example</h2>",
-      editorOption: {
-
-      },
+      editorOption: {}
     };
   },
   methods: {
-    setTab: function (tabid) {
+    setTab: function(tabid) {
       const tabContents = document.querySelectorAll("[data-tab-content]");
       const tabs = document.querySelectorAll("[data-tab-target]");
       const tab = document.getElementById(`${tabid}_tab`);
       const target = document.getElementById(`${tabid}_content`);
-      tabContents.forEach((tabContent) => {
+      tabContents.forEach(tabContent => {
         tabContent.classList.remove("active");
       });
-      tabs.forEach((t) => {
+      tabs.forEach(t => {
         t.classList.remove("active");
       });
       tab.classList.add("active");
@@ -589,9 +587,9 @@ export default {
     onEditorChange({ quill, html, text }) {
       console.log("editor change!", quill, html, text);
       this.content = html;
-    },
+    }
   },
-  name: "vacancies-detail",
+  name: "vacancies-detail"
 };
 </script>
 
