@@ -28,21 +28,22 @@
                       <thead>
                         <tr>
                           <th>Name</th>
+                          <th>Vacancy</th>
                           <th>Status Reason</th>
-                          <th>Positions S</th>
-                          <th>Received</th>
-                          <th>Employed</th>
-                          <th>Rejected</th>
-                          <th>New</th>
-                          <th>Employee</th>
-                          <th>Supervisor Feedback</th>
-                          <th>HR Interview</th>
-                          <th>Supervisor Interview</th>
-                          <th>Contract Negotiation</th>
+                          <th>Aptitude</th>
+                          <th>Expected Salary</th>
+                          <th>Received On</th>
+                          <th>Applicant Type</th>
+                          ]
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="i in 10">
+                        <tr v-for="i in 5">
+                          <td style="max-width: unset">
+                            <router-link :to="`/applications/aid${i}`">
+                              <span>John Doe</span></router-link
+                            >
+                          </td>
                           <td style="max-width: unset">
                             <router-link :to="`/vacancies/vid${i}`">
                               <span
@@ -50,17 +51,11 @@
                               ></router-link
                             >
                           </td>
-                          <td>2</td>
-                          <td>0</td>
-                          <td>0</td>
-                          <td>0</td>
-                          <td>0</td>
-                          <td>0</td>
-                          <td>0</td>
-                          <td>0</td>
-                          <td>0</td>
-                          <td>0</td>
-                          <td>0</td>
+                          <td>1: New</td>
+                          <td>Good</td>
+                          <td>$80,000</td>
+                          <td>12/12/2021</td>
+                          <td>Applicant</td>
                         </tr>
                       </tbody>
                     </table>
@@ -87,7 +82,7 @@ export default {
   },
   mounted() {},
   methods: {},
-  name: "vacancies"
+  name: "applications"
 };
 </script>
 

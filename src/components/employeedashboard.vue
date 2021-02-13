@@ -229,7 +229,7 @@
 </template>
 <script>
   import LayoutHeader from '@/components/layouts/Header.vue'
-  import LayoutSidebar from '@/components/layouts/Sidebar.vue'
+  import LayoutSidebar from '@/components/layouts/employeeSidebar.vue'
 export default {
   components: {
     LayoutHeader,

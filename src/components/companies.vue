@@ -13,7 +13,10 @@
               <div class="col-sm-12">
                 <h3 class="page-title">Welcome Admin!</h3>
                 <ul class="breadcrumb">
-                  <li class="breadcrumb-item active">Job Profile</li>
+                  <li class="breadcrumb-item">
+                    <router-link to="/index">Dashboard</router-link>
+                  </li>
+                  <li class="breadcrumb-item active">Timesheet</li>
                 </ul>
               </div>
             </div>
@@ -21,7 +24,7 @@
           <!-- /Page Header -->
 
           <div class="row">
-            <h1>This is the job profile</h1>
+            <h1>This is the companies page</h1>
           </div>
           <!-- /Page Content -->
         </div>
@@ -32,7 +35,7 @@
 </template>
 <script>
 import LayoutHeader from "@/components/layouts/Header.vue";
-import LayoutSidebar from "@/components/layouts/Sidebar.vue";
+import LayoutSidebar from "@/components/layouts/orgAdminSidebar.vue";
 import Vue from "vue";
 export default {
   components: {
@@ -41,6 +44,6 @@ export default {
   },
   mounted() {},
   methods: {},
-  name: "vacancies"
+  name: "companies"
 };
 </script>

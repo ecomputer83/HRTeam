@@ -1,6 +1,6 @@
 import { authenticationService } from '@/services/authenticationService';
 
-export const requestOptions = {
+const requestOptions = {
     get() {
         return {
             method: 'GET',
@@ -46,3 +46,5 @@ function headers() {
         }
     }
 }
+
+export default requestOptions

@@ -3,7 +3,8 @@ import Router from 'vue-router'
 import index from '@/components/index'
 import employeedashboard from '@/components/employeedashboard'
 import JobProfile from '@/components/JobProfile'
-import Applications from '@/components/Applications'
+import Applications from '@/components/applications/main'
+import ApplicationDetail from '@/components/applications/details'
 import Applicants from '@/components/Applicants'
 import Vacancies from '@/components/vacancies/main'
 import VacancyDetail from '@/components/vacancies/details'
@@ -19,11 +20,19 @@ import timesheet from '@/components/timesheet'
 import employeeslist from '@/components/employeeslist'
 import disciplinaryMeasures from '@/components/disciplinaryMeasures'
 import JobProfileInfo from '@/components/JobProfileInfo'
-// import editApplicant from '@/components/editApplicant'
+import editApplicant from '@/components/editApplicant'
 import createOrganization from '@/components/createOrganization'
 import leaveTypeForm from '@/components/leaveTypeForm'
 import rank from '@/components/rank'
+import profile from '@/components/profile'
 import login from '@/components/login'
+import attendanceEmployee from '@/components/attendanceEmployee'
+import timesheetEmployee from '@/components/timesheetEmployee'
+import colleagues from '@/components/colleagues'
+import leaveRequest from '@/components/leaveRequest'
+import companies from '@/components/companies'
+import ranks from '@/components/ranks'
+import leaveTypeOrgAdmin from '@/components/leaveTypeOrgAdmin'
 
 import { authenticationService } from '@/services/authenticationService';
 import { Role } from '@/helpers/role';
@@ -49,7 +58,7 @@ const router = new Router({
       component: employees
     },
     {
-      path: '/employeeslist',
+      path: '/employees-list',
       name: 'employeeslist',
       component: employeeslist
     },
@@ -139,6 +148,11 @@ const router = new Router({
       component: VacancyDetail
     },
     {
+      path: '/applications/:id',
+      name: 'applicationDetail',
+      component: ApplicationDetail
+    },
+    {
       path: '/create-organization',
       name: 'createorganization',
       component: createOrganization
@@ -154,31 +168,71 @@ const router = new Router({
       component: rank
     },
     {
+      path: '/profile',
+      name: 'profile',
+      component: profile
+    },
+    {
       path: '/login',
       name: 'login',
       component: login
+    },
+    {
+      path: '/attendance-employee',
+      name: 'attendanceemployee',
+      component: attendanceEmployee
+    },
+    {
+      path: '/timesheet-employee',
+      name: 'timesheetemployee',
+      component: timesheetEmployee
+    },
+    {
+      path: '/colleagues',
+      name: 'colleagues',
+      component: colleagues
+    },
+    {
+      path: '/leave-request',
+      name: 'leaverequest',
+      component: leaveRequest
+    },
+    {
+      path: '/companies',
+      name: 'companies',
+      component: companies
+    },
+    {
+      path: '/ranks',
+      name: 'ranks',
+      component: ranks
+    },
+    {
+      path: '/leave-type-org-admin',
+      name: 'leavetypeorgadmin',
+      component: leaveTypeOrgAdmin
     }
   ],
-  linkActiveClass: "active",
+  linkActiveClass: "active"
+});
+router.beforeEach((to, from, next) => {
+  // redirect to login page if not logged in and trying to access a restricted page
+  const { authorize } = to.meta;
+  const currentUser = authenticationService.currentUserValue;
+
+  if (authorize) {
+      if (!currentUser) {
+          // not logged in so redirect to login page with the return url
+          return next({ path: '/login', query: { returnUrl: to.path } });
+      }
+
+      // check if route is restricted by role
+      if (authorize.length && !authorize.includes(currentUser.role)) {
+          // role not authorised so redirect to home page
+          return next({ path: '/' });
+      }
+  }
+
+  next();
 })
-// router.beforeEach((to, from, next) => {
-//   // redirect to login page if not logged in and trying to access a restricted page
-//   const { authorize } = to.meta;
-//   const currentUser = authenticationService.currentUserValue;
-
-//   if (authorize) {
-//       if (!currentUser) {
-//           // not logged in so redirect to login page with the return url
-//           return next({ path: '/login', query: { returnUrl: to.path } });
-//       }
-
-//       // check if route is restricted by role
-//       if (authorize.length && !authorize.includes(currentUser.role)) {
-//           // role not authorised so redirect to home page
-//           return next({ path: '/' });
-//       }
-//   }
-
-//   next();
-// })
 export default router
