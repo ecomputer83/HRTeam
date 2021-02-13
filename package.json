@@ -28,6 +28,7 @@
     "mdbvue": "^6.7.1",
     "popper.js": "^1.16.1",
     "raphael": "^2.3.0",
+    "rxjs": "^6.6.3",
     "select2": "^4.0.13",
     "summernote": "^0.8.10",
     "v-select2-component": "^0.4.3",

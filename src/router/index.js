@@ -23,11 +23,15 @@ import JobProfileInfo from '@/components/JobProfileInfo'
 import createOrganization from '@/components/createOrganization'
 import leaveTypeForm from '@/components/leaveTypeForm'
 import rank from '@/components/rank'
+import login from '@/components/login'
+
+import { authenticationService } from '@/services/authenticationService';
+import { Role } from '@/helpers/role';
 
 Vue.use(Router)
 const router = new Router({
   mode: 'history',
-  base: 'light',
+  base: '',
   routes: [
     {
       path: '/',
@@ -148,8 +152,33 @@ const router = new Router({
       path: '/rank',
       name: 'rank',
       component: rank
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: login
     }
   ],
   linkActiveClass: "active",
 })
+// router.beforeEach((to, from, next) => {
+//   // redirect to login page if not logged in and trying to access a restricted page
+//   const { authorize } = to.meta;
+//   const currentUser = authenticationService.currentUserValue;
+
+//   if (authorize) {
+//       if (!currentUser) {
+//           // not logged in so redirect to login page with the return url
+//           return next({ path: '/login', query: { returnUrl: to.path } });
+//       }
+
+//       // check if route is restricted by role
+//       if (authorize.length && !authorize.includes(currentUser.role)) {
+//           // role not authorised so redirect to home page
+//           return next({ path: '/' });
+//       }
+//   }
+
+//   next();
+// })
 export default router
