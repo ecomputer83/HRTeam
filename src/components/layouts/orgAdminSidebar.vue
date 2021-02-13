@@ -10,10 +10,6 @@
         <span>My Dashboard</span>
       </li>
       <li class="policies">
-        <router-link to="/profile"><i class="la la la-user
-"></i> <span>Profile</span></router-link>
-      </li>
-      <li class="policies">
         <router-link to="/companies"><i class="la la la-search"></i> <span>Companies</span></router-link>
       </li>
       <li class="policies">
