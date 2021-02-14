@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex justify-content-between flex-wrap">
-    <div class="col-xs-12 col-md-8 pr-sm-3">
+    <div class="col-xs-12 col-md-9 pr-sm-3">
       <div class="col-md-12 job-card">
         <div class="table-responsive">
           <!-- <datatable :columns="columns" :data="rows"></datatable> -->
@@ -80,7 +80,7 @@
         </div>
       </div>
     </div>
-    <div class="col-xs-12 col-md-4 pl-sm-3">
+    <div class="col-xs-12 col-md-3 pl-sm-3">
       <div class="job-card">
         <div id="chart">
           <apexchart
@@ -102,13 +102,16 @@ export default {
     return {
       series: [
         {
-          data: [44, 55, 41]
+          name: 'Business English',
+          data: [4, 5, 1]
         },
         {
-          data: [40, 15, 49]
+          name: 'Miller-Heiman-Method',
+          data: [4, 5, 4]
         },
         {
-          data: [53, 32, 33]
+          name: 'Objection-handling',
+          data: [3, 2, 3]
         }
       ],
       chartOptions: {
@@ -129,7 +132,7 @@ export default {
           offsetX: -6,
           style: {
             fontSize: "12px",
-            colors: ["#fff"]
+            colors: ["#000"]
           }
         },
         stroke: {
@@ -139,6 +142,9 @@ export default {
         },
         xaxis: {
           categories: [2001, 2002, 2003]
+        },
+        legend: {
+          show: false
         }
       }
       // columns: [
