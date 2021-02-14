@@ -4,10 +4,10 @@ import index from '@/components/index'
 import employeedashboard from '@/components/employeedashboard'
 import JobProfile from '@/components/JobProfile'
 import Applications from '@/components/applications/main'
-import ApplicationDetail from '@/components/applications/details'
-import Applicants from '@/components/Applicants'
+import ApplicationDetail from '@/components/applications/details-page'
+import Applicants from '@/components/applicants/main'
 import Vacancies from '@/components/vacancies/main'
-import VacancyDetail from '@/components/vacancies/details'
+import VacancyDetail from '@/components/vacancies/details-page'
 import TalentSearch from '@/components/TalentSearch'
 import Onboarding from '@/components/Onboarding'
 import employees from '@/components/employees'
@@ -28,7 +28,7 @@ import rank from '@/components/rank'
 Vue.use(Router)
 const router = new Router({
   mode: 'history',
-  base: 'light',
+  // base: 'light',
   routes: [
     {
       path: '/',

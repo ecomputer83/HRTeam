@@ -7644,7 +7644,7 @@ ul.comment-list li ul.children {
 	.nav-tabs.nav-tabs-bottom > li > a.active:focus {
 		border-bottom-width: 2px;
 		border-color: transparent;
-		border-bottom-color: #ff9b44;
+		border-bottom-color: #fc6075;
 		background-color: transparent;
 		transition: none 0s ease 0s; 
 		-moz-transition: none 0s ease 0s; 
@@ -8164,4 +8164,71 @@ a.fc-day-grid-event.fc-h-event.fc-event.fc-start.fc-end.fc-draggable.fc-resizabl
     width: fit-content;
     clear: both;
 }
+}
+
+/* custom style */
+.card {
+  z-index: 1;
+}
+
+[data-tab-content] {
+  display: none;
+}
+
+.active[data-tab-content] {
+  display: block;
+}
+.tabs {
+  display: flex;
+  justify-content: flex-start;
+  list-style-type: none;
+  margin: 0;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.tab {
+  cursor: pointer;
+  padding: 10px;
+  padding: 10px 20px;
+}
+
+.tab.active {
+  background-color: #fc6075;
+  color: #fff;
+  border-radius: 15px 15px 0 0;
+}
+
+.tab:hover {
+  background-color: #ffebda;
+  color: #000;
+  border-radius: 15px 15px 0 0;
+}
+
+.tab-content {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.job-card {
+  border: 1px solid #d4cbcb;
+  margin: 15px 0;
+  padding: 15px;
+  height: fit-content;
+}
+.table td {
+  border-top: none !important;
+  border-bottom: 1px solid #d4cbcb !important;
+}
+textarea {
+  height: auto !important;
+}
+.form-control {
+  border: none !important;
+  height: 35px !important;
+}
+.form-control:hover,
+.form-control:focus {
+  border: 1px solid #d4cbcb !important;
+}
+.custom-switch {
+  padding-left: 50px;
 }

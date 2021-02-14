@@ -12,6 +12,7 @@
   "dependencies": {
     "@andresouzaabreu/vue-data-table": "^1.5.9",
     "ant-design-vue": "^1.6.4",
+    "apexcharts": "^3.24.0",
     "bootstrap": "^4.5.0",
     "bootstrap-vue": "^2.15.0",
     "ckeditor4-vue": "^1.0.1",
@@ -32,6 +33,7 @@
     "summernote": "^0.8.10",
     "v-select2-component": "^0.4.3",
     "vue": "^2.6.11",
+    "vue-apexcharts": "^1.6.0",
     "vue-bootstrap-datetimepicker": "^5.0.1",
     "vue-bootstrap-multiselect": "^1.0.13",
     "vue-custom-scrollbar": "^1.4.0",
