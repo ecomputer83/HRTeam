@@ -34,7 +34,6 @@
                           <th>Expected Salary</th>
                           <th>Received On</th>
                           <th>Applicant Type</th>
-                          ]
                         </tr>
                       </thead>
                       <tbody>
@@ -81,19 +80,13 @@ export default {
     LayoutSidebar
   },
   mounted() {
-     if ($('.datatable').length > 0) {
-        $('.datatable').DataTable({
-          "bFilter": false,
-        });
-      }
-      if ($('.floating').length > 0) {
-        $('.floating').on('focus blur', function (e) {
-          $(this).parents('.form-focus').toggleClass('focused', (e.type === 'focus' || this.value.length > 0));
-        }).trigger('blur');
-      }
+    if ($(".datatable").length > 0) {
+      $(".datatable").DataTable({
+        bFilter: false
+      });
+    }
   },
   methods: {},
   name: "applications"
 };
 </script>
-

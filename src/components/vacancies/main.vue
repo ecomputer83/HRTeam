@@ -91,11 +91,6 @@ export default {
           "bFilter": false,
         });
       }
-      if ($('.floating').length > 0) {
-        $('.floating').on('focus blur', function (e) {
-          $(this).parents('.form-focus').toggleClass('focused', (e.type === 'focus' || this.value.length > 0));
-        }).trigger('blur');
-      }
   },
   methods: {},
   name: "vacancies"

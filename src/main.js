@@ -43,6 +43,8 @@ import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 import VueApexCharts from 'vue-apexcharts'
+import { VuejsDatatableFactory } from 'vuejs-datatable';
+ 
 global.Raphael = Raphael
 Vue.config.productionTip = false
 Vue.use(Antd);
@@ -52,6 +54,7 @@ Vue.use(datePicker)
 Vue.use( CKEditor );
 Vue.use(VueQuillEditor, /* { default global options } */)
 Vue.use(VueApexCharts)
+Vue.use(VuejsDatatableFactory);
 Vue.component('layout-header', LayoutHeader);
 Vue.component('layout-headerEmployee', LayoutHeaderEmployee);
 Vue.component('layout-headerApp', LayoutHeaderApp);
