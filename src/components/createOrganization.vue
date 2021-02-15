@@ -120,7 +120,7 @@
 <script>
 import LayoutHeader from "@/components/layouts/Header.vue";
 	import { required, sameAs } from 'vuelidate/lib/validators';
-  import { router } from '@/router';
+  import { router } from '@/router/index';
   import {organizationService} from '@/services/organizationService'
 export default {
   components: {
@@ -173,7 +173,7 @@ export default {
                     id => {
                       organizationService.registerAsAdmin(id, this.contactname, this.contactnumber, this.contactemail, this.password, this.confirmPassword)
                         .then(
-                          o => router.push('/')
+                          o => this.$router.push('/')
                         )
 					},
                     error => {

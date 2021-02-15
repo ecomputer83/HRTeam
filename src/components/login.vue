@@ -69,7 +69,7 @@
 <script>
 	import { required } from 'vuelidate/lib/validators';
 
-import { router } from '@/router';
+import { router } from '@/router/index';
 import { authenticationService } from '@/services/authenticationService';
 
 export default {
@@ -91,11 +91,11 @@ export default {
         // redirect to home if already logged in
         if (authenticationService.currentUserValue) { 
 			if(authenticationService.currentUserValue.user.userType == 1){
-            return router.push('/companies');
+            return this.$router.push('/companies');
           }else if(authenticationService.currentUserValue.user.userType == 3){
-            return router.push('/employeedashboard');
+            return this.$router.push('/employeedashboard');
           }else{
-          return router.push('/');
+          return this.$router.push('/');
           }
             
         }
