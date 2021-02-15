@@ -4,7 +4,7 @@
       <div class="header">
         <!--Logo-->
         <div class="header-left">
-          <router-link to="/index" class="logo">
+          <router-link to="/index" class="logo" v-if="currentUser">
 
             <img src="../../assets/logo2.png" width="40" height="40" alt="">
           </router-link>
@@ -20,7 +20,8 @@
         </a>
         <!-- Header Title -->
         <div class="page-title-box">
-          <h3>Dreamguy's Technologies</h3>
+          <h3 v-if="!currentUser">Sapphire HR</h3>
+          <h3 v-if="currentUser">{{currentOffice.name}}</h3>
         </div>
         <!-- /Header Title -->
         <a id="mobile_btn" class="mobile_btn" href="#sidebar"><i class="fa fa-bars"></i>
@@ -32,12 +33,12 @@
             <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
               <span class="user-img"><img src="../../assets/profiles/avatar-21.jpg" alt="">
                 <span class="status online"></span></span>
-              <span>Admin</span>
+              <span>{{currentUser.user.fullName}}</span>
             </a>
             <div class="dropdown-menu">
               <router-link class="dropdown-item" to="/profile">My Profile</router-link>
               <router-link class="dropdown-item" to="/settings">Settings</router-link>
-              <router-link class="dropdown-item" to="/login">Logout</router-link>
+              <a @click="logout" class="dropdown-item">Logout</a>
             </div>
           </li>
         </ul>
@@ -48,7 +49,7 @@
           <div class="dropdown-menu dropdown-menu-right">
             <router-link class="dropdown-item" to="/profile">My Profile</router-link>
             <router-link class="dropdown-item" to="/settings">Settings</router-link>
-            <router-link class="dropdown-item" to="/login">Logout</router-link>
+            <a @click="logout" class="dropdown-item">Logout</a>
           </div>
         </div>
       </div>
@@ -61,7 +62,8 @@ import { authenticationService } from '@/services/authenticationService';
   export default {
     data() {
       return {
-        currentUser: authenticationService.currentUserValue
+        currentUser: authenticationService.currentUserValue,
+        currentOffice: authenticationService.currentOfficeValue
       }
     },
     mounted() {
@@ -93,6 +95,12 @@ import { authenticationService } from '@/services/authenticationService';
         $("html").removeClass('menu-opened');
         $(".sidebar-overlay").removeClass('opened');
       });
+    },
+    methods: {
+      logout () {
+            authenticationService.logout();
+            this.$router.push('/login');
+        }
     }
-  };
+  }
 </script>

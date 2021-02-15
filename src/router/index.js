@@ -240,7 +240,7 @@ const router = new Router({
     {
       path: '/companies',
       name: 'companies',
-      component: leaveTypeOrgAdmin,
+      component: companies,
       meta: { authorize: [Role.Admin] }
     }
   ],

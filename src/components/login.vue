@@ -24,7 +24,12 @@
 							<div class="account-wrapper">
 								<h3 class="account-title">Login</h3>
 								<p class="account-subtitle">Access to our dashboard</p>
-
+								<div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="error">
+									<strong>{{error}}</strong>
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
 								<!-- Account Form -->
 								<form  @submit.prevent="onSubmit">
 									<div class="form-group">
@@ -47,7 +52,7 @@
                 						<div v-if="submitted && !$v.password.required" class="invalid-feedback">Password is required</div>
 									</div>
 									<div class="form-group text-center">
-										<button class="btn btn-primary account-btn" :disabled="loading" type="submit">Login</button>
+										<button class="btn btn-primary account-btn" :disabled="loading" type="submit">{{(!loading) ? 'Login': 'Loading..'}}</button>
 									</div>
 									<div class="account-footer">
 										<p>Don't have an account yet? <router-link to="/index">Dashboard</router-link>
@@ -118,11 +123,11 @@ export default {
                 .then(
                     user => {
 						if(user.userType == 1){
-            				return router.push('/companies');
+            				return this.$router.push('/companies');
           				}else if(user.userType == 3){
-            				return router.push('/employeedashboard');
+            				return this.$router.push('/employeedashboard');
           				}else{
-          					return router.push('/');
+          					return this.$router.push('/');
           				}
 					},
                     error => {
