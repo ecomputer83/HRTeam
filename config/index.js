@@ -35,7 +35,7 @@ module.exports = {
 
     cssSourceMap: true
   },
-  apiurl: '',
+  apiurl: 'https://sapphirehr.azurewebsites.net/api',
   build: {
     // Template for index.html
     index: path.resolve(__dirname, '../dist/index.html'),

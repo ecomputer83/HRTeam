@@ -21,7 +21,7 @@ function addOrganization(name, rcnumber, address, contact, contactnumber, contac
         contactAddress: contactaddress,
         registrationNumber: rcnumber
     }
-    return fetch(`${config.apiUrl}/organization`, requestOptions.post(req))
+    return fetch(`${config.apiurl}/organization`, requestOptions.post(req))
         .then(handleResponse)
         .then(id => {
         
@@ -38,7 +38,7 @@ function registerAsAdmin(orgId, contact, contactnumber, contactemail, password, 
         password: password,
         confirmPassword: confirmPassword
       }
-      return fetch(`${config.apiUrl}/account/registerasadmin`, requestOptions.post(req))
+      return fetch(`${config.apiurl}/account/registerasadmin`, requestOptions.post(req))
       .then(handleResponse)
       .then(id => {
       

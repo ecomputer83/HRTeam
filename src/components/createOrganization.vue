@@ -121,7 +121,7 @@
 import LayoutHeader from "@/components/layouts/Header.vue";
 	import { required, sameAs } from 'vuelidate/lib/validators';
   import { router } from '@/router';
-  import organizationService from '@/services/organizationService'
+  import {organizationService} from '@/services/organizationService'
 export default {
   components: {
     LayoutHeader,
@@ -168,7 +168,7 @@ export default {
             }
 
             this.loading = true;
-            organizationService.addorganization(this.organization, this.rcnumber, this.address, this.contactname, this.contactnumber, this.contactemail, this.contactaddress)
+            organizationService.addOrganization(this.organization, this.rcnumber, this.address, this.contactname, this.contactnumber, this.contactemail, this.contactaddress)
                 .then(
                     id => {
                       organizationService.registerAsAdmin(id, this.contactname, this.contactnumber, this.contactemail, this.password, this.confirmPassword)
