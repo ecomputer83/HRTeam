@@ -29,6 +29,7 @@ import LayoutSidebarApp from '@/components/layouts/SidebarApp.vue'
 import LayoutSidebarReports from '@/components/layouts/SidebarReports.vue'
 import LayoutSidebarPromotion from '@/components/layouts/SidebarPromotion.vue'
 import LayoutSidebarGoals from '@/components/layouts/SidebarGoals.vue'
+import Vuelidate from 'vuelidate';
 let bootstrap = require('bootstrap')
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -66,6 +67,7 @@ Vue.component('input-mask', InputMask);
 Vue.component('multiselect', Multiselect);
 Vue.component('Select2', Select2);
 Vue.use(FullCalendar);
+Vue.use(Vuelidate);
 installer(Vue, store)
 new Vue({
   store,

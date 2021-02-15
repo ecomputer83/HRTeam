@@ -13,16 +13,20 @@ export const authenticationService = {
     get currentUserValue () { return currentUserSubject.value }
 };
 
-function login(username, password) {
+function login(email, password) {
     
-    return fetch(`${config.apiUrl}/users/authenticate`, requestOptions.post({ username, password }))
+    return fetch(`${config.apiUrl}/account/token`, requestOptions.post({ email, password }))
         .then(handleResponse)
-        .then(user => {
+        .then(model => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('currentUser', JSON.stringify(user));
-            currentUserSubject.next(user);
+            localStorage.setItem('currentUser', JSON.stringify({user : model.user, role : model.role[0]}));
+            localStorage.setItem('Token', model.token);
+            if(model.extra){
+                localStorage.setItem('CompanyEmployee', JSON.stringify(model.token)); 
+            }
+            currentUserSubject.next({user : model.user, role : model.role[0]});
 
-            return user;
+            return model.user;
         });
 }
 

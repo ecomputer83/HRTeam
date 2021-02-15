@@ -46,96 +46,115 @@ const router = new Router({
       path: '/',
       name: 'index',
       component: index,
+      meta: { authorize: [Role.HRAdmin] }
     },
     {
       path: '/index',
       name: 'indexs',
       component: index,
+      meta: { authorize: [Role.HRAdmin] }
     },
     {
       path: '/employees',
       name: 'employees',
-      component: employees
+      component: employees,
+      meta: { authorize: [Role.HRAdmin] }
     },
     {
       path: '/employees-list',
       name: 'employeeslist',
-      component: employeeslist
+      component: employeeslist,
+      meta: { authorize: [Role.Employee] }
     },
     {
       path: '/employeedashboard',
       name: 'employeedashboard',
       component: employeedashboard,
+      meta: { authorize: [Role.Employee] }
     },
     {
       path: '/job-profile',
       name: 'jobprofile',
-      component: JobProfile
+      component: JobProfile,
+      meta: { authorize: [Role.HRAdmin] }
     },
     {
       path: '/vacancies',
       name: 'vacancies',
       component: Vacancies,
+      meta: { authorize: [Role.HRAdmin] }
     },
     {
       path: '/applications',
       name: 'applications',
-      component: Applications
+      component: Applications,
+      meta: { authorize: [Role.HRAdmin] }
     },
     {
       path: '/applicants',
       name: 'applicants',
-      component: Applicants
+      component: Applicants,
+      meta: { authorize: [Role.HRAdmin] }
     },
     {
       path: '/talent-search',
       name: 'talentsearch',
-      component: TalentSearch
+      component: TalentSearch,
+      meta: { authorize: [Role.HRAdmin] }
     },
     {
       path: '/onboarding',
       name: 'onboarding',
-      component: Onboarding
+      component: Onboarding,
+      meta: { authorize: [Role.HRAdmin] }
     },
     {
       path: '/leaves',
       name: 'leaves',
-      component: leaves
+      component: leaves,
+      meta: { authorize: [Role.HRAdmin] }
     },
     {
       path: '/leavesettings',
       name: 'leavesettings',
-      component: leavesettings
+      component: leavesettings,
+      meta: { authorize: [Role.HRAdmin] }
     },
     {
       path: '/attendance',
       name: 'attendance',
-      component: attendance
+      component: attendance,
+      meta: { authorize: [Role.HRAdmin] }
     },
     {
       path: '/departments',
       name: 'departments',
-      component: departments
+      component: departments,
+      meta: { authorize: [] }
     },
     {
       path: '/designations',
       name: 'designations',
-      component: designations
+      component: designations,
+      meta: { authorize: [Role.HRAdmin] }
     },
     {
       path: '/timesheet',
       name: 'timesheet',
-      component: timesheet
+      component: timesheet,
+      meta: { authorize: [Role.HRAdmin] }
     },
     {
       path: '/disciplinary-measures',
       name: 'disciplinaryMeasures',
-      component: disciplinaryMeasures
+      component: disciplinaryMeasures,
+      meta: { authorize: [Role.HRAdmin] }
     },
     {
       path: '/job-profile-info',
       name: 'jobprofileinfo',
-      component: JobProfileInfo
+      component: JobProfileInfo,
+      meta: { authorize: [Role.HRAdmin] }
     },
     // {
     //   path: '/edit-applicant',
@@ -145,12 +164,14 @@ const router = new Router({
     {
       path: '/vacancies/:id',
       name: 'vacancyDetail',
-      component: VacancyDetail
+      component: VacancyDetail,
+      meta: { authorize: [Role.HRAdmin] }
     },
     {
       path: '/applications/:id',
       name: 'applicationDetail',
-      component: ApplicationDetail
+      component: ApplicationDetail,
+      meta: { authorize: [Role.HRAdmin] }
     },
     {
       path: '/create-organization',
@@ -160,17 +181,20 @@ const router = new Router({
     {
       path: '/leave-type-form',
       name: 'leavetypeform',
-      component: leaveTypeForm
+      component: leaveTypeForm,
+      meta: { authorize: [Role.Admin] }
     },
     {
       path: '/rank',
       name: 'rank',
-      component: rank
+      component: rank,
+      meta: { authorize: [] }
     },
     {
       path: '/profile',
       name: 'profile',
-      component: profile
+      component: profile,
+      meta: { authorize: [] }
     },
     {
       path: '/login',
@@ -180,37 +204,44 @@ const router = new Router({
     {
       path: '/attendance-employee',
       name: 'attendanceemployee',
-      component: attendanceEmployee
+      component: attendanceEmployee,
+      meta: { authorize: [Role.Employee] }
     },
     {
       path: '/timesheet-employee',
       name: 'timesheetemployee',
-      component: timesheetEmployee
+      component: timesheetEmployee,
+      meta: { authorize: [Role.Employee] }
     },
     {
       path: '/colleagues',
       name: 'colleagues',
-      component: colleagues
+      component: colleagues,
+      meta: { authorize: [Role.Employee] }
     },
     {
       path: '/leave-request',
       name: 'leaverequest',
-      component: leaveRequest
-    },
-    {
-      path: '/companies',
-      name: 'companies',
-      component: companies
+      component: leaveRequest,
+      meta: { authorize: [Role.Employee] }
     },
     {
       path: '/ranks',
       name: 'ranks',
-      component: ranks
+      component: ranks,
+      meta: { authorize: [Role.Admin] }
     },
     {
       path: '/leave-type-org-admin',
       name: 'leavetypeorgadmin',
-      component: leaveTypeOrgAdmin
+      component: leaveTypeOrgAdmin,
+      meta: { authorize: [Role.Admin] }
+    },
+    {
+      path: '/companies',
+      name: 'companies',
+      component: leaveTypeOrgAdmin,
+      meta: { authorize: [Role.Admin] }
     }
   ],
   linkActiveClass: "active"
@@ -223,13 +254,19 @@ router.beforeEach((to, from, next) => {
   if (authorize) {
       if (!currentUser) {
           // not logged in so redirect to login page with the return url
-          return next({ path: '/login', query: { returnUrl: to.path } });
+          return next({ path: '/login' });
       }
-
+      
       // check if route is restricted by role
       if (authorize.length && !authorize.includes(currentUser.role)) {
           // role not authorised so redirect to home page
+          if(currentUser.user.userType == 1){
+            return next({ name: 'companies' });
+          }else if(currentUser.user.userType == 3){
+            return next({ name: 'employeedashboard' });
+          }else{
           return next({ path: '/' });
+          }
       }
   }
 
