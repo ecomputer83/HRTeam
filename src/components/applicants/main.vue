@@ -12,7 +12,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <ul class="breadcrumb">
-                  <li class="breadcrumb-item active">Active Applications</li>
+                  <li class="breadcrumb-item active">Active Applicants</li>
                 </ul>
               </div>
             </div>
@@ -20,41 +20,40 @@
           <!-- /Page Header -->
 
           <div class="row">
-            <div class="col-md-12">
+            <div
+              class="tab-pane show active col-md-12"
+              id="solid-rounded-justified-tab1"
+            >
               <div class="card">
                 <div class="card-body">
                   <div class="table-responsive">
                     <table class="datatable table table-stripped mb-0">
                       <thead>
                         <tr>
-                          <th>Name</th>
-                          <th>Vacancy</th>
+                          <th>Salutation</th>
+                          <th>First Name</th>
+                          <th>Last Name</th>
+                          <th>Mobile Phone</th>
+                          <th>Home Phone</th>
+                          <th>Email Address</th>
+                          <th>City(Private)</th>
+                          <th>Country/Region (Private)</th>
                           <th>Status Reason</th>
-                          <th>Aptitude</th>
-                          <th>Expected Salary</th>
-                          <th>Received On</th>
-                          <th>Applicant Type</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr v-for="i in 5">
-                          <td style="max-width: unset">
-                            <router-link :to="`/applications/aid${i}`">
-                              <span>John Doe</span></router-link
-                            >
+                          <td>
+                            Mr.
                           </td>
-                          <td style="max-width: unset">
-                            <router-link :to="`/vacancies/vid${i}`">
-                              <span
-                                >Account Manager - Job Title</span
-                              ></router-link
-                            >
-                          </td>
-                          <td>1: New</td>
-                          <td>Good</td>
-                          <td>$80,000</td>
-                          <td>12/12/2021</td>
-                          <td>Applicant</td>
+                          <td>John</td>
+                          <td>Doe</td>
+                          <td><a href="tel:">+2348130030030</a></td>
+                          <td><a href="tel:">+2348130030030</a></td>
+                          <td><a href="mailto:">bewer@example.com</a></td>
+                          <td>Lagos</td>
+                          <td>Nigeria</td>
+                          <td>To be evaluated</td>
                         </tr>
                       </tbody>
                     </table>
@@ -85,8 +84,20 @@ export default {
         bFilter: false
       });
     }
+    if ($(".floating").length > 0) {
+      $(".floating")
+        .on("focus blur", function(e) {
+          $(this)
+            .parents(".form-focus")
+            .toggleClass(
+              "focused",
+              e.type === "focus" || this.value.length > 0
+            );
+        })
+        .trigger("blur");
+    }
   },
   methods: {},
-  name: "applications"
+  name: "applicants"
 };
 </script>

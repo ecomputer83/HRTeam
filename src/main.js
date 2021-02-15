@@ -43,6 +43,9 @@ import VueQuillEditor from 'vue-quill-editor'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
+import VueApexCharts from 'vue-apexcharts'
+import { VuejsDatatableFactory } from 'vuejs-datatable';
+ 
 global.Raphael = Raphael
 Vue.config.productionTip = false
 Vue.use(Antd);
@@ -51,6 +54,8 @@ Vue.use(VueSlimScroll)
 Vue.use(datePicker)
 Vue.use( CKEditor );
 Vue.use(VueQuillEditor, /* { default global options } */)
+Vue.use(VueApexCharts)
+Vue.use(VuejsDatatableFactory);
 Vue.component('layout-header', LayoutHeader);
 Vue.component('layout-headerEmployee', LayoutHeaderEmployee);
 Vue.component('layout-headerApp', LayoutHeaderApp);
@@ -66,6 +71,7 @@ Vue.component('drop', Drop);
 Vue.component('input-mask', InputMask);
 Vue.component('multiselect', Multiselect);
 Vue.component('Select2', Select2);
+Vue.component("apexchart", VueApexCharts);
 Vue.use(FullCalendar);
 Vue.use(Vuelidate);
 installer(Vue, store)

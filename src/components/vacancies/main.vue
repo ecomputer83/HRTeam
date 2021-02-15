@@ -29,12 +29,12 @@
                         <tr>
                           <th>Name</th>
                           <th>Status Reason</th>
-                          <th>Positions S</th>
+                          <th>Positions Still Open</th>
                           <th>Received</th>
-                          <th>Employed</th>
-                          <th>Rejected</th>
+                          <th>Employed Applicants</th>
+                          <th>Rejected Applicants</th>
                           <th>New</th>
-                          <th>Employee</th>
+                          <th>Employee Fie Review</th>
                           <th>Supervisor Feedback</th>
                           <th>HR Interview</th>
                           <th>Supervisor Interview</th>
@@ -85,13 +85,19 @@ export default {
     LayoutHeader,
     LayoutSidebar
   },
-  mounted() {},
+  mounted() {
+     if ($('.datatable').length > 0) {
+        $('.datatable').DataTable({
+          "bFilter": false,
+        });
+      }
+  },
   methods: {},
   name: "vacancies"
 };
 </script>
-
 <style scoped>
+
 .datatable > thead > tr > th,
 .datatable > tbody > tr > td {
   max-width: 100px;
