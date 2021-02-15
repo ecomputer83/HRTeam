@@ -182,7 +182,7 @@ const router = new Router({
       path: '/leave-type-form',
       name: 'leavetypeform',
       component: leaveTypeForm,
-      meta: { authorize: [Role.Admin] }
+      //meta: { authorize: [Role.Admin] }
     },
     {
       path: '/rank',
