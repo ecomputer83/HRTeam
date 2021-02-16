@@ -110,15 +110,46 @@
 								</button>
 							</div>
 							<div class="modal-body">
-								<form>
+								<form @submit.prevent="onPostSubmit">
 									<div class="row">
 										<div class="col-sm-12">
-											<div class="form-group">
-												<label class="col-form-label">Type Name <span
-														class="text-danger">*</span></label>
-												<input class="form-control" type="text">
-											</div>
-										</div>
+                      <div class="form-group">
+                        <label class="col-form-label">Company Name</label>
+                        <input type="text" v-model.trim="$v.name.$model" id="name" name="name" class="form-control" :class="{ 'is-invalid': submitted && $v.name.$error }" />
+                                <div v-if="submitted && !$v.name.required" class="invalid-feedback">Company Name is required</div>
+                      </div>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label class="col-form-label">Address</label>
+                        <input type="text" v-model.trim="$v.address.$model" id="address" name="address" class="form-control" :class="{ 'is-invalid': submitted && $v.address.$error }" />
+                                <div v-if="submitted && !$v.address.required" class="invalid-feedback">Address is required</div>
+                      </div>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label class="col-form-label">Contact Name</label>
+                        <input type="text" v-model.trim="$v.contactPerson.$model" id="contactPerson" name="contactPerson" class="form-control" :class="{ 'is-invalid': submitted && $v.contactPerson.$error }" />
+                                <div v-if="submitted && !$v.contactPerson.required" class="invalid-feedback">Contact Name is required</div>
+                      </div>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label class="col-form-label">Contact Phone Number</label>
+                        <input type="text" v-model.trim="$v.phone.$model" id="phone" name="phone" class="form-control" :class="{ 'is-invalid': submitted && $v.phone.$error }" />
+                                <div v-if="submitted && !$v.phone.required" class="invalid-feedback">Contact Number is required</div>
+                      </div>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label class="col-form-label">Contact Email</label>
+                        <input type="email" v-model.trim="$v.email.$model" id="email" name="email" class="form-control" :class="{ 'is-invalid': submitted && $v.email.$error }" />
+                                <div v-if="submitted && $v.email.$error" class="invalid-feedback">
+                                    <span v-if="!$v.email.required">Email is required</span>
+                                    <span v-if="!$v.email.email">Email is invalid</span>
+                                </div>
+                      </div>
+                    </div>
 									</div>
 									<div class="submit-section">
 										<button class="btn btn-primary submit-btn">Submit</button>
@@ -141,7 +172,7 @@
 								</button>
 							</div>
 							<div class="modal-body">
-								<form>
+								<form @submit.prevent="onPutSubmit">
 									<div class="row">
 										<div class="col-sm-12">
                       <div class="form-group">
@@ -204,7 +235,7 @@
 								<div class="modal-btn delete-action">
 									<div class="row">
 										<div class="col-6">
-											<a href="javascript:void(0);"
+											<a @click="logout"
 												class="btn btn-primary continue-btn">Delete</a>
 										</div>
 										<div class="col-6">
@@ -238,6 +269,7 @@ export default {
   data(){
     return {
       companies: [],
+      company: {},
       name: '',
       contactPerson: '',
       phone: '',
