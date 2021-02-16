@@ -8,7 +8,9 @@ const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('
 
 export const organizationService = {
     addOrganization,
-    registerAsAdmin
+    registerAsAdmin,
+    addRank,
+    getRanks
 };
 
 function addOrganization(name, rcnumber, address, contact, contactnumber, contactemail, contactaddress) {
@@ -27,6 +29,33 @@ function addOrganization(name, rcnumber, address, contact, contactnumber, contac
         
             return id;
         });
+}
+
+function addRank(rank, readHoliday, readLeave, readAssets, readTimesheet, 
+                      writeHolidays, writeLeave, writeAssets, writeTimesheet, 
+                      deleteHolidays, deleteLeave, deleteAssets, deleteTimesheet ) {
+  var req = {
+      rankName: rank,
+      rankPermission: {
+      readHoliday,
+      readLeave,
+      readAssets,
+      readTimesheet,
+      writeHolidays,
+      writeLeave,
+      writeAssets,
+      writeTimesheet,
+      deleteHolidays,
+      deleteLeave,
+      deleteAssets,
+      deleteTimesheet
+    }
+  }
+  return fetch(`${config.apiurl}/organization/addrank`, requestOptions.post(req))
+      .then(handleResponse)
+}
+function getRanks() {
+  
 }
 
 function registerAsAdmin(orgId, contact, contactnumber, contactemail, password, confirmPassword) {
