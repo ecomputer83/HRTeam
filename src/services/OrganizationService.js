@@ -13,7 +13,9 @@ export const organizationService = {
     addLeaveType,
     addCompany,
     getCompanies,
-    getCompany
+    getCompany,
+    updateCompany,
+    removeCompany
 };
 
 function addOrganization(name, rcnumber, address, contact, contactnumber, contactemail, contactaddress) {
@@ -83,6 +85,27 @@ function addCompany(name, address, contactPerson, phone, email) {
         name, address, contactPerson, phone, email
     }
     return fetch(`${config.apiurl}/company`, requestOptions.post(req))
+      .then(handleResponse)
+      .then(id => {
+      
+          return id;
+      });
+}
+
+function updateCompany(id, name, address, contactPerson, phone, email) {
+    var req = {
+        name, address, contactPerson, phone, email
+    }
+    return fetch(`${config.apiurl}/company/${id}`, requestOptions.put(req))
+      .then(handleResponse)
+      .then(id => {
+      
+          return id;
+      });
+}
+
+function removeCompany(id) {
+    return fetch(`${config.apiurl}/company/${id}`, requestOptions.delete())
       .then(handleResponse)
       .then(id => {
       

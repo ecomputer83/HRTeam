@@ -30,7 +30,8 @@ import attendanceEmployee from '@/components/attendanceEmployee'
 import timesheetEmployee from '@/components/timesheetEmployee'
 import colleagues from '@/components/colleagues'
 import leaveRequest from '@/components/leaveRequest'
-import companies from '@/components/companies'
+import companies from '@/components/companies/main'
+import companyform from '@/components/companies/form'
 import ranks from '@/components/ranks'
 import leaveTypeOrgAdmin from '@/components/leaveTypeOrgAdmin'
 
@@ -241,7 +242,13 @@ const router = new Router({
       path: '/companies',
       name: 'companies',
       component: companies,
-      meta: { authorize: [Role.Admin] }
+      meta: { authorize: [Role.Admin] },
+    },
+    {
+      path: '/addcompany',
+      name: 'addcompany',
+      component: companyform,
+      meta: { authorize: [Role.Admin] },
     }
   ],
   linkActiveClass: "active"
