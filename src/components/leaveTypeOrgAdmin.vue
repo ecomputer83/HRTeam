@@ -170,7 +170,8 @@ export default {
   getLeaveTypes() {
   organizationService.getLeaveTypes()
       .then(
-        model => { leavetypes = model },
+        model => { this.leavetypes = model
+        console.log(model) },
         error => { error = error }
       )
   },
@@ -187,7 +188,7 @@ export default {
           id => {
             organizationService.getLeaveTypes()
             .then(
-              p => {leavetypes = p}
+              p => {this.leavetypes = p}
             )
           },
           error => {

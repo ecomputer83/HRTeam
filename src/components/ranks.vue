@@ -393,13 +393,12 @@ export default {
     getRanks () {
       organizationService.getRanks()
                         .then(
-                          o => {ranks = o},
-                          error => {error = error}
+                          o => {this.ranks = o}
                         )
     },
-    handleNewRank() {
-      handleNewRank = !this.isCreateNewRank
-    },
+    // handleNewRank() {
+    //   handleNewRank = !this.isCreateNewRank
+    // },
     onSubmit () {
             this.submitted = true;
 
@@ -418,7 +417,7 @@ export default {
                     id => {
                       organizationService.getRanks()
                         .then(
-                          o => {ranks = o}
+                          o => {this.ranks = o}
                         )
 					},
                     error => {

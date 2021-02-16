@@ -39,11 +39,13 @@ const requestOptions = {
 function headers() {
     const currentUser = authenticationService.currentUserValue || {};
     const hostname = document.location.host;
-    const authHeader = currentUser.token ? { 'Authorization': 'Bearer ' + currentUser.token, 'host': hostname } : {}
+    console.log(hostname);
+    const authHeader = currentUser.token ? { 'Authorization': 'Bearer ' + currentUser.token } : {}
     return {
         headers: {
             ...authHeader,
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Holder': hostname
         }
     }
 }
