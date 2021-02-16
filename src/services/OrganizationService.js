@@ -10,7 +10,8 @@ export const organizationService = {
     addOrganization,
     registerAsAdmin,
     getLeaveTypes,
-    addLeaveType
+    addLeaveType,
+    removeLeaveType
 };
 
 function addOrganization(name, rcnumber, address, contact, contactnumber, contactemail, contactaddress) {
@@ -71,6 +72,6 @@ function getLeaveTypes() {
 }
 
 function removeLeaveType(id) {
-    return fetch(`${config.apiurl}/Organization/DeleteLeaveType`, requestOptions.delete(id))
+    return fetch(`${config.apiurl}/Organization/DeleteLeaveType/${id}`, requestOptions.delete())
         .then(handleResponse);
 }
