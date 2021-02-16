@@ -45,6 +45,22 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <tr v-for="rank in ranks" v-bind:key="rank.rankName">
+                                                    <td>{{rank.rankName}}</td>
+                                                    <td>
+                                                      <div class="view-icons">
+                                                        <a 
+                                                          href="#" 
+                                                          class="btn btn-link active" 
+                                                          data-toggle="modal" 
+                                                          data-target="#delete_leave_type"
+                                                        >
+                                                          <i class="fa fa-trash-o m-r-5"></i>
+                                                        </a>
+                                                      </div>
+                                                    </td>
+                                                </tr>
+
                                                 <tr>
                                                     <td>Junior</td>
                                                     <td>
@@ -365,6 +381,8 @@ export default {
       writeTimingSheets: false,
       deleteTimingSheets: false,
       loading: false,
+      error: "",
+      isCreateNewRank: false,
       submitted: false
     };
   },
@@ -375,34 +393,15 @@ export default {
     getRanks () {
       organizationService.getRanks()
                         .then(
-                          o => {ranks = o}
+                          o => {ranks = o},
+                          error => {error = error}
                         )
     },
     handleNewRank() {
-      const newRank = {
-        rank: this.rank,
-        readHoliday: this.readHoliday,
-        writeHoliday: this.writeHoliday,
-        createHoliday: this.createHoliday,
-        deleteHoliday: this.deleteHoliday,
-        readLeaves: this.readLeaves,
-        writeLeaves: this.writeLeaves,
-        createLeaves: this.createLeaves,
-        deleteLeaves: this.deleteLeaves,
-        readAssets: this.readAssets,
-        writeAssets: this.writeAssets,
-        createAssets: this.createAssets,
-        deleteAssets: this.deleteAssets,
-        readTimingSheets: this.readTimingSheets,
-        writeTimingSheets: this.writeTimingSheets,
-        createTimingSheets: this.createTimingSheets,
-        deleteTimingSheets: this.deleteTimingSheets
-      }
-      console.log(newRank);
+      handleNewRank = !this.isCreateNewRank
     },
     onSubmit () {
             this.submitted = true;
-            console.log('new rank added');
 
             // stop here if form is invalid
             this.$v.$touch();
