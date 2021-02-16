@@ -2,9 +2,7 @@ import { BehaviorSubject } from 'rxjs';
 
 import config from '../../config/index';
 import requestOptions from '@/helpers/RequestOptions';
-import handleResponse from '@/helpers/HandleResponses'
-
-const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
+import handleResponse from '@/helpers/HandleResponses';
 
 export const organizationService = {
     addOrganization,
@@ -14,8 +12,11 @@ export const organizationService = {
     addCompany,
     getCompanies,
     getCompany,
+    addRank,
+    getRanks,
     updateCompany,
-    removeCompany
+    removeCompany,
+    registerAsHR
 };
 
 function addOrganization(name, rcnumber, address, contact, contactnumber, contactemail, contactaddress) {
@@ -36,6 +37,38 @@ function addOrganization(name, rcnumber, address, contact, contactnumber, contac
         });
 }
 
+function addRank(rank, readHoliday, readLeaves, readAssets, readTimesheet, 
+                      writeHoliday, writeLeaves, writeAssets, writeTimesheet, 
+                      deleteHoliday, deleteLeaves, deleteAssets, deleteTimesheet ) {
+  var req = {
+      rankName: rank,
+      rankPermission: {
+      readHoliday,
+      readLeaves,
+      readAssets,
+      readTimesheet,
+      writeHoliday,
+      writeLeaves,
+      writeAssets,
+      writeTimesheet,
+      deleteHoliday,
+      deleteLeaves,
+      deleteAssets,
+      deleteTimesheet
+    }
+  }
+  return fetch(`${config.apiurl}/Organization/addrank`, requestOptions.post(req))
+      .then(handleResponse)
+}
+function getRanks() {
+  return fetch(`${config.apiurl}/Organization/ranks`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+
+            return model
+        });
+}
+
 function registerAsAdmin(orgId, contact, contactnumber, contactemail, password, confirmPassword) {
     var req = {
         organizationId: orgId,
@@ -46,6 +79,24 @@ function registerAsAdmin(orgId, contact, contactnumber, contactemail, password, 
         confirmPassword: confirmPassword
     }
     return fetch(`${config.apiurl}/account/registerasadmin`, requestOptions.post(req))
+        .then(handleResponse)
+        .then(id => {
+
+            return id;
+        });
+}
+
+function registerAsHR(companyId, firstName, lastName, address, gender, phone, email) {
+    var req = {
+        companyId: companyId,
+        firstName,
+        lastName,
+        phone,
+        email,
+        address,
+        gender
+    }
+    return fetch(`${config.apiurl}/employee/postHR`, requestOptions.post(req))
         .then(handleResponse)
         .then(id => {
 

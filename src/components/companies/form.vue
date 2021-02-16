@@ -42,8 +42,8 @@
                     <div class="col-sm-12">
                       <div class="form-group">
                         <label class="col-form-label">Address</label>
-                        <input type="text" v-model.trim="$v.address.$model" id="address" name="address" class="form-control" :class="{ 'is-invalid': submitted && $v.address.$error }" />
-                                <div v-if="submitted && !$v.address.required" class="invalid-feedback">Address is required</div>
+                        <input type="text" v-model.trim="$v.companyaddress.$model" id="companyaddress" name="companyaddress" class="form-control" :class="{ 'is-invalid': submitted && $v.companyaddress.$error }" />
+                                <div v-if="submitted && !$v.companyaddress.required" class="invalid-feedback">Address is required</div>
                       </div>
                     </div>
                     <div class="col-sm-12">
@@ -56,17 +56,17 @@
                     <div class="col-sm-12">
                       <div class="form-group">
                         <label class="col-form-label">Contact Phone Number</label>
-                        <input type="text" v-model.trim="$v.phone.$model" id="phone" name="phone" class="form-control" :class="{ 'is-invalid': submitted && $v.phone.$error }" />
-                                <div v-if="submitted && !$v.phone.required" class="invalid-feedback">Contact Number is required</div>
+                        <input type="text" v-model.trim="$v.contactphone.$model" id="contactphone" name="contactphone" class="form-control" :class="{ 'is-invalid': submitted && $v.contactphone.$error }" />
+                                <div v-if="submitted && !$v.contactphone.required" class="invalid-feedback">Contact Number is required</div>
                       </div>
                     </div>
                     <div class="col-sm-12">
                       <div class="form-group">
                         <label class="col-form-label">Contact Email</label>
-                        <input type="email" v-model.trim="$v.email.$model" id="email" name="email" class="form-control" :class="{ 'is-invalid': submitted && $v.email.$error }" />
-                                <div v-if="submitted && $v.email.$error" class="invalid-feedback">
-                                    <span v-if="!$v.email.required">Email is required</span>
-                                    <span v-if="!$v.email.email">Email is invalid</span>
+                        <input type="email" v-model.trim="$v.contactemail.$model" id="email" name="email" class="form-control" :class="{ 'is-invalid': submitted && $v.contactemail.$error }" />
+                                <div v-if="submitted && $v.contactemail.$error" class="invalid-feedback">
+                                    <span v-if="!$v.contactemail.required">Email is required</span>
+                                    <span v-if="!$v.contactemail.email">Email is invalid</span>
                                 </div>
                       </div>
                     </div>
@@ -84,24 +84,53 @@
                 </div>
                                 
                 <div class="card-body">
-                  
-                    <div class="col-sm-12">
+                  <div class="col-sm-12">
                       <div class="form-group">
-                        <label class="col-form-label">Password</label>
-                        <input type="password" v-model.trim="$v.password.$model" name="password" class="form-control" :class="{ 'is-invalid': submitted && $v.password.$error }" />
-                						<div v-if="submitted && !$v.password.required" class="invalid-feedback">Password is required</div>
+                        <label class="col-form-label">First Name</label>
+                        <input type="text" v-model.trim="$v.firstName.$model" id="firstName" name="firstName" class="form-control" :class="{ 'is-invalid': submitted && $v.firstName.$error }" />
+                                <div v-if="submitted && !$v.firstName.required" class="invalid-feedback">First Name is required</div>
                       </div>
                     </div>
                     <div class="col-sm-12">
                       <div class="form-group">
-                        <label class="col-form-label">Confirm Password</label>
-                        <input type="password" v-model.trim="$v.confirmPassword.$model" id="confirmPassword" name="confirmPassword" class="form-control" :class="{ 'is-invalid': submitted && $v.confirmPassword.$error }" />
-                                <div v-if="submitted && $v.confirmPassword.$error" class="invalid-feedback">
-                                    <span v-if="!$v.confirmPassword.required">Confirm Password is required</span>
-                                    <span v-else-if="!$v.confirmPassword.sameAsPassword">Passwords must match</span>
-                                </div>
+                        <label class="col-form-label">Last Name</label>
+                        <input type="text" v-model.trim="$v.lastName.$model" id="lastName" name="lastName" class="form-control" :class="{ 'is-invalid': submitted && $v.lastName.$error }" />
+                                <div v-if="submitted && !$v.lastName.required" class="invalid-feedback">Last Name is required</div>
                       </div>
                     </div>
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label class="col-form-label">Email</label>
+                        <input type="text" v-model.trim="$v.email.$model" id="email" name="email" class="form-control" :class="{ 'is-invalid': submitted && $v.email.$error }" />
+                                <div v-if="submitted && !$v.email.required" class="invalid-feedback">Email is required</div>
+                      </div>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label class="col-form-label">Phone Number</label>
+                        <input type="text" v-model.trim="$v.phone.$model" id="phone" name="phone" class="form-control" :class="{ 'is-invalid': submitted && $v.phone.$error }" />
+                                <div v-if="submitted && !$v.phone.required" class="invalid-feedback">Contact Name is required</div>
+                      </div>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label class="col-form-label">Gender</label>
+                        <select v-model.trim="$v.gender.$model" id="gender" name="gender" class="form-control">
+                            <option disabled value="">Please Select</option>
+                            <option>Male</option>
+                            <option>Female</option>
+                            </select>
+                                <div v-if="submitted && !$v.contactPerson.required" class="invalid-feedback">Contact Name is required</div>
+                      </div>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label class="col-form-label">Address</label>
+                        <input type="text" v-model.trim="$v.address.$model" id="address" name="address" class="form-control" :class="{ 'is-invalid': submitted && $v.address.$error }" />
+                                <div v-if="submitted && !$v.address.required" class="invalid-feedback">Address is required</div>
+                      </div>
+                    </div>
+                   
                     <div class="submit-section">
                       <button class="btn btn-primary submit-btn" type="button" v-on:click="handleCreateCompany">Back</button>
                       <button class="btn btn-primary submit-btn" type="submit" :disabled="loading">Submit</button>
@@ -127,7 +156,7 @@
 import LayoutHeader from "@/components/layouts/Header.vue";
 import LayoutSidebar from "@/components/layouts/orgAdminSidebar.vue";
 import { required, sameAs } from 'vuelidate/lib/validators';
-import {organizationService} from '@/services/organizationService'
+import {organizationService} from '@/services/organizationService';
 import Vue from "vue";
 export default {
   components: {
@@ -136,30 +165,35 @@ export default {
   },
   data(){
     return {
-      companies: [],
-      company: {},
-      name: '',
-      contactPerson: '',
-      phone: '',
-      email: '',
-      address: '',
-      submitted: false,
-      loading: false,
-      error: '',
-      isCreateCompany: false,
+        name: '',
+        contactPerson: '',
+        companyaddress: '',
+        contactphone: "",
+        contactemail: "",
+        firstName: '',
+        lastName: '',
+        gender: '',
+        phone: '',
+        email: '',
+        address: '',
+        submitted: false,
+        loading: false,
+        error: '',
+        isCreateCompany: false
     }
   },
   validations: {
       name: { required },
+        contactPerson: { required },
+        companyaddress: { required },
+        contactphone: { required },
+        contactemail: { required },
+      firstName: { required },
+      lastName: { required },
       address: { required },
-      contactPerson: { required },
+      gender: { required },
       phone: { required },
-      email: { required },
-
-
-      address: { required },
-      password: { required },
-      confirmPassword: {required, sameAsPassword: sameAs('password')},
+      email: { required }
     },
   mounted() {},
   methods: {
@@ -176,12 +210,12 @@ export default {
             }
 
             this.loading = true;
-            organizationService.addOrganization(this.organization, this.rcnumber, this.address, this.contactname, this.contactnumber, this.contactemail, this.contactaddress)
+            organizationService.addCompany(this.name, this.companyaddress, this.contactPerson, this.contactphone, this.contactemail)
                 .then(
                     id => {
-                      organizationService.registerAsAdmin(id, this.contactname, this.contactnumber, this.contactemail, this.password, this.confirmPassword)
+                      organizationService.registerAsHR(id, this.firstName, this.lastName, this.address, this.gender, this.phone, this.email)
                         .then(
-                          o => this.$router.push('/')
+                          o => this.$router.push('/companies')
                         )
 					},
                     error => {

@@ -131,13 +131,13 @@ const router = new Router({
       path: '/departments',
       name: 'departments',
       component: departments,
-      meta: { authorize: [] }
+      //meta: { authorize: [] }
     },
     {
       path: '/designations',
       name: 'designations',
       component: designations,
-      meta: { authorize: [Role.HRAdmin] }
+      //meta: { authorize: [Role.HRAdmin] }
     },
     {
       path: '/timesheet',
