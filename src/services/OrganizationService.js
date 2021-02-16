@@ -9,6 +9,8 @@ const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('
 export const organizationService = {
     addOrganization,
     registerAsAdmin,
+    getLeaveTypes,
+    addLeaveType,
     addCompany,
     getCompanies,
     getCompany
@@ -27,7 +29,7 @@ function addOrganization(name, rcnumber, address, contact, contactnumber, contac
     return fetch(`${config.apiurl}/organization`, requestOptions.post(req))
         .then(handleResponse)
         .then(id => {
-        
+
             return id;
         });
 }
@@ -40,13 +42,40 @@ function registerAsAdmin(orgId, contact, contactnumber, contactemail, password, 
         email: contactemail,
         password: password,
         confirmPassword: confirmPassword
-      }
-      return fetch(`${config.apiurl}/account/registerasadmin`, requestOptions.post(req))
-      .then(handleResponse)
-      .then(id => {
-      
-          return id;
-      });
+    }
+    return fetch(`${config.apiurl}/account/registerasadmin`, requestOptions.post(req))
+        .then(handleResponse)
+        .then(id => {
+
+            return id;
+        });
+}
+
+function addLeaveType(name) {
+    var req = {
+        name: name
+    }
+    return fetch(`${config.apiurl}/Organization/addleavetype`, requestOptions.post(req))
+        .then(handleResponse)
+        .then(id => {
+
+            return id;
+        });
+}
+
+function getLeaveTypes() {
+
+    return fetch(`${config.apiurl}/Organization/leavetypes`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+
+            return model
+        });
+}
+
+function removeLeaveType(id) {
+    return fetch(`${config.apiurl}/Organization/DeleteLeaveType`, requestOptions.delete(id))
+        .then(handleResponse);
 }
 
 function addCompany(name, address, contactPerson, phone, email) {

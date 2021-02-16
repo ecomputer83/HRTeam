@@ -45,18 +45,10 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>Annual</td>
+                                                <tr v-for="leavetype in leavetypes" v-bind:key="leavetype.name">
+                                                    <td>{{leavetype.name}}</td>
                                                     <td>
                                                       <div class="view-icons">
-                                                        <a 
-                                                          href="#" 
-                                                          class="btn btn-link active" 
-                                                          data-toggle="modal" 
-                                                          data-target="#edit_leave_type"
-                                                        >
-                                                          <i class="fa fa-pencil m-r-5"></i>
-                                                        </a>
                                                         <a 
                                                           href="#" 
                                                           class="btn btn-link active" 
@@ -68,29 +60,7 @@
                                                       </div>
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td>Maternity</td>
-                                                    <td>
-                                                      <div class="view-icons">
-                                                        <a 
-                                                          href="#" 
-                                                          class="btn btn-link active" 
-                                                          data-toggle="modal" 
-                                                          data-target="#edit_leave_type"
-                                                        >
-                                                          <i class="fa fa-pencil m-r-5"></i>
-                                                        </a>
-                                                        <a 
-                                                          href="#" 
-                                                          class="btn btn-link active" 
-                                                          data-toggle="modal" 
-                                                          data-target="#delete_leave_type"
-                                                        >
-                                                          <i class="fa fa-trash-o m-r-5"></i>
-                                                        </a>
-                                                      </div>
-                                                    </td>
-                                                </tr>
+                                                
                                             </tbody>
                                         </table>
                                     </div>
@@ -110,13 +80,14 @@
 								</button>
 							</div>
 							<div class="modal-body">
-								<form>
+								<form @submit.prevent="onSubmit">
 									<div class="row">
 										<div class="col-sm-12">
 											<div class="form-group">
 												<label class="col-form-label">Type Name <span
 														class="text-danger">*</span></label>
-												<input class="form-control" type="text">
+												<input type="text" v-model.trim="$v.name.$model" id="name" name="name" class="form-control" :class="{ 'is-invalid': submitted && $v.name.$error }" />
+                                <div v-if="submitted && !$v.name.required" class="invalid-feedback">LeaveType name is required</div>
 											</div>
 										</div>
 									</div>
@@ -130,36 +101,7 @@
 				</div>
 				<!-- /Add Employee Modal -->
 
-				<!-- Edit Employee Modal -->
-				<div id="edit_leave_type" class="modal custom-modal fade" role="dialog">
-					<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title">Edit Leave Type</h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>
-							<div class="modal-body">
-								<form>
-									<div class="row">
-										<div class="col-sm-12">
-											<div class="form-group">
-												<label class="col-form-label">Type Name <span
-														class="text-danger">*</span></label>
-												<input class="form-control" value="John" type="text">
-											</div>
-										</div>
-									</div>
-									<div class="submit-section">
-										<button class="btn btn-primary submit-btn">Save</button>
-									</div>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- /Edit Employee Modal -->
+  
 
 				<!-- Delete Employee Modal -->
 				<div class="modal custom-modal fade" id="delete_leave_type" role="dialog">
@@ -167,7 +109,7 @@
 						<div class="modal-content">
 							<div class="modal-body">
 								<div class="form-header">
-									<h3>Delete Employee</h3>
+									<h3>Delete LeaveType</h3>
 									<p>Are you sure want to delete?</p>
 								</div>
 								<div class="modal-btn delete-action">
@@ -197,15 +139,68 @@
 </template>
 <script>
 import LayoutHeader from "@/components/layouts/Header.vue";
+import { required, sameAs } from 'vuelidate/lib/validators';
 import LayoutSidebar from "@/components/layouts/orgAdminSidebar.vue";
+import {organizationService} from '@/services/organizationService'
+
 import Vue from "vue";
+import leavetypeVue from './leavetype.vue';
 export default {
   components: {
     LayoutHeader,
     LayoutSidebar
   },
-  mounted() {},
-  methods: {},
+  data(){
+    return {
+      name: '',
+      leavetypes : [],
+      submitted: false,
+      loading: false,
+      error: '',
+      isCreateLeaveType: false
+    };
+  },
+  validations: {
+    name: { required }
+  },
+  methods: {
+    handleCreateLeaveType(){
+    handleCreateLeaveType = !this.isCreateLeaveType;
+  },
+  getLeaveTypes() {
+  organizationService.getLeaveTypes()
+      .then(
+        model => { this.leavetypes = model
+        console.log(model) },
+        error => { error = error }
+      )
+  },
+  onSubmit() {
+    this.submitted = true;
+
+      this.$v.$touch();
+      if(this.$v.$invalid) {
+        return;
+      }
+      this.loading = true;
+      organizationService.addLeaveType(this.name)
+        .then(
+          id => {
+            organizationService.getLeaveTypes()
+            .then(
+              p => {this.leavetypes = p}
+            )
+          },
+          error => {
+            this.error = error;
+            this.loading = false;
+          }
+        );
+  },
+  },
+  mounted() {
+    this.getLeaveTypes()
+  },
   name: "leavetypeorgadmin"
 };
 </script>
