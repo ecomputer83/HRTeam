@@ -2,9 +2,7 @@ import { BehaviorSubject } from 'rxjs';
 
 import config from '../../config/index';
 import requestOptions from '@/helpers/RequestOptions';
-import handleResponse from '@/helpers/HandleResponses'
-
-const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
+import handleResponse from '@/helpers/HandleResponses';
 
 export const organizationService = {
     addOrganization,
@@ -15,7 +13,10 @@ export const organizationService = {
     getCompanies,
     getCompany,
     addRank,
-    getRanks
+    getRanks,
+    updateCompany,
+    removeCompany,
+    registerAsHR
 };
 
 function addOrganization(name, rcnumber, address, contact, contactnumber, contactemail, contactaddress) {
@@ -85,6 +86,24 @@ function registerAsAdmin(orgId, contact, contactnumber, contactemail, password, 
         });
 }
 
+function registerAsHR(companyId, firstName, lastName, address, gender, phone, email) {
+    var req = {
+        companyId: companyId,
+        firstName,
+        lastName,
+        phone,
+        email,
+        address,
+        gender
+    }
+    return fetch(`${config.apiurl}/employee/postHR`, requestOptions.post(req))
+        .then(handleResponse)
+        .then(id => {
+
+            return id;
+        });
+}
+
 function addLeaveType(name) {
     var req = {
         name: name
@@ -117,6 +136,27 @@ function addCompany(name, address, contactPerson, phone, email) {
         name, address, contactPerson, phone, email
     }
     return fetch(`${config.apiurl}/company`, requestOptions.post(req))
+      .then(handleResponse)
+      .then(id => {
+      
+          return id;
+      });
+}
+
+function updateCompany(id, name, address, contactPerson, phone, email) {
+    var req = {
+        name, address, contactPerson, phone, email
+    }
+    return fetch(`${config.apiurl}/company/${id}`, requestOptions.put(req))
+      .then(handleResponse)
+      .then(id => {
+      
+          return id;
+      });
+}
+
+function removeCompany(id) {
+    return fetch(`${config.apiurl}/company/${id}`, requestOptions.delete())
       .then(handleResponse)
       .then(id => {
       

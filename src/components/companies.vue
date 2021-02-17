@@ -260,6 +260,7 @@
 <script>
 import LayoutHeader from "@/components/layouts/Header.vue";
 import LayoutSidebar from "@/components/layouts/orgAdminSidebar.vue";
+import { required, sameAs } from 'vuelidate/lib/validators';
 import Vue from "vue";
 export default {
   components: {
@@ -274,9 +275,24 @@ export default {
       contactPerson: '',
       phone: '',
       email: '',
-      address: ''
+      address: '',
+      submitted: false,
+      loading: false,
+      error: '',
+      isCreateCompany: false,
     }
   },
+  validations: {
+      name: { required },
+      rcnumber: { required },
+      address: { required },
+      contactPerson: { required },
+      phone: { required },
+      email: { required },
+      address: { required },
+      password: { required },
+      confirmPassword: {required, sameAsPassword: sameAs('password')},
+    },
   mounted() {},
   methods: {},
   name: "companies"
