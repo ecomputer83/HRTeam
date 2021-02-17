@@ -9,7 +9,8 @@ export const organizationService = {
     registerAsAdmin,
     getLeaveTypes,
     addLeaveType,
-    removeLeaveType    addCompany,
+    removeLeaveType,
+    addCompany,
     getCompanies,
     getCompany,
     addRank,
@@ -37,31 +38,31 @@ function addOrganization(name, rcnumber, address, contact, contactnumber, contac
         });
 }
 
-function addRank(rank, readHoliday, readLeaves, readAssets, readTimesheet, 
-                      writeHoliday, writeLeaves, writeAssets, writeTimesheet, 
-                      deleteHoliday, deleteLeaves, deleteAssets, deleteTimesheet ) {
-  var req = {
-      rankName: rank,
-      rankPermission: {
-      readHoliday,
-      readLeaves,
-      readAssets,
-      readTimesheet,
-      writeHoliday,
-      writeLeaves,
-      writeAssets,
-      writeTimesheet,
-      deleteHoliday,
-      deleteLeaves,
-      deleteAssets,
-      deleteTimesheet
+function addRank(rank, readHoliday, readLeaves, readAssets, readTimesheet,
+    writeHoliday, writeLeaves, writeAssets, writeTimesheet,
+    deleteHoliday, deleteLeaves, deleteAssets, deleteTimesheet) {
+    var req = {
+        rankName: rank,
+        rankPermission: {
+            readHoliday,
+            readLeaves,
+            readAssets,
+            readTimesheet,
+            writeHoliday,
+            writeLeaves,
+            writeAssets,
+            writeTimesheet,
+            deleteHoliday,
+            deleteLeaves,
+            deleteAssets,
+            deleteTimesheet
+        }
     }
-  }
-  return fetch(`${config.apiurl}/Organization/addrank`, requestOptions.post(req))
-      .then(handleResponse)
+    return fetch(`${config.apiurl}/Organization/addrank`, requestOptions.post(req))
+        .then(handleResponse)
 }
 function getRanks() {
-  return fetch(`${config.apiurl}/Organization/ranks`, requestOptions.get())
+    return fetch(`${config.apiurl}/Organization/ranks`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
 
@@ -136,11 +137,11 @@ function addCompany(name, address, contactPerson, phone, email) {
         name, address, contactPerson, phone, email
     }
     return fetch(`${config.apiurl}/company`, requestOptions.post(req))
-      .then(handleResponse)
-      .then(id => {
-      
-          return id;
-      });
+        .then(handleResponse)
+        .then(id => {
+
+            return id;
+        });
 }
 
 function updateCompany(id, name, address, contactPerson, phone, email) {
@@ -148,36 +149,36 @@ function updateCompany(id, name, address, contactPerson, phone, email) {
         name, address, contactPerson, phone, email
     }
     return fetch(`${config.apiurl}/company/${id}`, requestOptions.put(req))
-      .then(handleResponse)
-      .then(id => {
-      
-          return id;
-      });
+        .then(handleResponse)
+        .then(id => {
+
+            return id;
+        });
 }
 
 function removeCompany(id) {
     return fetch(`${config.apiurl}/company/${id}`, requestOptions.delete())
-      .then(handleResponse)
-      .then(id => {
-      
-          return id;
-      });
+        .then(handleResponse)
+        .then(id => {
+
+            return id;
+        });
 }
 
 function getCompanies() {
     return fetch(`${config.apiurl}/company`, requestOptions.get())
-      .then(handleResponse)
-      .then(model => {
-      
-          return model;
-      });
+        .then(handleResponse)
+        .then(model => {
+
+            return model;
+        });
 }
 
 function getCompany(id) {
     return fetch(`${config.apiurl}/company/${id}`, requestOptions.get())
-      .then(handleResponse)
-      .then(model => {
-      
-          return model;
-      });
+        .then(handleResponse)
+        .then(model => {
+
+            return model;
+        });
 }
