@@ -31,29 +31,29 @@
                       <thead>
                         <tr>
                           <th>Salutation</th>
-                          <th>First Name</th>
-                          <th>Last Name</th>
+                          <th>FirstName</th>
+                          <th>LastName</th>
                           <th>Mobile Phone</th>
                           <th>Home Phone</th>
                           <th>Email Address</th>
-                          <th>City(Private)</th>
-                          <th>Country/Region (Private)</th>
-                          <th>Status Reason</th>
+                          <th>Gender</th>
+                          <th>Address</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="i in 5">
-                          <td>
-                            Mr.
-                          </td>
-                          <td>John</td>
-                          <td>Doe</td>
-                          <td><a href="tel:">+2348130030030</a></td>
-                          <td><a href="tel:">+2348130030030</a></td>
-                          <td><a href="mailto:">bewer@example.com</a></td>
-                          <td>Lagos</td>
-                          <td>Nigeria</td>
-                          <td>To be evaluated</td>
+                        <tr
+                          v-for="applicant in applicants"
+                          v-bind:key="applicant.id"
+                        >
+                        <td>{{ applicant.salutation }}</td>
+                          
+                          <td>{{ applicant.firstName }}</td>
+                          <td>{{ applicant.lastName }}</td>
+                          <td>{{ applicant.phone1 }}</td>
+                          <td>{{ applicant.phone2 }}</td>
+                          <td>{{ applicant.email }}</td>
+                          <td>{{ applicant.gender }}</td>
+                          <td>{{ applicant.address }}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -72,21 +72,36 @@
 <script>
 import LayoutHeader from "@/components/layouts/Header.vue";
 import LayoutSidebar from "@/components/layouts/Sidebar.vue";
+import { applicantService } from "@/services/applicantService";
 import Vue from "vue";
 export default {
   components: {
     LayoutHeader,
-    LayoutSidebar
+    LayoutSidebar,
   },
+
+  data() {
+    return {
+      applicants: [],
+      applicant: null,
+      loading: false,
+      error: "",
+    };
+  },
+
   mounted() {
+
+    this.getAllApplicants();
+
+    if(this.applicants.length > 0){
     if ($(".datatable").length > 0) {
       $(".datatable").DataTable({
-        bFilter: false
+        bFilter: false,
       });
     }
     if ($(".floating").length > 0) {
       $(".floating")
-        .on("focus blur", function(e) {
+        .on("focus blur", function (e) {
           $(this)
             .parents(".form-focus")
             .toggleClass(
@@ -96,8 +111,21 @@ export default {
         })
         .trigger("blur");
     }
+    }
+   
   },
-  methods: {},
-  name: "applicants"
+  methods: {
+    getAllApplicants() {
+      applicantService.getAllApplicant().then(
+        (model) => {
+          this.applicants = model;
+        },
+        (error) => {
+          error = error;
+        }
+      );
+    },
+  },
+  name: "applicants",
 };
 </script>
