@@ -143,7 +143,18 @@
         <router-link to="/termination"><i class="la la-times-circle"></i> <span>Termination</span></router-link>
       </li>
       
-      
+      <li class="menu-title">
+        <span>Settings</span>
+      </li>
+      <li class="promotion">
+        <router-link to="/skill"><i class="la la-bullhorn"></i> <span>Skills</span></router-link>
+      </li>
+      <li class="resignation">
+        <router-link to="/skill-type"><i class="la la-external-link-square"></i> <span>Skill Types</span></router-link>
+      </li>
+      <li class="termination">
+        <router-link to="/skill-grade"><i class="la la-times-circle"></i> <span>Skill Grades</span></router-link>
+      </li>
     </ul>
   </div>
 </vue-custom-scrollbar>

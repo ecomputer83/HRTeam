@@ -24,6 +24,15 @@
           <div class="row">
     <div class="col-md-12">
 								<div class="card">
+                  <div class="card-header">
+                    <div class="d-flex justify-content-between">
+                                      <h4 class="card-title mb-0">Job Profile Information</h4>
+                                      <div class="col-auto float-right ml-auto">
+                                          <router-link to="/addcompany" class="btn add-btn" data-toggle="modal" data-target="#add_leave_type"><i
+                                            class="fa fa-plus"></i>Add Profile</router-link>
+                                        </div>
+                                    </div>
+                  </div>
 									<div class="card-body">
 										<ul class="nav nav-tabs nav-tabs-solid nav-tabs-rounded nav-justified">
 											<li class="nav-item"><a class="nav-link active" href="#solid-rounded-justified-tab1" data-toggle="tab">Active Profile</a></li>
