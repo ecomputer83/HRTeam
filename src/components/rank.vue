@@ -105,15 +105,28 @@
 								</button>
 							</div>
 							<div class="modal-body">
-								<form>
+								<form @submit.prevent="handleNewRank">
 									<div class="row">
-										<div class="col-sm-12">
+										<!-- <div class="col-sm-12">
 											<div class="form-group">
 												<label class="col-form-label">Rank <span
 														class="text-danger">*</span></label>
-												<input class="form-control" type="text">
+												<input 
+                          id="rank"
+                          type="text"
+                          class="form-control"
+                          name="rank"
+                          v-model="rank"
+                        />
 											</div>
-										</div>
+										</div> -->
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label class="col-form-label">Rank</label>
+                        <input type="text" v-model.trim="$v.rank.$model" id="rank" v-model="rank" name="rank" class="form-control" :class="{ 'is-invalid': submitted && $v.rank.$error }" />
+                                <div v-if="submitted && !$v.rank.required" class="invalid-feedback">Rank is required</div>
+                      </div>
+                    </div>
 									</div>
                   <div class="table-responsive m-t-15">
 										<table class="table table-striped custom-table">
@@ -191,7 +204,7 @@
 										</table>
 									</div>
 									<div class="submit-section">
-										<button class="btn btn-primary submit-btn">Submit</button>
+										<button type="submit" class="btn btn-primary submit-btn">Submit</button>
 									</div>
 								</form>
 							</div>
@@ -346,15 +359,16 @@ export default {
   },
   data() {
     return {
-      email: "",
-      isCreateOrg: false,
-      username: this.email,
+      rank: "",
+      holidays: false,
+      leaves: false,
+      assets: false,
+      timingSheets: false
     };
   },
   methods: {
-    handleCreateOrg() {
-      console.log(this.email);
-      this.isCreateOrg = true;
+    handleNewRank() {
+      console.log(this.rank);
     }
   },
   name: "rank",

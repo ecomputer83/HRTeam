@@ -11,7 +11,11 @@ export const organizationService = {
     registerAsAdmin,
     getLeaveTypes,
     addLeaveType,
-    removeLeaveType
+    removeLeaveType    addCompany,
+    getCompanies,
+    getCompany,
+    addRank,
+    getRanks
 };
 
 function addOrganization(name, rcnumber, address, contact, contactnumber, contactemail, contactaddress) {
@@ -29,6 +33,38 @@ function addOrganization(name, rcnumber, address, contact, contactnumber, contac
         .then(id => {
 
             return id;
+        });
+}
+
+function addRank(rank, readHoliday, readLeaves, readAssets, readTimesheet, 
+                      writeHoliday, writeLeaves, writeAssets, writeTimesheet, 
+                      deleteHoliday, deleteLeaves, deleteAssets, deleteTimesheet ) {
+  var req = {
+      rankName: rank,
+      rankPermission: {
+      readHoliday,
+      readLeaves,
+      readAssets,
+      readTimesheet,
+      writeHoliday,
+      writeLeaves,
+      writeAssets,
+      writeTimesheet,
+      deleteHoliday,
+      deleteLeaves,
+      deleteAssets,
+      deleteTimesheet
+    }
+  }
+  return fetch(`${config.apiurl}/Organization/addrank`, requestOptions.post(req))
+      .then(handleResponse)
+}
+function getRanks() {
+  return fetch(`${config.apiurl}/Organization/ranks`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+
+            return model
         });
 }
 
@@ -74,4 +110,34 @@ function getLeaveTypes() {
 function removeLeaveType(id) {
     return fetch(`${config.apiurl}/Organization/DeleteLeaveType/${id}`, requestOptions.delete())
         .then(handleResponse);
+}
+
+function addCompany(name, address, contactPerson, phone, email) {
+    var req = {
+        name, address, contactPerson, phone, email
+    }
+    return fetch(`${config.apiurl}/company`, requestOptions.post(req))
+      .then(handleResponse)
+      .then(id => {
+      
+          return id;
+      });
+}
+
+function getCompanies() {
+    return fetch(`${config.apiurl}/company`, requestOptions.get())
+      .then(handleResponse)
+      .then(model => {
+      
+          return model;
+      });
+}
+
+function getCompany(id) {
+    return fetch(`${config.apiurl}/company/${id}`, requestOptions.get())
+      .then(handleResponse)
+      .then(model => {
+      
+          return model;
+      });
 }
