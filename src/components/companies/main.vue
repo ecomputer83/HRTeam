@@ -96,7 +96,7 @@
 								</button>
 							</div>
 							<div class="modal-body">
-								<form @submit.prevent="onPutSubmit">
+								<form @submit.prevent="onSubmit">
 									<div class="row">
 										<div class="col-sm-12">
                       <div class="form-group">
@@ -261,7 +261,7 @@ export default {
                         this.error = error;
                         this.loading = false;
                     }
-                );
+              );
         }
   },
   name: "companies"
