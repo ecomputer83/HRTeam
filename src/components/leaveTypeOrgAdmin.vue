@@ -152,7 +152,6 @@
                       <div class="row">
                         <div class="col-6">
                           <a
-                            href="javascript:void(0);"
                             class="btn btn-primary continue-btn"
                             @click="removeLeaveType()"
                             >Delete</a
@@ -160,7 +159,6 @@
                         </div>
                         <div class="col-6">
                           <a
-                            href="javascript:void(0);"
                             data-dismiss="modal"
                             class="btn btn-primary cancel-btn"
                             >Cancel</a
@@ -208,6 +206,7 @@ export default {
   validations: {
     name: { required },
   },
+
   methods: {
     handleCreateLeaveType() {
       handleCreateLeaveType = !this.isCreateLeaveType;
@@ -231,20 +230,20 @@ export default {
 
     removeLeaveType() {
       console.log(this.leavetype);
-  if(leavetype) {
-    organizationService.removeLeaveType(this.leavetype.id).then(
-        (data) => {
-          organizationService.getLeaveTypes().then((t) => {
-            this.leavetypes = t;
-          });
-        },
-        (error) => {
-          this.error = error;
-          this.loading = false;
-        }
-      );
-  }
-},
+      if (leavetype) {
+        organizationService.removeLeaveType(this.leavetype.id).then(
+          (data) => {
+            organizationService.getLeaveTypes().then((t) => {
+              this.leavetypes = t;
+            });
+          },
+          (error) => {
+            this.error = error;
+            this.loading = false;
+          }
+        );
+      }
+    },
 
     onSubmit() {
       this.submitted = true;
@@ -267,6 +266,7 @@ export default {
       );
     },
   },
+
   mounted() {
     this.getLeaveTypes();
   },

@@ -45,8 +45,8 @@
                           v-for="applicant in applicants"
                           v-bind:key="applicant.id"
                         >
-                        <td>{{ applicant.salutation }}</td>
-                          
+                          <td>{{ applicant.salutation }}</td>
+
                           <td>{{ applicant.firstName }}</td>
                           <td>{{ applicant.lastName }}</td>
                           <td>{{ applicant.phone1 }}</td>
@@ -90,29 +90,27 @@ export default {
   },
 
   mounted() {
-
     this.getAllApplicants();
 
-    if(this.applicants.length > 0){
-    if ($(".datatable").length > 0) {
-      $(".datatable").DataTable({
-        bFilter: false,
-      });
+    if (this.applicants.length > 0) {
+      if ($(".datatable").length > 0) {
+        $(".datatable").DataTable({
+          bFilter: false,
+        });
+      }
+      if ($(".floating").length > 0) {
+        $(".floating")
+          .on("focus blur", function (e) {
+            $(this)
+              .parents(".form-focus")
+              .toggleClass(
+                "focused",
+                e.type === "focus" || this.value.length > 0
+              );
+          })
+          .trigger("blur");
+      }
     }
-    if ($(".floating").length > 0) {
-      $(".floating")
-        .on("focus blur", function (e) {
-          $(this)
-            .parents(".form-focus")
-            .toggleClass(
-              "focused",
-              e.type === "focus" || this.value.length > 0
-            );
-        })
-        .trigger("blur");
-    }
-    }
-   
   },
   methods: {
     getAllApplicants() {

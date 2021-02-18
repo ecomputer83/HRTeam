@@ -7,7 +7,6 @@
       <div class="page-wrapper">
         <!-- Page Content -->
         <div class="content container-fluid">
-
           <!-- Page Header -->
           <div class="page-header">
             <div class="row align-items-center">
@@ -16,12 +15,19 @@
                 <ul class="breadcrumb">
                   <li class="breadcrumb-item">
                     <router-link to="/index">Dashboard</router-link>
+                  </li>
+
                   <li class="breadcrumb-item active">Skill</li>
                 </ul>
               </div>
               <div class="col-auto float-right ml-auto">
-                <a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_department"><i
-                    class="fa fa-plus"></i> Add Skill</a>
+                <a
+                  href="#"
+                  class="btn add-btn"
+                  data-toggle="modal"
+                  data-target="#add_department"
+                  ><i class="fa fa-plus"></i> Add Skill</a
+                >
               </div>
             </div>
           </div>
@@ -33,7 +39,7 @@
                 <table class="table table-striped custom-table mb-0 datatable">
                   <thead>
                     <tr>
-                      <th style="width: 30px;">#</th>
+                      <th style="width: 30px">#</th>
                       <th>Skill Name</th>
                       <th>Skill Type</th>
                       <th class="text-right">Action</th>
@@ -46,18 +52,32 @@
                       <td>Profession</td>
                       <td class="text-right">
                         <div class="dropdown dropdown-action">
-                          <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
-                            aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                          <a
+                            href="#"
+                            class="action-icon dropdown-toggle"
+                            data-toggle="dropdown"
+                            aria-expanded="false"
+                            ><i class="material-icons">more_vert</i></a
+                          >
                           <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_department"><i
-                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_department"><i
-                                class="fa fa-trash-o m-r-5"></i> Delete</a>
+                            <a
+                              class="dropdown-item"
+                              href="#"
+                              data-toggle="modal"
+                              data-target="#edit_department"
+                              ><i class="fa fa-pencil m-r-5"></i> Edit</a
+                            >
+                            <a
+                              class="dropdown-item"
+                              href="#"
+                              data-toggle="modal"
+                              data-target="#delete_department"
+                              ><i class="fa fa-trash-o m-r-5"></i> Delete</a
+                            >
                           </div>
                         </div>
                       </td>
                     </tr>
-                    
                   </tbody>
                 </table>
               </div>
@@ -73,7 +93,12 @@
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">Add Skill</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -81,15 +106,22 @@
                 <form>
                   <div class="form-group">
                     <label>Skill Name <span class="text-danger">*</span></label>
-                    <input class="form-control" type="text">
+                    <input class="form-control" type="text" />
                   </div>
                   <div class="form-group">
                     <label>Skill Type <span class="text-danger">*</span></label>
-                    <input class="form-control" type="text">
+                    <input class="form-control" type="text" />
                   </div>
                   <div class="form-group">
-                    <label>Description <span class="text-danger">*</span></label>
-                    <textarea rows="10" cols="10" class="form-control" placeholder="Enter text here"></textarea>
+                    <label
+                      >Description <span class="text-danger">*</span></label
+                    >
+                    <textarea
+                      rows="10"
+                      cols="10"
+                      class="form-control"
+                      placeholder="Enter text here"
+                    ></textarea>
                   </div>
                   <div class="submit-section">
                     <button class="btn btn-primary submit-btn">Submit</button>
@@ -107,7 +139,12 @@
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">Edit Skill</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -115,21 +152,28 @@
                 <form>
                   <div class="form-group">
                     <label>Skill Name <span class="text-danger">*</span></label>
-                    <input class="form-control" type="text">
+                    <input class="form-control" type="text" />
                   </div>
                   <div class="form-group">
                     <label>Skill Type <span class="text-danger">*</span></label>
                     <select class="select form-control">
-                                                                <option>-- Select --</option>
-                                                                <option value="1">Profession Skill</option>
-                                                                <option value="2">Soft Skill</option>
-                                                                <option value="3">Language Skill</option>
-                                                                <option value="4">Other Skill</option>
-                                                              </select>
+                      <option>-- Select --</option>
+                      <option value="1">Profession Skill</option>
+                      <option value="2">Soft Skill</option>
+                      <option value="3">Language Skill</option>
+                      <option value="4">Other Skill</option>
+                    </select>
                   </div>
                   <div class="form-group">
-                    <label>Description <span class="text-danger">*</span></label>
-                    <textarea rows="10" cols="10" class="form-control" placeholder="Enter text here"></textarea>
+                    <label
+                      >Description <span class="text-danger">*</span></label
+                    >
+                    <textarea
+                      rows="10"
+                      cols="10"
+                      class="form-control"
+                      placeholder="Enter text here"
+                    ></textarea>
                   </div>
                   <div class="submit-section">
                     <button class="btn btn-primary submit-btn">Submit</button>
@@ -142,7 +186,11 @@
         <!-- /Edit Department Modal -->
 
         <!-- Delete Department Modal -->
-        <div class="modal custom-modal fade" id="delete_department" role="dialog">
+        <div
+          class="modal custom-modal fade"
+          id="delete_department"
+          role="dialog"
+        >
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
               <div class="modal-body">
@@ -153,10 +201,19 @@
                 <div class="modal-btn delete-action">
                   <div class="row">
                     <div class="col-6">
-                      <a href="javascript:void(0);" class="btn btn-primary continue-btn">Delete</a>
+                      <a
+                        href="javascript:void(0);"
+                        class="btn btn-primary continue-btn"
+                        >Delete</a
+                      >
                     </div>
                     <div class="col-6">
-                      <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+                      <a
+                        href="javascript:void(0);"
+                        data-dismiss="modal"
+                        class="btn btn-primary cancel-btn"
+                        >Cancel</a
+                      >
                     </div>
                   </div>
                 </div>
@@ -165,34 +222,142 @@
           </div>
         </div>
         <!-- /Delete Department Modal -->
-
       </div>
       <!-- /Page Wrapper -->
     </div>
   </div>
 </template>
 <script>
-  import LayoutHeader from '@/components/layouts/Header.vue'
-  import LayoutSidebar from '@/components/layouts/Sidebar.vue'
-  export default {
-    components: {
-      LayoutHeader,
-      LayoutSidebar,
-    },
-    mounted() {
-      // Datatable
+import LayoutHeader from "@/components/layouts/Header.vue";
+import LayoutSidebar from "@/components/layouts/Sidebar.vue";
+import { required, sameAs } from "vuelidate/lib/validators";
+import { skillsService } from "@/services/skillsService";
+export default {
+  components: {
+    LayoutHeader,
+    LayoutSidebar,
+  },
 
-      if ($('.datatable').length > 0) {
-        $('.datatable').DataTable({
-          "bFilter": false,
-        });
+  data() {
+    return {
+      skill: {},
+      skills: [],
+      loading: false,
+      error: "",
+      submitted: false,
+    };
+  },
+
+  validations: {
+    name: { required },
+  },
+
+  methods: {
+    handleCreateSkillType() {
+      handleCreateSkill = !this.isCreatedSkill;
+    },
+
+    getSkills() {
+      skillsService.getSkills().then(
+        (model) => {
+          this.skills = model;
+        },
+        (error) => {
+          error = error;
+        }
+      );
+    },
+
+    setSkill(model) {
+      this.skill = model;
+    },
+
+    onSubmit() {
+      this.submitted = true;
+
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        return;
       }
-      if ($('.floating').length > 0) {
-        $('.floating').on('focus blur', function (e) {
-          $(this).parents('.form-focus').toggleClass('focused', (e.type === 'focus' || this.value.length > 0));
-        }).trigger('blur');
+      this.loading = true;
+      skillsService
+        .addSkill(this.name, this.companyId, this.description, this.type)
+        .then(
+          (id) => {
+            skillsService.getSkills().then((w) => {
+              this.skills = w;
+            });
+          },
+          (error) => {
+            this.error = error;
+            this.loading = false;
+          }
+        );
+    },
+
+    onPutSubmit() {
+      this.loading = true;
+      skillsService
+        .updateSkillType(
+          this.skill.id,
+          this.company.id,
+          this.skill.name,
+          this.skill.description,
+          this.skill.type
+        )
+        .then(
+          (id) => {
+            skillsService.getSkills().then((r) => {
+              this.skills = r;
+            });
+          },
+          (error) => {
+            this.error = error;
+            this.loading = false;
+          }
+        );
+    },
+
+    removeSkill() {
+      if (this.skill) {
+        skillsService.removeSkill(this.skill.id).then(
+          (data) => {
+            skillsService.getSkills().then((z) => {
+              this.skills = q;
+            });
+          },
+          (error) => {
+            this.error = error;
+            this.loading = false;
+          }
+        );
       }
     },
-    name: 'skills'
-  }
+  },
+
+  mounted() {
+    // Datatable
+    this.getSkills();
+
+    if ($(".datatable").length > 0) {
+      $(".datatable").DataTable({
+        bFilter: false,
+      });
+    }
+    if ($(".floating").length > 0) {
+      $(".floating")
+        .on("focus blur", function (e) {
+          $(this)
+            .parents(".form-focus")
+            .toggleClass(
+              "focused",
+              e.type === "focus" || this.value.length > 0
+            );
+        })
+        .trigger("blur");
+    }
+  },
+
+  name: "skills",
+};
 </script>

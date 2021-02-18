@@ -61,6 +61,7 @@ function addRank(rank, readHoliday, readLeaves, readAssets, readTimesheet,
     return fetch(`${config.apiurl}/Organization/addrank`, requestOptions.post(req))
         .then(handleResponse)
 }
+
 function getRanks() {
     return fetch(`${config.apiurl}/Organization/ranks`, requestOptions.get())
         .then(handleResponse)
