@@ -39,6 +39,24 @@
                     </tr>
                   </thead>
                   <tbody>
+                    <!-- <tr v-for="(item, index) in designations" v-bind:key="item.id">
+                      <td>{{index + 1}}</td>
+                      <td>{{item.name}}</td>
+                      <td>{{item.name}}</td>
+                      <td class="text-right">
+                        <div class="dropdown dropdown-action">
+                          <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
+                            aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_department"><i
+                                class="fa fa-pencil m-r-5"></i> Edit</a>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_department"><i
+                                class="fa fa-trash-o m-r-5"></i> Delete</a>
+                          </div>
+                        </div>
+                      </td>
+                    </tr> -->
+
                     <tr>
                       <td>1</td>
                       <td>Web Designer</td>
@@ -313,18 +331,27 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form>
+                <form @submit.prevent="onSubmit">
                   <div class="form-group">
                     <label>Designation Name <span class="text-danger">*</span></label>
-                    <input class="form-control" type="text">
+                    <input 
+                      type="text" 
+                      v-model.trim="$v.name.$model" 
+                      id="name" 
+                      name="name"
+                      class="form-control" 
+                      :class="{ 'is-invalid': submitted && $v.name.$error }" 
+                    />
+                    <div v-if="submitted && !$v.name.required" class="invalid-feedback">Designation Name is required</div>
+                    <!-- <input class="form-control" type="text"> -->
                   </div>
                   <div class="form-group">
                     <label>Department <span class="text-danger">*</span></label>
-                    <select class="select">
-                      <option>Select Department</option>
-                      <option>Web Development</option>
-                      <option>IT Management</option>
-                      <option> Marketing</option>
+                    <select class="select" v-model="department">
+                      <!-- <option>Select Department</option> -->
+                      <option v-for="(item, index) in departments" :key="index" :value="item.id">{{item.name}}</option>
+                      <!-- <option value="itManagement">IT Management</option>
+                      <option value="marketing"> Marketing</option> -->
                     </select>
                   </div>
                   <div class="submit-section">
@@ -403,12 +430,75 @@
 <script>
   import LayoutHeader from '@/components/layouts/Header.vue'
   import LayoutSidebar from '@/components/layouts/Sidebar.vue'
+   import { required } from 'vuelidate/lib/validators'
+   import {organizationService} from '@/services/organizationService'
   export default {
     components: {
       LayoutHeader,
       LayoutSidebar,
     },
+    data(){
+      return {
+        name: "",
+        designations: [],
+        departments: [],
+        department: null,
+        submitted: false,
+        loading: false,
+        error: '',
+      };
+    },
+    methods: {
+      getDesignations () {
+        organizationService.getDesignations()
+          .then(
+            model => { this.designations = model
+            console.log(model) },
+            error => { error = error }
+          )
+      },
+      getDepartments () {
+        organizationService.getDepartments()
+          .then(
+            model => { this.departments = model
+            console.log(model) },
+            error => { error = error }
+          )
+      },
+      onSubmit () {
+      this.submitted = true;
+        console.log('done')
+      // stop here if form is invalid
+            this.$v.$touch();
+            if (this.$v.$invalid) {
+                return;
+            }
+        this.loading = true;
+        console.log(this.name, this.department)
+        organizationService.addDesignation(this.name, this.department)
+                .then(id => {
+                      console.log(this.name, this.department)
+                      organizationService.getDesignations()
+                        .then(
+                          o => {this.designations = o}
+                        )
+					},
+                    error => {
+                        this.error = error;
+                        this.loading = false;
+                    }
+                );
+      },
+    },
+    validations: {
+      name: { required }
+    },
     mounted() {
+      this.getDepartments()
+      this.getDesignations()
+
+
+
       // Select 2
       if ($('.select').length > 0) {
         $('.select').select2({
