@@ -18,6 +18,12 @@
       <li class="policies">
         <router-link to="/leave-type-org-admin"><i class="la la la-user"></i> <span>Leave Types</span></router-link>
       </li>
+      <li class="policies">
+        <router-link to="/departments"><i class="la la la-user"></i> <span>Departments</span></router-link>
+      </li>
+      <li class="policies">
+        <router-link to="/designations"><i class="la la la-user"></i> <span>Designations</span></router-link>
+      </li>
     </ul>
   </div>
 </vue-custom-scrollbar>

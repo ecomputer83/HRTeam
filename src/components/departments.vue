@@ -39,9 +39,9 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>Web Development</td>
+                    <tr v-for="(item, index) in departments" v-bind:key="item.id">
+                      <td>{{index + 1}}</td>
+                      <td>{{item.name}}</td>
                       <td class="text-right">
                         <div class="dropdown dropdown-action">
                           <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
@@ -55,86 +55,8 @@
                         </div>
                       </td>
                     </tr>
-                    <tr>
-                      <td>2</td>
-                      <td>Application Development</td>
-                      <td class="text-right">
-                        <div class="dropdown dropdown-action">
-                          <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
-                            aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_department"><i
-                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_department"><i
-                                class="fa fa-trash-o m-r-5"></i> Delete</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>3</td>
-                      <td>IT Management</td>
-                      <td class="text-right">
-                        <div class="dropdown dropdown-action">
-                          <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
-                            aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_department"><i
-                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_department"><i
-                                class="fa fa-trash-o m-r-5"></i> Delete</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>4</td>
-                      <td>Accounts Management</td>
-                      <td class="text-right">
-                        <div class="dropdown dropdown-action">
-                          <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
-                            aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_department"><i
-                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_department"><i
-                                class="fa fa-trash-o m-r-5"></i> Delete</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>5</td>
-                      <td>Support Management</td>
-                      <td class="text-right">
-                        <div class="dropdown dropdown-action">
-                          <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
-                            aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_department"><i
-                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_department"><i
-                                class="fa fa-trash-o m-r-5"></i> Delete</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>6</td>
-                      <td>Marketing</td>
-                      <td class="text-right">
-                        <div class="dropdown dropdown-action">
-                          <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
-                            aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_department"><i
-                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_department"><i
-                                class="fa fa-trash-o m-r-5"></i> Delete</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
+
+                    
                   </tbody>
                 </table>
               </div>
@@ -155,10 +77,20 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form>
+                <form @submit.prevent="onSubmit">
                   <div class="form-group">
                     <label>Department Name <span class="text-danger">*</span></label>
-                    <input class="form-control" type="text">
+                    <input 
+                      type="text" 
+                      v-model.trim="$v.name.$model" 
+                      id="name" 
+                      name="name" 
+                      class="form-control" 
+                      :class="{ 'is-invalid': submitted && $v.name.$error }" 
+                    />
+                      <div v-if="submitted && !$v.name.required" class="invalid-feedback">Department Name is required</div>
+                      
+                    <!-- <input class="form-control" type="text" v-model="departmentName" > -->
                   </div>
                   <div class="submit-section">
                     <button class="btn btn-primary submit-btn">Submit</button>
@@ -229,24 +161,75 @@
 <script>
   import LayoutHeader from '@/components/layouts/Header.vue'
   import LayoutSidebar from '@/components/layouts/Sidebar.vue'
+  import { required } from 'vuelidate/lib/validators';
+  import {organizationService} from '@/services/organizationService'
   export default {
     components: {
       LayoutHeader,
       LayoutSidebar,
     },
+    data(){
+      return {
+        name: "",
+        departments: [],
+        submitted: false,
+        loading: false,
+        error: '',
+      };
+    },
+    validations: {
+      name: { required },
+    },
+    methods: {
+      getDepartments () {
+        organizationService.getDepartments()
+        .then(
+          model => { this.departments = model
+          console.log(model) },
+          error => { error = error }
+        )
+        
+  },
+      onSubmit() {
+        this.submitted = true;
+
+            // stop here if form is invalid
+            this.$v.$touch();
+            if (this.$v.$invalid) {
+                return;
+            }
+        this.loading = true;
+        organizationService.addDepartment(this.name)
+                .then(id => {
+                      organizationService.getDepartments()
+                        .then(
+                          o => {this.departments = o}
+                        )
+					},
+                    error => {
+                        this.error = error;
+                        this.loading = false;
+                    }
+                );
+
+      }
+    },
     mounted() {
+
       // Datatable
 
-      if ($('.datatable').length > 0) {
-        $('.datatable').DataTable({
-          "bFilter": false,
-        });
-      }
-      if ($('.floating').length > 0) {
-        $('.floating').on('focus blur', function (e) {
-          $(this).parents('.form-focus').toggleClass('focused', (e.type === 'focus' || this.value.length > 0));
-        }).trigger('blur');
-      }
+      // if ($('.datatable').length > 0) {
+      //   $('.datatable').DataTable({
+      //     "bFilter": false,
+      //   });
+      // }
+      // if ($('.floating').length > 0) {
+      //   $('.floating').on('focus blur', function (e) {
+      //     $(this).parents('.form-focus').toggleClass('focused', (e.type === 'focus' || this.value.length > 0));
+      //   }).trigger('blur');
+      // }
+
+      this.getDepartments()
     },
     name: 'departments'
   }
