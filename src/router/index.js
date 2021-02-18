@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import index from '@/components/index'
 import employeedashboard from '@/components/employeedashboard'
-import JobProfile from '@/components/JobProfile'
+import JobProfile from '@/components/JobProfiles/main'
 import Applications from '@/components/applications/main'
 import ApplicationDetail from '@/components/applications/details-page'
 import Applicants from '@/components/applicants/main'
@@ -19,7 +19,7 @@ import designations from '@/components/designations'
 import timesheet from '@/components/timesheet'
 import employeeslist from '@/components/employeeslist'
 import disciplinaryMeasures from '@/components/disciplinaryMeasures'
-import JobProfileInfo from '@/components/JobProfileInfo'
+import JobProfileInfo from '@/components/JobProfiles/detail'
 import editApplicant from '@/components/editApplicant'
 import createOrganization from '@/components/createOrganization'
 import leaveTypeForm from '@/components/leaveTypeForm'
@@ -33,6 +33,9 @@ import leaveRequest from '@/components/leaveRequest'
 import companies from '@/components/companies/main'
 import companyform from '@/components/companies/form'
 import ranks from '@/components/ranks'
+import skills from '@/components/jobprofiles/skills'
+import skillGrades from '@/components/jobprofiles/skillGrades'
+import skillType from '@/components/jobprofiles/skillType'
 import leaveTypeOrgAdmin from '@/components/leaveTypeOrgAdmin'
 
 import { authenticationService } from '@/services/authenticationService';
@@ -131,13 +134,13 @@ const router = new Router({
       path: '/departments',
       name: 'departments',
       component: departments,
-      //meta: { authorize: [] }
+      meta: { authorize: [] }
     },
     {
       path: '/designations',
       name: 'designations',
       component: designations,
-      //meta: { authorize: [Role.HRAdmin] }
+      meta: { authorize: [Role.HRAdmin] }
     },
     {
       path: '/timesheet',
@@ -152,8 +155,14 @@ const router = new Router({
       meta: { authorize: [Role.HRAdmin] }
     },
     {
-      path: '/job-profile-info',
+      path: '/job-profile-info/:id',
       name: 'jobprofileinfo',
+      component: JobProfileInfo,
+      meta: { authorize: [Role.HRAdmin] }
+    },
+    {
+      path: '/job-profile-info',
+      name: 'createjobprofile',
       component: JobProfileInfo,
       meta: { authorize: [Role.HRAdmin] }
     },
@@ -249,6 +258,24 @@ const router = new Router({
       name: 'addcompany',
       component: companyform,
       meta: { authorize: [Role.Admin] },
+    },
+    {
+      path: '/skill',
+      name: 'skill',
+      component: skills,
+      meta: { authorize: [Role.HRAdmin] },
+    },
+    {
+      path: '/skill-type',
+      name: 'skilltype',
+      component: skillType,
+      meta: { authorize: [Role.HRAdmin] },
+    },
+    {
+      path: '/skill-grade',
+      name: 'skillgrade',
+      component: skillGrades,
+      meta: { authorize: [Role.HRAdmin] },
     }
   ],
   linkActiveClass: "active"
