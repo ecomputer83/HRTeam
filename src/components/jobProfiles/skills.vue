@@ -46,10 +46,9 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>Web Development</td>
-                      <td>Profession</td>
+                    <tr v-for="skill in skills" v-bind:key="skill.id">
+                      <td>{{ skill.name }}</td>
+                      <td>{{ skill.type }}</td>
                       <td class="text-right">
                         <div class="dropdown dropdown-action">
                           <a
@@ -103,20 +102,34 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form>
+                <form @submit.prevent="onSubmit">
                   <div class="form-group">
                     <label>Skill Name <span class="text-danger">*</span></label>
-                    <input class="form-control" type="text" />
+                    <input
+                      v-model.trim="$v.name.$model"
+                      class="form-control"
+                      type="text"
+                    />
                   </div>
                   <div class="form-group">
                     <label>Skill Type <span class="text-danger">*</span></label>
-                    <input class="form-control" type="text" />
+                    <select class="form-control" v-model="type">
+                      <!-- <option>Select SkillType</option> -->
+                      <option
+                        v-for="(item, index) in skilltypes"
+                        :key="index"
+                        :value="item.id"
+                      >
+                        {{ item.name }}
+                      </option>
+                    </select>
                   </div>
                   <div class="form-group">
                     <label
                       >Description <span class="text-danger">*</span></label
                     >
                     <textarea
+                      v-model.trim="$v.description.$model"
                       rows="10"
                       cols="10"
                       class="form-control"
@@ -232,6 +245,7 @@ import LayoutHeader from "@/components/layouts/Header.vue";
 import LayoutSidebar from "@/components/layouts/Sidebar.vue";
 import { required, sameAs } from "vuelidate/lib/validators";
 import { skillsService } from "@/services/skillsService";
+import { authenticationService } from "@/services/AuthenticationService";
 export default {
   components: {
     LayoutHeader,
@@ -240,16 +254,22 @@ export default {
 
   data() {
     return {
+      name: "",
+      type: "",
+      description: "",
       skill: {},
       skills: [],
       loading: false,
       error: "",
       submitted: false,
+      skilltypes: [],
+      company: authenticationService.currentOfficeValue,
     };
   },
 
   validations: {
     name: { required },
+    description: { required },
   },
 
   methods: {
@@ -268,6 +288,16 @@ export default {
       );
     },
 
+    getSkillTypes() {
+      skillsService.getSkillTypes().then(
+        (model) => {
+          this.skilltypes = model;
+        },
+        (error) => {
+          error = error;
+        }
+      );
+    },
     setSkill(model) {
       this.skill = model;
     },
@@ -281,7 +311,7 @@ export default {
       }
       this.loading = true;
       skillsService
-        .addSkill(this.name, this.companyId, this.description, this.type)
+        .addSkill(this.company.id, this.name, this.description, this.type)
         .then(
           (id) => {
             skillsService.getSkills().then((w) => {
@@ -338,7 +368,7 @@ export default {
   mounted() {
     // Datatable
     this.getSkills();
-
+    this.getSkillTypes();
     if ($(".datatable").length > 0) {
       $(".datatable").DataTable({
         bFilter: false,

@@ -71,7 +71,7 @@ function addSkill(companyId, name, description, type) {
 }
 
 function getSkills() {
-    return fetch(`${config.apiurl}Skill/getSkills`, requestOptions.get())
+    return fetch(`${config.apiurl}/Skill/getSkills`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
             return model
