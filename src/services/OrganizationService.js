@@ -17,7 +17,11 @@ export const organizationService = {
     getRanks,
     updateCompany,
     removeCompany,
-    registerAsHR
+    registerAsHR,
+    addDepartment,
+    getDepartments,
+    addDesignation,
+    getDesignations
 };
 
 function addOrganization(name, rcnumber, address, contact, contactnumber, contactemail, contactaddress) {
@@ -142,6 +146,50 @@ function addCompany(name, address, contactPerson, phone, email) {
 
             return id;
         });
+}
+
+function addDepartment(name) {
+  var req = {
+    name
+  }
+  return fetch(`${config.apiurl}/Miscellaneous/createDepartment`, requestOptions.post(req))
+    .then(handleResponse)
+    .then(id => {
+    
+        return id;
+    });
+}
+
+function addDesignation(name, department) {
+  var req = {
+    name,
+    departmentId: department
+  }
+  console.log(req)
+  return fetch(`${config.apiurl}/Miscellaneous/createDesignation`, requestOptions.post(req))
+    .then(handleResponse)
+    .then(id => {
+    
+        return id;
+    });
+}
+
+function getDepartments() {
+  return fetch(`${config.apiurl}/Miscellaneous/getDepartments`, requestOptions.get())
+    .then(handleResponse)
+    .then(model => {
+
+        return model;
+    });
+}
+
+function getDesignations() {
+  return fetch(`${config.apiurl}/Miscellaneous/getDesignations`, requestOptions.get())
+    .then(handleResponse)
+    .then(model => {
+      
+        return model;
+    });
 }
 
 function updateCompany(id, name, address, contactPerson, phone, email) {
