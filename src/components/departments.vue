@@ -47,15 +47,14 @@
                           <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
                             aria-expanded="false"><i class="material-icons">more_vert</i></a>
                           <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_department"><i
+                            <a class="dropdown-item" @click="setDepartment(item)" data-toggle="modal" data-target="#edit_department"><i
                                 class="fa fa-pencil m-r-5"></i> Edit</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_department"><i
+                            <a class="dropdown-item" @click="setDepartment(item)" data-toggle="modal" data-target="#delete_department"><i
                                 class="fa fa-trash-o m-r-5"></i> Delete</a>
                           </div>
                         </div>
                       </td>
                     </tr>
-
                     
                   </tbody>
                 </table>
@@ -77,7 +76,7 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form @submit.prevent="onSubmit">
+                <form>
                   <div class="form-group">
                     <label>Department Name <span class="text-danger">*</span></label>
                     <input 
@@ -93,7 +92,7 @@
                     <!-- <input class="form-control" type="text" v-model="departmentName" > -->
                   </div>
                   <div class="submit-section">
-                    <button class="btn btn-primary submit-btn">Submit</button>
+                    <button @click.prevent="onSubmit" class="btn btn-primary submit-btn"  data-dismiss="modal">Submit</button>
                   </div>
                 </form>
               </div>
@@ -116,10 +115,17 @@
                 <form>
                   <div class="form-group">
                     <label>Department Name <span class="text-danger">*</span></label>
-                    <input class="form-control" value="IT Management" type="text">
+                    <input 
+                      type="text" 
+                      v-model="department.name" 
+                      id="name" 
+                      name="name" 
+                      class="form-control"
+                    />
+                    <!-- <input class="form-control" type="text" v-model="departmentName" > -->
                   </div>
                   <div class="submit-section">
-                    <button class="btn btn-primary submit-btn">Save</button>
+                    <button @click.prevent="updateDepartment" class="btn btn-primary submit-btn" data-dismiss="modal">Save</button>
                   </div>
                 </form>
               </div>
@@ -140,7 +146,7 @@
                 <div class="modal-btn delete-action">
                   <div class="row">
                     <div class="col-6">
-                      <a href="javascript:void(0);" class="btn btn-primary continue-btn">Delete</a>
+                      <a href="javascript:void(0);" class="btn btn-primary continue-btn" @click.prevent="deleteDepartment"  data-dismiss="modal">Delete</a>
                     </div>
                     <div class="col-6">
                       <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
@@ -172,6 +178,7 @@
       return {
         name: "",
         departments: [],
+        department: {},
         submitted: false,
         loading: false,
         error: '',
@@ -183,13 +190,46 @@
     methods: {
       getDepartments () {
         organizationService.getDepartments()
-        .then(
-          model => { this.departments = model
-          console.log(model) },
-          error => { error = error }
-        )
+          .then(
+            model => { this.departments = model
+            //console.log(model) 
+            },
+            error => { error = error }
+          )
+      },
+      updateDepartment () {
         
-  },
+        this.submitted = true;
+          
+            this.loading = true;
+        //console.log('department updated 1')
+        organizationService.updateDepartment(this.department.id, this.department.name)
+          .then(id => {
+                      organizationService.getDepartments()
+                        .then(
+                          o => {this.departments = o}
+                        )
+					},
+                    error => {
+                        this.error = error;
+                        this.loading = false;
+                    }
+                );
+      },
+      setDepartment(item) {
+        this.department = item;
+      }, 
+      deleteDepartment () {
+        //console.log(this.department)
+        const id = this.department.id;
+        organizationService.removeDepartment(id)
+          .then(id => {
+            organizationService.getDepartments()
+              .then(
+                o => {this.departments = o}
+              )
+          })
+      },
       onSubmit() {
         this.submitted = true;
 
@@ -212,7 +252,7 @@
                     }
                 );
 
-      }
+      },
     },
     mounted() {
 
@@ -230,6 +270,8 @@
       // }
 
       this.getDepartments()
+      this.updateDepartment()
+      this.deleteDepartment(id)
     },
     name: 'departments'
   }

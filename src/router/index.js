@@ -8,7 +8,8 @@ import ApplicationDetail from '@/components/applications/details-page'
 import Applicants from '@/components/applicants/main'
 import Vacancies from '@/components/vacancies/main'
 import VacancyDetail from '@/components/vacancies/details-page'
-import TalentSearch from '@/components/TalentSearch'
+import TalentSearch from '@/components/talentSearch/main'
+import TalentSearchDetail from '@/components/talentSearch/details-page'
 import Onboarding from '@/components/Onboarding'
 import employees from '@/components/employees'
 import leaves from '@/components/leaves'
@@ -102,7 +103,7 @@ const router = new Router({
     },
     {
       path: '/talent-search',
-      name: 'talentsearch',
+      name: 'talentSearch',
       component: TalentSearch,
       meta: { authorize: [Role.HRAdmin] }
     },
@@ -181,6 +182,12 @@ const router = new Router({
       path: '/applications/:id',
       name: 'applicationDetail',
       component: ApplicationDetail,
+      meta: { authorize: [Role.HRAdmin] }
+    },
+    {
+      path: '/talent-search/:id',
+      name: 'talentSearchDetail',
+      component: TalentSearchDetail,
       meta: { authorize: [Role.HRAdmin] }
     },
     {
