@@ -176,12 +176,13 @@ function getDesignations() {
     });
 }
 
-function updateDesignation(id, name) {
+function updateDesignation(id,departmentId, name) {
   var req = {
     id,
+    departmentId,
     name
   }
-  return fetch(`${config.apiurl}/Miscellaneous/updateDepartment`, requestOptions.put(req))
+  return fetch(`${config.apiurl}/Miscellaneous/updateDesignation`, requestOptions.put(req))
     .then(handleResponse)
     .then(id => {
 

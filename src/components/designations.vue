@@ -39,23 +39,23 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <!-- <tr v-for="(item, index) in designations" v-bind:key="item.id">
+                    <tr v-for="(item, index) in designations" v-bind:key="item.id">
                       <td>{{index + 1}}</td>
                       <td>{{item.name}}</td>
-                      <td>{{item.name}}</td>
+                      <td>{{item.department.name}}</td>
                       <td class="text-right">
                         <div class="dropdown dropdown-action">
                           <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
                             aria-expanded="false"><i class="material-icons">more_vert</i></a>
                           <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_department"><i
+                            <a class="dropdown-item" @click="setDesignation(item)" data-toggle="modal" data-target="#edit_designation"><i
                                 class="fa fa-pencil m-r-5"></i> Edit</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_department"><i
+                            <a class="dropdown-item" @click="setDesignation(item)" data-toggle="modal" data-target="#delete_designation"><i
                                 class="fa fa-trash-o m-r-5"></i> Delete</a>
                           </div>
                         </div>
                       </td>
-                    </tr> -->
+                    </tr>
 
                     <tr>
                       <td>1</td>
@@ -347,11 +347,9 @@
                   </div>
                   <div class="form-group">
                     <label>Department <span class="text-danger">*</span></label>
-                    <select class="select" v-model="department">
-                      <!-- <option>Select Department</option> -->
-                      <option v-for="(item, index) in departments" :key="index" :value="item.id">{{item.name}}</option>
-                      <!-- <option value="itManagement">IT Management</option>
-                      <option value="marketing"> Marketing</option> -->
+                    <select class="form-control" v-model="department">
+                      <option>Select Department</option>
+                      <option v-for="(item, index) in departments" :key="item.id" :value="item.id">{{item.name}}</option>
                     </select>
                   </div>
                   <div class="submit-section">
@@ -364,7 +362,7 @@
         </div>
         <!-- /Add Designation Modal -->
         <!-- Edit Designation Modal -->
-        <div id="edit_designation" class="modal custom-modal fade" role="dialog">
+         <div id="edit_designation" class="modal custom-modal fade" role="dialog">
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -377,19 +375,17 @@
                 <form>
                   <div class="form-group">
                     <label>Designation Name <span class="text-danger">*</span></label>
-                    <input class="form-control" value="Web Developer" type="text">
-                  </div>
-                  <div class="form-group">
-                    <label>Department <span class="text-danger">*</span></label>
-                    <select class="select">
-                      <option>Select Department</option>
-                      <option>Web Development</option>
-                      <option>IT Management</option>
-                      <option>Marketing</option>
-                    </select>
+                    <input 
+                      type="text" 
+                      v-model="designation.name" 
+                      id="name" 
+                      name="name" 
+                      class="form-control"
+                    />
+                    <!-- <input class="form-control" type="text" v-model="departmentName" > -->
                   </div>
                   <div class="submit-section">
-                    <button class="btn btn-primary submit-btn">Save</button>
+                    <button @click.prevent="updateDesignation" class="btn btn-primary submit-btn" data-dismiss="modal">Save</button>
                   </div>
                 </form>
               </div>
@@ -409,7 +405,7 @@
                 <div class="modal-btn delete-action">
                   <div class="row">
                     <div class="col-6">
-                      <a href="javascript:void(0);" class="btn btn-primary continue-btn">Delete</a>
+                      <a href="javascript:void(0);" class="btn btn-primary continue-btn" @click.prevent="deleteDesignation"  data-dismiss="modal">Delete</a>
                     </div>
                     <div class="col-6">
                       <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
@@ -441,6 +437,7 @@
       return {
         name: "",
         designations: [],
+        designation: {},
         departments: [],
         department: null,
         submitted: false,
@@ -464,6 +461,37 @@
             console.log(model) },
             error => { error = error }
           )
+      },
+      setDesignation(item) {
+        this.designation = item;
+      }, 
+      updateDesignation () {
+        this.submitted = true;
+          
+            this.loading = true;
+        //console.log('department updated 1')
+        organizationService.updateDesignation(this.designation.id, this.designation.departmentId, this.designation.name)
+          .then(id => {
+                      organizationService.getDesignations()
+                        .then(
+                          o => {this.designations = o}
+                        )
+					},
+                    error => {
+                        this.error = error;
+                        this.loading = false;
+                    }
+                );
+      },
+      deleteDesignation () {
+        const id = this.designation.id;
+        organizationService.removeDesignation(id)
+          .then(id => {
+            organizationService.getDesignations()
+              .then(
+                o => {this.designations = o}
+              )
+          })
       },
       onSubmit () {
       this.submitted = true;
@@ -496,6 +524,8 @@
     mounted() {
       this.getDepartments()
       this.getDesignations()
+      this.updateDesignation()
+      this.deleteDesignation()
 
 
 
