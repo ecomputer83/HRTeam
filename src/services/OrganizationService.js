@@ -21,7 +21,11 @@ export const organizationService = {
     addDepartment,
     getDepartments,
     addDesignation,
-    getDesignations
+    getDesignations,
+    updateDesignation,
+    removeDesignation,
+    updateDepartment,
+    removeDepartment
 };
 
 function addOrganization(name, rcnumber, address, contact, contactnumber, contactemail, contactaddress) {
@@ -148,18 +152,6 @@ function addCompany(name, address, contactPerson, phone, email) {
         });
 }
 
-function addDepartment(name) {
-  var req = {
-    name
-  }
-  return fetch(`${config.apiurl}/Miscellaneous/createDepartment`, requestOptions.post(req))
-    .then(handleResponse)
-    .then(id => {
-    
-        return id;
-    });
-}
-
 function addDesignation(name, department) {
   var req = {
     name,
@@ -167,6 +159,49 @@ function addDesignation(name, department) {
   }
   console.log(req)
   return fetch(`${config.apiurl}/Miscellaneous/createDesignation`, requestOptions.post(req))
+    .then(handleResponse)
+    .then(id => {
+    
+        return id;
+    });
+}
+
+function getDesignations() {
+  return fetch(`${config.apiurl}/Miscellaneous/getDesignations`, requestOptions.get())
+    .then(handleResponse)
+    .then(model => {
+      
+        return model;
+    });
+}
+
+function updateDesignation(id, name) {
+  var req = {
+    id,
+    name
+  }
+  return fetch(`${config.apiurl}/Miscellaneous/updateDepartment`, requestOptions.put(req))
+    .then(handleResponse)
+    .then(id => {
+
+        return id;
+    });
+}
+
+function removeDesignation(id) {
+  return fetch(`${config.apiurl}/Miscellaneous/deleteDesignation?id=${id}`, requestOptions.delete())
+      .then(handleResponse)
+      .then(id => {
+
+          return id;
+      });
+}
+
+function addDepartment(name) {
+  var req = {
+    name
+  }
+  return fetch(`${config.apiurl}/Miscellaneous/createDepartment`, requestOptions.post(req))
     .then(handleResponse)
     .then(id => {
     
@@ -183,13 +218,26 @@ function getDepartments() {
     });
 }
 
-function getDesignations() {
-  return fetch(`${config.apiurl}/Miscellaneous/getDesignations`, requestOptions.get())
+function updateDepartment(id, name) {
+  var req = {
+    id,
+    name
+  }
+  return fetch(`${config.apiurl}/Miscellaneous/updateDepartment`, requestOptions.put(req))
     .then(handleResponse)
-    .then(model => {
-      
-        return model;
+    .then(id => {
+
+        return id;
     });
+}
+
+function removeDepartment(id) {
+  return fetch(`${config.apiurl}/Miscellaneous/deleteDepartment?id=${id}`, requestOptions.delete())
+      .then(handleResponse)
+      .then(id => {
+
+          return id;
+      });
 }
 
 function updateCompany(id, name, address, contactPerson, phone, email) {
