@@ -29,7 +29,15 @@ import LayoutSidebarApp from '@/components/layouts/SidebarApp.vue'
 import LayoutSidebarReports from '@/components/layouts/SidebarReports.vue'
 import LayoutSidebarPromotion from '@/components/layouts/SidebarPromotion.vue'
 import LayoutSidebarGoals from '@/components/layouts/SidebarGoals.vue'
+import PersonalInfoModal from '@/components/employees/PersonalInfoModal.vue'
+import ProfileModal from '@/components/employees/ProfileModal.vue'
+import FamilyInfoModal from '@/components/employees/FamilyInfoModal.vue'
+import BankInfoModal from '@/components/employees/BankInfoModal.vue'
+import ExperienceModal from '@/components/employees/ExperienceModal.vue'
+import EducationModal from '@/components/employees/EducationModal.vue'
+import EmergencyContactModal from '@/components/employees/EmergencyContactModal.vue'
 import Vuelidate from 'vuelidate';
+import vSelect from "vue-select";
 let bootstrap = require('bootstrap')
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -45,6 +53,7 @@ import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 import VueApexCharts from 'vue-apexcharts'
 import { VuejsDatatableFactory } from 'vuejs-datatable';
+import "vue-select/dist/vue-select.css";
  
 global.Raphael = Raphael
 Vue.config.productionTip = false
@@ -65,6 +74,13 @@ Vue.component('layout-sidebarApp', LayoutSidebarApp);
 Vue.component('layout-sidebarReports', LayoutSidebarReports);
 Vue.component('layout-sidebarPromotion', LayoutSidebarPromotion);
 Vue.component('layout-sidebarGoals', LayoutSidebarGoals);
+Vue.component('personal-info-modal', PersonalInfoModal);
+Vue.component('profile-modal', ProfileModal);
+Vue.component('family-info-modal', FamilyInfoModal);
+Vue.component('bank-info-modal', BankInfoModal);
+Vue.component('experience-modal', ExperienceModal);
+Vue.component('education-modal', EducationModal);
+Vue.component('emergency-contact-modal', EmergencyContactModal);
 Vue.use(require('vue-moment'));
 Vue.component('drag', Drag);
 Vue.component('drop', Drop);
@@ -72,6 +88,7 @@ Vue.component('input-mask', InputMask);
 Vue.component('multiselect', Multiselect);
 Vue.component('Select2', Select2);
 Vue.component("apexchart", VueApexCharts);
+Vue.component("v-select", vSelect);
 Vue.use(FullCalendar);
 Vue.use(Vuelidate);
 installer(Vue, store)

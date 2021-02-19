@@ -187,7 +187,7 @@ function getDesignations() {
   return fetch(`${config.apiurl}/Miscellaneous/getDesignations`, requestOptions.get())
     .then(handleResponse)
     .then(model => {
-      
+        
         return model;
     });
 }

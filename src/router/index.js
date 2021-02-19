@@ -207,6 +207,12 @@ const router = new Router({
       meta: { authorize: [] }
     },
     {
+      path: '/employee-detail/:id',
+      name: 'employeedetail',
+      component: profile,
+      meta: { authorize: [] }
+    },
+    {
       path: '/login',
       name: 'login',
       component: login
