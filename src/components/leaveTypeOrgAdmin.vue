@@ -124,7 +124,11 @@
                         </div>
                       </div>
                       <div class="submit-section">
-                        <button class="btn btn-primary submit-btn">
+                        <button
+                          @click.prevent="onSubmit"
+                          data-dismiss="modal"
+                          class="btn btn-primary submit-btn"
+                        >
                           Submit
                         </button>
                       </div>
@@ -153,7 +157,8 @@
                         <div class="col-6">
                           <a
                             class="btn btn-primary continue-btn"
-                            @click="removeLeaveType()"
+                            @click="removeLeaveType(model)"
+                            data-dismiss="modal"
                             >Delete</a
                           >
                         </div>
@@ -229,20 +234,18 @@ export default {
     },
 
     removeLeaveType() {
-      console.log(this.leavetype);
-      if (leavetype) {
-        organizationService.removeLeaveType(this.leavetype.id).then(
-          (data) => {
-            organizationService.getLeaveTypes().then((t) => {
-              this.leavetypes = t;
-            });
-          },
-          (error) => {
-            this.error = error;
-            this.loading = false;
-          }
-        );
-      }
+      const id = this.leavetype.id;
+      organizationService.removeLeaveType(id).then(
+        (id) => {
+          organizationService.getLeaveTypes().then((o) => {
+            this.departments = o;
+          });
+        },
+        (error) => {
+          this.error = error;
+          this.loading = false;
+        }
+      );
     },
 
     onSubmit() {

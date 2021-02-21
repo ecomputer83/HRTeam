@@ -68,7 +68,7 @@
                             >
                             <a
                               class="dropdown-item"
-                              href="#"
+                              @click="setSkillType(skilltype)"
                               data-toggle="modal"
                               data-target="#delete_department"
                               ><i class="fa fa-trash-o m-r-5"></i> Delete</a
@@ -121,7 +121,13 @@
                     </div>
                   </div>
                   <div class="submit-section">
-                    <button class="btn btn-primary submit-btn">Submit</button>
+                    <button
+                      @click.prevent="onSubmit"
+                      data-dismiss="modal"
+                      class="btn btn-primary submit-btn"
+                    >
+                      Submit
+                    </button>
                   </div>
                 </form>
               </div>
@@ -160,6 +166,7 @@
                   <button
                     class="btn btn-primary submit-btn"
                     @click="onPutSubmit"
+                    data-dismiss="modal"
                   >
                     Save
                   </button>
@@ -186,12 +193,13 @@
                 <div class="modal-btn delete-action">
                   <div class="row">
                     <div class="col-6">
-                      <button
+                      <a
+                        href="javascript:void(0);"
                         class="btn btn-primary continue-btn"
-                        @click="removeSkillType()"
+                        @click.prevent="removeSkillType"
+                        data-dismiss="modal"
+                        >Delete</a
                       >
-                        Delete
-                      </button>
                     </div>
                     <div class="col-6">
                       <a data-dismiss="modal" class="btn btn-primary cancel-btn"
@@ -245,8 +253,8 @@ export default {
       handleCreateSkillType = !this.isCreatedSkillType;
     },
 
-    getSkillTypes() {
-      skillsService.getSkillTypes().then(
+    getSkillTypes(id) {
+      skillsService.getSkillTypes(id).then(
         (model) => {
           this.skilltypes = model;
         },
@@ -261,19 +269,12 @@ export default {
     },
 
     removeSkillType() {
-      if (this.skilltype) {
-        skillsService.removeSkillType(this.skilltype.id).then(
-          (data) => {
-            skillsService.getSkillTypes().then((q) => {
-              this.skilltypes = q;
-            });
-          },
-          (error) => {
-            this.error = error;
-            this.loading = false;
-          }
-        );
-      }
+      const id = this.skillType.id;
+      skillsService.removeSkillType(id).then((id) => {
+        skillsService.getSkillTypes(this.company.id).then((r) => {
+          this.skilltypes = r;
+        });
+      });
     },
 
     onSubmit() {
@@ -286,7 +287,7 @@ export default {
       this.loading = true;
       skillsService.addSkillType(this.name, this.company.id).then(
         (id) => {
-          skillsService.getSkillTypes().then((r) => {
+          skillsService.getSkillTypes(this.company.id).then((r) => {
             this.skilltypes = r;
           });
         },
@@ -308,7 +309,7 @@ export default {
         )
         .then(
           (id) => {
-            skillsService.getSkillTypes().then((r) => {
+            skillsService.getSkillTypes(this.company.id).then((r) => {
               this.skilltypes = r;
             });
           },
@@ -321,7 +322,8 @@ export default {
   },
 
   mounted() {
-    this.getSkillTypes();
+    this.getSkillTypes(this.company.id);
+    //this.removeSkillType(this.company.id);
     // Datatable
 
     if ($(".datatable").length > 0) {

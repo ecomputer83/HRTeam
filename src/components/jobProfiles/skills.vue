@@ -39,7 +39,6 @@
                 <table class="table table-striped custom-table mb-0 datatable">
                   <thead>
                     <tr>
-                      <th style="width: 30px">#</th>
                       <th>Skill Name</th>
                       <th>Skill Type</th>
                       <th class="text-right">Action</th>
@@ -48,7 +47,7 @@
                   <tbody>
                     <tr v-for="skill in skills" v-bind:key="skill.id">
                       <td>{{ skill.name }}</td>
-                      <td>{{ skill.type }}</td>
+                      <td>{{ skill.skillType.name }}</td>
                       <td class="text-right">
                         <div class="dropdown dropdown-action">
                           <a
@@ -68,7 +67,7 @@
                             >
                             <a
                               class="dropdown-item"
-                              href="#"
+                              @click="setSkill(skill)"
                               data-toggle="modal"
                               data-target="#delete_department"
                               ><i class="fa fa-trash-o m-r-5"></i> Delete</a
@@ -246,6 +245,7 @@ import LayoutSidebar from "@/components/layouts/Sidebar.vue";
 import { required, sameAs } from "vuelidate/lib/validators";
 import { skillsService } from "@/services/skillsService";
 import { authenticationService } from "@/services/AuthenticationService";
+
 export default {
   components: {
     LayoutHeader,
@@ -277,8 +277,8 @@ export default {
       handleCreateSkill = !this.isCreatedSkill;
     },
 
-    getSkills() {
-      skillsService.getSkills().then(
+    getSkills(id) {
+      skillsService.getSkills(id).then(
         (model) => {
           this.skills = model;
         },
@@ -288,8 +288,8 @@ export default {
       );
     },
 
-    getSkillTypes() {
-      skillsService.getSkillTypes().then(
+    getSkillTypes(id) {
+      skillsService.getSkillTypes(id).then(
         (model) => {
           this.skilltypes = model;
         },
@@ -298,6 +298,7 @@ export default {
         }
       );
     },
+
     setSkill(model) {
       this.skill = model;
     },
@@ -325,20 +326,20 @@ export default {
         );
     },
 
-    onPutSubmit() {
+    updateSkill() {
+      this.submitted = true;
       this.loading = true;
       skillsService
-        .updateSkillType(
+        .updateSkill(
           this.skill.id,
-          this.company.id,
           this.skill.name,
           this.skill.description,
           this.skill.type
         )
         .then(
           (id) => {
-            skillsService.getSkills().then((r) => {
-              this.skills = r;
+            skillsService.getSkills().then((p) => {
+              this.skills = p;
             });
           },
           (error) => {
@@ -350,10 +351,11 @@ export default {
 
     removeSkill() {
       if (this.skill) {
-        skillsService.removeSkill(this.skill.id).then(
-          (data) => {
+        const id = this.skill.id;
+        skillsService.removeSkill(id).then(
+          (id) => {
             skillsService.getSkills().then((z) => {
-              this.skills = q;
+              this.skills = z;
             });
           },
           (error) => {
@@ -367,8 +369,8 @@ export default {
 
   mounted() {
     // Datatable
-    this.getSkills();
-    this.getSkillTypes();
+    this.getSkills(this.company.id);
+    this.getSkillTypes(this.company.id);
     if ($(".datatable").length > 0) {
       $(".datatable").DataTable({
         bFilter: false,
