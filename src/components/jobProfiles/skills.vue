@@ -60,7 +60,7 @@
                           <div class="dropdown-menu dropdown-menu-right">
                             <a
                               class="dropdown-item"
-                              href="#"
+                              @click="setSkill(skill)"
                               data-toggle="modal"
                               data-target="#edit_department"
                               ><i class="fa fa-pencil m-r-5"></i> Edit</a
@@ -136,7 +136,13 @@
                     ></textarea>
                   </div>
                   <div class="submit-section">
-                    <button class="btn btn-primary submit-btn">Submit</button>
+                    <button
+                      @click.prevent="onSubmit"
+                      data-dismiss="modal"
+                      class="btn btn-primary submit-btn"
+                    >
+                      Submit
+                    </button>
                   </div>
                 </form>
               </div>
@@ -164,16 +170,23 @@
                 <form>
                   <div class="form-group">
                     <label>Skill Name <span class="text-danger">*</span></label>
-                    <input class="form-control" type="text" />
+                    <input
+                      v-model="skill.name"
+                      class="form-control"
+                      type="text"
+                    />
                   </div>
                   <div class="form-group">
                     <label>Skill Type <span class="text-danger">*</span></label>
-                    <select class="select form-control">
+                    <select v-model="skill.type" class="select form-control">
                       <option>-- Select --</option>
-                      <option value="1">Profession Skill</option>
-                      <option value="2">Soft Skill</option>
-                      <option value="3">Language Skill</option>
-                      <option value="4">Other Skill</option>
+                      <option
+                        v-for="(item, index) in skilltypes"
+                        :key="index"
+                        :value="item.id"
+                      >
+                        {{ item.name }}
+                      </option>
                     </select>
                   </div>
                   <div class="form-group">
@@ -181,6 +194,7 @@
                       >Description <span class="text-danger">*</span></label
                     >
                     <textarea
+                      v-model="skill.description"
                       rows="10"
                       cols="10"
                       class="form-control"
@@ -188,7 +202,13 @@
                     ></textarea>
                   </div>
                   <div class="submit-section">
-                    <button class="btn btn-primary submit-btn">Submit</button>
+                    <button
+                      @click.prevent="updateSkill"
+                      data-dismiss="modal"
+                      class="btn btn-primary submit-btn"
+                    >
+                      Submit
+                    </button>
                   </div>
                 </form>
               </div>
@@ -214,8 +234,9 @@
                   <div class="row">
                     <div class="col-6">
                       <a
-                        href="javascript:void(0);"
                         class="btn btn-primary continue-btn"
+                        @click.prevent="removeSkill"
+                        data-dismiss="modal"
                         >Delete</a
                       >
                     </div>
@@ -315,7 +336,7 @@ export default {
         .addSkill(this.company.id, this.name, this.description, this.type)
         .then(
           (id) => {
-            skillsService.getSkills().then((w) => {
+            skillsService.getSkills(this.company.id).then((w) => {
               this.skills = w;
             });
           },
@@ -332,13 +353,14 @@ export default {
       skillsService
         .updateSkill(
           this.skill.id,
+          this.company.id,
           this.skill.name,
           this.skill.description,
           this.skill.type
         )
         .then(
           (id) => {
-            skillsService.getSkills().then((p) => {
+            skillsService.getSkills(this.company.id).then((p) => {
               this.skills = p;
             });
           },
@@ -350,20 +372,12 @@ export default {
     },
 
     removeSkill() {
-      if (this.skill) {
-        const id = this.skill.id;
-        skillsService.removeSkill(id).then(
-          (id) => {
-            skillsService.getSkills().then((z) => {
-              this.skills = z;
-            });
-          },
-          (error) => {
-            this.error = error;
-            this.loading = false;
-          }
-        );
-      }
+      const id = this.skill.id;
+      skillsService.removeSkill(id).then((id) => {
+        skillsService.getSkills(this.company.id).then((o) => {
+          this.skills = o;
+        });
+      });
     },
   },
 

@@ -65,14 +65,14 @@
                           <div class="dropdown-menu dropdown-menu-right">
                             <a
                               class="dropdown-item"
-                              @click="setSkillGrade(skillGrade)"
+                              @click="setskillGrade(skillGrade)"
                               data-toggle="modal"
                               data-target="#edit_department"
                               ><i class="fa fa-pencil m-r-5"></i> Edit</a
                             >
                             <a
                               class="dropdown-item"
-                              @click="setSkillGrade(skillGrade)"
+                              @click="setskillGrade(skillGrade)"
                               data-toggle="modal"
                               data-target="#delete_department"
                               ><i class="fa fa-trash-o m-r-5"></i> Delete</a
@@ -122,7 +122,7 @@
                       id="name"
                       name="name"
                       class="form-control"
-                      type="text"
+                      type="number"
                     />
                   </div>
                   <div class="form-group">
@@ -171,15 +171,34 @@
               <div class="modal-body">
                 <form>
                   <div class="form-group">
-                    <label
-                      >Department Name <span class="text-danger">*</span></label
-                    >
+                    <label>Grade Name <span class="text-danger">*</span></label>
                     <input
-                      class="form-control"
                       v-model="skillGrade.name"
-                      value="IT Management"
+                      class="form-control"
                       type="text"
                     />
+                  </div>
+                  <div class="form-group">
+                    <label>Rating <span class="text-danger">*</span></label>
+                    <input
+                      v-model="skillGrade.rating"
+                      id="rating"
+                      name="rating"
+                      class="form-control"
+                      type="number"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label>Grade Type <span class="text-danger">*</span></label>
+                    <select
+                      v-model="skillGrade.type"
+                      class="select form-control"
+                    >
+                      <option>-- Select --</option>
+                      <option value="Profession Grade">Profession Grade</option>
+                      <option value="Soft Grade">Soft Grade</option>
+                      <option value="Language Grade">Language Grade</option>
+                    </select>
                   </div>
                   <div class="submit-section">
                     <button
@@ -214,10 +233,8 @@
                   <div class="row">
                     <div class="col-6">
                       <a
-                        href="javascript:void(0);"
                         class="btn btn-primary continue-btn"
-                        @click.prevent="removeSkilGrade"
-                        data-dismiss="modal"
+                        @click="removeSkillGrade"
                         >Delete</a
                       >
                     </div>
@@ -282,7 +299,7 @@ export default {
     getskillGrades() {
       skillsService.getskillGrades(this.company.id).then(
         (model) => {
-          this.skills = model;
+          this.skillGrades = model;
         },
         (error) => {
           error = error;
@@ -292,7 +309,7 @@ export default {
 
     removeSkillGrade() {
       const id = this.skillGrade.id;
-      skillsService.removeSkillGrade(id).then((id) => {
+      skillsService.removeskillGrade(id).then((id) => {
         skillsService.getskillGrades(this.company.id).then((r) => {
           this.skillGrades = r;
         });
@@ -301,6 +318,7 @@ export default {
 
     setskillGrade(model) {
       this.skillGrade = model;
+      console.log(model);
     },
 
     onSubmit() {
@@ -312,10 +330,15 @@ export default {
       }
       this.loading = true;
       skillsService
-        .addskillGrade(this.company.id, this.name, this.rating, this.type)
+        .addskillGrade(
+          this.company.id,
+          this.name,
+          parseInt(this.rating),
+          this.type
+        )
         .then(
           (id) => {
-            skillsService.getskillGrades().then((a) => {
+            skillsService.getskillGrades(this.company.id).then((a) => {
               this.skillGrades = a;
             });
           },
@@ -334,8 +357,8 @@ export default {
           this.skillGrade.id,
           this.company.id,
           this.skillGrade.name,
-          this.skillGrade.type,
-          this.skillGrade.rating
+          parseInt(this.skillGrade.rating),
+          this.skillGrade.type
         )
         .then(
           (id) => {
@@ -353,7 +376,7 @@ export default {
 
   mounted() {
     // Datatable
-    this.getskillGrades(this.company.id);
+    this.getskillGrades();
 
     if ($(".datatable").length > 0) {
       $(".datatable").DataTable({
