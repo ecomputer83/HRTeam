@@ -220,9 +220,11 @@ export default {
                 error => { this.error = error }
             )
       },
+      
       setCompany(company){
           this.company = company
       },
+
       removeCompany(){
           if(company){
               organizationService.removeCompany(this.company.id)
@@ -239,6 +241,7 @@ export default {
               )
           }
       },
+
       onSubmit () {
             this.submitted = true;
 

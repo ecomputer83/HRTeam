@@ -124,7 +124,11 @@
                         </div>
                       </div>
                       <div class="submit-section">
-                        <button class="btn btn-primary submit-btn">
+                        <button
+                          @click.prevent="onSubmit"
+                          data-dismiss="modal"
+                          class="btn btn-primary submit-btn"
+                        >
                           Submit
                         </button>
                       </div>
@@ -152,15 +156,14 @@
                       <div class="row">
                         <div class="col-6">
                           <a
-                            href="javascript:void(0);"
                             class="btn btn-primary continue-btn"
-                            @click="removeLeaveType()"
+                            @click="removeLeaveType(model)"
+                            data-dismiss="modal"
                             >Delete</a
                           >
                         </div>
                         <div class="col-6">
                           <a
-                            href="javascript:void(0);"
                             data-dismiss="modal"
                             class="btn btn-primary cancel-btn"
                             >Cancel</a
@@ -208,6 +211,7 @@ export default {
   validations: {
     name: { required },
   },
+
   methods: {
     handleCreateLeaveType() {
       handleCreateLeaveType = !this.isCreateLeaveType;
@@ -230,12 +234,11 @@ export default {
     },
 
     removeLeaveType() {
-      console.log(this.leavetype);
-  if(leavetype) {
-    organizationService.removeLeaveType(this.leavetype.id).then(
-        (data) => {
-          organizationService.getLeaveTypes().then((t) => {
-            this.leavetypes = t;
+      const id = this.leavetype.id;
+      organizationService.removeLeaveType(id).then(
+        (id) => {
+          organizationService.getLeaveTypes().then((o) => {
+            this.departments = o;
           });
         },
         (error) => {
@@ -243,8 +246,7 @@ export default {
           this.loading = false;
         }
       );
-  }
-},
+    },
 
     onSubmit() {
       this.submitted = true;
@@ -267,6 +269,7 @@ export default {
       );
     },
   },
+
   mounted() {
     this.getLeaveTypes();
   },

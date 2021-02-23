@@ -28,7 +28,7 @@
                     <div class="d-flex justify-content-between">
                                       <h4 class="card-title mb-0">Job Profile Information</h4>
                                       <div class="col-auto float-right ml-auto">
-                                          <router-link to="/addcompany" class="btn add-btn" data-toggle="modal" data-target="#add_leave_type"><i
+                                          <router-link to="/job-profile-info" class="btn add-btn"><i
                                             class="fa fa-plus"></i>Add Profile</router-link>
                                         </div>
                                     </div>
@@ -53,7 +53,7 @@
                       <tbody>
                         <tr>
                           <td>
-                            <router-link to="/job-profile-info">
+                            <router-link to="/job-profile-info/1">
                               Account Manager
                             </router-link>
                           </td>
@@ -78,7 +78,7 @@
                         </tr>
                         <tr>
                           <td>
-                            <router-link to="/job-profile-info">
+                            <router-link to="/job-profile-info/2">
                               Account Manager
                             </router-link>
                           </td>
