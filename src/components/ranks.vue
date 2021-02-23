@@ -303,6 +303,7 @@
                               >Rank <span class="text-danger">*</span></label
                             >
                             <input
+                              v-model="rank.rankName"
                               class="form-control"
                               value="Junior"
                               type="text"
@@ -510,6 +511,7 @@ export default {
       organizationService
         .updateRank(
           this.rank.id,
+          this.rank.rankName,
           this.readHoliday,
           this.readLeave,
           this.readAssets,
@@ -542,6 +544,7 @@ export default {
       this.loading = true;
       organizationService
         .addRank(
+          this.rankName,
           this.rank,
           this.readHoliday,
           this.readLeave,
