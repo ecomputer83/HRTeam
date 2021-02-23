@@ -16,7 +16,6 @@ export const employeeService = {
     updateEmployeeBank,
     updateEmployeeFamily,
     getEmployees,
-    getEmployeeDetail,
     removeEmployee,
     removeEmployeeEducation,
     removeEmployeeExperience,
@@ -26,6 +25,7 @@ export const employeeService = {
     updateEmployeeProfileInfo,
     addLeave,
     getLeaves,
+    getEmployeeLeaves,
     updateLeave
 }
 
@@ -293,11 +293,11 @@ function getEmployees(companyId) {
 
 }
 
-function getEmployeeDetail(employeeId) {
-
-    return fetch(`${config.apiurl}/employee/GetEmployee/${employeeId}`, requestOptions.get())
+function getEmployeeLeaves(companyId) {
+    return fetch(`${config.apiurl}/employee/GetEmployeeLeaves/${companyId}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
+          console.log(model)
             return model
         });
 
@@ -352,8 +352,9 @@ function removeEmployeeEmergency(Id) {
 
 }
 
-function addLeave(employeeId, fromDate, toDate, reason, leaveType ) {
+function addLeave(companyId, employeeId, fromDate, toDate, reason, leaveType ) {
   var req = {
+      companyId,
       employeeId,
       fromDate, 
       toDate, 
