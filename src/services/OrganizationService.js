@@ -25,7 +25,8 @@ export const organizationService = {
     updateDesignation,
     removeDesignation,
     updateDepartment,
-    removeDepartment
+    removeDepartment,
+    removeRank
 };
 
 function addOrganization(name, rcnumber, address, contact, contactnumber, contactemail, contactaddress) {
@@ -76,6 +77,18 @@ function getRanks() {
         .then(model => {
 
             return model
+        });
+}
+
+function updateRank() {
+
+}
+
+function removeRank(id) {
+    return fetch(`${config.apiurl}/Organization/DeleteRank/${id}`, requestOptions.delete())
+        .then(handleResponse)
+        .then(id => {
+            return id;
         });
 }
 
