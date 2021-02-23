@@ -165,7 +165,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                       <td>
                         <h2 class="table-avatar">
                           <router-link to="/profile" class="avatar"><img alt="" src="../assets/profiles/avatar-02.jpg">
@@ -626,7 +626,7 @@
                           </div>
                         </div>
                       </td>
-                    </tr>
+                    </tr> -->
                   </tbody>
                 </table>
               </div>
@@ -645,39 +645,52 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <form>
+                  <form @submit.prevent="onSubmit">
+                    <div class="form-group">
+                      <label>Employee <span class="text-danger">*</span></label>
+                      <select class="form-control" v-model="employeeId">
+                        <option>Select Staff</option>
+                        <option v-for="member in employees" :key="member.id"  :value="member.id">{{member.lastName}}</option>
+                        <!-- <option>Casual Leave 12 Days</option>
+                        <option>Medical Leave</option>
+                        <option>Loss of Pay</option> -->
+                      </select>
+                    </div>
                     <div class="form-group">
                       <label>Leave Type <span class="text-danger">*</span></label>
-                      <select class="select">
+                      <select class="form-control" v-model="leaveType">
                         <option>Select Leave Type</option>
-                        <option>Casual Leave 12 Days</option>
+                        <option v-for="item in leaveTypes" :key="item.id"  :value="item.id">{{item.name}}</option>
+                        <!-- <option>Casual Leave 12 Days</option>
                         <option>Medical Leave</option>
-                        <option>Loss of Pay</option>
+                        <option>Loss of Pay</option> -->
                       </select>
                     </div>
                     <div class="form-group">
                       <label>From <span class="text-danger">*</span></label>
                       <div class="cal-icon">
-                        <input class="form-control datetimepicker" type="text">
+                        <datepicker v-model="fromDate" bootstrap-styling class="form-control datetimepicker" type="text" />
+                        <!-- <input class="form-control datetimepicker" type="text"> -->
                       </div>
                     </div>
                     <div class="form-group">
                       <label>To <span class="text-danger">*</span></label>
                       <div class="cal-icon">
-                        <input class="form-control datetimepicker" type="text">
+                        <datepicker v-model="toDate" bootstrap-styling class="form-control datetimepicker" type="date" />
+                        <!-- <input class="form-control datetimepicker" type="text"> -->
                       </div>
                     </div>
                     <div class="form-group">
                       <label>Number of days <span class="text-danger">*</span></label>
-                      <input class="form-control" readonly type="text">
+                      <input :value="this.getNoOfDaysInterval()" class="form-control" readonly type="text">
                     </div>
                     <div class="form-group">
                       <label>Remaining Leaves <span class="text-danger">*</span></label>
-                      <input class="form-control" readonly value="12" type="text">
+                      <input :value="this.getRemainingDays()" class="form-control" readonly type="text">
                     </div>
                     <div class="form-group">
                       <label>Leave Reason <span class="text-danger">*</span></label>
-                      <textarea rows="4" class="form-control"></textarea>
+                      <textarea v-model="reason" rows="4" class="form-control"></textarea>
                     </div>
                     <div class="submit-section">
                       <button class="btn btn-primary submit-btn">Submit</button>
@@ -798,12 +811,103 @@
 <script>
   import LayoutHeader from '@/components/layouts/Header.vue'
   import LayoutSidebar from '@/components/layouts/Sidebar.vue'
+  import Datepicker from 'vuejs-datepicker'
+  import {organizationService} from '@/services/organizationService'
+  import { employeeService } from '@/services/employeeService'
+  import { authenticationService } from "@/services/authenticationService"
+
   export default {
     components: {
       LayoutHeader,
       LayoutSidebar,
+      Datepicker
+    },
+    data () {
+      return {
+        leaveType: {},
+        leaves: [],
+        leaveTypes: [],
+        fromDate: "",
+        toDate: "",
+        reason: "",
+        employeeId: 0,
+        employees: [],
+        employee: {},
+        company: authenticationService.currentOfficeValue
+      }
+    },
+    methods: {
+      getEmployee() {
+        employeeService.getEmployeeDetail(this.employeeId)
+          .then(
+            model => { this.employee = model
+            console.log(model) },
+            error => { error = error }
+          )
+      },
+      getEmployees () {
+        employeeService.getEmployees(this.company.id)
+          .then(
+            model => { this.employees = model
+            console.log(model) },
+            error => { error = error }
+          )
+      },
+      getLeaveTypes () {
+        organizationService.getLeaveTypes()
+          .then(
+            model => { this.leaveTypes = model
+            console.log(model) },
+            error => { error = error }
+          )
+      },
+      getNoOfDaysInterval () {
+        const a = new Date(this.toDate).getTime() - new Date(this.fromDate).getTime()
+        const b = a / (1000 * 60 * 60 * 24);
+        return b + 1;
+      },
+      getRemainingDays () {
+        const a = new Date(this.toDate).getTime() - new Date().getTime()
+        const b = a / (1000 * 60 * 60 * 24);
+        return Math.floor(b + 1);
+      },
+      setLeaveType () {
+        this.leaveType = this.leaveTypes.map(a => a)
+        //console.log(this.leaveType)
+      },
+      onSubmit () {
+        this.submitted = true;
+        //console.log('id', this.leaveType)
+        // stop here if form is invalid
+            // this.$v.$touch();
+            // if (this.$v.$invalid) {
+            //     return;
+            // }
+            this.loading = true;
+            //console.log(this.leaveType, this.fromDate, this.toDate, this.reason)
+            //console.log('employeeId', this.employeeId)
+        employeeService.addLeave(this.employeeId, this.fromDate, this.toDate, this.reason, this.leaveType)
+                .then(id => {
+                      //console.log(this.fromDate, this.toDate, this.reason, this.leaveType)
+                      employeeService.getLeaves(this.employeeId)
+                        .then(
+                          o => {this.leaves = o, 
+                          console.log(o)},
+                        )
+                      
+					},
+                    error => {
+                        this.error = error;
+                        this.loading = false;
+                    }
+                );
+      }
     },
     mounted() {
+      this.getLeaveTypes()
+      this.setLeaveType()
+      this.getEmployees()
+      //this.setEmployee()
       // Date Time Picker
 
       if ($('.datetimepicker').length > 0) {

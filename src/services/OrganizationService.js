@@ -46,22 +46,22 @@ function addOrganization(name, rcnumber, address, contact, contactnumber, contac
         });
 }
 
-function addRank(rank, readHoliday, readLeaves, readAssets, readTimesheet,
-    writeHoliday, writeLeaves, writeAssets, writeTimesheet,
-    deleteHoliday, deleteLeaves, deleteAssets, deleteTimesheet) {
+function addRank(rank, readHoliday, readLeave, readAssets, readTimesheet,
+    writeHoliday, writeLeave, writeAssets, writeTimesheet,
+    deleteHolidays, deleteLeave, deleteAssets, deleteTimesheet) {
     var req = {
         rankName: rank,
         rankPermission: {
             readHoliday,
-            readLeaves,
+            readLeave,
             readAssets,
             readTimesheet,
             writeHoliday,
-            writeLeaves,
+            writeLeave,
             writeAssets,
             writeTimesheet,
-            deleteHoliday,
-            deleteLeaves,
+            deleteHolidays,
+            deleteLeave,
             deleteAssets,
             deleteTimesheet
         }
@@ -244,6 +244,8 @@ function removeDepartment(id) {
             return id;
         });
 }
+
+
 
 function updateCompany(id, name, address, contactPerson, phone, email) {
     var req = {

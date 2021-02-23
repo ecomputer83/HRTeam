@@ -60,53 +60,6 @@
                                                       </div>
                                                     </td>
                                                 </tr>
-
-                                                <tr>
-                                                    <td>Junior</td>
-                                                    <td>
-                                                      <div class="view-icons">
-                                                        <a 
-                                                          href="#" 
-                                                          class="btn btn-link active" 
-                                                          data-toggle="modal" 
-                                                          data-target="#edit_leave_type"
-                                                        >
-                                                          <i class="fa fa-pencil m-r-5"></i>
-                                                        </a>
-                                                        <a 
-                                                          href="#" 
-                                                          class="btn btn-link active" 
-                                                          data-toggle="modal" 
-                                                          data-target="#delete_leave_type"
-                                                        >
-                                                          <i class="fa fa-trash-o m-r-5"></i>
-                                                        </a>
-                                                      </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Senior</td>
-                                                    <td>
-                                                      <div class="view-icons">
-                                                        <a 
-                                                          href="#" 
-                                                          class="btn btn-link active" 
-                                                          data-toggle="modal" 
-                                                          data-target="#edit_leave_type"
-                                                        >
-                                                          <i class="fa fa-pencil m-r-5"></i>
-                                                        </a>
-                                                        <a 
-                                                          href="#" 
-                                                          class="btn btn-link active" 
-                                                          data-toggle="modal" 
-                                                          data-target="#delete_leave_type"
-                                                        >
-                                                          <i class="fa fa-trash-o m-r-5"></i>
-                                                        </a>
-                                                      </div>
-                                                    </td>
-                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -132,7 +85,7 @@
 											<div class="form-group">
 												<label class="col-form-label">Rank <span
 														class="text-danger">*</span></label>
-												<input class="form-control" type="text" v-model="rank">
+												<input class="form-control" type="text" v-model.trim="$v.rank.$model">
 											</div>
 										</div>
                     
@@ -151,56 +104,56 @@
 												<tr>
 													<td>Holidays</td>
 													<td class="text-center">
-														<input v-model="readHoliday" checked="" type="checkbox">
+														<input v-model="readHoliday" type="checkbox">
 													</td>
 													<td class="text-center">
-														<input v-model="writeHoliday" type="checkbox">
+														<input v-model="writeHolidays" type="checkbox">
 													</td>
 													<td class="text-center">
-														<input v-model="deleteHoliday" type="checkbox">
+														<input v-model="deleteHolidays" type="checkbox">
 													</td>
 												</tr>
 												<tr>
 													<td>Leaves</td>
 													<td class="text-center">
-														<input v-model="readLeaves" checked="" type="checkbox">
+														<input v-model="readLeave" type="checkbox">
 													</td>
 													<td class="text-center">
-														<input v-model="writeLeaves" checked="" type="checkbox">
+														<input v-model="writeLeave" type="checkbox">
 													</td>
 													<td class="text-center">
-														<input v-model="deleteLeaves" type="checkbox">
+														<input v-model="deleteLeave" type="checkbox">
 													</td>
 												</tr>
 												<tr>
 													<td>Assets</td>
 													<td class="text-center">
-														<input v-model="readAssets" checked="" type="checkbox">
+														<input v-model="readAssets" type="checkbox">
 													</td>
 													<td class="text-center">
-														<input v-model="writeAssets" checked="" type="checkbox">
+														<input v-model="writeAssets" type="checkbox">
 													</td>
 													<td class="text-center">
-														<input v-model="deleteAssets" checked="" type="checkbox">
+														<input v-model="deleteAssets" type="checkbox">
 													</td>
 												</tr>
 												<tr>
 													<td>Timing Sheets</td>
 													<td class="text-center">
-														<input v-model="readTimingSheets" checked="" type="checkbox">
+														<input v-model="readTimesheet" type="checkbox">
 													</td>
 													<td class="text-center">
-														<input v-model="writeTimingSheets" checked="" type="checkbox">
+														<input v-model="writeTimesheet" type="checkbox">
 													</td>
 													<td class="text-center">
-														<input v-model="deleteTimingSheets" checked="" type="checkbox">
+														<input v-model="deleteTimesheet" type="checkbox">
 													</td>
 												</tr>
 											</tbody>
 										</table>
 									</div>
 									<div class="submit-section">
-										<button class="btn btn-primary submit-btn">Submit</button>
+										<button class="btn btn-primary submit-btn" type="submit">Submit</button>
 									</div>
 								</form>
 							</div>
@@ -369,17 +322,17 @@ export default {
       rank: "",
       ranks: [],
       readHoliday: false,
-      writeHoliday: false,
-      deleteHoliday: false,
-      readLeaves: false,
-      writeLeaves: false,
-      deleteLeaves: false,
+      readLeave: false,
       readAssets: false,
+      readTimesheet: false,
+      writeHolidays: false,
+      writeLeave: false,
       writeAssets: false,
       deleteAssets: false,
-      readTimingSheets: false,
-      writeTimingSheets: false,
-      deleteTimingSheets: false,
+      writeTimesheet: false,
+      deleteHolidays: false,
+      deleteLeave: false,
+      deleteTimesheet: false,
       loading: false,
       error: "",
       isCreateNewRank: false,
@@ -387,7 +340,7 @@ export default {
     };
   },
   validations: {
-      rankName: { required }
+      rank: { required }
     },
   methods: {
     getRanks () {
@@ -409,10 +362,10 @@ export default {
             }
 
             this.loading = true;
-            organizationService.addRank(this.rank,  this.readHoliday, this.writeHoliday, this.deleteHoliday, 
-                                        this.readLeaves, this.writeLeaves, this.deleteLeaves, 
+            organizationService.addRank(this.rank,  this.readHoliday, this.writeHolidays, this.deleteHolidays, 
+                                        this.readLeave, this.writeLeave, this.deleteLeave, 
                                         this.readAssets, this.writeAssets, this.deleleAssets, 
-                                          this.readTimingSheets, this.writeTimingSheets, this.deleteTimingSheets )
+                                          this.readTimesheet, this.writeTimesheet, this.deleteTimesheet )
                 .then(
                     id => {
                       organizationService.getRanks()
