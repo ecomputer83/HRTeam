@@ -265,7 +265,7 @@ import LayoutHeader from "@/components/layouts/Header.vue";
 import LayoutSidebar from "@/components/layouts/Sidebar.vue";
 import { required, sameAs } from "vuelidate/lib/validators";
 import { skillsService } from "@/services/skillsService";
-import { authenticationService } from "@/services/AuthenticationService";
+import { authenticationService } from "@/services/authenticationService";
 
 export default {
   components: {

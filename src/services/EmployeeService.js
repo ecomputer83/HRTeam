@@ -23,8 +23,13 @@ export const employeeService = {
     removeEmployeeFamily,
     removeEmployeeEmergency,
     updateEmployeePersonalInfo,
-    updateEmployeeProfileInfo
+    updateEmployeeProfileInfo,
+    addLeave,
+    getLeaves,
+    updateLeave
 }
+
+
 
 function addEmployee(companyId, rankId, firstName, lastName, email, phone, designationId) {
     var req = {
@@ -347,3 +352,43 @@ function removeEmployeeEmergency(Id) {
 
 }
 
+function addLeave(employeeId, fromDate, toDate, reason, leaveType ) {
+  var req = {
+      employeeId,
+      fromDate, 
+      toDate, 
+      reason,
+      leaveTypeId: leaveType,
+      approvedBy: 0
+  }
+  console.log(req)
+  return fetch(`${config.apiurl}/Employee/PostEmployeeLeave`, requestOptions.post(req))
+      .then(handleResponse)
+      .then(id => {
+
+          return id;
+      });
+}
+
+function getLeaves(id) {
+  return fetch(`${config.apiurl}/Employee/GetEmployeeLeave/${id}`, requestOptions.get())
+      .then(handleResponse)
+      .then(model => {
+
+          return model;
+      });
+}
+
+function updateLeave(id, name) {
+  var req = {
+      id,
+      departmentId,
+      name
+  }
+  return fetch(`${config.apiurl}/Miscellaneous/updateDesignation`, requestOptions.put(req))
+      .then(handleResponse)
+      .then(id => {
+
+          return id;
+      });
+}
