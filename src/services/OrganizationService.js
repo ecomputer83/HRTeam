@@ -26,7 +26,8 @@ export const organizationService = {
     removeDesignation,
     updateDepartment,
     removeDepartment,
-    removeRank
+    removeRank,
+    updateRank
 };
 
 function addOrganization(name, rcnumber, address, contact, contactnumber, contactemail, contactaddress) {
@@ -80,12 +81,36 @@ function getRanks() {
         });
 }
 
-function updateRank() {
-
+function updateRank(id, rank, readHoliday, readLeave, readAssets, readTimesheet,
+    writeHoliday, writeLeave, writeAssets, writeTimesheet,
+    deleteHolidays, deleteLeave, deleteAssets, deleteTimesheet) {
+    var req = {
+        id,
+        rankName: rank,
+        rankPermission: {
+            readHoliday,
+            readLeave,
+            readAssets,
+            readTimesheet,
+            writeHoliday,
+            writeLeave,
+            writeAssets,
+            writeTimesheet,
+            deleteHolidays,
+            deleteLeave,
+            deleteAssets,
+            deleteTimesheet
+        }
+    }
+    return fetch(`${config.apiurl}/Organization/updaterank/${id}`, requestOptions.put(req))
+        .then(handleResponse)
+        .then(id => {
+            return id;
+        });
 }
 
 function removeRank(id) {
-    return fetch(`${config.apiurl}/Organization/DeleteRank/${id}`, requestOptions.delete())
+    return fetch(`${config.apiurl}/Organization/DeleteRank?id=${id}`, requestOptions.delete())
         .then(handleResponse)
         .then(id => {
             return id;
@@ -257,7 +282,6 @@ function removeDepartment(id) {
             return id;
         });
 }
-
 
 
 function updateCompany(id, name, address, contactPerson, phone, email) {

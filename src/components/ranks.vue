@@ -55,10 +55,10 @@
                           <td>
                             <div class="view-icons">
                               <a
-                                href="#"
+                                @click="setRank(rank)"
                                 class="btn btn-link active"
                                 data-toggle="modal"
-                                data-target="#edit_leave_type"
+                                data-target="#edit_rank"
                               >
                                 <i class="fa fa-pencil m-r-5"></i>
                               </a>
@@ -277,11 +277,7 @@
             <!-- /Add Employee Modal -->
 
             <!-- Edit Employee Modal -->
-            <div
-              id="edit_leave_type"
-              class="modal custom-modal fade"
-              role="dialog"
-            >
+            <div id="edit_rank" class="modal custom-modal fade" role="dialog">
               <div
                 class="modal-dialog modal-dialog-centered modal-lg"
                 role="document"
@@ -390,7 +386,12 @@
                         </table>
                       </div>
                       <div class="submit-section">
-                        <button class="btn btn-primary submit-btn">Save</button>
+                        <button
+                          @click.prevent="updateRank"
+                          class="btn btn-primary submit-btn"
+                        >
+                          Save
+                        </button>
                       </div>
                     </form>
                   </div>
@@ -503,6 +504,32 @@ export default {
       });
     },
 
+    updateRank() {
+      this.submitted = true;
+      this.loading = true;
+      organizationService
+        .updateRank(
+          this.rank.id,
+          this.readHoliday,
+          this.readLeave,
+          this.readAssets,
+          this.readTimesheet,
+          this.writeHolidays,
+          this.writeLeave,
+          this.writeAssets,
+          this.writeTimesheet,
+          this.deleteHolidays,
+          this.deleteLeave,
+          this.deleteAssets,
+          this.deleteTimesheet
+        )
+        .then((id) => {
+          organizationService.getRanks().then((w) => {
+            rhis.ranks = w;
+          });
+        });
+    },
+
     onSubmit() {
       this.submitted = true;
 
@@ -517,17 +544,17 @@ export default {
         .addRank(
           this.rank,
           this.readHoliday,
-          this.writeHoliday,
-          this.deleteHoliday,
-          this.readLeaves,
-          this.writeLeaves,
-          this.deleteLeaves,
+          this.readLeave,
           this.readAssets,
+          this.readTimesheet,
+          this.writeHolidays,
+          this.writeLeave,
           this.writeAssets,
-          this.deleleAssets,
-          this.readTimingSheets,
-          this.writeTimingSheets,
-          this.deleteTimingSheets
+          this.writeTimesheet,
+          this.deleteHolidays,
+          this.deleteLeave,
+          this.deleteAssets,
+          this.deleteTimesheet
         )
         .then(
           (id) => {
