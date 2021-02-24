@@ -453,18 +453,18 @@
                     </div>
                     <div class="form-group">
                       <label>Number of days <span class="text-danger">*</span></label>
-                      <input class="form-control" readonly type="text" :value="this.getNoOfDaysInterval()>
+                      <input class="form-control" readonly type="text" :value="this.getNoOfDaysInterval()">
                     </div>
                     <div class="form-group">
                       <label>Remaining Leaves <span class="text-danger">*</span></label>
-                      <input class="form-control" readonly type="text">
+                      <input class="form-control" readonly type="text" :value="this.getRemainingDays()">
                     </div>
                     <div class="form-group">
                       <label>Leave Reason <span class="text-danger">*</span></label>
-                      <textarea rows="4" class="form-control">Going to hospital</textarea>
+                      <textarea v-model="employeeLeave.reason" rows="4" class="form-control">Going to hospital</textarea>
                     </div>
                     <div class="submit-section">
-                      <button data-dismiss="modal" class="btn btn-primary submit-btn">Save</button>
+                      <button @click.prevent="updateLeave" data-dismiss="modal" class="btn btn-primary submit-btn">Save</button>
                     </div>
                   </form>
                 </div>
@@ -484,7 +484,7 @@
                   <div class="modal-btn delete-action">
                     <div class="row">
                       <div class="col-6">
-                        <a href="javascript:void(0);" class="btn btn-primary continue-btn">Delete</a>
+                        <a href="javascript:void(0);" @click="deleteLeave()" data-dismiss="modal" class="btn btn-primary continue-btn">Delete</a>
                       </div>
                       <div class="col-6">
                         <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
@@ -533,6 +533,16 @@
       }
     },
     methods: {
+      deleteLeave () {
+        const id = this.employeeLeave.id;
+        employeeService.removeEmployeeLeave(id)
+          .then(id => {
+            employeeService.getEmployeeLeaves(this.company.id)
+              .then(
+                o => {this.employeeLeaves = o}
+              )
+          })
+      },
       updateLeave () {
         this.submitted = true;
           const id = this.employeeLeave.id;
@@ -553,7 +563,7 @@
       },
       setLeave (item) {
         this.employeeLeave = item
-        //console.log(this.employeeLeave)
+        console.log(this.employeeLeave)
       },
       setLeaveType () {
         this.leaveType = this.leaveTypes.map(a => a)
@@ -615,7 +625,7 @@
     },
     mounted() {
       this.getLeaveTypes()
-      this.setLeave()
+      //this.setLeave()
       this.getEmployeeLeaves()
       // Date Time Picker
 

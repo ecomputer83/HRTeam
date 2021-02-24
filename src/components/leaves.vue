@@ -132,8 +132,8 @@
                         </h2>
                       </td>
                       <td>{{item.leaveType.name}}</td>
-                      <td>{{item.fromDate.slice(0, 10)}}</td>
-                      <td>{{item.toDate.slice(0, 10)}}</td>
+                      <td>{{item.fromDate}}</td>
+                      <td>{{item.toDate}}</td>
                       <td>3 days</td>
                       <td>{{item.reason}}</td>
                       <td class="text-center">
@@ -240,8 +240,7 @@
                     </div>
                     <div class="form-group">
                       <label>Leave Reason <span class="text-danger">*</span></label>
-                      <textarea v-model.trim="$v.reason.$model" rows="4" class="form-control" :class="{ 'is-invalid': submitted && $v.reason.$error }"></textarea>
-                      <div v-if="submitted && !$v.reason.required" class="invalid-feedback">Reason is required</div>
+                      <textarea v-model ="reason.model" rows="4" class="form-control"></textarea>
                     </div>
                     <div class="submit-section">
                       <button class="btn btn-primary submit-btn">Submit</button>
