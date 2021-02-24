@@ -69,13 +69,13 @@
                     <td>
                       <div class="custom-control custom-switch">
                         <input
-                          type="checkbox form-control"
+                          type="checkbox"
                           class="custom-control-input"
-                          id="customSwitch1"
+                          id="enbleSelfRatingSwitch"
                         />
                         <label
                           class="custom-control-label"
-                          for="customSwitch1"
+                          for="enbleSelfRatingSwitch"
                         ></label>
                       </div>
                     </td>
@@ -85,13 +85,13 @@
                     <td>
                       <div class="custom-control custom-switch">
                         <input
-                          type="checkbox form-control"
+                          type="checkbox"
                           class="custom-control-input"
-                          id="customSwitch1"
+                          id="acommodationProvidedSwitch"
                         />
                         <label
                           class="custom-control-label"
-                          for="customSwitch1"
+                          for="acommodationProvidedSwitch"
                         ></label>
                       </div>
                     </td>
