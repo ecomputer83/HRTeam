@@ -1,17 +1,12 @@
 <template>
   <ul class="timeline">
-    <li @click="$emit('selectTimeline', i), activeBg = i" :class="{'passed-tl': i < active_timeline,'active-tl': (i == active_timeline && i != timeline_data.length-1), 'final-tl': i == timeline_data.length-1, 'active': i == activeBg}" v-for="(tl, i) in timeline_data" :key="i">{{i+1}}:{{tl.name}}</li>
+    <li @click="$emit('selectTimeline', i), activeBg = i" :class="{'passed-tl': i < active_timeline,'active-tl': (i == active_timeline && i != timeline_data.length-1), 'final-tl': (i == active_timeline && i == timeline_data.length-1), 'active': i == selected_timeline}" v-for="(tl, i) in timeline_data" :key="i">{{i+1}}:{{tl.name}}</li>
   </ul>
 </template>
 <script>
 export default {
-  props: ['timeline_data', 'active_timeline'],
-  data(){
-    return {
-      activeBg: this.active_timeline,
-    }
-  }
-,  components: {},
+  props: ['timeline_data', 'active_timeline', 'selected_timeline'],
+   components: {},
   created() {},
   mounted() {}
 };

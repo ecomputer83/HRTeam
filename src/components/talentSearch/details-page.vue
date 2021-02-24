@@ -26,7 +26,8 @@
                 <div class="card-body">
                   <timeline
                     @selectTimeline="selectTimeline"
-                    :timeline_data="timeline_data" :active_timeline="activeTimeline"
+                    :timeline_data="timeline_data"
+                    :active_timeline="activeTimeline"
                   ></timeline>
                   <ul class="nav nav-tabs nav-tabs-bottom">
                     <li class="nav-item">
@@ -67,6 +68,9 @@
                   <div v-if="selectedTimeline == 2">
                     <talent-tl-three></talent-tl-three>
                   </div>
+              <button v-if="(selectedTimeline < timeline_data.length-1 && activeTimeline >= selectedTimeline)" type="button" class="btn btn-primary btn-lg btn-block mt-5" style="border-radius: 0" @click="selectedTimeline+=1">Next Stage <i class="la la-angle-right ml-2"></i></button>
+              <button v-if="(selectedTimeline >= timeline_data.length-1 && activeTimeline >= selectedTimeline)" type="button" class="btn btn-success btn-lg btn-block mt-5" style="border-radius: 0">Finish<i class="la la-check ml-2"></i></button>
+                
                 </div>
               </div>
             </div>
@@ -104,23 +108,23 @@ export default {
       timeline_data: [
         {
           name: "Set Search Criteria",
-          value: "",
+          value: ""
         },
         {
           name: "Search In Progress",
-          value: "",
+          value: ""
         },
         {
           name: "Search Results",
-          value: "",
+          value: ""
         }
       ],
       activeTimeline: 2,
-      selectedTimeline: 0,
+      selectedTimeline: 0
     };
   },
   created() {
-this.selectedTimeline = this.activeTimeline;
+    this.selectedTimeline = this.activeTimeline;
   },
   methods: {
     selectTimeline(event) {
