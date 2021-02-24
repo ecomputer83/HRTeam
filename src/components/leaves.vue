@@ -240,7 +240,8 @@
                     </div>
                     <div class="form-group">
                       <label>Leave Reason <span class="text-danger">*</span></label>
-                      <textarea v-model="reason" rows="4" class="form-control"></textarea>
+                      <textarea v-model.trim="$v.reason.$model" rows="4" class="form-control" :class="{ 'is-invalid': submitted && $v.reason.$error }"></textarea>
+                      <div v-if="submitted && !$v.reason.required" class="invalid-feedback">Reason is required</div>
                     </div>
                     <div class="submit-section">
                       <button class="btn btn-primary submit-btn">Submit</button>
@@ -509,7 +510,6 @@
       },
       onSubmit () {
         this.submitted = true;
-        //console.log('id', this.leaveType)
         // stop here if form is invalid
             // this.$v.$touch();
             // if (this.$v.$invalid) {

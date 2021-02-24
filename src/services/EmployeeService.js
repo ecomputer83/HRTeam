@@ -363,7 +363,7 @@ function addEmployeeLeave(companyId, employeeId, fromDate, toDate, reason, leave
       leaveTypeId: leaveType,
       approvedBy: 0
   }
-  console.log(req)
+  //console.log(req)
   return fetch(`${config.apiurl}/Employee/PostEmployeeLeave`, requestOptions.post(req))
       .then(handleResponse)
       .then(id => {
