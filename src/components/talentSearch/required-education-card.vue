@@ -17,7 +17,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="i in 2">
+                        <tr v-for="i in 2" :key="i">
                           <td>191</td>
                           <td>Score years of employment</td>
                           <td><router-link to="">John Doe</router-link></td>

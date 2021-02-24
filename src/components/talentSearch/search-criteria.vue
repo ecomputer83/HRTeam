@@ -16,7 +16,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="i in 2">
+              <tr v-for="i in 2" :key="i">
                 <td>Business English</td>
                 <td>C1 - Advanced</td>
                 <td>Optional</td>
@@ -39,7 +39,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="i in 2">
+              <tr v-for="i in 2" :key="i">
                 <td>CPMA</td>
                 <td>Optional</td>
               </tr>
@@ -49,8 +49,6 @@
       </div>
       </div>
     
-   
-  </div>
 </template>
 <script>
 // import { VuejsDatatableFactory } from 'vuejs-datatable';

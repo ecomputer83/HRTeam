@@ -1,12 +1,17 @@
 <template>
   <ul class="timeline">
-    <li :class="{'passed-tl': tl.status == 'passed','active-tl': tl.status == 'active'}" v-for="(tl, i) in timeline_data">{{i+1}}:{{tl.name}}</li>
+    <li @click="$emit('selectTimeline', i), activeBg = i" :class="{'passed-tl': i < active_timeline,'active-tl': (i == active_timeline && i != timeline_data.length-1), 'final-tl': i == timeline_data.length-1, 'active': i == activeBg}" v-for="(tl, i) in timeline_data" :key="i">{{i+1}}:{{tl.name}}</li>
   </ul>
 </template>
 <script>
 export default {
-  props: ['timeline_data'],
-  components: {},
+  props: ['timeline_data', 'active_timeline'],
+  data(){
+    return {
+      activeBg: this.active_timeline,
+    }
+  }
+,  components: {},
   created() {},
   mounted() {}
 };
@@ -30,8 +35,12 @@ export default {
   font-size: 14px;
   padding: 0 5px;
   white-space: nowrap;
+      cursor: pointer;
 }
-
+.timeline .active {
+  background: #fc607517;
+  outline: none !important;
+}
 .timeline li:before {
   content: "";
   width: 30px;
@@ -89,6 +98,21 @@ export default {
 }
 
 .timeline li.passed-tl + li:after {
+  background: #fc6075;
+}
+.timeline li.final-tl:before {
+  content: "\2690";
+  background: #fc6075;
+  color: #fff;
+  border: 3px solid #fc6075;
+  align-items: center;
+  display: flex;
+  font-size: 18px;
+  justify-content: center;
+  line-height: 1;
+}
+
+.timeline li.final-tl + li:after {
   background: #fc6075;
 }
 </style>
