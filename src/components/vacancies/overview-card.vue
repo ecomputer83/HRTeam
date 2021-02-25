@@ -13,13 +13,13 @@
               <td>
                 <div class="custom-control custom-switch">
                   <input
-                    type="checkbox form-control"
+                    type="checkbox"
                     class="custom-control-input"
-                    id="customSwitch1"
+                    id="basedOnJobProfileSwitch"
                   />
                   <label
                     class="custom-control-label"
-                    for="customSwitch1"
+                    for="basedOnJobProfileSwitch"
                   ></label>
                 </div>
               </td>

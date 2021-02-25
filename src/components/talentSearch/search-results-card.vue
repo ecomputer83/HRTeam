@@ -1,9 +1,9 @@
 <template>
   <div class="col-md-12 ">
-    <p>Search Results</p>
     <div class="row">
             <div class="col-md-12">
               <div class="card job-card">
+    <p>Search Results</p>
                 <div class="card-body">
                   <div class="table-responsive">
                     <table class="datatable table table-stripped mb-0">
@@ -17,7 +17,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="i in 2">
+                        <tr v-for="i in 2" :key="i">
                           <td>191</td>
                           <td>Score years of employment</td>
                           <td><router-link to="">John Doe</router-link></td>

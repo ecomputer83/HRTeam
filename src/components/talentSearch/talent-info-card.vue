@@ -2,7 +2,7 @@
   <div class="col-md-12 job-card">
     <div class="table-responsive">
       <div class="active d-flex justify-content-between flex-wrap">
-        <div class="datatable table mb-0 col-xs-12 p-0 pr-sm-3">
+        <div class=" table mb-0 col-xs-12 p-0 pr-sm-3">
           <table class="w-100">
             <tbody>
               <tr>
@@ -22,13 +22,13 @@
                   <p>Search Applicants</p>
                   <div class="custom-control custom-switch">
                     <input
-                      type="checkbox form-control"
+                      type="checkbox"
                       class="custom-control-input"
-                      id="customSwitch1"
+                      id="searchApplicantSwitch"
                     />
                     <label
                       class="custom-control-label"
-                      for="customSwitch1"
+                      for="searchApplicantSwitch"
                     ></label>
                   </div>
                 </td>
@@ -38,13 +38,13 @@
                   <p>Min. Years Of Employment</p>
                   <div class="custom-control custom-switch">
                     <input
-                      type="checkbox form-control"
+                      type="checkbox"
                       class="custom-control-input"
-                      id="customSwitch1"
+                      id="minYearsSwitch"
                     />
                     <label
                       class="custom-control-label"
-                      for="customSwitch1"
+                      for="minYearsSwitch"
                     ></label>
                   </div>
                 </td>
