@@ -258,7 +258,7 @@
 							<div class="modal-body">
                 <div class="row">
                                                     <div class="col-md-12">
-                                                        <div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="error">
+                                                        <div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="poperror">
 								                            <strong>Error!</strong> {{poperror}}
 								                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 									                            <span aria-hidden="true">&times;</span>
@@ -266,7 +266,7 @@
 							                            </div>
                                                     </div>
                                                     <div class="col-md-12">
-							                            <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="message">
+							                            <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="popmessage">
 								                            <strong>Success!</strong> {{popmessage}}
 								                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 									                            <span aria-hidden="true">&times;</span>

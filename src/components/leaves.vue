@@ -137,7 +137,7 @@
                       <td>3 days</td>
                       <td>{{item.reason}}</td>
                       <td class="text-center">
-                        <div class="dropdown action-label" v-model="status">
+                        <div class="dropdown action-label">
                           <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown"
                             aria-expanded="false">
                             <i class="fa fa-dot-circle-o text-purple"></i> New
@@ -206,7 +206,7 @@
                       <label>Employee <span class="text-danger">*</span></label>
                       <select class="form-control" v-model="employeeId">
                         <option>Select Staff</option>
-                        <option v-for="member in employees" :key="member.id"  :value="member.id">{{member.lastName}}</option>
+                        <option v-for="member in employees" :key="member.id"  :value="member.id">{{member.lastName + ' ' +member.firstName}}</option>
                       </select>
                     </div>
                     <div class="form-group">
@@ -240,7 +240,7 @@
                     </div>
                     <div class="form-group">
                       <label>Leave Reason <span class="text-danger">*</span></label>
-                      <textarea v-model ="reason.model" rows="4" class="form-control"></textarea>
+                      <textarea v-model="reason.model" rows="4" class="form-control"></textarea>
                     </div>
                     <div class="submit-section">
                       <button class="btn btn-primary submit-btn">Submit</button>
@@ -288,7 +288,7 @@
                         <option v-for="member in employees" :key="member.id"  :value="member.id">{{member.lastName}}</option>
                       </select>
                     </div>
-                    <div class="form-group" v-model="leaveType.name">
+                    <div class="form-group">
                       <label>Leave Type <span class="text-danger">*</span></label>
                       <select class="form-control" v-model="leaveType">
                         <option>Select Leave Type</option>
