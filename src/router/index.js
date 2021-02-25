@@ -156,7 +156,7 @@ const router = new Router({
       meta: { authorize: [Role.HRAdmin] }
     },
     {
-      path: '/job-profile-info/:id',
+      path: '/job-profile-edit/:id',
       name: 'jobprofileinfo',
       component: JobProfileInfo,
       meta: { authorize: [Role.HRAdmin] }
@@ -167,11 +167,6 @@ const router = new Router({
       component: JobProfileInfo,
       meta: { authorize: [Role.HRAdmin] }
     },
-    // {
-    //   path: '/edit-applicant',
-    //   name: 'editapplicant',
-    //   component: editApplicant
-    // },
     {
       path: '/vacancies/:id',
       name: 'vacancyDetail',

@@ -100,7 +100,7 @@
                     <label>Department <span class="text-danger">*</span></label>
                     <select class="form-control" v-model="department">
                       <option>Select Department</option>
-                      <option v-for="(item, index) in departments" :key="item.id" :value="item.id">{{item.name}}</option>
+                      <option v-for="item in departments" :key="item.id" :value="item.id">{{item.name}}</option>
                     </select>
                   </div>
                   <div class="submit-section">

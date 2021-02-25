@@ -23,19 +23,35 @@
 
           <div class="row">
             <div class="col-md-12">
-              
+                <form @submit.prevent="onSubmit">
 								<div class="card">
                   <div class="card-header">
                     <div class="d-flex justify-content-between">
                       <h4 class="card-title  mb-0">Account Manager</h4>
                     <div class="col-auto float-right ml-auto">
-                      <button class="btn btn-dark submit-btn" v-on:click="handleCreateOrg">Cancel</button>
-                      <button class="btn btn-primary submit-btn" type="submit" :disabled="loading">Submit</button>
+                      <button class="btn btn-primary submit-btn" type="submit" :disabled="loading">Save</button>
                     </div>
                     </div>
                   </div>
 									<div class="card-body">
-										
+										<div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="error">
+								                            <strong>Error!</strong> {{error}}
+								                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									                            <span aria-hidden="true">&times;</span>
+								                            </button>
+							                            </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+							                            <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="message">
+								                            <strong>Success!</strong> {{message}}
+								                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									                            <span aria-hidden="true">&times;</span>
+								                            </button>
+							                            </div>
+                                                    </div>
+                                                </div> 
 										<ul class="nav nav-tabs nav-tabs-bottom nav-justified col-md-6">
 											<li class="nav-item"><a class="nav-link active" href="#basictab1" data-toggle="tab">Summary</a></li>
 											<li class="nav-item"><a class="nav-link" href="#basictab2" data-toggle="tab">Details</a></li>
@@ -57,7 +73,7 @@
                                                       <label for="name">Name</label>
                                                     </td>
                                                     <td>
-                                                      <input type="text" class="form-control" id="name">
+                                                      <input type="text" class="form-control" id="name" v-model.trim="$v.profile.title.$model" :class="{ 'is-invalid': submitted && $v.profile.title.$error }">
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -65,7 +81,7 @@
                                                       <label for="depart3">Professional Experience</label>
                                                     </td>
                                                     <td>
-                                                      <input type="text" class="form-control" id="depart3">
+                                                      <input type="text" class="form-control" id="depart3" v-model.trim="$v.profile.experience.$model" :class="{ 'is-invalid': submitted && $v.profile.experience.$error }">
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -73,13 +89,9 @@
                                                       <label>Job level:</label>
                                                     </td>
                                                     <td>
-                                                      <select class="select form-control">
+                                                      <select class="form-control"  v-model.trim="$v.profile.rankId.$model" :class="{ 'is-invalid': submitted && $v.profile.rankId.$error }">
                                                                 <option>-- Select --</option>
-                                                                <option value="1">Student/Intern</option>
-                                                                <option value="2">Entry Level</option>
-                                                                <option value="3">Professional</option>
-                                                                <option value="4">Specialist</option>
-                                                                <option value="5">Team Leader</option>
+                                                                <option v-for="item in ranks" :key="item.id" :value="item.id">{{item.rankName}}</option>
                                                               </select>
                                                     </td>
                                                 </tr>
@@ -88,13 +100,9 @@
                                                       <label>Department:</label>
                                                     </td>
                                                     <td>
-                                                      <select class="select form-control">
+                                                      <select class="form-control" v-model.trim="$v.profile.departmentId.$model" :class="{ 'is-invalid': submitted && $v.profile.departmentId.$error }">
                                                                 <option>-- Select --</option>
-                                                                <option value="1">Administration</option>
-                                                                <option value="2">Audit and Finance</option>
-                                                                <option value="3">Security</option>
-                                                                <option value="4">Medical</option>
-                                                                <option value="5">Works</option>
+                                                                <option v-for="item in departments" :key="item.id" :value="item.id">{{item.name}}</option>
                                                               </select>
                                                     </td>
                                                 </tr>
@@ -103,7 +111,7 @@
                                                       <label for="qualif">Salary Min. </label>
                                                     </td>
                                                     <td>
-                                                      <input type="text" class="form-control" id="qualif">
+                                                      <input type="text" class="form-control" id="qualif" v-model.trim="$v.profile.salaryMin.$model" :class="{ 'is-invalid': submitted && $v.profile.salaryMin.$error }">
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -111,7 +119,7 @@
                                                       <label for="qualif">Salary Max. </label>
                                                     </td>
                                                     <td>
-                                                      <input type="text" class="form-control" id="qualif">
+                                                      <input type="text" class="form-control" id="qualif" v-model.trim="$v.profile.salaryMax.$model" :class="{ 'is-invalid': submitted && $v.profile.salaryMax.$error }">
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -119,7 +127,7 @@
                                                       <label for="qualif">Average Salary </label>
                                                     </td>
                                                     <td>
-                                                      <input type="text" class="form-control" id="qualif">
+                                                      <input type="text" class="form-control" id="qualif" v-model.trim="$v.profile.averageSalary.$model" :class="{ 'is-invalid': submitted && $v.profile.averageSalary.$error }">
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -127,7 +135,7 @@
                                                       <label for="qualif">Qualification: </label>
                                                     </td>
                                                     <td>
-                                                      <input type="text" class="form-control" id="qualif">
+                                                      <input type="text" class="form-control" id="qualif" v-model.trim="$v.profile.qualification.$model" :class="{ 'is-invalid': submitted && $v.profile.qualification.$error }">
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -135,7 +143,18 @@
                                                       <label class="qualif">Description</label>
                                                     </td>
                                                     <td>
-                                                      <textarea rows="10" cols="10" class="form-control" placeholder="Enter text here"></textarea>
+                                                      <textarea rows="10" cols="10" class="form-control" placeholder="Enter text here" v-model.trim="$v.profile.description.$model" :class="{ 'is-invalid': submitted && $v.profile.description.$error }"></textarea>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                      <label class="qualif">Status</label>
+                                                    </td>
+                                                    <td>
+                                                      <select class="select form-control" v-model="profile.status">
+                                                                <option value="1" selected>Active</option>
+                                                                <option value="0">Inactive</option>
+                                                              </select>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -145,7 +164,7 @@
                             </div>
                           </section>
                         <div class="col-lg-6">
-                            <div class="card">
+                            <div class="card" v-if="this.$route.params.id">
                                 <div class="card-header">
                                     <div class="d-flex justify-content-between">
                                       <h4 class="card-title mb-0">Skill Level</h4>
@@ -166,21 +185,12 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>Business English</td>
-                                                    <td>C1 - Advanced</td>
-                                                    <td>Language Skill</td>
+                                                <tr v-for="model in skillLevels" v-bind:key="model.id">
+                                                    <td>{{model.skill.name}}</td>
+                                                    <td>{{model.skillGrade.name}}</td>
+                                                    <td>{{model.skill.skillType.name}}</td>
                                                 </tr>
-                                                <tr>
-                                                    <td>Miller-Hillman method</td>
-                                                    <td>Handling Complexicity, Business Developer</td>
-                                                    <td>Professional Skill</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Object Handling</td>
-                                                    <td>Dooley</td>
-                                                    <td>july@example.com</td>
-                                                </tr>
+                                                
                                             </tbody>
                                         </table>
                                     </div>
@@ -199,33 +209,24 @@
                             </div>
                             <div class="card-body">
                               <form action="#">
-                                <div class="form-group">
-                                  <label>Salary</label>
-                                  <input type="text" class="form-control">
-                                </div>
-                                  
+                              
                                   <div class="form-group">
                                     <label>Education Requirement:</label>
-                                    <select class="select form-control">
+                                    <select class="select form-control" v-model.trim="$v.profile.educationRequirement.$model" :class="{ 'is-invalid': submitted && $v.profile.educationRequirement.$error }">
                                       <option>-- Select --</option>
-                                      <option value="1">Applicant must possess exactly this degree</option>
-                                      <option value="2">Applicant must possess at least this degree</option>
+                                      <option value="Applicant must possess exactly this degree">Applicant must possess exactly this degree</option>
+                                      <option value="Applicant must possess at least this degree">Applicant must possess at least this degree</option>
                                     </select>
                                   </div>
                                   <div class="form-group">
                                     <label>Education Degree:</label>
-                                    <select class="select form-control">
+                                    <select class="select form-control" v-model.trim="$v.profile.educationDegree.$model" :class="{ 'is-invalid': submitted && $v.profile.educationDegree.$error }">
                                       <option>-- Select --</option>
-                                      <option value="1">Applicant must possess exactly this degree</option>
-                                      <option value="2">Applicant must possess at least this degree</option>
-                                    </select>
-                                  </div>
-                                  <div class="form-group">
-                                    <label>Professional Degree:</label>
-                                    <select class="select form-control">
-                                      <option>-- Select --</option>
-                                      <option value="1">Applicant must possess exactly this degree</option>
-                                      <option value="2">Applicant must possess at least this degree</option>
+                                      <option value="Basic Education">Basic Education</option>
+                                      <option value="High Education">High School</option>
+                                      <option value="B.Sc">B.Sc</option>
+                                      <option value="M.Sc">M.Sc</option>
+                                      <option value="Phd">Phd</option>
                                     </select>
                                   </div>
                                   
@@ -238,6 +239,7 @@
 										</div>
 									</div>
 								</div>
+                </form>
 							</div>
           </div>
         <!-- /Page Content -->
@@ -254,30 +256,66 @@
 								</button>
 							</div>
 							<div class="modal-body">
-								<form>
+                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="error">
+								                            <strong>Error!</strong> {{poperror}}
+								                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									                            <span aria-hidden="true">&times;</span>
+								                            </button>
+							                            </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+							                            <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="message">
+								                            <strong>Success!</strong> {{popmessage}}
+								                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									                            <span aria-hidden="true">&times;</span>
+								                            </button>
+							                            </div>
+                                                    </div>
+                                                </div> 
+								<form @submit.prevent="postSkillLevel">
 									<div>
 										<div class="col-sm-12">
 											<div class="form-group">
 												<label class="col-form-label">Job Profile <span
 														class="text-danger">*</span></label>
-												<input class="form-control" type="text">
+												<input class="form-control" type="text" v-model="profile.title" readonly>
 											</div>
 										</div>
 										<div class="col-sm-12">
 											<div class="form-group">
 												<label class="col-form-label">Skill</label>
-												<input class="form-control" type="text">
+												<select class="form-control" v-model="skillLevel.skillsId">
+                      <!-- <option>Select SkillType</option> -->
+                      <option
+                        v-for="(item, index) in skills"
+                        :key="index"
+                        :value="item.id"
+                      >
+                        {{ item.name }}
+                      </option>
+                    </select>
 											</div>
 										</div>
 										<div class="col-sm-12">
 											<div class="form-group">
 												<label class="col-form-label">Required Grade <span
 														class="text-danger">*</span></label>
-												<input class="form-control" type="text">
+													<select class="form-control" v-model="skillLevel.skillGradeId">
+                      <!-- <option>Select SkillType</option> -->
+                      <option
+                        v-for="(item, index) in skillGrades"
+                        :key="index"
+                        :value="item.id"
+                      >
+                        {{ item.name }}
+                      </option>
+                    </select>
 											</div>
 										</div>
 									<div class="submit-section">
-										<button class="btn btn-primary submit-btn">Submit</button>
+										<button class="btn btn-primary submit-btn" type="submit">Submit</button>
 									</div>
                   </div>
 								</form>
@@ -286,49 +324,6 @@
 					</div>
 				</div>
 				<!-- /Add Skill Modal -->
-        <!-- Add Vacancy Modal -->
-				<div id="add_vacancy" class="modal custom-modal fade" role="dialog">
-					<div class="modal-dialog modal-dialog-centered modal-lg">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title">New Vacancy</h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>
-							<div class="modal-body">
-								<form>
-									<div>
-										<div class="col-sm-12">
-											<div class="form-group">
-												<label class="col-form-label">Job Profile <span
-														class="text-danger">*</span></label>
-												<input class="form-control" type="text">
-											</div>
-										</div>
-										<div class="col-sm-12">
-											<div class="form-group">
-												<label class="col-form-label">Skill</label>
-												<input class="form-control" type="text">
-											</div>
-										</div>
-										<div class="col-sm-12">
-											<div class="form-group">
-												<label class="col-form-label">Required Grade <span
-														class="text-danger">*</span></label>
-												<input class="form-control" type="text">
-											</div>
-										</div>
-									<div class="submit-section">
-										<button class="btn btn-primary submit-btn">Submit</button>
-									</div>
-                  </div>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- /Add Vacancy Modal -->
     <!-- /Page Wrapper -->
   </div>
   </div>
@@ -337,6 +332,10 @@
   import LayoutHeader from '@/components/layouts/Header.vue'
   import LayoutSidebar from '@/components/layouts/Sidebar.vue'
   	import { required, sameAs } from 'vuelidate/lib/validators'
+    import { authenticationService } from '@/services/authenticationService';
+    import { organizationService } from '@/services/organizationService';
+    import { jobService } from '@/services/jobService';
+    import { skillsService } from '@/services/skillsService';
   import Vue from 'vue'
   export default {
     components: {
@@ -345,9 +344,10 @@
     },
     data() {
       return {
-        profileId: 0,
+        profileId: (this.$route.params) ? this.$route.params.id: 0,
+        company: authenticationService.currentOfficeValue,
         profile: {
-          companyId: 0,
+          id: 0,
           rankId: 0,
           departmentId: 0,
           title: "",
@@ -355,17 +355,52 @@
           description: "",
           salaryMin: 0,
           salaryMax: 0,
-          averageSalary: 0
+          averageSalary: 0,
+          qualification: "",
+          educationRequirement: "",
+          educationDegree: "",
+          status: 0
         },
-
+        ranks: [],
+        professionId: 0,
+        departments: [],
         skillLevel: {
-          skillId: 0,
+          skillsId: 0,
           skillGradeId: 0,
-        }
-
+        },
+        skillLevels: [],
+        skills: [],
+        skillGrades: [],
+        submitted: false,
+        error: '',
+        message: '',
+        popmessage: '',
+        poperror: '',
+        loading: false
       }
     },
+    validations: {
+      profile: {
+            rankId: { required },
+            departmentId: { required },
+            title: { required },
+            experience: { required },
+            description: { required },
+            salaryMin: { required },
+            salaryMax: { required },
+            averageSalary: { required },
+            qualification: { required },
+            educationRequirement: { required },
+            educationDegree: { required }
+        }
+    },
     mounted() {
+      this.getProfile()
+      this.getDepartments()
+      this.getRanks()
+      this.getSkills()
+      this.getskillGrades()
+      this.getSkillLevels()
       // Date Time Picker
 
             if ($('.datetimepicker').length > 0) {
@@ -387,6 +422,109 @@
             }
     },
     methods: {
+      getDepartments () {
+        organizationService.getDepartments()
+          .then(
+            model => { this.departments = model},
+            error => { error = error }
+          )
+      },
+      getRanks () {
+      organizationService.getRanks()
+                        .then(
+                          o => {this.ranks = o}
+                        )
+      },
+
+      getSkills() {
+      skillsService.getSkills(this.company.id).then(
+        (model) => {
+          this.skills = model;
+        },
+        (error) => {
+          error = error;
+        }
+      );
+    },
+    getskillGrades() {
+      skillsService.getskillGrades(this.company.id).then(
+        (model) => {
+          this.skillGrades = model;
+        },
+        (error) => {
+          error = error;
+        }
+      );
+    },
+
+      onSubmit() {
+        this.submitted = true;
+            console.log("onSubmit")
+            // stop here if form is invalid
+            this.$v.$touch();
+            if (this.$v.$invalid) {
+                return;
+            }
+
+            if(this.$router.params){
+
+              jobService.updateJobProfile(this.profile.id, this.professionId, this.profile.rankId, this.profile.departmentId, this.profile.title, this.profile.experience,
+                this.profile.description, parseInt(this.profile.salaryMin), parseInt(this.profile.salaryMax), parseInt(this.profile.averageSalary), this.profile.educationRequirement, this.profile.educationDegree, this.profile.status)
+              .then ( m => {
+                this.message = "Profile updated successfully"
+              },
+              error => { this.error = error})
+            }else{
+            
+              jobService.addJobProfile(this.company.id, this.profile.rankId, this.profile.departmentId, this.profile.title, this.profile.experience,
+                this.profile.description, parseInt(this.profile.salaryMin), parseInt(this.profile.salaryMax), parseInt(this.profile.averageSalary), this.profile.educationRequirement, this.profile.educationDegree)
+              .then ( m => {
+                return this.$router.push('/job-profile');
+              },
+              error => { this.error = error})
+
+            }
+      },
+
+      getSkillLevels () {
+        if(this.$route.params) {
+          jobService.getJobSkillLevels(this.$route.params.id)
+            .then( m => {
+              this.skillLevels = m
+            })
+        }
+      },
+
+      postSkillLevel () {
+
+        jobService.addJobSkillLevel(this.profile.id, this.skillLevel)
+          .then ( s => {
+              this.popmessage = "Profile updated successfully"
+              getSkillLevels();
+          },
+          e => {this.poperror == e})
+      },
+
+      getProfile() {
+        if(this.$route.params) {
+          jobService.getJobProfile(this.$route.params.id)
+            .then ( m => {
+                
+                if(m){
+                  this.profile = m
+                  jobService.getJobProfession(this.$route.params.id)
+                  .then( p => {
+                    this.professionId = p.id,
+                    this.profile.educationRequirement = p.educationRequirement,
+                    this.profile.educationDegree = p.educationDegree
+                  })
+                }
+        })
+        }else{
+          console.log("No parameter in the router")
+        }
+      }
+      
     },
     name: 'JobProfileInfo'
   }
