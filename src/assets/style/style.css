@@ -8230,5 +8230,14 @@ textarea {
   border: 1px solid #d4cbcb !important;
 }
 .custom-switch {
-  padding-left: 50px;
+  padding-left: 0 !important;
+}
+.custom-switch .custom-control-label::after {
+    left: 2px !important;
+}
+.custom-switch .custom-control-label::before {
+    left: 0  !important;
+}
+.text-nowrap {
+	white-space: nowrap;overflow: hidden;text-overflow: ellipsis;width: 100px;
 }

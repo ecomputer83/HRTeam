@@ -38,6 +38,9 @@ import skills from '@/components/jobprofiles/skills'
 import skillGrades from '@/components/jobprofiles/skillGrades'
 import skillType from '@/components/jobprofiles/skillType'
 import leaveTypeOrgAdmin from '@/components/leaveTypeOrgAdmin'
+import jobview from '@/components/jobview'
+import joblist from '@/components/joblist'
+import applicantLogin from '@/components/applicantLogin'
 
 import { authenticationService } from '@/services/authenticationService';
 import { Role } from '@/helpers/role';
@@ -156,7 +159,7 @@ const router = new Router({
       meta: { authorize: [Role.HRAdmin] }
     },
     {
-      path: '/job-profile-info/:id',
+      path: '/job-profile-edit/:id',
       name: 'jobprofileinfo',
       component: JobProfileInfo,
       meta: { authorize: [Role.HRAdmin] }
@@ -167,11 +170,6 @@ const router = new Router({
       component: JobProfileInfo,
       meta: { authorize: [Role.HRAdmin] }
     },
-    // {
-    //   path: '/edit-applicant',
-    //   name: 'editapplicant',
-    //   component: editApplicant
-    // },
     {
       path: '/vacancies/:id',
       name: 'vacancyDetail',
@@ -289,7 +287,23 @@ const router = new Router({
       name: 'skillgrade',
       component: skillGrades,
       meta: { authorize: [Role.HRAdmin] },
-    }
+    },
+    {
+      path: '/jobview',
+      name: 'jobview',
+      component: jobview
+    },
+    {
+      path: '/joblist',
+      name: 'joblist',
+      component: joblist
+    },
+    {
+      path: '/applicant-login',
+      name: 'appplicantlogin',
+      component: applicantLogin
+    },
+
   ],
   linkActiveClass: "active"
 });

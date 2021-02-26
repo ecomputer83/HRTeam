@@ -23,8 +23,26 @@
           <div class="row">
             <div class="col-md-12">
               <div class="card">
+                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="error">
+								                            <strong>Error!</strong> {{error}}
+								                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									                            <span aria-hidden="true">&times;</span>
+								                            </button>
+							                            </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+							                            <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="message">
+								                            <strong>Success!</strong> {{message}}
+								                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									                            <span aria-hidden="true">&times;</span>
+								                            </button>
+							                            </div>
+                                                    </div>
+                                                </div> 
                 <div class="card-body">
-                  <timeline :timeline_data="timeline_data"></timeline>
+                  <!-- <timeline :timeline_data="timeline_data"></timeline> -->
                   <ul class="nav nav-tabs nav-tabs-bottom">
                     <li class="nav-item">
                       <a
@@ -77,43 +95,8 @@ export default {
   },
   data() {
     return {
-      timeline_data: [
-        {
-          name: "Requested",
-          value: "",
-          status: "passed"
-        },
-        {
-          name: "Enrichment",
-          value: "",
-          status: "passed"
-        },
-        {
-          name: "Approval",
-          value: "",
-          status: "passed"
-        },
-        {
-          name: "Publishing",
-          value: "",
-          status: "passed"
-        },
-        {
-          name: "Receiving Applications(11 Mo)",
-          value: "",
-          status: "active"
-        },
-        {
-          name: "Selecting Candidates",
-          value: "",
-          status: "inactive"
-        },
-        {
-          name: "Post-Processing",
-          value: "",
-          status: "inactive"
-        }
-      ]
+      error: '',
+      message: ''
     };
   },
   name: "vacancies-detail"
