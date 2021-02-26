@@ -41,7 +41,8 @@ import leaveTypeOrgAdmin from '@/components/leaveTypeOrgAdmin'
 import jobview from '@/components/jobview'
 import joblist from '@/components/joblist'
 import applicantLogin from '@/components/applicantLogin'
-
+import termination from '@/components/termination';
+import resignation from '@/components/resignation';
 import { authenticationService } from '@/services/authenticationService';
 import { Role } from '@/helpers/role';
 
@@ -177,6 +178,12 @@ const router = new Router({
       meta: { authorize: [Role.HRAdmin] }
     },
     {
+      path: '/addvacancy',
+      name: 'addvacancy',
+      component: VacancyDetail,
+      meta: { authorize: [Role.HRAdmin] }
+    },
+    {
       path: '/applications/:id',
       name: 'applicationDetail',
       component: ApplicationDetail,
@@ -303,6 +310,18 @@ const router = new Router({
       name: 'appplicantlogin',
       component: applicantLogin
     },
+    {
+      path: '/resignation',
+      name: 'resignation',
+      component: resignation
+    },
+    {
+      path: '/termination',
+      name: 'termination',
+      component: termination
+    },
+
+
 
   ],
   linkActiveClass: "active"

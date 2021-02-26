@@ -13,25 +13,11 @@
       </div>
       <hr />
     </div>
-    <div class="col-xs-12 col-md-6 p-0 pr-sm-2">
+    <div class="col-xs-12 col-md-12 p-0 pl-sm-2">
       <div class="job-card">
-        <p>Header</p>
+        <p>Job Description</p>
         <quill-editor
-          v-model="content1"
-          ref="myQuillEditor1"
-          :options="editorOption1"
-          @blur="onEditorBlur1($event)"
-          @focus="onEditorFocus1($event)"
-          @ready="onEditorReady1($event)"
-        >
-        </quill-editor>
-      </div>
-    </div>
-    <div class="col-xs-12 col-md-6 p-0 pl-sm-2">
-      <div class="job-card">
-        <p>Job Definition</p>
-        <quill-editor
-          v-model="content"
+          v-model="requisition.duties"
           ref="myQuillEditor"
           :options="editorOption"
           @blur="onEditorBlur($event)"
@@ -47,13 +33,18 @@
 <script>
 export default {
   name: "job-requisition",
+  props: {
+         requisition: {}
+      },
   data() {
     return {
-          content: "<p>I am Example</p>",
-          content1: "<p>I am Example</p>",
+          //requisition: this.requisition,
+          //content: "<p>I am Example</p>",
           editorOption: {},
-          editorOption1: {},
     }
+  },
+  mounted() {
+    this.$emit('update:requisition', this.requisition);
   },
   computed: {
     editor() {

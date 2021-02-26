@@ -11,7 +11,12 @@ export const jobService = {
     getJobProfiles,
     getJobProfession,
     getJobSkillLevels,
-    addJobSkillLevel
+    addJobSkillLevel,
+    addVacancy,
+    updateVacancy,
+    getVancancies,
+    getVancanciesByOrg,
+    getVancancyById
 }
 
 function addJobProfile(companyId, rankId, departmentId, title, experience, description, salaryMin, salaryMax, averageSalary, educationRequirement, educationDegree) {
@@ -48,6 +53,44 @@ function addJobSkillLevel(profileId, skillLevel) {
             return id
         });
 }
+
+function addVacancy(vacancy) {
+
+    return fetch(`${config.apiurl}/Job/createVacancy`, requestOptions.post(vacancy))
+        .then(handleResponse)
+        .then(id => {
+            return id
+        });
+}
+
+function updateVacancy(vacancy) {
+
+    return fetch(`${config.apiurl}/Job/updateVacancy`, requestOptions.put(vacancy))
+        .then(handleResponse)
+        .then(id => {
+            return id
+        });
+}
+
+function getVancancies(id) {
+    return fetch(`${config.apiurl}/Job/getVancancies?Id=${id}`, requestOptions.get())
+                .then(handleResponse)
+                .then( model => { return model })
+}
+
+function getVancanciesByOrg() {
+    return fetch(`${config.apiurl}/Job/getVancanciesByOrg`, requestOptions.get())
+                .then(handleResponse)
+                .then( model => { return model })
+}
+
+function getVancancyById(id) {
+    return fetch(`${config.apiurl}/Job/getVancancyById?Id=${id}`, requestOptions.get())
+                .then(handleResponse)
+                .then( model => { return model })
+}
+
+
 
 function updateJobProfile(id, professionId, rankId, departmentId, title, experience, description, salaryMin, salaryMax, averageSalary, qualification, educationRequirement, educationDegree, status) {
 
