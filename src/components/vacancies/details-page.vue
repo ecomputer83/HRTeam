@@ -22,8 +22,19 @@
 
           <div class="row">
             <div class="col-md-12">
+              <form @submit.prevent="postVacancy">
               <div class="card">
-                <div class="row">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between">
+                      <h4 class="card-title  mb-0">Vacancy</h4>
+                    <div class="col-auto float-right ml-auto">
+                      <button class="btn btn-primary submit-btn" type="submit" :disabled="loading">Save</button>
+                      <button class="btn btn-primary submit-btn" @click="publishVacancy">Publish</button>
+                    </div>
+                    </div>
+                  </div>
+                <div class="card-body">
+                  <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="error">
 								                            <strong>Error!</strong> {{error}}
@@ -41,7 +52,6 @@
 							                            </div>
                                                     </div>
                                                 </div> 
-                <div class="card-body">
                   <!-- <timeline :timeline_data="timeline_data"></timeline> -->
                   <ul class="nav nav-tabs nav-tabs-bottom">
                     <li class="nav-item">
@@ -61,14 +71,15 @@
 
                   <div class="tab-content">
                     <div class="tab-pane show active" id="bottom-tab1">
-                      <detail-card></detail-card>
+                      <detail-card :vacancy="vacancy" :currentOffice="currentOffice" @update="vacancy = $event;" v-if="vacancy"></detail-card>
                     </div>
                     <div class="tab-pane" id="bottom-tab2">
-                      <requisition-card></requisition-card>
+                      <requisition-card :requisition="requisition" @update="requisition = $event;" v-if="requisition"></requisition-card>
                     </div>
                   </div>
                 </div>
               </div>
+              </form>
             </div>
           </div>
           <!-- /Page Content -->
@@ -85,6 +96,9 @@ import Vue from "vue";
 import Timeline from "@/components/reusables/timeline.vue";
 import DetailCard from "@/components/vacancies/vacancy-info.vue";
 import RequisitionCard from "@/components/vacancies/job-requisition.vue";
+import { authenticationService } from '@/services/authenticationService';
+  import { required, sameAs } from 'vuelidate/lib/validators';
+  import { jobService } from '@/services/jobService';
 export default {
   components: {
     LayoutHeader,
@@ -96,8 +110,81 @@ export default {
   data() {
     return {
       error: '',
-      message: ''
+      message: '',
+      loading: false,
+      vacancy: {
+        id: 0,
+      companyId: 0,
+      jobProfileId: 0,
+      designationId: 0,
+      quantity: 0,
+      description: "",
+      scores: "",
+      requestedBy: 0,
+      requestedOn: "",
+      periodFrom: "",
+      periodTo: "",
+      periodFromTime: '12:00:00.000',
+      periodToTime: '12:00:00.000'
+      },
+      requisition: {
+        id: 0,
+        duties: "<p>Description</p>"
+      },
+      profiles: [],
+      designations: [],
+      staffs: [],
+      currentOffice: authenticationService.currentOfficeValue
     };
+  },
+  validations: {
+    vacancy: {
+      jobProfileId:  { required },
+      designationId:  { required },
+      quantity:  { required },
+      description:  { required },
+      requestedBy:  { required },
+      requestedOn:  { required },
+      periodFrom:  { required },
+      periodTo:  { required },
+      periodFromTime:  { required },
+      periodToTime:  { required },
+      duties:  { required }
+      },
+  },
+  mounted() {
+  },
+  methods: {
+    publishVacancy() {
+
+    },
+    postVacancy() {
+      if(this.requisition.duties == "<p>Description</p>"){
+        this.error = "Job Description is required, Please click on Job Requisition tab";
+        return 
+      }
+
+      
+        this.vacancy.companyId = this.currentOffice.id
+        this.vacancy.jobRequisition = this.requisition
+        this.vacancy.quantity = parseInt(this.vacancy.quantity)
+        this.vacancy.periodFrom = new Date(this.vacancy.periodFrom +" " + this.vacancy.periodFromTime)
+        this.vacancy.periodTo = new Date(this.vacancy.periodTo +" " + this.vacancy.periodToTime)
+        console.log(this.vacancy)
+        if(!this.$router.params){
+        jobService.addVacancy(this.vacancy)
+          .then(a=> {
+            return this.$router.push('/vacancies');
+          },
+          error => { this.error = error})
+      }else{
+        jobService.updateVacancy(this.vacancy)
+          .then(a=> {
+            this.message = "Vacancy updated successfully";
+          },
+          error => { this.error = error})
+      }
+    }
   },
   name: "vacancies-detail"
 };

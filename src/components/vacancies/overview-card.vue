@@ -8,51 +8,42 @@
               <td>Vacancy Id</td>
               <td><p class="ml-3 mb-0">vid</p></td>
             </tr>
-            <tr>
-              <td>Based on Job Profile</td>
-              <td>
-                <div class="custom-control custom-switch">
-                  <input
-                    type="checkbox"
-                    class="custom-control-input"
-                    id="basedOnJobProfileSwitch"
-                  />
-                  <label
-                    class="custom-control-label"
-                    for="basedOnJobProfileSwitch"
-                  ></label>
-                </div>
-              </td>
-            </tr>
+            
             <tr>
               <td>Job Profile</td>
               <td>
                 <select
                   name="job profile"
                   id="job_profile"
-                  class="form-control"
+                  class="form-control" v-model="vacancy.jobProfileId"
                 >
-                  <option value="prof 1">prof 1</option>
-                  <option value="prof 2">prof 2</option>
-                  <option value="prof 3">prof 3</option>
-                  <option value="prof 4">prof 4</option>
+                   <option
+                        v-for="(item, index) in profiles"
+                        :key="index"
+                        :value="item.id"
+                      >
+                        {{ item.title }}
+                      </option>
                 </select>
               </td>
             </tr>
             <tr>
               <td>Quantity of Position</td>
               <td>
-                <input class="form-control" type="text" value="2" />
+                <input class="form-control" type="text" v-model="vacancy.quantity" />
               </td>
             </tr>
             <tr>
-              <td>Department</td>
+              <td>Designation</td>
               <td>
-                <select name="department" id="department" class="form-control">
-                  <option value="dept 1">dept 1</option>
-                  <option value="dept 2">dept 2</option>
-                  <option value="dept 3">dept 3</option>
-                  <option value="dept 4">dept 4</option>
+                <select name="designation" id="designation" class="form-control" v-model="vacancy.designationId">
+                   <option
+                        v-for="(item, index) in designations"
+                        :key="index"
+                        :value="item.id"
+                      >
+                        {{ item.name }}
+                      </option>
                 </select>
               </td>
             </tr>
@@ -62,7 +53,7 @@
                 <textarea
                   style="height: auto !important"
                   class="form-control"
-                  type="text"
+                  type="text" v-model="vacancy.description"
                 >
 Manager for all accounts in his area</textarea
                 >
@@ -74,7 +65,48 @@ Manager for all accounts in his area</textarea
     </div>
 </template>
 <script>
+  import { jobService } from '@/services/jobService';
+  import { organizationService } from '@/services/organizationService';
+  import { authenticationService } from '@/services/authenticationService';
 export default {
+  props: {
+         vacancy: {},
+         currentOffice: {}
+      },
+
+    data() {
+      return {
+        //vacancy: this.vacancy,
+
+        designations: [],
+        profiles:[],
+        //currentOffice: this.currentOffice
+      }
+
+    },
+  mounted() {
+    this.getDesignations(),
+    this.getProfiles()
+    this.$emit('update:vacancy', this.vacancy);
+  },
+  methods: {
+    getDesignations () {
+        organizationService.getDesignations()
+          .then(
+            model => { this.designations = model},
+            error => { error = error }
+          )
+      },
+    getProfiles() {
+        jobService.getJobProfiles(this.currentOffice.id)
+        .then(
+          p => {
+            this.profiles = p.filter(c=>c.status == 1)
+          }
+        )
+      },
+    
+  },
     name: 'vacancy-overview-card'
 }
 </script>
