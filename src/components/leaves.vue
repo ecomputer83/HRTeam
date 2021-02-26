@@ -134,7 +134,7 @@
                       <td>{{item.leaveType.name}}</td>
                       <td>{{item.fromDate}}</td>
                       <td>{{item.toDate}}</td>
-                      <td>3 days</td>
+                      <td>{{item.days}} days</td>
                       <td>{{item.reason}}</td>
                       <td class="text-center">
                         <div class="dropdown action-label">
@@ -240,7 +240,7 @@
                     </div>
                     <div class="form-group">
                       <label>Leave Reason <span class="text-danger">*</span></label>
-                      <textarea v-model="reason.model" rows="4" class="form-control"></textarea>
+                      <textarea v-model="reason" rows="4" class="form-control"></textarea>
                     </div>
                     <div class="submit-section">
                       <button class="btn btn-primary submit-btn">Submit</button>
