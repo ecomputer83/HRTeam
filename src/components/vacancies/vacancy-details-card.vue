@@ -6,75 +6,29 @@
             <div class="datatable table mb-0 col-xs-12 col-md-6 p-0 pr-sm-3">
               <table class="w-100">
                 <tbody>
+                  
                   <tr>
-                    <td>Position</td>
+                    <td>Requested By</td>
                     <td>
                       <select
-                        name="job profile"
-                        id="job_profile"
-                        class="form-control"
+                        name="requestor"
+                        id="requestor"
+                        class="form-control" v-model="vacancy.requestedBy"
                       >
-                        <option value="">----</option>
-                        <option value="Position 1">
-                          Position 1
-                        </option>
-                        <option value="Position 2">
-                          Position 2
-                        </option>
-                        <option value="Position 3">
-                          Position 3
-                        </option>
-                        <option value="Position 4">
-                          Position 4
-                        </option>
+                        <option
+                        v-for="(item, index) in staffs"
+                        :key="index"
+                        :value="item.id"
+                      >
+                        {{ item.lastName + ' ' + item.firstName }}
+                      </option>
                       </select>
                     </td>
                   </tr>
                   <tr>
-                    <td>Company Website URL</td>
+                    <td>Requested On</td>
                     <td>
-                      <input class="form-control" type="text" value="---" />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Company Logo URL</td>
-                    <td>
-                      <input class="form-control" type="text" value="---" />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Budget</td>
-                    <td>
-                      <input class="form-control" type="text" value="---" />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Expected Costs</td>
-                    <td>
-                      <input class="form-control" type="text" value="---" />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Currency</td>
-                    <td>
-                      <select
-                        name="department"
-                        id="department"
-                        class="form-control"
-                      >
-                        <option value="currency 1">
-                          currency 1
-                        </option>
-                        <option value="currency 2">
-                          currency 2
-                        </option>
-                        <option value="currency 3">
-                          currency 3
-                        </option>
-                        <option value="currency 4">
-                          currency 4
-                        </option>
-                      </select>
+                      <input type="date" class="form-control" name="" id="" v-model="vacancy.requestedOn" />
                     </td>
                   </tr>
                 </tbody>
@@ -83,72 +37,22 @@
             <div class="datatable table mb-0 col-xs-12 col-md-6 p-0 pl-sm-3">
               <table class="w-100">
                 <tbody>
-                  <tr>
-                    <td>Requested By</td>
-                    <td>
-                      <select
-                        name="requestor"
-                        id="requestor"
-                        class="form-control"
-                      >
-                        <option value="requestor 1">
-                          requestor 1
-                        </option>
-                        <option value="requestor 2">
-                          requestor 2
-                        </option>
-                        <option value="requestor 3">
-                          requestor 3
-                        </option>
-                        <option value="requestor 4">
-                          requestor 4
-                        </option>
-                      </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Requested On</td>
-                    <td>
-                      <input type="date" class="form-control" name="" id="" />
-                    </td>
-                  </tr>
+                  
                   <tr>
                     <td>Application Period From</td>
                     <td>
-                      <input type="date" class="form-control" name="" id="" />
-                      <input type="time" class="form-control" name="" id="" />
+                      <input type="date" class="form-control" name="" id="" v-model="vacancy.periodFrom" />
+                      <input type="time" class="form-control" name="" id="" v-model="vacancy.periodFromTime" />
                     </td>
                   </tr>
                   <tr>
                     <td>Application Period Until</td>
                     <td>
-                      <input type="date" class="form-control" name="" id="" />
-                      <input type="time" class="form-control" name="" id="" />
+                      <input type="date" class="form-control" name="" id="" v-model="vacancy.periodTo" />
+                      <input type="time" class="form-control" name="" id="" v-model="vacancy.periodToTime" />
                     </td>
                   </tr>
-                  <tr>
-                    <td>Interview Location</td>
-                    <td>
-                      <select
-                        name="location"
-                        id="location"
-                        class="form-control"
-                      >
-                        <option value="location 1">
-                          location 1
-                        </option>
-                        <option value="location 2">
-                          location 2
-                        </option>
-                        <option value="location 3">
-                          location 3
-                        </option>
-                        <option value="location 4">
-                          location 4
-                        </option>
-                      </select>
-                    </td>
-                  </tr>
+                  
                 </tbody>
               </table>
             </div>
@@ -158,7 +62,35 @@
 </template>
 
 <script>
+  import { employeeService } from '@/services/employeeService';
+  import { authenticationService } from '@/services/authenticationService';
 export default {
+  props: {
+         vacancy: {},
+         currentOffice: {}
+      },
+
+    data() {
+      return {
+        //vacancy: this.vacancy,
+        staffs: [],
+        //currentOffice: this.currentOffice
+      }
+
+    },
+    methods: {
+      getEmployees () {
+          employeeService.getEmployees(this.currentOffice.id)
+            .then(
+                model => { this.staffs = model},
+                error => { this.error = error }
+            )
+      },
+    },
+    mounted() {
+      this.getEmployees()
+      this.$emit('update:vacancy', this.vacancy);
+    },
     name: 'vancancy-details-card'
 }
 </script>
