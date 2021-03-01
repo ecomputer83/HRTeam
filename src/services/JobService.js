@@ -11,7 +11,8 @@ export const jobService = {
     getJobProfiles,
     getJobProfession,
     getJobSkillLevels,
-    addJobSkillLevel
+    addJobSkillLevel,
+    getVacanciesByOrg
 }
 
 function addJobProfile(companyId, rankId, departmentId, title, experience, description, salaryMin, salaryMax, averageSalary, educationRequirement, educationDegree) {
@@ -102,4 +103,13 @@ function getJobProfiles(id) {
     return fetch(`${config.apiurl}/Job/GetJobProfiles?Id=${id}`, requestOptions.get())
                 .then(handleResponse)
                 .then( model => { return model })
+}
+
+function getVacanciesByOrg() {
+  return fetch(`${config.apiurl}/Job/getVacanciesByOrg`, requestOptions.get())
+      .then(handleResponse)
+      .then(model => {
+
+          return model;
+      });
 }
