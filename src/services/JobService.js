@@ -12,7 +12,6 @@ export const jobService = {
     getJobProfession,
     getJobSkillLevels,
     addJobSkillLevel,
-    getVacanciesByOrg,
     addVacancy,
     updateVacancy,
     getVancancies,
@@ -146,13 +145,4 @@ function getJobProfiles(id) {
     return fetch(`${config.apiurl}/Job/GetJobProfiles?Id=${id}`, requestOptions.get())
                 .then(handleResponse)
                 .then( model => { return model })
-}
-
-function getVacanciesByOrg() {
-  return fetch(`${config.apiurl}/Job/getVacanciesByOrg`, requestOptions.get())
-      .then(handleResponse)
-      .then(model => {
-
-          return model;
-      });
 }

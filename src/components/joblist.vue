@@ -204,29 +204,11 @@
 
 <script>
     import LayoutHeaderApp from '@/components/layouts/HeaderApp.vue'
-    import { jobService } from '@/services/jobService'
-
     export default {
         components: {
             LayoutHeaderApp,
         },
-        data () {
-          return {
-            vacancies: []
-          }
-        },
-        methods: {
-          getVacanciesByOrg () {
-            jobService.getVacanciesByOrg ()
-              .then(
-                model => { this.vacancies = model
-                console.log(model) },
-                error => { error = error }
-              )
-          },
-        },
         mounted() {
-          this.getVacanciesByOrg()
             // Date Time Picker
 
             if ($('.datetimepicker').length > 0) {

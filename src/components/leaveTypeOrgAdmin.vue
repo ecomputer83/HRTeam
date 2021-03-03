@@ -157,7 +157,7 @@
                         <div class="col-6">
                           <a
                             class="btn btn-primary continue-btn"
-                            @click="removeLeaveType(model)"
+                            @click="removeLeaveType"
                             data-dismiss="modal"
                             >Delete</a
                           >
@@ -238,7 +238,7 @@ export default {
       organizationService.removeLeaveType(id).then(
         (id) => {
           organizationService.getLeaveTypes().then((o) => {
-            this.departments = o;
+            this.leavetypes = o;
           });
         },
         (error) => {
