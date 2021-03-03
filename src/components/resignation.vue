@@ -38,7 +38,6 @@
                 <table class="table table-striped custom-table mb-0 datatable">
                   <thead>
                     <tr>
-                      <th>#</th>
                       <th>Resigning Employee</th>
                       <th>Department</th>
                       <th>Reason</th>
@@ -48,20 +47,24 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>1</td>
+                    <tr
+                      v-for="resignation in resignations"
+                      v-bind:key="resignation.id"
+                    >
                       <td>
                         <h2 class="table-avatar blue-link">
                           <router-link to="/profile" class="avatar"
                             ><img alt="" src="../assets/profiles/avatar-02.jpg"
                           /></router-link>
-                          <router-link to="/profile">John Doe</router-link>
+                          <router-link to="/profile">{{
+                            `${resignation.firstName} ${resignation.lastName}`
+                          }}</router-link>
                         </h2>
                       </td>
-                      <td>Web Development</td>
-                      <td>Lorem ipsum dollar</td>
-                      <td>28 Feb 2019</td>
-                      <td>28 Feb 2019</td>
+                      <td>{{ resignation.department }}</td>
+                      <td>{{ resignation.reason }}</td>
+                      <td>{{ resignation.noticeDate }}</td>
+                      <td>{{ resignation.resignationDate }}</td>
                       <td class="text-right">
                         <div class="dropdown dropdown-action">
                           <a
@@ -124,8 +127,8 @@
                     <select class="form-control" v-model="name">
                       <!-- <option>Select Employee</option> -->
                       <option
-                        v-for="(item, index) in employees"
-                        :key="index"
+                        v-for="item in employees"
+                        :key="item.id"
                         :value="item.id"
                       >
                         {{ `${item.firstName} ${item.lastName}` }}
@@ -323,6 +326,7 @@ export default {
       employees: [],
       submitted: false,
       employee: authenticationService.currentOfficeValue,
+      company: authenticationService.currentOfficeValue,
     };
   },
 
@@ -339,6 +343,18 @@ export default {
         (model) => {
           console.log(model);
           this.employees = model;
+        },
+        (error) => {
+          error = error;
+        }
+      );
+    },
+
+    getEmployeeResignations() {
+      const companyId = this.company.id;
+      employeeService.getEmployeeResignations(companyId).then(
+        (model) => {
+          this.resignations = model;
         },
         (error) => {
           error = error;
@@ -369,11 +385,9 @@ export default {
         )
         .then(
           (id) => {
-            employeeService
-              .getEmployeeResignation(this.employee.id)
-              .then((w) => {
-                this.resignations = w;
-              });
+            employeeService.getEmployeeResignations(companyId).then((w) => {
+              this.resignations = w;
+            });
           },
           (error) => {
             this.error = error;
@@ -386,6 +400,7 @@ export default {
   mounted() {
     // Datatable
     this.getEmployees(this.employee.id);
+    this.getEmployeeResignations(this.company.id);
 
     if ($(".datatable").length > 0) {
       $(".datatable").DataTable({
