@@ -48,20 +48,20 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>1</td>
+                                        <tr v-for="(item, index) in terminatedEmployees" v-bind:key="item.id">
+                                            <td>{{index + 1}}</td>
                                             <td>
                                                 <h2 class="table-avatar blue-link">
                                                     <router-link to="/profile" class="avatar"><img alt=""
                                                             src="../assets/profiles/avatar-02.jpg"></router-link>
-                                                    <router-link to="/profile">John Doe</router-link>
+                                                    <router-link to="/profile">{{`${item.employee.firstName} ${item.employee.lastName}`}}</router-link>
                                                 </h2>
                                             </td>
                                             <td>Web Development</td>
                                             <td>Misconduct</td>
-                                            <td>28 Feb 2019</td>
-                                            <td>Lorem Ipsum Dollar</td>
-                                            <td>28 Feb 2019</td>
+                                            <td>{{item.date}}</td>
+                                            <td>{{item.reason}}</td>
+                                            <td>{{item.noticeDate}}</td>
                                             <td class="text-right">
                                                 <div class="dropdown dropdown-action">
                                                     <a href="#" class="action-icon dropdown-toggle"
@@ -324,8 +324,8 @@
                 )
           },
           getEmployeeTermination () {
-            console.log('this.terminatedEmployeeId', this.terminatedEmployeeId)
-            employeeService.getEmployeeTermination(this.terminatedEmployeeId)
+            //console.log('this.company.id', this.company.id)
+            employeeService.getEmployeeTermination(this.company.id)
               .then(
                 model => { this.terminatedEmployees = model
                 console.log(model) },
@@ -340,7 +340,7 @@
             employeeService.addEmployeeTermination(this.terminationDate, this.reason, this.noticeDate, this.terminationTypeId, this.terminatedEmployeeId)
                     .then(id => {
                       console.log('this.terminatedEmployeeId', this.terminatedEmployeeId)
-                          employeeService.getEmployeeTermination(this.terminatedEmployeeId)
+                          employeeService.getEmployeeTermination(this.company.id)
                             .then(
                               o => {this.terminations = o, console.log(o)}
                             )
@@ -352,35 +352,35 @@
                     );
             
           },
-          update () {
-            this.submitted = true;
+          // update () {
+          //   this.submitted = true;
 
-            this.loading = true;
+          //   this.loading = true;
 
-            employeeService.updateEmployeeTermination(this.termination.terminationDate, this.termination.reason, this.termination.noticeDate, this.termination.terminationTypeId, this.termination.employeeId)
-                    .then(id => {
-                          employeeService.getEmployeeTermination(this.terminatedEmployeeId)
-                            .then(
-                              o => {this.terminations = o, console.log(o)}
-                            )
-              },
-                        error => {
-                            this.error = error;
-                            this.loading = false;
-                        }
-                    );
+          //   employeeService.updateEmployeeTermination(this.termination.terminationDate, this.termination.reason, this.termination.noticeDate, this.termination.terminationTypeId, this.termination.employeeId)
+          //           .then(id => {
+          //                 employeeService.getEmployeeTermination(this.terminatedEmployeeId)
+          //                   .then(
+          //                     o => {this.terminations = o, console.log(o)}
+          //                   )
+          //     },
+          //               error => {
+          //                   this.error = error;
+          //                   this.loading = false;
+          //               }
+          //           );
             
-          },
-          deleteEmployeeTermination () {
-            const id = this.termination.id;
-              employeeService.removeEmployeeTermination(id)
-                .then(id => {
-                  organizationService.getDesignations()
-                    .then(
-                      o => {this.designations = o}
-                    )
-                })
-          },
+          // },
+          // deleteEmployeeTermination () {
+          //   const id = this.termination.id;
+          //     employeeService.removeEmployeeTermination(id)
+          //       .then(id => {
+          //         organizationService.getDesignations()
+          //           .then(
+          //             o => {this.designations = o}
+          //           )
+          //       })
+          // },
         },
         mounted() {
           this.getEmployeeTermination()

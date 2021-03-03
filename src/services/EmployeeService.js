@@ -414,8 +414,8 @@ function removeEmployeeLeave(id) {
 
 }
 
-function getEmployeeTermination(id) {
-  return fetch(`${config.apiurl}/Employee/GetEmployeeTermination/${id}`, requestOptions.get())
+function getEmployeeTermination(companyId) {
+  return fetch(`${config.apiurl}/Employee/GetEmployeeTerminations/${companyId}`, requestOptions.get())
       .then(handleResponse)
       .then(model => {
         console.log(model)
