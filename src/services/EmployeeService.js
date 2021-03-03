@@ -406,8 +406,21 @@ function addEmployeeLeave(companyId, employeeId, fromDate, toDate, reason, leave
 // }
 
 function updateEmployeeLeave(id, companyId, employeeId, fromDate, toDate, reason, leaveType) {
+  var req = {
+    companyId,
+    employeeId,
+    fromDate,
+    toDate,
+    reason,
+    leaveTypeId: leaveType,
+    approvedBy: 0
+}
+return fetch(`${config.apiurl}/Employee/UpdateEmployeeLeave/${id}`, requestOptions.put(req))
+    .then(handleResponse)
+    .then(id => {
 
-<<<<<<< HEAD
+        return id;
+    });
 }
 
 function getEmployeeTermination(companyId) {
@@ -449,23 +462,8 @@ function updateEmployeeTermination(date, reason, noticeDate, terminationTypeId, 
   return fetch(`${config.apiurl}/Employee/UpdateEmployeeTermination/${id}`, requestOptions.put(req))
       .then(handleResponse)
       .then(id => {
-=======
-    var req = {
-        companyId,
-        employeeId,
-        fromDate,
-        toDate,
-        reason,
-        leaveTypeId: leaveType,
-        approvedBy: 0
-    }
-    return fetch(`${config.apiurl}/Employee/UpdateEmployeeLeave/${id}`, requestOptions.put(req))
-        .then(handleResponse)
-        .then(id => {
->>>>>>> 408d6699f039e33659d9955bfe6e5f26bef10295
-
-            return id;
-        });
+        return id;
+      });
 }
 
 function removeEmployeeLeave(id) {

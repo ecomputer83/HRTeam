@@ -237,7 +237,6 @@
         components: {
             LayoutHeader,
             LayoutSidebar,
-<<<<<<< HEAD
             Datepicker
         },
         data() {
@@ -343,8 +342,6 @@
           //           )
           //       })
           // },
-=======
->>>>>>> 408d6699f039e33659d9955bfe6e5f26bef10295
         },
         mounted() {
             // Date Time Picker
