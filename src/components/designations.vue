@@ -219,7 +219,7 @@
       updateDesignation () {
         this.submitted = true;
           
-            this.loading = true;
+        this.loading = true;
         //console.log('department updated 1')
         organizationService.updateDesignation(this.designation.id, this.designation.departmentId, this.designation.name)
           .then(id => {
@@ -246,17 +246,17 @@
       },
       onSubmit () {
       this.submitted = true;
-        console.log('done')
+        
       // stop here if form is invalid
             this.$v.$touch();
             if (this.$v.$invalid) {
                 return;
             }
         this.loading = true;
-        console.log(this.name, this.department)
+        
         organizationService.addDesignation(this.name, this.department)
                 .then(id => {
-                      console.log(this.name, this.department)
+                      
                       organizationService.getDesignations()
                         .then(
                           o => {this.designations = o}

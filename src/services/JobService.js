@@ -12,15 +12,12 @@ export const jobService = {
     getJobProfession,
     getJobSkillLevels,
     addJobSkillLevel,
-<<<<<<< HEAD
-    getVacanciesByOrg
-=======
+    getVacanciesByOrg,
     addVacancy,
     updateVacancy,
     getVancancies,
     getVancanciesByOrg,
     getVancancyById
->>>>>>> 7c22ecebbc742b26382b0e48a744e8a90e713e45
 }
 
 function addJobProfile(companyId, rankId, departmentId, title, experience, description, salaryMin, salaryMax, averageSalary, educationRequirement, educationDegree) {

@@ -27,7 +27,11 @@ export const employeeService = {
     getEmployeeLeaves,
     //getEmployeeLeaves
     updateEmployeeLeave,
-    removeEmployeeLeave
+    removeEmployeeLeave,
+    getEmployeeTermination,
+    addEmployeeTermination,
+    updateEmployeeTermination,
+    removeEmployeeTermination
 }
 
 
@@ -403,6 +407,60 @@ function updateEmployeeLeave(id, companyId, employeeId, fromDate, toDate, reason
 function removeEmployeeLeave(id) {
 
   return fetch(`${config.apiurl}/Employee/DeleteEmployeeLeave/${id}`, requestOptions.delete())
+      .then(handleResponse)
+      .then(model => {
+          return model
+      });
+
+}
+
+function getEmployeeTermination(id) {
+  return fetch(`${config.apiurl}/Employee/GetEmployeeTermination/${id}`, requestOptions.get())
+      .then(handleResponse)
+      .then(model => {
+        console.log(model)
+          return model
+      });
+
+}
+
+function addEmployeeTermination(date, reason, noticeDate, terminationTypeId, employeeId ) {
+  var req = {
+      date,
+      reason,
+      noticeDate,
+      terminationTypeId,
+      employeeId
+  }
+  //console.log(req)
+  return fetch(`${config.apiurl}/Employee/PostEmployeeTermination`, requestOptions.post(req))
+      .then(handleResponse)
+      .then(id => {
+
+          return id;
+      });
+}
+
+function updateEmployeeTermination(date, reason, noticeDate, terminationTypeId, employeeId) {
+  
+  var req = {
+    date,
+    reason,
+    noticeDate,
+    terminationTypeId,
+    employeeId
+}
+  return fetch(`${config.apiurl}/Employee/UpdateEmployeeTermination/${id}`, requestOptions.put(req))
+      .then(handleResponse)
+      .then(id => {
+
+          return id;
+      });
+}
+
+function removeEmployeeTermination(id) {
+
+  return fetch(`${config.apiurl}/Employee/DeleteEmployeeTermination/${id}`, requestOptions.delete())
       .then(handleResponse)
       .then(model => {
           return model

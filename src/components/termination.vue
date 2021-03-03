@@ -68,11 +68,11 @@
                                                         data-toggle="dropdown" aria-expanded="false"><i
                                                             class="material-icons">more_vert</i></a>
                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="#" data-toggle="modal"
+                                                        <a class="dropdown-item" @click="setTermination(item)" data-toggle="modal"
                                                             data-target="#edit_termination"><i
                                                                 class="fa fa-pencil m-r-5"></i>
                                                             Edit</a>
-                                                        <a class="dropdown-item" href="#" data-toggle="modal"
+                                                        <a class="dropdown-item" @click="setTermination(item)" data-toggle="modal"
                                                             data-target="#delete_termination"><i
                                                                 class="fa fa-trash-o m-r-5"></i>
                                                             Delete</a>
@@ -100,42 +100,54 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form>
+                                <form @submit.prevent="onSubmit">
                                     <div class="form-group">
-                                        <label>Terminated Employee <span class="text-danger">*</span></label>
-                                        <input class="form-control" type="text">
+                                      <label>Terminated Employee <span class="text-danger">*</span></label>
+                                      <select class="form-control" v-model="terminatedEmployeeId">
+                                        <option>Select Employee</option>
+                                        <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName}}</option>
+                                      </select>
                                     </div>
                                     <div class="form-group">
                                         <label>Termination Type <span class="text-danger">*</span></label>
                                         <div class="add-group-btn">
-                                            <select class="select">
-                                                <option>Misconduct</option>
-                                                <option>Others</option>
+                                            <select class="form-control" v-model="terminationTypeId">
+                                                <option>Select Termination Type</option>
+                                                <option v-for="item in terminationTypes" :key="item.id" :value="item.id">{{item.name}}</option>
+                                                <!-- <option>Misconduct</option>
+                                                <option>Others</option> -->
                                             </select>
 
-                                            <a class="btn btn-primary" href="javascript:void(0);"><i
+                                            <a class="btn btn-primary"><i
                                                     class="fa fa-plus"></i> Add</a>
                                         </div>
                                     </div>
-
+                                    <!-- <div class="form-group">
+                                    <label>Marital status <span class="text-danger">*</span></label>
+                                    <select class="form-control"  v-model="maritalStatus">
+                                      <option>-</option>
+                                      <option>Single</option>
+                                      <option>Married</option>
+                                    </select>
+                                    </div> -->
                                     <div class="form-group">
-                                        <label>Termination Date <span class="text-danger">*</span></label>
-                                        <div class="cal-icon">
-                                            <input type="text" class="form-control datetimepicker">
-                                        </div>
+                                      <label>Termination Date <span class="text-danger">*</span></label>
+                                      <div class="cal-icon">
+                                        <datepicker v-model="terminationDate" bootstrap-styling class="form-control datetimepicker" type="date" />
+                                      </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Reason <span class="text-danger">*</span></label>
-                                        <textarea class="form-control" rows="4"></textarea>
+                                        <textarea class="form-control" id="reason" name="reason" v-model="reason" rows="4"></textarea>
                                     </div>
                                     <div class="form-group">
-                                        <label>Notice Date <span class="text-danger">*</span></label>
-                                        <div class="cal-icon">
-                                            <input type="text" class="form-control datetimepicker">
-                                        </div>
+                                      <label>Notice Date <span class="text-danger">*</span></label>
+                                      <div class="cal-icon">
+                                        <datepicker v-model="noticeDate" bootstrap-styling class="form-control datetimepicker" type="date" />
+                                      </div>
                                     </div>
                                     <div class="submit-section">
-                                        <button class="btn btn-primary submit-btn">Submit</button>
+                                      <button class="btn btn-primary submit-btn">Submit</button>
                                     </div>
                                 </form>
                             </div>
@@ -156,11 +168,18 @@
                             </div>
                             <div class="modal-body">
                                 <form>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <label>Terminated Employee <span class="text-danger">*</span></label>
-                                        <input class="form-control" type="text" value="John Doe">
-                                    </div>
+                                        <input class="form-control" type="text" v-model="termination.employeeId" id="" />
+                                    </div> -->
                                     <div class="form-group">
+                                      <label>Terminated Employee <span class="text-danger">*</span></label>
+                                      <select class="form-control" v-model="terminatedEmployeeId">
+                                        <option>Select Employee</option>
+                                        <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName}}</option>
+                                      </select>
+                                    </div>
+                                    <!-- <div class="form-group">
                                         <label>Termination Type <span class="text-danger">*</span></label>
                                         <div class="add-group-btn">
                                             <select class="select">
@@ -168,6 +187,20 @@
                                                 <option>Others</option>
                                             </select>
                                             <a class="btn btn-primary" href="javascript:void(0);"><i
+                                                    class="fa fa-plus"></i> Add</a>
+                                        </div>
+                                    </div> -->
+                                    <div class="form-group">
+                                        <label>Termination Type <span class="text-danger">*</span></label>
+                                        <div class="add-group-btn">
+                                            <select class="form-control" v-model="terminationTypeId">
+                                                <option>Select Termination Type</option>
+                                                <option v-for="item in terminationTypes" :key="item.id" :value="item.id">{{item.name}}</option>
+                                                <!-- <option>Misconduct</option>
+                                                <option>Others</option> -->
+                                            </select>
+
+                                            <a class="btn btn-primary"><i
                                                     class="fa fa-plus"></i> Add</a>
                                         </div>
                                     </div>
@@ -233,12 +266,126 @@
 <script>
     import LayoutHeader from '@/components/layouts/Header.vue'
     import LayoutSidebar from '@/components/layouts/Sidebar.vue'
+    import Datepicker from 'vuejs-datepicker'
+    import { authenticationService } from "@/services/authenticationService"
+    import {organizationService} from '@/services/organizationService'
+    import { skillsService } from "@/services/skillsService";
+    import { employeeService } from '@/services/employeeService'
+
     export default {
         components: {
             LayoutHeader,
             LayoutSidebar,
+            Datepicker
+        },
+        data() {
+          return {
+            terminatedEmployeeId: "",
+            terminatedEmployees: [],
+            reason: "",
+            employees: [],
+            employee: {},
+            terminations: [],
+            terminationDate: "",
+            terminationType: {},
+            terminationTypeId: "",
+            terminationTypes: [],
+            noticeDate: "",
+            company: authenticationService.currentOfficeValue,
+            submitted: false,
+            loading: false
+          }
+        },
+        methods: {
+          // setTerminationType (item) {
+          //   this.terminationType = item;
+          // },
+          setTermination (item) {
+            this.termination = item;
+          },
+          getEmployees () {
+            const companyId = this.company.id;
+            console.log('this.company.id', this.company.id)
+            employeeService.getEmployees(companyId)
+              .then(
+                model => { this.employees = model
+                //console.log(model) 
+                },
+                error => { error = error }
+              )
+          },
+          getTerminationTypes () {
+            skillsService.getTerminationTypes()
+                .then(
+                  model => { this.terminationTypes = model
+                  //console.log(model) 
+                  },
+                  error => { error = error }
+                )
+          },
+          getEmployeeTermination () {
+            console.log('this.terminatedEmployeeId', this.terminatedEmployeeId)
+            employeeService.getEmployeeTermination(this.terminatedEmployeeId)
+              .then(
+                model => { this.terminatedEmployees = model
+                console.log(model) },
+                error => { error = error }
+              )
+          },
+          onSubmit () {
+            this.submitted = true;
+
+            this.loading = true;
+
+            employeeService.addEmployeeTermination(this.terminationDate, this.reason, this.noticeDate, this.terminationTypeId, this.terminatedEmployeeId)
+                    .then(id => {
+                      console.log('this.terminatedEmployeeId', this.terminatedEmployeeId)
+                          employeeService.getEmployeeTermination(this.terminatedEmployeeId)
+                            .then(
+                              o => {this.terminations = o, console.log(o)}
+                            )
+              },
+                        error => {
+                            this.error = error;
+                            this.loading = false;
+                        }
+                    );
+            
+          },
+          update () {
+            this.submitted = true;
+
+            this.loading = true;
+
+            employeeService.updateEmployeeTermination(this.termination.terminationDate, this.termination.reason, this.termination.noticeDate, this.termination.terminationTypeId, this.termination.employeeId)
+                    .then(id => {
+                          employeeService.getEmployeeTermination(this.terminatedEmployeeId)
+                            .then(
+                              o => {this.terminations = o, console.log(o)}
+                            )
+              },
+                        error => {
+                            this.error = error;
+                            this.loading = false;
+                        }
+                    );
+            
+          },
+          deleteEmployeeTermination () {
+            const id = this.termination.id;
+              employeeService.removeEmployeeTermination(id)
+                .then(id => {
+                  organizationService.getDesignations()
+                    .then(
+                      o => {this.designations = o}
+                    )
+                })
+          },
         },
         mounted() {
+          this.getEmployeeTermination()
+          this.getEmployees()
+          this.getTerminationTypes()
             // Date Time Picker
 
             if ($('.datetimepicker').length > 0) {

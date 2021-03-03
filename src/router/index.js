@@ -37,6 +37,7 @@ import ranks from '@/components/ranks'
 import skills from '@/components/jobprofiles/skills'
 import skillGrades from '@/components/jobprofiles/skillGrades'
 import skillType from '@/components/jobprofiles/skillType'
+import terminationType from '@/components/jobprofiles/terminationType'
 import leaveTypeOrgAdmin from '@/components/leaveTypeOrgAdmin'
 import jobview from '@/components/jobview'
 import joblist from '@/components/joblist'
@@ -319,6 +320,11 @@ const router = new Router({
       path: '/termination',
       name: 'termination',
       component: termination
+    },
+    {
+      path: '/termination-type',
+      name: 'terminationtype',
+      component: terminationType
     },
 
 
