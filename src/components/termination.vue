@@ -365,9 +365,11 @@
               employeeService.removeEmployeeTermination(id)
                 .then(id => {
                   employeeService.getEmployeeTerminations(this.company.id)
-                    .then(
-                      o => {this.terminations = o}
-                    )
+                            .then(
+                              model => { this.terminatedEmployees = model
+                              console.log(model) },
+                              error => { error = error }
+                            )
                 })
           },
         },

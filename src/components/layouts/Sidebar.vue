@@ -155,6 +155,9 @@
       <li class="termination">
         <router-link to="/skill-grade"><i class="la la-times-circle"></i> <span>Skill Grades</span></router-link>
       </li>
+      <li class="termination">
+        <router-link to="/termination-type"><i class="la la-times-circle"></i> <span>Termination Type</span></router-link>
+      </li>
     </ul>
   </div>
 </vue-custom-scrollbar>
