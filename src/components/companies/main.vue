@@ -160,7 +160,7 @@
 									<div class="row">
 										<div class="col-6">
 											<a @click="removeCompany"
-												class="btn btn-primary continue-btn">Delete</a>
+												class="btn btn-primary continue-btn" data-dismiss="modal">Delete</a>
 										</div>
 										<div class="col-6">
 											<a href="javascript:void(0);" data-dismiss="modal"
@@ -226,13 +226,13 @@ export default {
       },
 
       removeCompany(){
-          if(company){
+          if(this.company){
               organizationService.removeCompany(this.company.id)
               .then(
                   id => {
                       organizationService.getCompanies()
                         .then(
-                          model => {companies = model}
+                          model => {this.companies = model}
                         )
 					},
                     error => {

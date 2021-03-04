@@ -177,7 +177,7 @@ function getLeaveTypes() {
 }
 
 function removeLeaveType(id) {
-    return fetch(`${config.apiurl}/Organization/DeleteLeaveType/${id}`, requestOptions.delete())
+    return fetch(`${config.apiurl}/Organization/DeleteLeaveType?id=${id}`, requestOptions.delete())
         .then(handleResponse)
         .then(id => {
             return id;
@@ -299,7 +299,7 @@ function updateCompany(id, name, address, contactPerson, phone, email) {
 }
 
 function removeCompany(id) {
-    return fetch(`${config.apiurl}/company/${id}`, requestOptions.delete())
+    return fetch(`${config.apiurl}/company/Inactive?Id=${id}`, requestOptions.put())
         .then(handleResponse)
         .then(id => {
 
