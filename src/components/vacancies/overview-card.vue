@@ -30,7 +30,7 @@
             <tr>
               <td>Quantity of Position</td>
               <td>
-                <input class="form-control" type="text" v-model="vacancy.quantity" />
+                <input class="form-control" type="number" v-model="vacancy.quantity" />
               </td>
             </tr>
             <tr>
@@ -44,6 +44,22 @@
                       >
                         {{ item.name }}
                       </option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>Designation</td>
+              <td>
+                <select name="designation" id="designation" class="form-control" v-model="vacancy.designationId">
+                   <select
+                      v-model="vacancy.type"
+                      class="select form-control"
+                    >
+                      <option>-- Select --</option>
+                      <option value="Full Time">Full Time</option>
+                      <option value="Part Time">Part Time</option>
+                      <option value="Intern">Intern</option>
+                    </select>
                 </select>
               </td>
             </tr>

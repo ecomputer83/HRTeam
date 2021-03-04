@@ -29,7 +29,7 @@
                       <h4 class="card-title  mb-0">Vacancy</h4>
                     <div class="col-auto float-right ml-auto">
                       <button class="btn btn-primary submit-btn" type="submit" :disabled="loading">Save</button>
-                      <button class="btn btn-primary submit-btn" @click="publishVacancy">Publish</button>
+                      <button class="btn btn-primary submit-btn" @click="publishVacancy" v-if="$route.params.id">Publish</button>
                     </div>
                     </div>
                   </div>
@@ -71,10 +71,10 @@
 
                   <div class="tab-content">
                     <div class="tab-pane show active" id="bottom-tab1">
-                      <detail-card :vacancy="vacancy" :currentOffice="currentOffice" @update="vacancy = $event;" v-if="vacancy"></detail-card>
+                      <detail-card :vacancy="vacancy" :currentOffice="currentOffice" @update="vacancy = $event;" v-if="loaddependency"></detail-card>
                     </div>
                     <div class="tab-pane" id="bottom-tab2">
-                      <requisition-card :requisition="requisition" @update="requisition = $event;" v-if="requisition"></requisition-card>
+                      <requisition-card :requisition="requisition" @update="requisition = $event;" v-if="loaddependency"></requisition-card>
                     </div>
                   </div>
                 </div>
@@ -112,6 +112,7 @@ export default {
       error: '',
       message: '',
       loading: false,
+      requisitionId: 0,
       vacancy: {
         id: 0,
       companyId: 0,
@@ -120,6 +121,7 @@ export default {
       quantity: 0,
       description: "",
       scores: "",
+      type: "",
       requestedBy: 0,
       requestedOn: "",
       periodFrom: "",
@@ -134,7 +136,8 @@ export default {
       profiles: [],
       designations: [],
       staffs: [],
-      currentOffice: authenticationService.currentOfficeValue
+      currentOffice: authenticationService.currentOfficeValue,
+      loaddependency: false,
     };
   },
   validations: {
@@ -142,6 +145,7 @@ export default {
       jobProfileId:  { required },
       designationId:  { required },
       quantity:  { required },
+      type: { required },
       description:  { required },
       requestedBy:  { required },
       requestedOn:  { required },
@@ -153,8 +157,36 @@ export default {
       },
   },
   mounted() {
+    
+    this.getVacancy()
   },
   methods: {
+    getVacancy(){
+      if(this.$route.params.id){
+        jobService.getVancancyById(this.$route.params.id)
+        .then(
+          a => {
+            this.vacancy = a;
+
+            
+            var FromTime = a.periodFrom.toString().split('T')
+            var ToTime = a.periodTo.toString().split('T')
+            this.vacancy.requestedOn = a.requestedOn.toString().split('T')[0]
+            this.vacancy.periodFrom = FromTime[0]
+            this.vacancy.periodTo = ToTime[0]
+            this.vacancy.periodFromTime = FromTime[1]
+            this.vacancy.periodToTime = ToTime[1]
+            this.requisition = a.jobRequisition;
+            this.requisitionId = a.jobRequisition.id
+            this.loaddependency = (this.$route.params.id && this.vacancy.id != 0)
+            console.log(this.vacancy.id)
+          },
+          err => { this.error = err}
+        )
+      } else{
+        this.loaddependency = (!this.$route.params.id && this.vacancy.id == 0)
+      }
+    },
     publishVacancy() {
 
     },
@@ -171,7 +203,8 @@ export default {
         this.vacancy.periodFrom = new Date(this.vacancy.periodFrom +" " + this.vacancy.periodFromTime)
         this.vacancy.periodTo = new Date(this.vacancy.periodTo +" " + this.vacancy.periodToTime)
         console.log(this.vacancy)
-        if(!this.$router.params){
+        this.vacancy.jobRequisition.id = this.requisitionId
+        if(!this.$route.params.id){
         jobService.addVacancy(this.vacancy)
           .then(a=> {
             return this.$router.push('/vacancies');
@@ -186,7 +219,7 @@ export default {
       }
     }
   },
-  name: "vacancies-detail"
+  name: "vacancyDetail"
 };
 </script>
 

@@ -83,11 +83,13 @@ function getRanks() {
 
 function updateRank(id, rank, readHoliday, readLeave, readAssets, readTimesheet,
     writeHoliday, writeLeave, writeAssets, writeTimesheet,
-    deleteHolidays, deleteLeave, deleteAssets, deleteTimesheet) {
+    deleteHolidays, deleteLeave, deleteAssets, deleteTimesheet, permissionid) {
     var req = {
         id,
         rankName: rank,
         rankPermission: {
+            id: permissionid,
+            RankId: id,
             readHoliday,
             readLeave,
             readAssets,
@@ -288,7 +290,7 @@ function updateCompany(id, name, address, contactPerson, phone, email) {
     var req = {
         name, address, contactPerson, phone, email
     }
-    return fetch(`${config.apiurl}/company/${id}`, requestOptions.put(req))
+    return fetch(`${config.apiurl}/company?id=${id}`, requestOptions.put(req))
         .then(handleResponse)
         .then(id => {
 

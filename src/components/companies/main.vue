@@ -52,7 +52,7 @@
                                                 v-for="model in companies" v-bind:key="model.id">
                                                     <td>{{model.name}}</td>
                                                     <td>{{model.address}}</td>
-                                                    <td>{{model.contacPerson}}</td>
+                                                    <td>{{model.contactPerson}}</td>
                                                     <td>{{model.email}}</td>
                                                     <td>
                                                       <div class="view-icons">

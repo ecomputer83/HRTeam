@@ -49,10 +49,10 @@
         <router-link to="/attendance"><i class="la la la-user"></i> <span>Attendants</span></router-link>
       </li>
       <li class="policies">
-        <router-link to="/departments"><i class="la la la-user"></i> <span>Departments</span></router-link>
+        <router-link to="/companydepartments"><i class="la la la-user"></i> <span>Departments</span></router-link>
       </li>
       <li class="policies">
-        <router-link to="/designations"><i class="la la la-user"></i> <span>Designations</span></router-link>
+        <router-link to="/companydesignations"><i class="la la la-user"></i> <span>Designations</span></router-link>
       </li>
       <li class="policies">
         <router-link to="/timesheet"><i class="la la la-user"></i> <span>Timesheets</span></router-link>

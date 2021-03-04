@@ -3,7 +3,7 @@ import config from '../../config/index';
 import requestOptions from '@/helpers/RequestOptions';
 import handleResponse from '@/helpers/HandleResponses';
 
-export const attendance = {
+export const attendanceService = {
     addEmployeeTimetable,
     getEmployeeTimetable,
     removeEmployeeTimetable,

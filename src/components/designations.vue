@@ -28,6 +28,14 @@
           <!----Datatable-->
           <div class="row">
             <div class="col-md-12">
+                                                        <div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="error">
+								                            <strong>Error!</strong> {{error}}
+								                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									                            <span aria-hidden="true">&times;</span>
+								                            </button>
+							                            </div>
+                                        </div>
+            <div class="col-md-12">
               <div class="table-responsive">
                 <table class="table table-striped custom-table mb-0 datatable">
                   <thead>
@@ -176,7 +184,7 @@
 </template>
 <script>
   import LayoutHeader from '@/components/layouts/Header.vue'
-  import LayoutSidebar from '@/components/layouts/Sidebar.vue'
+  import LayoutSidebar from '@/components/layouts/orgAdminSidebar.vue'
    import { required } from 'vuelidate/lib/validators'
    import {organizationService} from '@/services/organizationService'
   export default {
@@ -242,7 +250,8 @@
               .then(
                 o => {this.designations = o}
               )
-          })
+          },
+                e => {this.error = "Designation being used in some information"})
       },
       onSubmit () {
       this.submitted = true;
@@ -275,8 +284,6 @@
     mounted() {
       this.getDepartments()
       this.getDesignations()
-      this.updateDesignation()
-      this.deleteDesignation()
 
 
 
