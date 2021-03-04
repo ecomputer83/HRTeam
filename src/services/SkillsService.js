@@ -16,7 +16,8 @@ export const skillsService = {
     addskillGrade,
     getskillGrades,
     removeskillGrade,
-    updateskillGrade
+    updateskillGrade,
+    getTerminationTypes
 }
 
 function addSkillType(name, companyId) {
@@ -148,4 +149,12 @@ function updateskillGrade(id, companyId, name, rating, type) {
         .then(id => {
             return id;
         });
+}
+
+function getTerminationTypes() {
+  return fetch(`${config.apiurl}/Miscellaneous/getTerminationTypes`, requestOptions.get())
+      .then(handleResponse)
+      .then(model => {
+          return model;
+      });
 }
