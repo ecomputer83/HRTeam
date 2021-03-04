@@ -467,6 +467,7 @@ function addEmployeeTermination(date, reason, noticeDate, terminationTypeId, emp
 function updateEmployeeTermination(id, date, reason, noticeDate, terminationTypeId, employeeId) {
   
   var req = {
+    id,
     date,
     reason,
     noticeDate,

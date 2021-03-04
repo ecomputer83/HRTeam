@@ -330,17 +330,14 @@
             this.loading = true;
 
             employeeService.addEmployeeTermination(this.date, this.reason, this.noticeDate, this.terminationTypeId, this.employeeId)
-                    .then(id => {
-                      //console.log('this.terminatedEmployeeId', this.terminatedEmployeeId)                                                                                                                        
+                    .then(id => {                                                                                                                        
                           employeeService.getEmployeeTerminations(this.company.id)
                             .then(
-                              o => {this.terminations = o, console.log(o)}
+                              model => { this.terminatedEmployees = model
+                              console.log(model) },
+                              error => { error = error }
                             )
-              },
-                        error => {
-                            this.error = error;
-                            this.loading = false;
-                        }
+              }
                     );
             
           },
@@ -348,7 +345,7 @@
             this.submitted = true;
 
             this.loading = true;
-
+            console.log(this.termination)
             employeeService.updateEmployeeTermination(this.termination.id, this.termination.date, this.termination.reason, this.termination.noticeDate, this.termination.terminationTypeId, this.termination.employeeId)
                     .then(id => {
                           employeeService.getEmployeeTerminations(this.company.id)
