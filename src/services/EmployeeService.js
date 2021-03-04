@@ -16,6 +16,7 @@ export const employeeService = {
     updateEmployeeBank,
     updateEmployeeFamily,
     getEmployees,
+    getEmployeeDetail,
     removeEmployee,
     removeEmployeeEducation,
     removeEmployeeExperience,
@@ -345,6 +346,16 @@ function removeEmployee(employeeId) {
 function removeEmployeeEducation(Id) {
 
     return fetch(`${config.apiurl}/employee/DeleteEmployeeEducation/${Id}`, requestOptions.delete())
+        .then(handleResponse)
+        .then(model => {
+            return model
+        });
+
+}
+
+function getEmployeeDetail(employeeId) {
+
+    return fetch(`${config.apiurl}/employee/GetEmployee/${employeeId}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
             return model

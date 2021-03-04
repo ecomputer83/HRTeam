@@ -35,33 +35,8 @@
                     </li>
                     <!-- /Search -->
 
-                    <!-- Flag -->
-                    <li class="nav-item dropdown has-arrow flag-nav">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">
-                            <img src="../../assets/flags/us.png" alt="" height="20"> <span>English</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a href="javascript:void(0);" class="dropdown-item">
-                                <img src="../../assets/flags/us.png" alt="" height="16"> English
-                            </a>
-                            <a href="javascript:void(0);" class="dropdown-item">
-                                <img src="../../assets/flags/fr.png" alt="" height="16"> French
-                            </a>
-                            <a href="javascript:void(0);" class="dropdown-item">
-                                <img src="../../assets/flags/es.png" alt="" height="16"> Spanish
-                            </a>
-                            <a href="javascript:void(0);" class="dropdown-item">
-                                <img src="../../assets/flags/de.png" alt="" height="16"> German
-                            </a>
-                        </div>
-                    </li>
-                    <!-- /Flag -->
-
                     <li class="nav-item">
-                        <router-link class="nav-link" to="/login">Login</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/register">Register</router-link>
+                        <router-link class="nav-link" to="/applicant-login">Applicant Login</router-link>
                     </li>
                 </ul>
                 <!-- /Header Menu -->
@@ -71,8 +46,7 @@
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i
                             class="fa fa-ellipsis-v"></i></a>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <router-link class="dropdown-item" to="/login">Login</router-link>
-                        <router-link class="dropdown-item" to="/register">Register</router-link>
+                        <router-link class="dropdown-item" to="/applicant-login">Login</router-link>
                     </div>
                 </div>
                 <!-- /Mobile Menu -->

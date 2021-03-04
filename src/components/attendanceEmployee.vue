@@ -334,7 +334,7 @@ import LayoutHeader from "@/components/layouts/Header.vue";
 import LayoutSidebar from "@/components/layouts/employeeSidebar.vue";
 import { required, sameAs } from "vuelidate/lib/validators";
 import { attendanceService } from "@/services/attendanceService";
-import { authenticationService } from "@/services/AuthenticationService";
+import { authenticationService } from "@/services/authenticationService";
 
 export default {
   components: {

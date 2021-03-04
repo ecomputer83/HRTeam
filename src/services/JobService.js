@@ -16,7 +16,8 @@ export const jobService = {
     updateVacancy,
     getVancancies,
     getVancanciesByOrg,
-    getVancancyById
+    getVancancyById,
+    getVacancySummaries
 }
 
 function addJobProfile(companyId, rankId, departmentId, title, experience, description, salaryMin, salaryMax, averageSalary, educationRequirement, educationDegree) {
@@ -73,19 +74,25 @@ function updateVacancy(vacancy) {
 }
 
 function getVancancies(id) {
-    return fetch(`${config.apiurl}/Job/getVancancies?Id=${id}`, requestOptions.get())
+    return fetch(`${config.apiurl}/Job/getVacancies?Id=${id}`, requestOptions.get())
+                .then(handleResponse)
+                .then( model => { return model })
+}
+
+function getVacancySummaries(id) {
+    return fetch(`${config.apiurl}/Job/getVacancySummaries?Id=${id}`, requestOptions.get())
                 .then(handleResponse)
                 .then( model => { return model })
 }
 
 function getVancanciesByOrg() {
-    return fetch(`${config.apiurl}/Job/getVancanciesByOrg`, requestOptions.get())
+    return fetch(`${config.apiurl}/Job/getVacanciesByOrg`, requestOptions.get())
                 .then(handleResponse)
                 .then( model => { return model })
 }
 
 function getVancancyById(id) {
-    return fetch(`${config.apiurl}/Job/getVancancyById?Id=${id}`, requestOptions.get())
+    return fetch(`${config.apiurl}/Job/getVacancyById?Id=${id}`, requestOptions.get())
                 .then(handleResponse)
                 .then( model => { return model })
 }

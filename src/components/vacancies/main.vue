@@ -37,39 +37,29 @@
                       <thead>
                         <tr>
                           <th>Name</th>
-                          <th>Status Reason</th>
-                          <th>Positions Still Open</th>
                           <th>Received</th>
                           <th>Employed Applicants</th>
                           <th>Rejected Applicants</th>
                           <th>New</th>
-                          <th>Employee Fie Review</th>
-                          <th>Supervisor Feedback</th>
                           <th>HR Interview</th>
                           <th>Supervisor Interview</th>
-                          <th>Contract Negotiation</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="i in 10">
+                        <tr v-for="model in vacancies" v-bind:key="model.id">
                           <td style="max-width: unset">
-                            <router-link :to="`/vacancies/vid${i}`">
+                            <router-link :to="{name: 'vacancydetail', params: {id: model.id}}">
                               <span
-                                >Account Manager - Job Title</span
+                                >{{model.title}}</span
                               ></router-link
                             >
                           </td>
-                          <td>2</td>
                           <td>0</td>
-                          <td>0</td>
-                          <td>0</td>
-                          <td>0</td>
-                          <td>0</td>
-                          <td>0</td>
-                          <td>0</td>
-                          <td>0</td>
-                          <td>0</td>
-                          <td>0</td>
+                          <td>{{model.acceptedApplicationCount}}</td>
+                          <td>{{model.rejectedApplicationCount}}</td>
+                          <td>{{model.newApplicationCount}}</td>
+                          <td>{{model.hrInterviewCount}}</td>
+                          <td>{{model.supervisorInterviewCount}}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -88,20 +78,38 @@
 <script>
 import LayoutHeader from "@/components/layouts/Header.vue";
 import LayoutSidebar from "@/components/layouts/Sidebar.vue";
+  import { authenticationService } from '@/services/authenticationService';
+  import { jobService } from '@/services/jobService';
 import Vue from "vue";
 export default {
   components: {
     LayoutHeader,
     LayoutSidebar
   },
+  data() {
+      return {
+          vacancies: [],
+          currentOffice: authenticationService.currentOfficeValue
+      }
+   },
   mounted() {
+      this.getVacancies()
      if ($('.datatable').length > 0) {
         $('.datatable').DataTable({
           "bFilter": false,
         });
       }
   },
-  methods: {},
+  methods: {
+    getVacancies() {
+        jobService.getVacancySummaries(this.currentOffice.id)
+        .then(
+          p => {
+            this.vacancies = p
+          }
+        )
+      }
+  },
   name: "vacancies"
 };
 </script>

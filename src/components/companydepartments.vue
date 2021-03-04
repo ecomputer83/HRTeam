@@ -174,7 +174,7 @@
 </template>
 <script>
   import LayoutHeader from '@/components/layouts/Header.vue'
-  import LayoutSidebar from '@/components/layouts/orgAdminSidebar.vue'
+  import LayoutSidebar from '@/components/layouts/Sidebar.vue'
   import { required } from 'vuelidate/lib/validators';
   import {organizationService} from '@/services/organizationService'
   export default {
@@ -279,7 +279,6 @@
       // }
 
       this.getDepartments()
-      this.deleteDepartment(id)
     },
     name: 'departments'
   }

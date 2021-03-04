@@ -16,6 +16,8 @@ import leaves from '@/components/leaves'
 import leavesettings from '@/components/leavesettings'
 import attendance from '@/components/attendance'
 import departments from '@/components/departments'
+import companydesignations from '@/components/companydesignations'
+import companydepartments from '@/components/companydepartments'
 import designations from '@/components/designations'
 import timesheet from '@/components/timesheet'
 import employeeslist from '@/components/employeeslist'
@@ -26,6 +28,7 @@ import createOrganization from '@/components/createOrganization'
 import leaveTypeForm from '@/components/leaveTypeForm'
 import rank from '@/components/rank'
 import profile from '@/components/employees/profile'
+import details from '@/components/employees/details'
 import login from '@/components/login'
 import attendanceEmployee from '@/components/attendanceEmployee'
 import timesheetEmployee from '@/components/timesheetEmployee'
@@ -140,12 +143,24 @@ const router = new Router({
       path: '/departments',
       name: 'departments',
       component: departments,
-      meta: { authorize: [] }
+      meta: { authorize: [Role.Admin] }
     },
     {
       path: '/designations',
       name: 'designations',
       component: designations,
+      meta: { authorize: [Role.Admin] }
+    },
+    {
+      path: '/companydepartments',
+      name: 'companydepartments',
+      component: companydepartments,
+      meta: { authorize: [Role.HRAdmin] }
+    },
+    {
+      path: '/companydesignations',
+      name: 'companydesignations',
+      component: companydesignations,
       meta: { authorize: [Role.HRAdmin] }
     },
     {
@@ -173,8 +188,8 @@ const router = new Router({
       meta: { authorize: [Role.HRAdmin] }
     },
     {
-      path: '/vacancies/:id',
-      name: 'vacancyDetail',
+      path: '/vacancy/:id',
+      name: 'vacancydetail',
       component: VacancyDetail,
       meta: { authorize: [Role.HRAdmin] }
     },
@@ -222,7 +237,7 @@ const router = new Router({
     {
       path: '/employee-detail/:id',
       name: 'employeedetail',
-      component: profile,
+      component: details,
       meta: { authorize: [] }
     },
     {
@@ -297,7 +312,7 @@ const router = new Router({
       meta: { authorize: [Role.HRAdmin] },
     },
     {
-      path: '/jobview',
+      path: '/jobview/:id',
       name: 'jobview',
       component: jobview
     },

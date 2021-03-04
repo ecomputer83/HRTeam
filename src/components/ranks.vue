@@ -150,6 +150,24 @@
                   <div class="modal-body">
                     <form @submit.prevent="onSubmit">
                       <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="error">
+								                            <strong>Error!</strong> {{error}}
+								                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									                            <span aria-hidden="true">&times;</span>
+								                            </button>
+							                            </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+							                            <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="message">
+								                            <strong>Success!</strong> {{message}}
+								                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									                            <span aria-hidden="true">&times;</span>
+								                            </button>
+							                            </div>
+                                                    </div>
+                                                </div> 
+                      <div class="row">
                         <div class="col-sm-12">
                           <div class="form-group">
                             <label class="col-form-label"
@@ -158,7 +176,7 @@
                             <input
                               class="form-control"
                               type="text"
-                              v-model="rank"
+                              v-model="rankName"
                             />
                           </div>
                         </div>
@@ -184,11 +202,11 @@
                                 />
                               </td>
                               <td class="text-center">
-                                <input v-model="writeHoliday" type="checkbox" />
+                                <input v-model="writeHolidays" type="checkbox" />
                               </td>
                               <td class="text-center">
                                 <input
-                                  v-model="deleteHoliday"
+                                  v-model="deleteHolidays"
                                   type="checkbox"
                                 />
                               </td>
@@ -197,20 +215,20 @@
                               <td>Leaves</td>
                               <td class="text-center">
                                 <input
-                                  v-model="readLeaves"
+                                  v-model="readLeave"
                                   checked=""
                                   type="checkbox"
                                 />
                               </td>
                               <td class="text-center">
                                 <input
-                                  v-model="writeLeaves"
+                                  v-model="writeLeave"
                                   checked=""
                                   type="checkbox"
                                 />
                               </td>
                               <td class="text-center">
-                                <input v-model="deleteLeaves" type="checkbox" />
+                                <input v-model="deleteLeave" type="checkbox" />
                               </td>
                             </tr>
                             <tr>
@@ -241,21 +259,21 @@
                               <td>Timing Sheets</td>
                               <td class="text-center">
                                 <input
-                                  v-model="readTimingSheets"
+                                  v-model="readTimesheet"
                                   checked=""
                                   type="checkbox"
                                 />
                               </td>
                               <td class="text-center">
                                 <input
-                                  v-model="writeTimingSheets"
+                                  v-model="writeTimesheet"
                                   checked=""
                                   type="checkbox"
                                 />
                               </td>
                               <td class="text-center">
                                 <input
-                                  v-model="deleteTimingSheets"
+                                  v-model="deleteTimesheet"
                                   checked=""
                                   type="checkbox"
                                 />
@@ -277,7 +295,7 @@
             <!-- /Add Employee Modal -->
 
             <!-- Edit Employee Modal -->
-            <div id="edit_rank" class="modal custom-modal fade" role="dialog">
+            <div id="edit_rank" class="modal custom-modal fade" role="dialog" v-if="rank">
               <div
                 class="modal-dialog modal-dialog-centered modal-lg"
                 role="document"
@@ -296,6 +314,24 @@
                   </div>
                   <div class="modal-body">
                     <form>
+                      <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="error">
+								                            <strong>Error!</strong> {{error}}
+								                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									                            <span aria-hidden="true">&times;</span>
+								                            </button>
+							                            </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+							                            <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="message">
+								                            <strong>Success!</strong> {{message}}
+								                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									                            <span aria-hidden="true">&times;</span>
+								                            </button>
+							                            </div>
+                                                    </div>
+                                                </div> 
                       <div class="row">
                         <div class="col-sm-12">
                           <div class="form-group">
@@ -318,7 +354,6 @@
                               <th>Module Permission</th>
                               <th class="text-center">Read</th>
                               <th class="text-center">Write</th>
-                              <th class="text-center">Create</th>
                               <th class="text-center">Delete</th>
                             </tr>
                           </thead>
@@ -326,61 +361,88 @@
                             <tr>
                               <td>Holidays</td>
                               <td class="text-center">
-                                <input checked="" type="checkbox" />
+                                <input
+                                  v-model="rank.rankPermission.readHoliday"
+                                  checked=""
+                                  type="checkbox"
+                                />
                               </td>
                               <td class="text-center">
-                                <input type="checkbox" />
+                                <input v-model="rank.rankPermission.writeHolidays" type="checkbox" />
                               </td>
                               <td class="text-center">
-                                <input type="checkbox" />
-                              </td>
-                              <td class="text-center">
-                                <input type="checkbox" />
+                                <input
+                                  v-model="rank.rankPermission.deleteHolidays"
+                                  type="checkbox"
+                                />
                               </td>
                             </tr>
                             <tr>
                               <td>Leaves</td>
                               <td class="text-center">
-                                <input checked="" type="checkbox" />
+                                <input
+                                  v-model="rank.rankPermission.readLeave"
+                                  checked=""
+                                  type="checkbox"
+                                />
                               </td>
                               <td class="text-center">
-                                <input checked="" type="checkbox" />
+                                <input
+                                  v-model="rank.rankPermission.writeLeave"
+                                  checked=""
+                                  type="checkbox"
+                                />
                               </td>
                               <td class="text-center">
-                                <input checked="" type="checkbox" />
-                              </td>
-                              <td class="text-center">
-                                <input type="checkbox" />
+                                <input v-model="rank.rankPermission.deleteLeave" type="checkbox" />
                               </td>
                             </tr>
                             <tr>
                               <td>Assets</td>
                               <td class="text-center">
-                                <input checked="" type="checkbox" />
+                                <input
+                                  v-model="rank.rankPermission.readAssets"
+                                  checked=""
+                                  type="checkbox"
+                                />
                               </td>
                               <td class="text-center">
-                                <input checked="" type="checkbox" />
+                                <input
+                                  v-model="rank.rankPermission.writeAssets"
+                                  checked=""
+                                  type="checkbox"
+                                />
                               </td>
                               <td class="text-center">
-                                <input checked="" type="checkbox" />
-                              </td>
-                              <td class="text-center">
-                                <input checked="" type="checkbox" />
+                                <input
+                                  v-model="rank.rankPermission.deleteAssets"
+                                  checked=""
+                                  type="checkbox"
+                                />
                               </td>
                             </tr>
                             <tr>
                               <td>Timing Sheets</td>
                               <td class="text-center">
-                                <input checked="" type="checkbox" />
+                                <input
+                                  v-model="rank.rankPermission.readTimsheet"
+                                  checked=""
+                                  type="checkbox"
+                                />
                               </td>
                               <td class="text-center">
-                                <input checked="" type="checkbox" />
+                                <input
+                                  v-model="rank.rankPermission.writeTimesheet"
+                                  checked=""
+                                  type="checkbox"
+                                />
                               </td>
                               <td class="text-center">
-                                <input checked="" type="checkbox" />
-                              </td>
-                              <td class="text-center">
-                                <input checked="" type="checkbox" />
+                                <input
+                                  v-model="rank.rankPermission.deleteTimesheet"
+                                  checked=""
+                                  type="checkbox"
+                                />
                               </td>
                             </tr>
                           </tbody>
@@ -459,22 +521,24 @@ export default {
   },
   data() {
     return {
-      rank: {},
-      ranks: [],
+      rankName: '',
       readHoliday: false,
-      writeHoliday: false,
-      deleteHoliday: false,
-      readLeaves: false,
-      writeLeaves: false,
-      deleteLeaves: false,
+      readLeave: false,
       readAssets: false,
+      readTimesheet: false,
+      writeHolidays: false,
+      writeLeave: false,
       writeAssets: false,
+      writeTimesheet: false,
+      deleteHolidays: false,
+      deleteLeave: false,
       deleteAssets: false,
-      readTimingSheets: false,
-      writeTimingSheets: false,
-      deleteTimingSheets: false,
+      deleteTimesheet: false,
+      rank: null,
+      ranks: [],
       loading: false,
       error: "",
+      message: "",
       isCreateNewRank: false,
       submitted: false,
     };
@@ -512,23 +576,28 @@ export default {
         .updateRank(
           this.rank.id,
           this.rank.rankName,
-          this.readHoliday,
-          this.readLeave,
-          this.readAssets,
-          this.readTimesheet,
-          this.writeHolidays,
-          this.writeLeave,
-          this.writeAssets,
-          this.writeTimesheet,
-          this.deleteHolidays,
-          this.deleteLeave,
-          this.deleteAssets,
-          this.deleteTimesheet
+          this.rank.rankPermission.readHoliday,
+          this.rank.rankPermission.readLeave,
+          this.rank.rankPermission.readAssets,
+          this.rank.rankPermission.readTimesheet,
+          this.rank.rankPermission.writeHolidays,
+          this.rank.rankPermission.writeLeave,
+          this.rank.rankPermission.writeAssets,
+          this.rank.rankPermission.writeTimesheet,
+          this.rank.rankPermission.deleteHolidays,
+          this.rank.rankPermission.deleteLeave,
+          this.rank.rankPermission.deleteAssets,
+          this.rank.rankPermission.deleteTimesheet,
+          this.rank.rankPermission.id
         )
         .then((id) => {
+          this.message = "Rank updated successfully"
           organizationService.getRanks().then((w) => {
-            rhis.ranks = w;
+            this.ranks = w;
           });
+        },
+        error => {
+          this.error = error;
         });
     },
 
@@ -545,7 +614,6 @@ export default {
       organizationService
         .addRank(
           this.rankName,
-          this.rank,
           this.readHoliday,
           this.readLeave,
           this.readAssets,
@@ -561,6 +629,7 @@ export default {
         )
         .then(
           (id) => {
+            this.message = "Rank created successfully"
             organizationService.getRanks().then((o) => {
               this.ranks = o;
             });

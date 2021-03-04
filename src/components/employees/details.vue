@@ -539,13 +539,13 @@
 					</div>
 				</div>
 				<!-- /Page Content -->
-				<emergency-contact-modal :model="employee.employeeEmergencies" :id="this.currentUser.employee.id" v-if="employee.employeeEmergencies.length > 0"></emergency-contact-modal>
+				<emergency-contact-modal :model="employee.employeeEmergencies" :id="this.$route.params.id" v-if="employee.employeeEmergencies.length > 0"></emergency-contact-modal>
 				<personal-info-modal :model="employee" v-if="employee.firstName"></personal-info-modal>
 				<profile-modal :model="employee" v-if="employee.firstName"></profile-modal>
-				<bank-info-modal :model="employee.employeeBank" :id="this.currentUser.employee.id" v-if="this.currentUser.employee.id"></bank-info-modal>
-				<family-info-modal :model="employee.employeeFamilies" :id="this.currentUser.employee.id" v-if="this.currentUser.employee.id"></family-info-modal>
-				<experience-modal :model="employee.employeeExperiences" :id="this.currentUser.employee.id" v-if="this.currentUser.employee.id"></experience-modal>
-				<education-modal :model="employee.employeeEducations" :id="this.currentUser.employee.id" v-if="this.currentUser.employee.id"></education-modal>
+				<bank-info-modal :model="employee.employeeBank" :id="this.$route.params.id" v-if="this.$route.params.id"></bank-info-modal>
+				<family-info-modal :model="employee.employeeFamilies" :id="this.$route.params.id" v-if="this.$route.params.id"></family-info-modal>
+				<experience-modal :model="employee.employeeExperiences" :id="this.$route.params.id" v-if="this.$route.params.id"></experience-modal>
+				<education-modal :model="employee.employeeEducations" :id="this.$route.params.id" v-if="this.$route.params.id"></education-modal>
 				
 
 				
@@ -566,7 +566,7 @@
 
 <script>
 	import LayoutHeader from '@/components/layouts/Header.vue'
-	import LayoutSidebar from '@/components/layouts/employeeSidebar.vue'
+	import LayoutSidebar from '@/components/layouts/Sidebar.vue'
 	import PersonalInfoModal from '@/components/employees/PersonalInfoModal.vue'
 	import ProfileModal from '@/components/employees/ProfileModal.vue'
 	import FamilyInfoModal from '@/components/employees/FamilyInfoModal.vue'
@@ -593,11 +593,11 @@
 		data(){
 			return {
 				currentUser: authenticationService.currentUserValue,
-				myAccount: true,
-				employee: {
+				myAccount: false,
+			employee: {
 				firstName: null,
 				gender: "",
-				id: 0,
+				id: this.$route.params.id,
 				lastName: "",
 				maritalStatus: null,
 				nationality: null,
@@ -611,17 +611,16 @@
 				employeeExperiences: [],
 				employeeFamilies: [],
 				
-				}
 			}
+		}
 		},
 		mounted() {
-			if(this.currentUser){
+			if(this.$route.params.id){
 			this.GetEmployee();
 			console.log(this.currentUser)
-			//this.myAccount = this.currentUser.employee.id == this.employee.id
+			this.myAccount = this.currentUser.employee.id == this.employee.id
 			}else{
-				console.log(this.currentUser)
-				//this.$route.push('/employees')
+				this.$route.push('/employees')
 			}
 			// Date Time Picker
 
@@ -659,7 +658,7 @@
 		},
 		methods: {
 			GetEmployee () {
-          employeeService.getEmployeeDetail(this.currentUser.employee.id)
+          employeeService.getEmployeeDetail(this.$route.params.id)
             .then(
                 model => { this.employee = model},
                 error => { this.error = error }

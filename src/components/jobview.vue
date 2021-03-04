@@ -232,6 +232,11 @@
 		components: {
 			LayoutHeaderApp,
 		},
+		data() {
+            return {
+                vacancy: {}
+            }
+        },
 		mounted() {
 			// Date Time Picker
 
