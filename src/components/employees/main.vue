@@ -126,7 +126,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title">Add Employee</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="clearModel">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -248,7 +248,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title">Edit Employee</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="clearModel">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -489,7 +489,7 @@
                       employeeService.getEmployees(this.company.id)
                         .then(
                           model => { this.employees = model;
-                          this.message = '';
+                          //this.message = '';
                           }
                         )
 					},
@@ -509,7 +509,7 @@
                       employeeService.getEmployees(this.company.id)
                         .then(
                           model => { this.employees = model;
-                          this.message = '';
+                          //this.message = '';
                           }
                         )
 					},
@@ -518,6 +518,19 @@
                         this.loading = false;
                     }
                 );
+        },
+
+        clearModel () {
+            this.firstName = '';
+            this.lastName =  '';
+            this.rankId = null;
+            this.address = '';
+            this.phone = '';
+            this.email = '';
+            this.designationId = null;
+            this.employee = null;
+            this.error = '';
+            this.message = ''
         }
   },
         mounted() {
