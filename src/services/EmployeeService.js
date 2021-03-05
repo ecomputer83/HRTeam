@@ -166,8 +166,6 @@ function addEmployeeFamily(employeeId, name, relationship, phoneNo) {
 }
 
 function updateEmployee(id, companyId, rankId, firstName, lastName, email, phone, designationId) {
-    this.getEmployeeDetail(id)
-        .then(model => {
             var req = {
                 id,
                 rankId,
@@ -184,7 +182,6 @@ function updateEmployee(id, companyId, rankId, firstName, lastName, email, phone
 
                     return id;
                 });
-        });
 }
 
 function updateEmployeePersonalInfo(id, passportIdentificationNumber, nationality, phone, religion, maritalStatus) {
