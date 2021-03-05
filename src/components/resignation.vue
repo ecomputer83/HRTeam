@@ -372,11 +372,43 @@ export default {
           }
         );
     },
+    updateEmployeeResignation () {
+        this.submitted = true;
+
+        this.loading = true;
+        console.log(this.resignation)
+        employeeService.updateEmployeeResignation(this.resignation.id, this.resignation.resignationDate, this.resignation.reason, this.resignation.noticeDate, this.resignation.employeeId)
+                .then(id => {
+                      employeeService.getEmployeeResignations(this.company.id)
+                        .then(
+                         o => {this.resignations = o, console.log(o)}
+                        )
+          },
+                    error => {
+                        this.error = error;
+                        this.loading = false;
+                    }
+                );
+            
+    },
+    deleteEmployeeResignation () {
+      const id = this.resignation.id;
+        employeeService.removeEmployeeResignation(id)
+          .then(id => {
+            employeeService.getEmployeeResignations(this.company.id)
+                      .then(
+                        model => { this.resignations = model
+                        console.log(model) },
+                        error => { error = error }
+                      )
+          })
+    },
   },
 
   mounted() {
 
      this.getEmployees()
+     this.getEmployeeResignations()
     // Datatable
     //this.getEmployees(this.employee.id);
     //this.getEmployeeResignations(this.company.id);

@@ -31,6 +31,8 @@ export const employeeService = {
     removeEmployeeLeave,
     addEmployeeResignation,
     getEmployeeResignations,
+    updateEmployeeResignation,
+    removeEmployeeResignation,
     getEmployeeTerminations,
     addEmployeeTermination,
     updateEmployeeTermination,
@@ -523,3 +525,29 @@ function getEmployeeResignations(companyId) {
       });
 
 }
+
+function removeEmployeeResignation(id) {
+
+    return fetch(`${config.apiurl}/Employee​/DeleteEmployeeResignation​/${id}`, requestOptions.delete())
+        .then(handleResponse)
+        .then(model => {
+            return model
+        });
+
+}
+
+function updateEmployeeResignation(id, resignationDate, reason, noticeDate, employeeId) {
+  
+    var req = {
+      id,
+      resignationDate,
+      reason,
+      noticeDate,
+      employeeId
+  }
+    return fetch(`${config.apiurl}/Employee/UpdateEmployeeResignation/${id}`, requestOptions.put(req))
+        .then(handleResponse)
+        .then(id => {
+          return id;
+        });
+  }
