@@ -910,13 +910,13 @@
 
 										<div class="tab-content">
 											<div class="tab-pane show active" id="bottom-tab1">
-												Tab content 1
+												Active Disciplinary Measures
 											</div>
 											<div class="tab-pane" id="bottom-tab2">
-												Tab content 2
+												Disciplinary Measures Employee File View
 											</div>
 											<div class="tab-pane" id="bottom-tab3">
-												Tab content 3
+												Inactive Disciplinary Measures
 											</div>
 										</div>
 									</div>
