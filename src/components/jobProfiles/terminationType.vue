@@ -179,7 +179,7 @@
                       <a
                         href="javascript:void(0);"
                         class="btn btn-primary continue-btn"
-                        @click.prevent="removeSkillType"
+                        
                         data-dismiss="modal"
                         >Delete</a
                       >

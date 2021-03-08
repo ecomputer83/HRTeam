@@ -39,6 +39,7 @@ import companyform from '@/components/companies/form'
 import ranks from '@/components/ranks'
 import skills from '@/components/jobprofiles/skills'
 import skillGrades from '@/components/jobprofiles/skillGrades'
+import terminationType from '@/components/jobprofiles/terminationType'
 import skillType from '@/components/jobprofiles/skillType'
 import leaveTypeOrgAdmin from '@/components/leaveTypeOrgAdmin'
 import jobview from '@/components/jobview'
@@ -335,10 +336,14 @@ const router = new Router({
       name: 'termination',
       component: termination
     },
-
-
+    {
+      path: '/termination-type',
+      name: 'terminationtype',
+      component: terminationType
+    },
 
   ],
+
   linkActiveClass: "active"
 });
 router.beforeEach((to, from, next) => {

@@ -48,8 +48,8 @@
                   </thead>
                   <tbody>
                     <tr
-                      v-for="resignation in resignations"
-                      v-bind:key="resignation.id"
+                      v-for="item in resignations"
+                      v-bind:key="item.id"
                     >
                       <td>
                         <h2 class="table-avatar blue-link">
@@ -57,14 +57,14 @@
                             ><img alt="" src="../assets/profiles/avatar-02.jpg"
                           /></router-link>
                           <router-link to="/profile">{{
-                            `${resignation.firstName} ${resignation.lastName}`
+                            `${item.firstName} ${item.lastName}`
                           }}</router-link>
                         </h2>
                       </td>
-                      <td>{{ resignation.department }}</td>
-                      <td>{{ resignation.reason }}</td>
-                      <td>{{ resignation.noticeDate }}</td>
-                      <td>{{ resignation.resignationDate }}</td>
+                      <td>{{ item.department }}</td>
+                      <td>{{ item.reason }}</td>
+                      <td>{{ item.noticeDate }}</td>
+                      <td>{{ item.resignationDate }}</td>
                       <td class="text-right">
                         <div class="dropdown dropdown-action">
                           <a
@@ -77,14 +77,14 @@
                           <div class="dropdown-menu dropdown-menu-right">
                             <a
                               class="dropdown-item"
-                              @click="setResgination(resignation)"
+                              @click="setResignation(item)"
                               data-toggle="modal"
                               data-target="#edit_resignation"
                               ><i class="fa fa-pencil m-r-5"></i> Edit</a
                             >
                             <a
                               class="dropdown-item"
-                              @click="setResgination(resignation)"
+                              @click="setResignation(item)"
                               data-toggle="modal"
                               data-target="#delete_resignation"
                               ><i class="fa fa-trash-o m-r-5"></i> Delete</a
@@ -120,60 +120,28 @@
               <div class="modal-body">
                 <form @submit.prevent="onSubmit">
                   <div class="form-group">
-                    <label
-                      >Resigning Employee
-                      <span class="text-danger">*</span></label
-                    >
-                    <select class="form-control" v-model="name">
-                      <!-- <option>Select Employee</option> -->
-                      <option
-                        v-for="item in employees"
-                        :key="item.id"
-                        :value="item.id"
-                      >
-                        {{ `${item.firstName} ${item.lastName}` }}
-                      </option>
+                    <label>Resigning Employee <span class="text-danger">*</span></label>
+                    <select class="form-control" v-model="employeeId">
+                      <option>Select Resigning Employee</option>
+                      <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName}}</option>
                     </select>
                   </div>
                   <div class="form-group">
-                    <label
-                      >Notice Date <span class="text-danger">*</span></label
-                    >
-                    <div class="cal-icon">
-                      <input
-                        v-model.trim="$v.noticeDate.$model"
-                        id="noticeDate"
-                        name="noticeDate"
-                        type="text"
-                        class="form-control datetimepicker"
-                      />
-                    </div>
+                      <label>Notice Date <span class="text-danger">*</span></label>
+                      <div class="cal-icon">
+                        <datepicker v-model="noticeDate" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
+                      </div>
                   </div>
                   <div class="form-group">
-                    <label
-                      >Resignation Date
-                      <span class="text-danger">*</span></label
-                    >
-                    <div class="cal-icon">
-                      <input
-                        v-model.trim="$v.resignationDate.$model"
-                        id="resignationDate"
-                        name="resignationDate"
-                        type="text"
-                        class="form-control datetimepicker"
-                      />
-                    </div>
+                      <label>Resignation Date <span class="text-danger">*</span></label>
+                      <div class="cal-icon">
+                        <datepicker v-model="resignationDate" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
+                      </div>
                   </div>
                   <div class="form-group">
-                    <label>Reason <span class="text-danger">*</span></label>
-                    <textarea
-                      v-model.trim="$v.reason.$model"
-                      id="reason"
-                      name="reason"
-                      class="form-control"
-                      rows="4"
-                    ></textarea>
-                  </div>
+                                        <label>Reason <span class="text-danger">*</span></label>
+                                        <textarea class="form-control" v-model="reason" rows="4"></textarea>
+                                    </div>
                   <div class="submit-section">
                     <button
                       @click.prevent="onSubmit"
@@ -304,20 +272,23 @@ import LayoutHeader from "@/components/layouts/Header.vue";
 import LayoutSidebar from "@/components/layouts/Sidebar.vue";
 import { required, sameAs } from "vuelidate/lib/validators";
 import { employeeService } from "@/services/employeeService.js";
+import Datepicker from 'vuejs-datepicker'
 import { authenticationService } from "@/services/authenticationService";
 
 export default {
   components: {
     LayoutHeader,
     LayoutSidebar,
+    Datepicker
   },
 
   data() {
     return {
       name: "",
+      employeeId: "",
       reason: "",
-      noticeDate: " ",
-      resignationDate: " ",
+      noticeDate: "",
+      resignationDate: "",
       resignation: {},
       resignations: [],
       employee: [],
@@ -338,18 +309,29 @@ export default {
   },
 
   methods: {
-    getEmployees(id) {
-      employeeService.getEmployees(id).then(
-        (model) => {
-          console.log(model);
-          this.employees = model;
-        },
-        (error) => {
-          error = error;
-        }
-      );
-    },
+    // getEmployees(id) {
+    //   employeeService.getEmployees(id).then(
+    //     (model) => {
+    //       console.log(model);
+    //       this.employees = model;
+    //     },
+    //     (error) => {
+    //       error = error;
+    //     }
+    //   );
+    // },
 
+    getEmployees () {
+        const companyId = this.company.id;
+        console.log('this.company.id', this.company.id)
+        employeeService.getEmployees(companyId)
+          .then(
+            model => { this.employees = model
+            //console.log(model) 
+            },
+            error => { error = error }
+          )
+      },
     getEmployeeResignations() {
       const companyId = this.company.id;
       employeeService.getEmployeeResignations(companyId).then(
@@ -362,31 +344,26 @@ export default {
       );
     },
 
-    setResgination(model) {
+    setResignation(model) {
       this.resignation = model;
     },
 
     onSubmit() {
       this.submitted = true;
 
-      this.$v.$touch();
-      if (this.$v.$invalid) {
-        return;
-      }
+      
       this.loading = true;
       employeeService
         .addEmployeeResignation(
-          this.employee.id,
-          this.name,
+          this.resignationDate,
           this.reason,
           this.noticeDate,
-          this.resignationDate,
-          this.designationId
+          this.employeeId
         )
         .then(
           (id) => {
-            employeeService.getEmployeeResignations(companyId).then((w) => {
-              this.resignations = w;
+            employeeService.getEmployeeResignations(this.company.id).then((w) => {
+              this.resignations = w, console.log(w);
             });
           },
           (error) => {
@@ -395,12 +372,46 @@ export default {
           }
         );
     },
+    updateEmployeeResignation () {
+        this.submitted = true;
+
+        this.loading = true;
+        console.log(this.resignation)
+        employeeService.updateEmployeeResignation(this.resignation.id, this.resignation.resignationDate, this.resignation.reason, this.resignation.noticeDate, this.resignation.employeeId)
+                .then(id => {
+                      employeeService.getEmployeeResignations(this.company.id)
+                        .then(
+                         o => {this.resignations = o, console.log(o)}
+                        )
+          },
+                    error => {
+                        this.error = error;
+                        this.loading = false;
+                    }
+                );
+            
+    },
+    deleteEmployeeResignation () {
+      const id = this.resignation.id;
+        employeeService.removeEmployeeResignation(id)
+          .then(id => {
+            employeeService.getEmployeeResignations(this.company.id)
+                      .then(
+                        model => { this.resignations = model
+                        console.log(model) },
+                        error => { error = error }
+                      )
+          })
+    },
   },
 
   mounted() {
+
+     this.getEmployees()
+     this.getEmployeeResignations()
     // Datatable
-    this.getEmployees(this.employee.id);
-    this.getEmployeeResignations(this.company.id);
+    //this.getEmployees(this.employee.id);
+    //this.getEmployeeResignations(this.company.id);
 
     if ($(".datatable").length > 0) {
       $(".datatable").DataTable({
