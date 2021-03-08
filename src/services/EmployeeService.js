@@ -501,7 +501,7 @@ function removeEmployeeTermination(id) {
 
 }
 
-function addEmployeeResignation(resignationDate, reason, noticeDate, employeeId ) {
+function addEmployeeResignation(resignationDate, reason, noticeDate, employeeId) {
   var req = {
       resignationDate,
       reason,
@@ -550,4 +550,4 @@ function updateEmployeeResignation(id, resignationDate, reason, noticeDate, empl
         .then(id => {
           return id;
         });
-  }
+    }

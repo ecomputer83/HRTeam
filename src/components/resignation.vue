@@ -296,7 +296,7 @@ export default {
       error: "",
       employees: [],
       submitted: false,
-      employee: authenticationService.currentOfficeValue,
+      //employee: authenticationService.currentOfficeValue,
       company: authenticationService.currentOfficeValue,
     };
   },
@@ -327,7 +327,7 @@ export default {
         employeeService.getEmployees(companyId)
           .then(
             model => { this.employees = model
-            //console.log(model) 
+            console.log(model) 
             },
             error => { error = error }
           )
@@ -336,6 +336,7 @@ export default {
       const companyId = this.company.id;
       employeeService.getEmployeeResignations(companyId).then(
         (model) => {
+          console.log(model)
           this.resignations = model;
         },
         (error) => {
