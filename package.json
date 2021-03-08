@@ -1,8 +1,8 @@
 {
-  "name": "smarthrnew-vuejs",
+  "name": "sapphirehr",
   "version": "1.0.0",
-  "description": "vuejs project",
-  "author": "dreamguys technologies",
+  "description": "HR Managment System",
+  "author": "one afric",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
@@ -33,6 +33,7 @@
     "rxjs": "^6.6.3",
     "select2": "^4.0.13",
     "summernote": "^0.8.10",
+    "tinycolor2": "^1.4.2",
     "v-select2-component": "^0.4.3",
     "vue": "^2.6.11",
     "vue-apexcharts": "^1.6.0",
@@ -62,6 +63,7 @@
     "vuejs-datatable": "^2.0.0-alpha.7",
     "vuejs-datepicker": "^1.6.2",
     "vuelidate": "^0.7.6",
+    "vuetify": "^2.4.5",
     "vuex": "^3.5.1"
   },
   "devDependencies": {
