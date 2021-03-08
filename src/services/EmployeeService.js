@@ -541,7 +541,7 @@ function updateEmployeeResignation(id, resignationDate, reason, noticeDate, empl
     var req = {
       id,
       resignationDate,
-      reason,/
+      reason,
       noticeDate,
       employeeId
   }
