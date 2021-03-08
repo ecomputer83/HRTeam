@@ -47,6 +47,10 @@ import joblist from '@/components/joblist'
 import applicantLogin from '@/components/applicantLogin'
 import termination from '@/components/termination';
 import resignation from '@/components/resignation';
+import salary from '@/components/payroll/salary'
+import salaryview from '@/components/payroll/salaryview'
+import payrollitems from '@/components/payroll/payrollitems'
+import policies from '@/components/policies'
 import { authenticationService } from '@/services/authenticationService';
 import { Role } from '@/helpers/role';
 
@@ -341,6 +345,30 @@ const router = new Router({
       name: 'terminationtype',
       component: terminationType
     },
+    {
+      path: '/salary',
+      name: 'salary',
+      component: salary,
+      meta: { authorize: [Role.HRAdmin] },
+    },
+    {
+      path: '/salaryview',
+      name: 'salaryview',
+      component: salaryview,
+      meta: { authorize: [Role.HRAdmin] },
+    },
+    {
+      path: '/payrollitems',
+      name: 'payrollitems',
+      component: payrollitems,
+      meta: { authorize: [Role.HRAdmin] },
+    },
+    {
+      path: '/policies',
+      name: 'policies',
+      component: policies,
+      meta: { authorize: [Role.HRAdmin] },
+    }
 
   ],
 
