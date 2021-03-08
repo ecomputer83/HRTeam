@@ -466,7 +466,7 @@
                 return;
             }
 
-            if(this.$router.params){
+            if(this.$route.params){
 
               jobService.updateJobProfile(this.profile.id, this.professionId, this.profile.rankId, this.profile.departmentId, this.profile.title, this.profile.experience,
                 this.profile.description, parseInt(this.profile.salaryMin), parseInt(this.profile.salaryMax), parseInt(this.profile.averageSalary), this.profile.educationRequirement, this.profile.educationDegree, this.profile.status)

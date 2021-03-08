@@ -36,7 +36,32 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <div class="table-responsive">
+                                  <v-data-table
+                                      :headers="headers"
+                                      :items="companies"
+                                      sort-by="names"
+                                      class="elevation-1"
+                                      >
+
+      <template v-slot:[`item.actions`]="{ item }">
+        
+        <v-icon
+          small
+          class="btn btn-link active"
+          @click="setEditCompany(item)"
+        >
+          mdi-pencil
+        </v-icon>
+        <v-icon
+          small
+          class="btn btn-link active"
+          @click="setDeleteCompany(item)"
+        >
+          mdi-delete
+        </v-icon>
+      </template>
+                                  </v-data-table>
+                                    <!-- <div class="table-responsive">
                                         <table class="table table-hover mb-0">
                                             <thead>
                                                 <tr>
@@ -78,7 +103,7 @@
                                                 
                                             </tbody>
                                         </table>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -86,12 +111,12 @@
           <!-- /Page Content -->
 
 				<!-- Edit Employee Modal -->
-				<div id="edit_leave_type" class="modal custom-modal fade" role="dialog">
-					<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+				<v-dialog v-model="dialog" max-width="725px"
+          >
 						<div class="modal-content">
 							<div class="modal-header">
 								<h5 class="modal-title">Edit Company</h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<button type="button" class="close" @click="close">
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
@@ -143,13 +168,11 @@
 								</form>
 							</div>
 						</div>
-					</div>
-				</div>
+				</v-dialog>
 				<!-- /Edit Employee Modal -->
 
 				<!-- Delete Employee Modal -->
-				<div class="modal custom-modal fade" id="delete_leave_type" role="dialog">
-					<div class="modal-dialog modal-dialog-centered">
+				<v-dialog v-model="dialogDelete" max-width="725px">
 						<div class="modal-content">
 							<div class="modal-body">
 								<div class="form-header">
@@ -160,18 +183,17 @@
 									<div class="row">
 										<div class="col-6">
 											<a @click="removeCompany"
-												class="btn btn-primary continue-btn" data-dismiss="modal">Delete</a>
+												class="btn btn-primary continue-btn">Delete</a>
 										</div>
 										<div class="col-6">
-											<a href="javascript:void(0);" data-dismiss="modal"
+											<a href="javascript:void(0);" @click="closeDelete"
 												class="btn btn-primary cancel-btn">Cancel</a>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</div>
+				</v-dialog>
 				<!-- /Delete Employee Modal -->
           </div>
           <!-- /Page Content -->
@@ -193,6 +215,19 @@ export default {
   },
   data(){
     return {
+      dialog: false,
+    dialogDelete: false,
+      headers: [
+      {
+        text: 'Company Name',
+        align: 'start',
+        value: 'name',
+      },
+      { text: 'Address', value: 'address' },
+      { text: 'Contact Person', value: 'contactPerson' },
+      { text: 'Contact Email', value: 'email' },
+      { text: '', value: 'actions', sortable: false },
+    ],
       companies: [],
       company: null,
       submitted: false,
@@ -200,6 +235,15 @@ export default {
       error: '',
     }
   },
+  watch: {
+    dialog (val) {
+      val || this.close()
+    },
+    dialogDelete (val) {
+      val || this.closeDelete()
+    },
+  },
+
     validations: {
         company: {
             name: { required },
@@ -221,8 +265,21 @@ export default {
             )
       },
       
-      setCompany(company){
+      setEditCompany(company){
           this.company = company
+          this.dialog = true
+      },
+      setDeleteCompany(company){
+          this.company = company
+          this.dialogDelete = true
+      },
+
+      closeDelete(){
+        this.dialogDelete = false
+      },
+
+      close(){
+        this.dialog = false
       },
 
       removeCompany(){
@@ -232,7 +289,11 @@ export default {
                   id => {
                       organizationService.getCompanies()
                         .then(
-                          model => {this.companies = model}
+                          model => {
+                            this.companies = model
+                            this.dialogDelete = false
+                            }
+
                         )
 					},
                     error => {
@@ -257,7 +318,10 @@ export default {
                     id => {
                       organizationService.getCompanies()
                         .then(
-                          model => { this.companies = model}
+                          model => { 
+                            this.companies = model
+                            this.dialog = false
+                            }
                         )
 					},
                     error => {

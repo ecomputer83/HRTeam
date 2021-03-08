@@ -54,6 +54,7 @@ import 'quill/dist/quill.bubble.css'
 import VueApexCharts from 'vue-apexcharts'
 import { VuejsDatatableFactory } from 'vuejs-datatable';
 import "vue-select/dist/vue-select.css";
+import vuetify from '@/plugins/vuetify'
  
 global.Raphael = Raphael
 Vue.config.productionTip = false
@@ -93,6 +94,7 @@ Vue.use(FullCalendar);
 Vue.use(Vuelidate);
 installer(Vue, store)
 new Vue({
+  vuetify,
   store,
   el: '#app',
   router,
