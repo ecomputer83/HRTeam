@@ -130,15 +130,13 @@
             <!-- /Page Content -->
             <!-- Add Employee Modal -->
             <v-dialog v-model="dialog" max-width="725px">
-              <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title">Add Rank</h5>
                     <button
                       type="button"
                       class="close"
-                      data-dismiss="modal"
-                      aria-label="Close"
+                      @click="close"
                     >
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -286,24 +284,18 @@
                     </form>
                   </div>
                 </div>
-              </div>
             </v-dialog>
             <!-- /Add Employee Modal -->
 
             <!-- Edit Employee Modal -->
-            <v-dialog v-model="dialogEdit" max-width="725px">
-              <div
-                class="modal-dialog modal-dialog-centered modal-lg"
-                role="document"
-              >
+            <v-dialog v-model="dialogEdit" max-width="725px" v-if="rank">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title">Edit Rank</h5>
                     <button
                       type="button"
                       class="close"
-                      data-dismiss="modal"
-                      aria-label="Close"
+                      @click="closeEdit"
                     >
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -455,13 +447,11 @@
                     </form>
                   </div>
                 </div>
-              </div>
             </v-dialog>
             <!-- /Edit Employee Modal -->
 
             <!-- Delete Employee Modal -->
             <v-dialog v-model="dialogDelete" max-width="725px">
-              <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                   <div class="modal-body">
                     <div class="form-header">
@@ -490,7 +480,6 @@
                     </div>
                   </div>
                 </div>
-              </div>
             </v-dialog>
             <!-- /Delete Employee Modal -->
           </div>
@@ -554,6 +543,18 @@ export default {
     // handleNewRank() {
     //   handleNewRank = !this.isCreateNewRank
     // },
+
+    close() {
+      this.dialog = false
+    },
+
+    closeEdit() {
+      this.dialogEdit = false;
+    },
+
+    closeDelete() { 
+      this.dialogDelete = false;
+    },
 
     setEditRank(model) {
       this.rank = model;
