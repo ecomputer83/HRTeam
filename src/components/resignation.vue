@@ -39,7 +39,7 @@
                   <thead>
                     <tr>
                       <th>Resigning Employee</th>
-                      <th>Department</th>
+                      <th>Designation</th>
                       <th>Reason</th>
                       <th>Notice Date</th>
                       <th>Resignation Date</th>
@@ -57,11 +57,11 @@
                             ><img alt="" src="../assets/profiles/avatar-02.jpg"
                           /></router-link>
                           <router-link to="/profile">{{
-                            `${item.firstName} ${item.lastName}`
+                            `${item.employee.firstName} ${item.employee.lastName}`
                           }}</router-link>
                         </h2>
                       </td>
-                      <td>{{ item.department }}</td>
+                      <td>{{ item.employee.designation }}</td>
                       <td>{{ item.reason }}</td>
                       <td>{{ item.noticeDate }}</td>
                       <td>{{ item.resignationDate }}</td>
@@ -178,43 +178,32 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form>
+                <form @submit.prevent="updateEmployeeResignation">
                   <div class="form-group">
-                    <label
-                      >Resigning Employee
-                      <span class="text-danger">*</span></label
-                    >
-                    <input class="form-control" type="text" value="John Doe" />
+                    <label>Resigning Employee <span class="text-danger">*</span></label>
+                    <select class="form-control" v-model="employeeId">
+                      <option>Select Resigning Employee</option>
+                      <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName}}</option>
+                    </select>
                   </div>
                   <div class="form-group">
-                    <label
-                      >Notice Date <span class="text-danger">*</span></label
-                    >
-                    <div class="cal-icon">
-                      <input
-                        type="text"
-                        class="form-control datetimepicker"
-                        value="28/02/2019"
-                      />
-                    </div>
+                      <label>Notice Date <span class="text-danger">*</span></label>
+                      <div class="cal-icon">
+                        <datepicker v-model="resignation.noticeDate" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
+                      </div>
                   </div>
                   <div class="form-group">
-                    <label
-                      >Resignation Date
-                      <span class="text-danger">*</span></label
-                    >
-                    <div class="cal-icon">
-                      <input
-                        type="text"
-                        class="form-control datetimepicker"
-                        value="28/02/2019"
-                      />
-                    </div>
+                      <label>Resignation Date <span class="text-danger">*</span></label>
+                      <div class="cal-icon">
+                        <datepicker v-model="resignation.resignationDate" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
+                      </div>
                   </div>
                   <div class="form-group">
-                    <label>Reason <span class="text-danger">*</span></label>
-                    <textarea class="form-control" rows="4"></textarea>
-                  </div>
+                                        <label>Reason <span class="text-danger">*</span></label>
+                                        <textarea class="form-control" v-model="resignation.reason" rows="4"></textarea>
+                                    </div>
+
+                  
                   <div class="submit-section">
                     <button class="btn btn-primary submit-btn">Submit</button>
                   </div>
@@ -242,8 +231,9 @@
                   <div class="row">
                     <div class="col-6">
                       <a
-                        href="javascript:void(0);"
+                        @click.prevent="deleteEmployeeResignation"
                         class="btn btn-primary continue-btn"
+                        data-dismiss="modal"
                         >Delete</a
                       >
                     </div>
@@ -296,7 +286,7 @@ export default {
       error: "",
       employees: [],
       submitted: false,
-      employee: authenticationService.currentOfficeValue,
+      //employee: authenticationService.currentOfficeValue,
       company: authenticationService.currentOfficeValue,
     };
   },
@@ -327,7 +317,7 @@ export default {
         employeeService.getEmployees(companyId)
           .then(
             model => { this.employees = model
-            //console.log(model) 
+            console.log(model) 
             },
             error => { error = error }
           )
@@ -336,6 +326,7 @@ export default {
       const companyId = this.company.id;
       employeeService.getEmployeeResignations(companyId).then(
         (model) => {
+          console.log(model)
           this.resignations = model;
         },
         (error) => {
@@ -393,6 +384,7 @@ export default {
     },
     deleteEmployeeResignation () {
       const id = this.resignation.id;
+      console.log(this.resignation)
         employeeService.removeEmployeeResignation(id)
           .then(id => {
             employeeService.getEmployeeResignations(this.company.id)
