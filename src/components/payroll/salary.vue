@@ -82,8 +82,46 @@
                     <!----Datatable-->
                     <div class="row">
                         <div class="col-md-12">
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="error">
+                                <strong>Error!</strong> {{error}}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
                             <div class="table-responsive">
-                                <table class="table table-striped custom-table datatable">
+                                <v-data-table
+                                    :headers="headers"
+                                    :items="salaries"
+                                    sort-by=""
+                                    class="elevation-1"
+                                >
+                                    <template v-slot:[`item.actions`]="{ item }">
+                                        <div class="dropdown dropdown-action">
+                                            <a
+                                                href="#"
+                                                class="action-icon dropdown-toggle"
+                                                data-toggle="dropdown"
+                                                aria-expanded="false"
+                                                ><i class="material-icons">more_vert</i></a
+                                            >
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a
+                                                class="dropdown-item"
+                                                @click="setEditSalary(item)"
+                                                ><i class="fa fa-pencil m-r-5"></i> Edit</a
+                                                >
+                                                <a
+                                                class="dropdown-item"
+                                                @click="setDeleteSalary(item)"
+                                                ><i class="fa fa-trash-o m-r-5"></i> Delete</a
+                                                >
+                                            </div>
+                                        </div>
+                                    </template>
+                                </v-data-table>
+                                <!-- <table class="table table-striped custom-table datatable">
                                     <thead>
                                         <tr>
                                             <th>Employee</th>
@@ -646,7 +684,7 @@
                                             <td>$92400</td>
                                         </tr>
                                     </tbody>
-                                </table>
+                                </table> -->
                             </div>
                         </div>
                     </div>
@@ -655,25 +693,24 @@
                 <!-- /Page Content -->
 
                 <!-- Add Salary Modal -->
-                <div id="add_salary" class="modal custom-modal fade" role="dialog">
-                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <v-dialog v-model="dialog" max-width="725px">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title">Add Staff Salary</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <button type="button" class="close" @click="close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form>
+                                <form @submit.prevent="onSubmit">
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group">
-                                                <label>Select Staff</label>
-                                                <select class="select">
-                                                    <option>John Doe</option>
-                                                    <option>Richard Miles</option>
-                                                </select>
+                                                <label>Employee <span class="text-danger">*</span></label>
+                                                <select class="form-control" v-model="employeeId">
+                                                <option>Select Staffff</option>
+                                                <option v-for="member in employees" :key="member.id"  :value="member.id">{{member.lastName + ' ' +member.firstName}}</option>
+                                            </select>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
@@ -757,8 +794,7 @@
                                 </form>
                             </div>
                         </div>
-                    </div>
-                </div>
+                </v-dialog>
                 <!-- /Add Salary Modal -->
 
                 <!-- Edit Salary Modal -->
@@ -901,12 +937,75 @@
 <script>
     import LayoutHeader from '@/components/layouts/Header.vue'
     import LayoutSidebar from '@/components/layouts/Sidebar.vue'
+    import { authenticationService } from "@/services/authenticationService"
+    import { employeeService } from '@/services/employeeService'
+
     export default {
         components: {
             LayoutHeader,                                                                                                                                                                                                                                                                                                                                                                      
             LayoutSidebar,
         },
+        data() {
+        return {
+            dialog: false,
+            dialogEdit: false,
+            dialogDelete: false,
+            headers: [
+            {
+                text: 'Employee',
+                align: 'start',
+                value: 'profile',
+            },
+            { text: 'Employee ID', value: 'employee.designation' },
+            { text: 'Email', value: 'email' },
+            { text: 'Join Date', value: '' },
+            { text: 'Role', value: '' },
+            { text: 'Payslip', value: '' },
+            { text: '', value: 'actions', sortable: false },
+            { text: 'Salary', value: '' },
+            ],
+            staff: "",
+            netSalary: "",
+            basic: "",
+            hra: "",
+            pf: "",
+            allowance: "",
+            leaveAllowance: "",
+            hmo: "",
+            employeeId: "",
+            employee: [],
+            loading: false,
+            error: "",
+            employees: [],
+            submitted: false,
+            //employee: authenticationService.currentOfficeValue,
+            company: authenticationService.currentOfficeValue,
+            };
+        },
+        methods: {
+            getEmployees () {
+                employeeService.getEmployees(this.company.id)
+                .then(
+                    model => { this.employees = model
+                    console.log(model) 
+                    },
+                    error => { error = error }
+                )
+            },
+            getEmployeeSalary () {
+                employeeService.getEmployeeSalary(id)
+                .then(
+                    m => { this.employees = model 
+                        console.log(model)
+                    },
+                    error => { error = error }
+                )
+            },
+            
+        },
         mounted() {
+            this.getEmployees()
+            this.getEmployeeSalary()
             // Date Time Picker
 
             if ($('.datetimepicker').length > 0) {

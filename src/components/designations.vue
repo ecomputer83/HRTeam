@@ -28,16 +28,59 @@
           <!----Datatable-->
           <div class="row">
             <div class="col-md-12">
-                                                        <div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="error">
-								                            <strong>Error!</strong> {{error}}
-								                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-									                            <span aria-hidden="true">&times;</span>
-								                            </button>
-							                            </div>
-                                        </div>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="error">
+                <strong>Error!</strong> {{error}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            </div>
             <div class="col-md-12">
               <div class="table-responsive">
-                <table class="table table-striped custom-table mb-0 datatable">
+                <v-data-table
+                  :headers="headers"
+                  :items="designations"
+                  sort-by="name"
+                  class="elevation-1"
+                >
+
+                  <template v-slot:[`item.actions`]="{ item }">
+        
+                  <div class="dropdown dropdown-action">
+                          <a
+                            href="#"
+                            class="action-icon dropdown-toggle"
+                            data-toggle="dropdown"
+                            aria-expanded="false"
+                            ><i class="material-icons">more_vert</i></a
+                          >
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a
+                              class="dropdown-item"
+                              @click="setEditDesignation(item)"
+                              ><i class="fa fa-pencil m-r-5"></i> Edit</a
+                            >
+                            <a
+                              class="dropdown-item"
+                              @click="setDeleteDesignation(item)"
+                              ><i class="fa fa-trash-o m-r-5"></i> Delete</a
+                            >
+                          </div>
+                        </div>
+      </template>
+      </v-data-table>
+      <!-- <template v-slot:[`item.profile`]="{ item }">
+        <h2 class="table-avatar blue-link">
+                          <router-link to="/profile" class="avatar"
+                            ><img alt="" src="../assets/profiles/avatar-02.jpg"
+                          /></router-link>
+                          <router-link to="/profile">{{
+                            `${item.firstName}`
+                          }}</router-link>
+                        </h2>
+      </template> -->
+                                  
+                <!-- <table class="table table-striped custom-table mb-0 datatable">
                   <thead>
                     <tr>
                       <th style="width: 30px;">#</th>
@@ -56,7 +99,7 @@
                           <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
                             aria-expanded="false"><i class="material-icons">more_vert</i></a>
                           <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" @click="setDesignation(item)" data-toggle="modal" data-target="#edit_designation"><i
+                            <a class="dropdown-item" @click="setEditDesignation(item)" data-toggle="modal" data-target="#edit_designation"><i
                                 class="fa fa-pencil m-r-5"></i> Edit</a>
                             <a class="dropdown-item" @click="setDesignation(item)" data-toggle="modal" data-target="#delete_designation"><i
                                 class="fa fa-trash-o m-r-5"></i> Delete</a>
@@ -72,7 +115,7 @@
                    
                     
                   </tbody>
-                </table>
+                </table> -->
               </div>
             </div>
           </div>
@@ -80,12 +123,12 @@
         </div>
         <!-- /Page Content -->
         <!-- Add Designation Modal -->
-        <div id="add_designation" class="modal custom-modal fade" role="dialog">
-          <div class="modal-dialog modal-dialog-centered" role="document">
+        <v-dialog v-model="dialog" max-width="725px"
+          >
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">Add Designation</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" @click="close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -112,21 +155,20 @@
                     </select>
                   </div>
                   <div class="submit-section">
-                    <button class="btn btn-primary submit-btn">Submit</button>
+                    <button @click.prevent="onSubmit" class="btn btn-primary submit-btn" data-dismiss="modal">Submit</button>
                   </div>
                 </form>
               </div>
             </div>
-          </div>
-        </div>
+          </v-dialog>
         <!-- /Add Designation Modal -->
         <!-- Edit Designation Modal -->
-         <div id="edit_designation" class="modal custom-modal fade" role="dialog">
-          <div class="modal-dialog modal-dialog-centered" role="document">
+        <v-dialog v-model="dialogEdit" max-width="725px"
+          >
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">Edit Designation</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" @click="closeEdit">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -136,7 +178,7 @@
                     <label>Designation Name <span class="text-danger">*</span></label>
                     <input 
                       type="text" 
-                      v-model="designation.name" 
+                      v-model="designation.name"
                       id="name" 
                       name="name" 
                       class="form-control"
@@ -149,12 +191,11 @@
                 </form>
               </div>
             </div>
-          </div>
-        </div>
+        </v-dialog>
         <!-- /Edit Designation Modal -->
         <!-- Delete Designation Modal -->
-        <div class="modal custom-modal fade" id="delete_designation" role="dialog">
-          <div class="modal-dialog modal-dialog-centered">
+        <v-dialog v-model="dialogDelete" max-width="725px"
+          >
             <div class="modal-content">
               <div class="modal-body">
                 <div class="form-header">
@@ -173,8 +214,7 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+        </v-dialog>
         <!-- /Delete Designation Modal -->
 
       </div>
@@ -194,6 +234,21 @@
     },
     data(){
       return {
+      dialog: false,
+      dialogEdit: false,
+      dialogDelete: false,
+      headers: [
+      {
+        text: '3',
+        align: 'start',
+        value: 'profile',
+      },
+      { text: 'Designation', value: 'name' },
+      { text: 'Department', value: 'department.name' },
+      { text: 'Notice Date', value: 'noticeDate' },
+      { text: 'Resignation Date', value: 'resignationDate' },
+      { text: '', value: 'actions', sortable: false },
+    ],
         name: "",
         designations: [],
         designation: {},
@@ -204,15 +259,46 @@
         error: '',
       };
     },
+    watch: {
+    dialog (val) {
+      val || this.close()
+    },
+    dialogDelete (val) {
+      val || this.closeDelete()
+    },
+    dialogEdit (val) {
+      val || this.closeEdit()
+    },
+  },
     methods: {
-      getDesignations () {
-        organizationService.getDesignations()
-          .then(
-            model => { this.designations = model
-            console.log(model) },
-            error => { error = error }
-          )
-      },
+    openDialog(){
+      this.dialog = true
+    },
+    close() {
+      this.dialog = false
+    },
+    closeEdit() {
+      this.dialogEdit = false
+    },
+    closeDelete() {
+      this.dialogDelete = false
+    },
+    setEditDesignation(model) {
+      this.designation = model;
+      this.dialogEdit = true
+    },
+    setDeleteDesignation(model) {
+      this.designation = model;
+      this.dialogDelete = true;
+    },
+    getDesignations () {
+      organizationService.getDesignations()
+        .then(
+          model => { this.designations = model
+          console.log(model) },
+          error => { error = error }
+        )
+    },
       getDepartments () {
         organizationService.getDepartments()
           .then(
@@ -233,7 +319,7 @@
           .then(id => {
                       organizationService.getDesignations()
                         .then(
-                          o => {this.designations = o}
+                          o => {this.designations = o; this.closeEdit()}
                         )
 					},
                     error => {
@@ -254,21 +340,22 @@
                 e => {this.error = "Designation being used in some information"})
       },
       onSubmit () {
-      this.submitted = true;
-        console.log('done')
-      // stop here if form is invalid
-            this.$v.$touch();
-            if (this.$v.$invalid) {
-                return;
-            }
+        this.submitted = true;
+      
+        // stop here if form is invalid
+        this.$v.$touch();
+        if (this.$v.$invalid) {
+            return;
+        }
+
         this.loading = true;
-        console.log(this.name, this.department)
+        
         organizationService.addDesignation(this.name, this.department)
                 .then(id => {
-                      console.log(this.name, this.department)
+                      //console.log(this.name, this.department)
                       organizationService.getDesignations()
                         .then(
-                          o => {this.designations = o}
+                          o => {this.designations = o; this.close()}
                         )
 					},
                     error => {
