@@ -168,22 +168,22 @@ function addEmployeeFamily(employeeId, name, relationship, phoneNo) {
 }
 
 function updateEmployee(id, companyId, rankId, firstName, lastName, email, phone, designationId) {
-            var req = {
-                id,
-                rankId,
-                companyId,
-                firstName,
-                lastName,
-                email,
-                phone,
-                designationId,
-            }
-            return fetch(`${config.apiurl}/employee/UpdateEmployee/${id}`, requestOptions.put(req))
-                .then(handleResponse)
-                .then(id => {
+    var req = {
+        id,
+        rankId,
+        companyId,
+        firstName,
+        lastName,
+        email,
+        phone,
+        designationId,
+    }
+    return fetch(`${config.apiurl}/employee/UpdateEmployee/${id}`, requestOptions.put(req))
+        .then(handleResponse)
+        .then(id => {
 
-                    return id;
-                });
+            return id;
+        });
 }
 
 function updateEmployeePersonalInfo(id, passportIdentificationNumber, nationality, phone, religion, maritalStatus) {
@@ -420,75 +420,75 @@ function addEmployeeLeave(companyId, employeeId, fromDate, toDate, reason, leave
 // }
 
 function updateEmployeeLeave(id, companyId, employeeId, fromDate, toDate, reason, leaveType) {
-  var req = {
-    companyId,
-    employeeId,
-    fromDate,
-    toDate,
-    reason,
-    leaveTypeId: leaveType,
-    approvedBy: 0
-}
-return fetch(`${config.apiurl}/Employee/UpdateEmployeeLeave/${id}`, requestOptions.put(req))
-    .then(handleResponse)
-    .then(id => {
+    var req = {
+        companyId,
+        employeeId,
+        fromDate,
+        toDate,
+        reason,
+        leaveTypeId: leaveType,
+        approvedBy: 0
+    }
+    return fetch(`${config.apiurl}/Employee/UpdateEmployeeLeave/${id}`, requestOptions.put(req))
+        .then(handleResponse)
+        .then(id => {
 
-        return id;
-    });
+            return id;
+        });
 }
 
 function removeEmployeeLeave(id) {
 
-  return fetch(`${config.apiurl}/Employee/DeleteEmployeeLeave/${id}`, requestOptions.delete())
-      .then(handleResponse)
-      .then(model => {
-          return model
-      });
+    return fetch(`${config.apiurl}/Employee/DeleteEmployeeLeave/${id}`, requestOptions.delete())
+        .then(handleResponse)
+        .then(model => {
+            return model
+        });
 
 }
 
 function getEmployeeTerminations(companyId) {
-  return fetch(`${config.apiurl}/Employee/GetEmployeeTerminations/${companyId}`, requestOptions.get())
-      .then(handleResponse)
-      .then(model => {
-        console.log(model)
-          return model
-      });
+    return fetch(`${config.apiurl}/Employee/GetEmployeeTerminations/${companyId}`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+            console.log(model)
+            return model
+        });
 
 }
 
-function addEmployeeTermination(date, reason, noticeDate, terminationTypeId, employeeId ) {
-  var req = {
-      date,
-      reason,
-      noticeDate,
-      terminationTypeId,
-      employeeId
-  }
-  //console.log(req)
-  return fetch(`${config.apiurl}/Employee/PostEmployeeTermination`, requestOptions.post(req))
-      .then(handleResponse)
-      .then(id => {
+function addEmployeeTermination(date, reason, noticeDate, terminationTypeId, employeeId) {
+    var req = {
+        date,
+        reason,
+        noticeDate,
+        terminationTypeId,
+        employeeId
+    }
+    //console.log(req)
+    return fetch(`${config.apiurl}/Employee/PostEmployeeTermination`, requestOptions.post(req))
+        .then(handleResponse)
+        .then(id => {
 
-          return id;
-      });
+            return id;
+        });
 }
 
 function updateEmployeeTermination(id, date, reason, noticeDate, terminationTypeId, employeeId) {
-  
-  var req = {
-    id,
-    date,
-    reason,
-    noticeDate,
-    terminationTypeId,
-    employeeId
-}
-  return fetch(`${config.apiurl}/Employee/UpdateEmployeeTermination/${id}`, requestOptions.put(req))
-      .then(handleResponse)
-      .then(id => {
-        return id;
-      });
+
+    var req = {
+        id,
+        date,
+        reason,
+        noticeDate,
+        terminationTypeId,
+        employeeId
+    }
+    return fetch(`${config.apiurl}/Employee/UpdateEmployeeTermination/${id}`, requestOptions.put(req))
+        .then(handleResponse)
+        .then(id => {
+            return id;
+        });
 }
 
 function removeEmployeeTermination(id) {
@@ -502,33 +502,33 @@ function removeEmployeeTermination(id) {
 }
 
 function addEmployeeResignation(resignationDate, reason, noticeDate, employeeId) {
-  var req = {
-      resignationDate,
-      reason,
-      noticeDate,
-      employeeId
-  }
-  return fetch(`${config.apiurl}/Employee/PostEmployeeResignation`, requestOptions.post(req))
-      .then(handleResponse)
-      .then(id => {
+    var req = {
+        resignationDate,
+        reason,
+        noticeDate,
+        employeeId
+    }
+    return fetch(`${config.apiurl}/Employee/PostEmployeeResignation`, requestOptions.post(req))
+        .then(handleResponse)
+        .then(id => {
 
-          return id;
-      });
+            return id;
+        });
 }
 
 function getEmployeeResignations(companyId) {
-  return fetch(`${config.apiurl}/Employee/GetEmployeeResignations/${companyId}`, requestOptions.get())
-      .then(handleResponse)
-      .then(model => {
-        console.log(model)
-          return model
-      });
+    return fetch(`${config.apiurl}/Employee/GetEmployeeResignations/${companyId}`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+            console.log(model)
+            return model
+        });
 
 }
 
 function removeEmployeeResignation(id) {
 
-    return fetch(`${config.apiurl}/Employee​DeleteEmployeeResignation​/${id}`, requestOptions.delete())
+    return fetch(`${config.apiurl}/Employee/DeleteEmployeeResignation/${id}`, requestOptions.delete())
         .then(handleResponse)
         .then(model => {
             return model
@@ -537,17 +537,17 @@ function removeEmployeeResignation(id) {
 }
 
 function updateEmployeeResignation(id, resignationDate, reason, noticeDate, employeeId) {
-  
+
     var req = {
-      id,
-      resignationDate,
-      reason,
-      noticeDate,
-      employeeId
-  }
+        id,
+        resignationDate,
+        reason,
+        noticeDate,
+        employeeId
+    }
     return fetch(`${config.apiurl}/Employee/UpdateEmployeeResignation/${id}`, requestOptions.put(req))
         .then(handleResponse)
         .then(id => {
-          return id;
+            return id;
         });
-    }
+}
