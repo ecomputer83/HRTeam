@@ -55,7 +55,7 @@
                           <td>
                             <div class="view-icons">
                               <a
-                                @click="setRank(rank)"
+                                @click="setEditRank(rank)"
                                 class="btn btn-link active"
                                 data-toggle="modal"
                                 data-target="#edit_rank"
@@ -64,7 +64,7 @@
                               </a>
                               <a
                                 class="btn btn-link active"
-                                @click="setRank(rank)"
+                                @click="setDeleteRank(rank)"
                                 data-toggle="modal"
                                 data-target="#delete_rank"
                               >
@@ -129,20 +129,14 @@
 
             <!-- /Page Content -->
             <!-- Add Employee Modal -->
-            <div
-              id="add_leave_type"
-              class="modal custom-modal fade"
-              role="dialog"
-            >
-              <div class="modal-dialog modal-dialog-centered modal-lg">
+            <v-dialog v-model="dialog" max-width="725px">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title">Add Rank</h5>
                     <button
                       type="button"
                       class="close"
-                      data-dismiss="modal"
-                      aria-label="Close"
+                      @click="close"
                     >
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -290,24 +284,18 @@
                     </form>
                   </div>
                 </div>
-              </div>
-            </div>
+            </v-dialog>
             <!-- /Add Employee Modal -->
 
             <!-- Edit Employee Modal -->
-            <div id="edit_rank" class="modal custom-modal fade" role="dialog" v-if="rank">
-              <div
-                class="modal-dialog modal-dialog-centered modal-lg"
-                role="document"
-              >
+            <v-dialog v-model="dialogEdit" max-width="725px" v-if="rank">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title">Edit Rank</h5>
                     <button
                       type="button"
                       class="close"
-                      data-dismiss="modal"
-                      aria-label="Close"
+                      @click="closeEdit"
                     >
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -459,13 +447,11 @@
                     </form>
                   </div>
                 </div>
-              </div>
-            </div>
+            </v-dialog>
             <!-- /Edit Employee Modal -->
 
             <!-- Delete Employee Modal -->
-            <div class="modal custom-modal fade" id="delete_rank" role="dialog">
-              <div class="modal-dialog modal-dialog-centered">
+            <v-dialog v-model="dialogDelete" max-width="725px">
                 <div class="modal-content">
                   <div class="modal-body">
                     <div class="form-header">
@@ -494,8 +480,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
+            </v-dialog>
             <!-- /Delete Employee Modal -->
           </div>
         </div>
@@ -521,6 +506,9 @@ export default {
   },
   data() {
     return {
+      dialog: false,
+      dialogEdit: false,
+    dialogDelete: false,
       rankName: '',
       readHoliday: false,
       readLeave: false,
@@ -556,8 +544,26 @@ export default {
     //   handleNewRank = !this.isCreateNewRank
     // },
 
-    setRank(model) {
+    close() {
+      this.dialog = false
+    },
+
+    closeEdit() {
+      this.dialogEdit = false;
+    },
+
+    closeDelete() { 
+      this.dialogDelete = false;
+    },
+
+    setEditRank(model) {
       this.rank = model;
+      this.dialogEdit = true
+    },
+
+    setDeleteRank(model) {
+      this.rank = model;
+      this.dialogDelete = true
     },
 
     removeRank() {
@@ -565,6 +571,7 @@ export default {
       organizationService.removeRank(id).then((id) => {
         organizationService.getRanks().then((l) => {
           this.ranks = l;
+          this.dialogDelete = false;
         });
       });
     },
@@ -594,6 +601,7 @@ export default {
           this.message = "Rank updated successfully"
           organizationService.getRanks().then((w) => {
             this.ranks = w;
+            this.dialogEdit = true
           });
         },
         error => {
