@@ -693,7 +693,7 @@
                 <!-- /Page Content -->
 
                 <!-- Add Salary Modal -->
-                <v-dialog v-model="dialog" max-width="725px">
+                <!-- <v-dialog v-model="dialog" max-width="725px">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title">Add Staff Salary</h5>
@@ -789,13 +789,74 @@
                                         </div>
                                     </div>
                                     <div class="submit-section">
-                                        <button class="btn btn-primary submit-btn">Submit</button>
+                                        <button 
+                                            class="btn btn-primary submit-btn"
+                                            @click.prevent="onSubmit"
+                                            data-dismiss="modal"
+                                        >
+                                            Submit
+                                        </button>
                                     </div>
                                 </form>
                             </div>
                         </div>
-                </v-dialog>
+                </v-dialog> -->
                 <!-- /Add Salary Modal -->
+
+
+                <!-- Add Resignation Modal -->
+        <v-dialog v-model="dialog" max-width="725px"
+          >
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Add Resignation</h5>
+                <button
+                  type="button"
+                  class="close"
+                  @click="close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form @submit.prevent="onSubmit">
+                  <div class="form-group">
+                    <label>Resigning Employee <span class="text-danger">*</span></label>
+                    <select class="form-control" v-model="employeeId">
+                      <option>Select Resigning Employee</option>
+                      <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName}}</option>
+                    </select>
+                  </div>
+                  <!-- <div class="form-group">
+                      <label>Notice Date <span class="text-danger">*</span></label>
+                      <div class="cal-icon">
+                        <datepicker v-model="noticeDate" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label>Resignation Date <span class="text-danger">*</span></label>
+                      <div class="cal-icon">
+                        <datepicker v-model="resignationDate" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
+                      </div>
+                  </div>
+                  <div class="form-group">
+                                        <label>Reason <span class="text-danger">*</span></label>
+                                        <textarea class="form-control" v-model="reason" rows="4"></textarea>
+                                    </div> -->
+                  <div class="submit-section">
+                    <button
+                      @click.prevent="onSubmit"
+                      data-dismiss="modal"
+                      class="btn btn-primary submit-btn"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+        </v-dialog>
+        <!-- /Add Resignation Modal -->
 
                 <!-- Edit Salary Modal -->
                 <div id="edit_salary" class="modal custom-modal fade" role="dialog">
@@ -966,6 +1027,7 @@
             ],
             staff: "",
             netSalary: "",
+            salaries: [],
             basic: "",
             hra: "",
             pf: "",
@@ -981,6 +1043,17 @@
             //employee: authenticationService.currentOfficeValue,
             company: authenticationService.currentOfficeValue,
             };
+        },
+        watch: {
+            dialog (val) {
+            val || this.close()
+            },
+            dialogDelete (val) {
+            val || this.closeDelete()
+            },
+            dialogEdit (val) {
+            val || this.closeEdit()
+            },
         },
         methods: {
             getEmployees () {
@@ -1000,6 +1073,26 @@
                     },
                     error => { error = error }
                 )
+            },
+            openDialog(){
+                this.dialog = true
+            },
+            close() {
+                this.dialog = false
+            },
+            closeEdit() {
+                this.dialogEdit = false
+            },
+            closeDelete() {
+                this.dialogDelete = false
+            },
+            setEditResignation(model) {
+                this.resignation = model;
+                this.dialogEdit = true
+            },
+            setDeleteResignation(model) {
+                this.resignation = model;
+                this.dialogDelete = true;
             },
             
         },

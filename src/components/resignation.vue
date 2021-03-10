@@ -367,7 +367,7 @@ export default {
 
     getEmployees () {
         const companyId = this.company.id;
-        console.log('this.company.id', this.company.id)
+        //console.log('this.company.id', this.company.id)
         employeeService.getEmployees(companyId)
           .then(
             model => { this.employees = model
@@ -375,7 +375,7 @@ export default {
             },
             error => { error = error }
           )
-      },
+     },
     getEmployeeResignations() {
       const companyId = this.company.id;
       employeeService.getEmployeeResignations(companyId).then(

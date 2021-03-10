@@ -555,7 +555,6 @@ function updateEmployeeResignation(id, resignationDate, reason, noticeDate, empl
         .then(id => {
             return id;
         });
-<<<<<<< HEAD
     }
 
 function addEmployeeSalary(basic, hra, ma, pf, allowance, leaveAllowance, hmo, tax, netSalary, employeeId) {
@@ -619,6 +618,3 @@ function updateEmployeeSalary(id, basic, hra, ma, pf, allowance, leaveAllowance,
 //         });
 
 // }
-=======
-}
->>>>>>> bbbb082b45a43d0e34069ddab6c1526f79882995
