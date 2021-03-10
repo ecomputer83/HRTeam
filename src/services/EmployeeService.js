@@ -36,7 +36,11 @@ export const employeeService = {
     getEmployeeTerminations,
     addEmployeeTermination,
     updateEmployeeTermination,
-    removeEmployeeTermination
+    removeEmployeeTermination,
+    addEmployeePromotion,
+    getEmployeePromotion,
+    removeEmployeePromotion,
+    updateEmployeePromotion
 }
 
 
@@ -546,6 +550,50 @@ function updateEmployeeResignation(id, resignationDate, reason, noticeDate, empl
         employeeId
     }
     return fetch(`${config.apiurl}/Employee/UpdateEmployeeResignation/${id}`, requestOptions.put(req))
+        .then(handleResponse)
+        .then(id => {
+            return id;
+        });
+}
+
+function addEmployeePromotion(promotionFor, promotionFrom, PromotionTo, promotionDate, employeeId) {
+    var req = {
+        promotionFor, promotionFrom, PromotionTo, ptomotionDate, employeeId
+    }
+    return fetch(`${config.apiurl}/Expense/PostExpensePromotion`, requestOptions.post(req))
+        .then(handleResponse)
+        .then(id => {
+
+            return id;
+        });
+}
+
+function getEmployeePromotion(companyid) {
+    return fetch(`${config.apiurl}/Expense/GetExpensePromotion/${companyid}`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+            return model
+        });
+}
+
+function removeEmployeePromotion(id) {
+    return fetch(`${config.apiurl}/Expense/DeleteExpensePromotion/${id}`, requestOptions.delete())
+        .then(handleResponse)
+        .then(model => {
+            return model
+        });
+}
+
+function updateEmployeePromotion(id, promotionFor, promotionFrom, PromotionTo, promotionDate, employeeId) {
+    var req = {
+        id,
+        promotionFor,
+        promotionFrom,
+        PromotionTo,
+        promotionDate,
+        employeeId
+    }
+    return fetch(`${config.apiurl}/Expense/PutExpensePromotion/${id}`, requestOptions.put(req))
         .then(handleResponse)
         .then(id => {
             return id;

@@ -51,6 +51,7 @@ import salary from '@/components/payroll/salary'
 import salaryview from '@/components/payroll/salaryview'
 import payrollitems from '@/components/payroll/payrollitems'
 import policies from '@/components/policies'
+import promotion from '@/components/promotion'
 import { authenticationService } from '@/services/authenticationService';
 import { Role } from '@/helpers/role';
 
@@ -94,6 +95,11 @@ const router = new Router({
       name: 'jobprofile',
       component: JobProfile,
       meta: { authorize: [Role.HRAdmin] }
+    },
+    {
+      path: '/promotion',
+      name: 'promotion',
+      component: promotion,
     },
     {
       path: '/vacancies',
@@ -380,22 +386,22 @@ router.beforeEach((to, from, next) => {
   const currentUser = authenticationService.currentUserValue;
 
   if (authorize) {
-      if (!currentUser) {
-          // not logged in so redirect to login page with the return url
-          return next({ path: '/login' });
+    if (!currentUser) {
+      // not logged in so redirect to login page with the return url
+      return next({ path: '/login' });
+    }
+
+    // check if route is restricted by role
+    if (authorize.length && !authorize.includes(currentUser.role)) {
+      // role not authorised so redirect to home page
+      if (currentUser.user.userType == 1) {
+        return next({ name: 'companies' });
+      } else if (currentUser.user.userType == 3) {
+        return next({ name: 'employeedashboard' });
+      } else {
+        return next({ path: '/' });
       }
-      
-      // check if route is restricted by role
-      if (authorize.length && !authorize.includes(currentUser.role)) {
-          // role not authorised so redirect to home page
-          if(currentUser.user.userType == 1){
-            return next({ name: 'companies' });
-          }else if(currentUser.user.userType == 3){
-            return next({ name: 'employeedashboard' });
-          }else{
-          return next({ path: '/' });
-          }
-      }
+    }
   }
 
   next();
