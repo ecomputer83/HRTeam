@@ -1,815 +1,94 @@
 <template>
-    <div class="salary">
-        <div class="main-wrapper">
-            <layout-header></layout-header>
-            <layout-sidebar></layout-sidebar>
-            <!-- Page Wrapper -->
-            <div class="page-wrapper">
+  <div class="resignation">
+    <div class="main-wrapper">
+      <layout-header></layout-header>
+      <layout-sidebar></layout-sidebar>
+      <!-- Page Wrapper -->
+      <div class="page-wrapper">
+        <!-- Page Content -->
+        <div class="content container-fluid">
+          <!-- Page Header -->
+          <div class="page-header">
+            <div class="row align-items-center">
+              <div class="col">
+                <h3 class="page-title">Salary</h3>
+                <ul class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <router-link to="/index">Dashboard</router-link>
+                  </li>
+                  <li class="breadcrumb-item active">Salary</li>
+                </ul>
+              </div>
+              <div class="col-auto float-right ml-auto">
+                <a
+                  @click="openDialog"
+                  class="btn add-btn"
+                  ><i class="fa fa-plus"></i> Add Salary</a
+                >
+              </div>
+            </div>
+          </div>
+          <!-- /Page Header -->
+          <!----Datatable-->
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <v-data-table
+                    :headers="headers"
+                    :items="salaries"
+                    sort-by=""
+                    class="elevation-1"
+                >
 
-                <!-- Page Content -->
-                <div class="content container-fluid">
-
-                    <!-- Page Header -->
-                    <div class="page-header">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <h3 class="page-title">Employee Salary</h3>
-                                <ul class="breadcrumb">
-                                    <li class="breadcrumb-item">
-                                        <router-link to="/index">Dashboard</router-link>
-                                    </li>
-                                    <li class="breadcrumb-item active">Salary</li>
-                                </ul>
-                            </div>
-                            <div class="col-auto float-right ml-auto">
-                                <a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_salary"><i
-                                        class="fa fa-plus"></i> Add Salary</a>
-                            </div>
+                <template v-slot:[`item.actions`]="{ item }">
+        
+                <div class="dropdown dropdown-action">
+                          <a
+                            href="#"
+                            class="action-icon dropdown-toggle"
+                            data-toggle="dropdown"
+                            aria-expanded="false"
+                            ><i class="material-icons">more_vert</i></a
+                          >
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a
+                              class="dropdown-item"
+                              @click="setEditResignation(item)"
+                              ><i class="fa fa-pencil m-r-5"></i> Edit</a
+                            >
+                            <a
+                              class="dropdown-item"
+                              @click="setDeleteResignation(item)"
+                              ><i class="fa fa-trash-o m-r-5"></i> Delete</a
+                            >
+                          </div>
                         </div>
-                    </div>
-                    <!-- /Page Header -->
+      </template>
+      <template v-slot:[`item.profile`]="{ item }">
+        <h2 class="table-avatar blue-link">
+                          <router-link to="/profile" class="avatar"
+                            ><img alt="" src="../../assets/profiles/avatar-02.jpg"
+                          /></router-link>
+                          <router-link to="/profile">{{
+                            `${item.employee.firstName} ${item.employee.lastName}`
+                          }}</router-link>
+                        </h2>
+      </template>
+                                  </v-data-table>
+               
+              </div>
+            </div>
+          </div>
+          <!---/Datatable-->
+        </div>
+        <!-- /Page Content -->
 
-                    <!-- Search Filter -->
-                    <div class="row filter-row">
-                        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
-                            <div class="form-group form-focus">
-                                <input type="text" class="form-control floating">
-                                <label class="focus-label">Employee Name</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
-                            <div class="form-group form-focus select-focus">
-                                <select class="select floating">
-                                    <option value=""> -- Select -- </option>
-                                    <option value="">Employee</option>
-                                    <option value="1">Manager</option>
-                                </select>
-                                <label class="focus-label">Role</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
-                            <div class="form-group form-focus select-focus">
-                                <select class="select floating">
-                                    <option> -- Select -- </option>
-                                    <option> Pending </option>
-                                    <option> Approved </option>
-                                    <option> Rejected </option>
-                                </select>
-                                <label class="focus-label">Leave Status</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
-                            <div class="form-group form-focus">
-                                <div class="cal-icon">
-                                    <input class="form-control floating datetimepicker" type="text">
-                                </div>
-                                <label class="focus-label">From</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
-                            <div class="form-group form-focus">
-                                <div class="cal-icon">
-                                    <input class="form-control floating datetimepicker" type="text">
-                                </div>
-                                <label class="focus-label">To</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
-                            <a href="#" class="btn btn-success btn-block"> Search </a>
-                        </div>
-                    </div>
-                    <!-- /Search Filter -->
-                    <!----Datatable-->
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="error">
-                                <strong>Error!</strong> {{error}}
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="table-responsive">
-                                <v-data-table
-                                    :headers="headers"
-                                    :items="salaries"
-                                    sort-by=""
-                                    class="elevation-1"
-                                >
-                                    <template v-slot:[`item.actions`]="{ item }">
-                                        <div class="dropdown dropdown-action">
-                                            <a
-                                                href="#"
-                                                class="action-icon dropdown-toggle"
-                                                data-toggle="dropdown"
-                                                aria-expanded="false"
-                                                ><i class="material-icons">more_vert</i></a
-                                            >
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a
-                                                class="dropdown-item"
-                                                @click="setEditSalary(item)"
-                                                ><i class="fa fa-pencil m-r-5"></i> Edit</a
-                                                >
-                                                <a
-                                                class="dropdown-item"
-                                                @click="setDeleteSalary(item)"
-                                                ><i class="fa fa-trash-o m-r-5"></i> Delete</a
-                                                >
-                                            </div>
-                                        </div>
-                                    </template>
-                                </v-data-table>
-                                <!-- <table class="table table-striped custom-table datatable">
-                                    <thead>
-                                        <tr>
-                                            <th>Employee</th>
-                                            <th>Employee ID</th>
-                                            <th>Email</th>
-                                            <th>Join Date</th>
-                                            <th>Role</th>
-
-
-                                            <th>Payslip</th>
-                                            <th class="text-right">Action</th>
-                                            <th>Salary</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <h2 class="table-avatar">
-                                                    <router-link to="/profile" class="avatar"><img alt=""
-                                                            src="~@/assets/profiles/avatar-02.jpg"></router-link>
-                                                    <router-link to="/profile">John Doe <span>Web Designer</span>
-                                                    </router-link>
-                                                </h2>
-                                            </td>
-                                            <td>FT-0001</td>
-                                            <td>johndoe@example.com</td>
-                                            <td>1 Jan 2013</td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="" class="btn btn-white btn-sm btn-rounded dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false">Web Designer </a>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="#">Software Engineer</a>
-                                                        <a class="dropdown-item" href="#">Software Tester</a>
-                                                        <a class="dropdown-item" href="#">Frontend Developer</a>
-                                                        <a class="dropdown-item" href="#">UI/UX Developer</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-
-                                            <td>
-                                                <router-link class="btn btn-sm btn-primary" to="/salaryview">Generate
-                                                    Slip
-                                                </router-link>
-                                            </td>
-                                            <td class="text-right">
-                                                <div class="dropdown dropdown-action">
-                                                    <a href="#" class="action-icon dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false"><i
-                                                            class="material-icons">more_vert</i></a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="#" data-toggle="modal"
-                                                            data-target="#edit_salary"><i
-                                                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                                                        <a class="dropdown-item" href="#" data-toggle="modal"
-                                                            data-target="#delete_salary"><i
-                                                                class="fa fa-trash-o m-r-5"></i>
-                                                            Delete</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>$59698</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <h2 class="table-avatar">
-                                                    <router-link to="/profile" class="avatar"><img
-                                                            src="~@/assets/profiles/avatar-09.jpg" alt=""></router-link>
-                                                    <router-link to="/profile">Richard Miles <span>Web Developer</span>
-                                                    </router-link>
-                                                </h2>
-                                            </td>
-                                            <td>FT-0002</td>
-                                            <td>richardmiles@example.com</td>
-                                            <td>1 Jan 2013</td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="" class="btn btn-white btn-sm btn-rounded dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false">Web Developer </a>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="#">Software Engineer</a>
-                                                        <a class="dropdown-item" href="#">Software Tester</a>
-                                                        <a class="dropdown-item" href="#">Frontend Developer</a>
-                                                        <a class="dropdown-item" href="#">UI/UX Developer</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-
-                                            <td>
-                                                <router-link class="btn btn-sm btn-primary" to="/salaryview">Generate
-                                                    Slip
-                                                </router-link>
-                                            </td>
-                                            <td class="text-right">
-                                                <div class="dropdown dropdown-action">
-                                                    <a href="#" class="action-icon dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false"><i
-                                                            class="material-icons">more_vert</i></a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="#" data-toggle="modal"
-                                                            data-target="#edit_salary"><i
-                                                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                                                        <a class="dropdown-item" href="#" data-toggle="modal"
-                                                            data-target="#delete_salary"><i
-                                                                class="fa fa-trash-o m-r-5"></i>
-                                                            Delete</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>$72000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <h2 class="table-avatar">
-                                                    <router-link to="/profile" class="avatar"><img
-                                                            src="~@/assets/profiles/avatar-10.jpg" alt=""></router-link>
-                                                    <router-link to="/profile">John Smith <span>Android Developer</span>
-                                                    </router-link>
-                                                </h2>
-                                            </td>
-                                            <td>FT-0003</td>
-                                            <td>johnsmith@example.com</td>
-                                            <td>1 Jan 2013</td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="" class="btn btn-white btn-sm btn-rounded dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false">Android Developer
-                                                    </a>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="#">Software Engineer</a>
-                                                        <a class="dropdown-item" href="#">Software Tester</a>
-                                                        <a class="dropdown-item" href="#">Frontend Developer</a>
-                                                        <a class="dropdown-item" href="#">UI/UX Developer</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-
-                                            <td>
-                                                <router-link class="btn btn-sm btn-primary" to="/salaryview">Generate
-                                                    Slip
-                                                </router-link>
-                                            </td>
-                                            <td class="text-right">
-                                                <div class="dropdown dropdown-action">
-                                                    <a href="#" class="action-icon dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false"><i
-                                                            class="material-icons">more_vert</i></a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="#" data-toggle="modal"
-                                                            data-target="#edit_salary"><i
-                                                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                                                        <a class="dropdown-item" href="#" data-toggle="modal"
-                                                            data-target="#delete_salary"><i
-                                                                class="fa fa-trash-o m-r-5"></i>
-                                                            Delete</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>$48200</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <h2 class="table-avatar">
-                                                    <router-link to="/profile" class="avatar"><img
-                                                            src="~@/assets/profiles/avatar-05.jpg" alt=""></router-link>
-                                                    <router-link to="/profile">Mike Litorus <span>IOS Developer</span>
-                                                    </router-link>
-                                                </h2>
-                                            </td>
-                                            <td>FT-0004</td>
-                                            <td>mikelitorus@example.com</td>
-                                            <td>1 Jan 2013</td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="" class="btn btn-white btn-sm btn-rounded dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false">IOS Developer </a>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="#">Software Engineer</a>
-                                                        <a class="dropdown-item" href="#">Software Tester</a>
-                                                        <a class="dropdown-item" href="#">Frontend Developer</a>
-                                                        <a class="dropdown-item" href="#">UI/UX Developer</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-
-                                            <td>
-                                                <router-link class="btn btn-sm btn-primary" to="/salaryview">Generate
-                                                    Slip
-                                                </router-link>
-                                            </td>
-                                            <td class="text-right">
-                                                <div class="dropdown dropdown-action">
-                                                    <a href="#" class="action-icon dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false"><i
-                                                            class="material-icons">more_vert</i></a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="#" data-toggle="modal"
-                                                            data-target="#edit_salary"><i
-                                                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                                                        <a class="dropdown-item" href="#" data-toggle="modal"
-                                                            data-target="#delete_salary"><i
-                                                                class="fa fa-trash-o m-r-5"></i>
-                                                            Delete</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>$59698</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <h2 class="table-avatar">
-                                                    <router-link to="/profile" class="avatar"><img
-                                                            src="~@/assets/profiles/avatar-11.jpg" alt=""></router-link>
-                                                    <router-link to="/profile">Wilmer Deluna <span>Team Leader</span>
-                                                    </router-link>
-                                                </h2>
-                                            </td>
-                                            <td>FT-0005</td>
-                                            <td>wilmerdeluna@example.com</td>
-                                            <td>1 Jan 2013</td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="" class="btn btn-white btn-sm btn-rounded dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false">Team Leader </a>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="#">Software Engineer</a>
-                                                        <a class="dropdown-item" href="#">Software Tester</a>
-                                                        <a class="dropdown-item" href="#">Frontend Developer</a>
-                                                        <a class="dropdown-item" href="#">UI/UX Developer</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            <td>
-                                                <router-link class="btn btn-sm btn-primary" to="/salaryview">Generate
-                                                    Slip
-                                                </router-link>
-                                            </td>
-                                            <td class="text-right">
-                                                <div class="dropdown dropdown-action">
-                                                    <a href="#" class="action-icon dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false"><i
-                                                            class="material-icons">more_vert</i></a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="#" data-toggle="modal"
-                                                            data-target="#edit_salary"><i
-                                                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                                                        <a class="dropdown-item" href="#" data-toggle="modal"
-                                                            data-target="#delete_salary"><i
-                                                                class="fa fa-trash-o m-r-5"></i>
-                                                            Delete</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            <td>$43000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <h2 class="table-avatar">
-                                                    <router-link to="/profile" class="avatar"><img
-                                                            src="~@/assets/profiles/avatar-12.jpg" alt=""></router-link>
-                                                    <router-link to="/profile">Jeffrey Warden <span>Web Developer</span>
-                                                    </router-link>
-                                                </h2>
-                                            </td>
-                                            <td>FT-0006</td>
-                                            <td>jeffreywarden@example.com</td>
-                                            <td>1 Jan 2013</td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="" class="btn btn-white btn-sm btn-rounded dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false">Web Developer</a>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="#">Software Engineer</a>
-                                                        <a class="dropdown-item" href="#">Software Tester</a>
-                                                        <a class="dropdown-item" href="#">Frontend Developer</a>
-                                                        <a class="dropdown-item" href="#">UI/UX Developer</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-
-                                            <td>
-                                                <router-link class="btn btn-sm btn-primary" to="/salaryview">Generate
-                                                    Slip
-                                                </router-link>
-                                            </td>
-                                            <td class="text-right">
-                                                <div class="dropdown dropdown-action">
-                                                    <a href="#" class="action-icon dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false"><i
-                                                            class="material-icons">more_vert</i></a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="#" data-toggle="modal"
-                                                            data-target="#edit_salary"><i
-                                                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                                                        <a class="dropdown-item" href="#" data-toggle="modal"
-                                                            data-target="#delete_salary"><i
-                                                                class="fa fa-trash-o m-r-5"></i>
-                                                            Delete</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>$45000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <h2 class="table-avatar">
-                                                    <router-link to="/profile" class="avatar"><img
-                                                            src="~@/assets/profiles/avatar-13.jpg" alt=""></router-link>
-                                                    <router-link to="/profile">Bernardo Galaviz <span>Web
-                                                            Developer</span>
-                                                    </router-link>
-                                                </h2>
-                                            </td>
-                                            <td>FT-0007</td>
-                                            <td>bernardogalaviz@example.com</td>
-                                            <td>1 Jan 2014</td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="" class="btn btn-white btn-sm btn-rounded dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false">Web Developer </a>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="#">Software Engineer</a>
-                                                        <a class="dropdown-item" href="#">Software Tester</a>
-                                                        <a class="dropdown-item" href="#">Frontend Developer</a>
-                                                        <a class="dropdown-item" href="#">UI/UX Developer</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            <td>
-                                                <router-link class="btn btn-sm btn-primary" to="/salaryview">Generate
-                                                    Slip
-                                                </router-link>
-                                            </td>
-                                            <td class="text-right">
-                                                <div class="dropdown dropdown-action">
-                                                    <a href="#" class="action-icon dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false"><i
-                                                            class="material-icons">more_vert</i></a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="#" data-toggle="modal"
-                                                            data-target="#edit_salary"><i
-                                                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                                                        <a class="dropdown-item" href="#" data-toggle="modal"
-                                                            data-target="#delete_salary"><i
-                                                                class="fa fa-trash-o m-r-5"></i>
-                                                            Delete</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            <td>$38400</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <h2 class="table-avatar">
-                                                    <router-link to="/profile" class="avatar"><img
-                                                            src="~@/assets/profiles/avatar-01.jpg" alt=""></router-link>
-                                                    <router-link to="/profile">Lesley Grauer <span>Team Leader</span>
-                                                    </router-link>
-                                                </h2>
-                                            </td>
-                                            <td>FT-0008</td>
-                                            <td>lesleygrauer@example.com</td>
-                                            <td>1 Jun 2015</td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="" class="btn btn-white btn-sm btn-rounded dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false">Team Leader </a>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="#">Software Engineer</a>
-                                                        <a class="dropdown-item" href="#">Software Tester</a>
-                                                        <a class="dropdown-item" href="#">Frontend Developer</a>
-                                                        <a class="dropdown-item" href="#">UI/UX Developer</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-
-                                            <td>
-                                                <router-link class="btn btn-sm btn-primary" to="/salaryview">Generate
-                                                    Slip
-                                                </router-link>
-                                            </td>
-                                            <td class="text-right">
-                                                <div class="dropdown dropdown-action">
-                                                    <a href="#" class="action-icon dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false"><i
-                                                            class="material-icons">more_vert</i></a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="#" data-toggle="modal"
-                                                            data-target="#edit_salary"><i
-                                                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                                                        <a class="dropdown-item" href="#" data-toggle="modal"
-                                                            data-target="#delete_salary"><i
-                                                                class="fa fa-trash-o m-r-5"></i>
-                                                            Delete</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>$75500</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <h2 class="table-avatar">
-                                                    <router-link to="/profile" class="avatar"><img
-                                                            src="~@/assets/profiles/avatar-16.jpg" alt=""></router-link>
-                                                    <router-link to="/profile">Jeffery Lalor <span>Team Leader</span>
-                                                    </router-link>
-                                                </h2>
-                                            </td>
-                                            <td>FT-0009</td>
-                                            <td>jefferylalor@example.com</td>
-                                            <td>1 Jan 2013</td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="" class="btn btn-white btn-sm btn-rounded dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false">Team Leader </a>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="#">Software Engineer</a>
-                                                        <a class="dropdown-item" href="#">Software Tester</a>
-                                                        <a class="dropdown-item" href="#">Frontend Developer</a>
-                                                        <a class="dropdown-item" href="#">UI/UX Developer</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-
-                                            <td>
-                                                <router-link class="btn btn-sm btn-primary" to="/salaryview">Generate
-                                                    Slip
-                                                </router-link>
-                                            </td>
-                                            <td class="text-right">
-                                                <div class="dropdown dropdown-action">
-                                                    <a href="#" class="action-icon dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false"><i
-                                                            class="material-icons">more_vert</i></a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="#" data-toggle="modal"
-                                                            data-target="#edit_salary"><i
-                                                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                                                        <a class="dropdown-item" href="#" data-toggle="modal"
-                                                            data-target="#delete_salary"><i
-                                                                class="fa fa-trash-o m-r-5"></i>
-                                                            Delete</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>$73550</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <h2 class="table-avatar">
-                                                    <router-link to="/profile" class="avatar"><img
-                                                            src="~@/assets/profiles/avatar-04.jpg" alt=""></router-link>
-                                                    <router-link to="/profile">Loren Gatlin <span>Android
-                                                            Developer</span>
-                                                    </router-link>
-                                                </h2>
-                                            </td>
-                                            <td>FT-0010</td>
-                                            <td>lorengatlin@example.com</td>
-                                            <td>1 Jan 2013</td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="" class="btn btn-white btn-sm btn-rounded dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false">Android Developer
-                                                    </a>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="#">Software Engineer</a>
-                                                        <a class="dropdown-item" href="#">Software Tester</a>
-                                                        <a class="dropdown-item" href="#">Frontend Developer</a>
-                                                        <a class="dropdown-item" href="#">UI/UX Developer</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-
-                                            <td>
-                                                <router-link class="btn btn-sm btn-primary" to="/salaryview">Generate
-                                                    Slip
-                                                </router-link>
-                                            </td>
-                                            <td class="text-right">
-                                                <div class="dropdown dropdown-action">
-                                                    <a href="#" class="action-icon dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false"><i
-                                                            class="material-icons">more_vert</i></a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="#" data-toggle="modal"
-                                                            data-target="#edit_salary"><i
-                                                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                                                        <a class="dropdown-item" href="#" data-toggle="modal"
-                                                            data-target="#delete_salary"><i
-                                                                class="fa fa-trash-o m-r-5"></i>
-                                                            Delete</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>$55000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <h2 class="table-avatar">
-                                                    <router-link to="/profile" class="avatar"><img
-                                                            src="assets/img/profiles/avatar-03.jpg" alt="">
-                                                    </router-link>
-                                                    <router-link to="profile">Tarah Shropshire <span>Android
-                                                            Developer</span>
-                                                    </router-link>
-                                                </h2>
-                                            </td>
-                                            <td>FT-0011</td>
-                                            <td>tarahshropshire@example.com</td>
-                                            <td>1 Jan 2013</td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="" class="btn btn-white btn-sm btn-rounded dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false">Android Developer
-                                                    </a>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="#">Software Engineer</a>
-                                                        <a class="dropdown-item" href="#">Software Tester</a>
-                                                        <a class="dropdown-item" href="#">Frontend Developer</a>
-                                                        <a class="dropdown-item" href="#">UI/UX Developer</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-
-                                            <td>
-                                                <router-link class="btn btn-sm btn-primary" to="/salaryview">Generate
-                                                    Slip
-                                                </router-link>
-                                            </td>
-                                            <td class="text-right">
-                                                <div class="dropdown dropdown-action">
-                                                    <a href="#" class="action-icon dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false"><i
-                                                            class="material-icons">more_vert</i></a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="#" data-toggle="modal"
-                                                            data-target="#edit_salary"><i
-                                                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                                                        <a class="dropdown-item" href="#" data-toggle="modal"
-                                                            data-target="#delete_salary"><i
-                                                                class="fa fa-trash-o m-r-5"></i>
-                                                            Delete</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>$92400</td>
-                                        </tr>
-                                    </tbody>
-                                </table> -->
-                            </div>
-                        </div>
-                    </div>
-                    <!---/Datatable-->
-                </div>
-                <!-- /Page Content -->
-
-                <!-- Add Salary Modal -->
-                <!-- <v-dialog v-model="dialog" max-width="725px">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Add Staff Salary</h5>
-                                <button type="button" class="close" @click="close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form @submit.prevent="onSubmit">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label>Employee <span class="text-danger">*</span></label>
-                                                <select class="form-control" v-model="employeeId">
-                                                <option>Select Staffff</option>
-                                                <option v-for="member in employees" :key="member.id"  :value="member.id">{{member.lastName + ' ' +member.firstName}}</option>
-                                            </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <label>Net Salary</label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <h4 class="text-primary">Earnings</h4>
-                                            <div class="form-group">
-                                                <label>Basic</label>
-                                                <input class="form-control" type="text">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>DA(40%)</label>
-                                                <input class="form-control" type="text">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>HRA(15%)</label>
-                                                <input class="form-control" type="text">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Conveyance</label>
-                                                <input class="form-control" type="text">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Allowance</label>
-                                                <input class="form-control" type="text">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Medical Allowance</label>
-                                                <input class="form-control" type="text">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Others</label>
-                                                <input class="form-control" type="text">
-                                            </div>
-                                            <div class="add-more">
-                                                <a href="#"><i class="fa fa-plus-circle"></i> Add More</a>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <h4 class="text-primary">Deductions</h4>
-                                            <div class="form-group">
-                                                <label>TDS</label>
-                                                <input class="form-control" type="text">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>ESI</label>
-                                                <input class="form-control" type="text">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>PF</label>
-                                                <input class="form-control" type="text">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Leave</label>
-                                                <input class="form-control" type="text">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Prof. Tax</label>
-                                                <input class="form-control" type="text">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Labour Welfare</label>
-                                                <input class="form-control" type="text">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Others</label>
-                                                <input class="form-control" type="text">
-                                            </div>
-                                            <div class="add-more">
-                                                <a href="#"><i class="fa fa-plus-circle"></i> Add More</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="submit-section">
-                                        <button 
-                                            class="btn btn-primary submit-btn"
-                                            @click.prevent="onSubmit"
-                                            data-dismiss="modal"
-                                        >
-                                            Submit
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                </v-dialog> -->
-                <!-- /Add Salary Modal -->
-
-
-                <!-- Add Resignation Modal -->
+        <!-- Add Resignation Modal -->
         <v-dialog v-model="dialog" max-width="725px"
           >
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Add Resignation</h5>
+                <h5 class="modal-title">Add Salary</h5>
                 <button
                   type="button"
                   class="close"
@@ -820,29 +99,106 @@
               </div>
               <div class="modal-body">
                 <form @submit.prevent="onSubmit">
-                  <div class="form-group">
-                    <label>Resigning Employee <span class="text-danger">*</span></label>
-                    <select class="form-control" v-model="employeeId">
-                      <option>Select Resigning Employee</option>
-                      <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName}}</option>
-                    </select>
-                  </div>
-                  <!-- <div class="form-group">
-                      <label>Notice Date <span class="text-danger">*</span></label>
-                      <div class="cal-icon">
-                        <datepicker v-model="noticeDate" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
-                      </div>
-                  </div>
-                  <div class="form-group">
-                      <label>Resignation Date <span class="text-danger">*</span></label>
-                      <div class="cal-icon">
-                        <datepicker v-model="resignationDate" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
-                      </div>
-                  </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Select Staff <span class="text-danger">*</span></label>
+                                <select class="form-control" v-model="employeeId" v-on:change="getEmployeeStatutory">
+                                <option>Select Staff</option>
+                                <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Net Salary <span class="text-danger">*</span></label>
+                                <input v-model="netSalary" class="form-control" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <h4 class="text-primary">Earnings</h4>
+                                            <div class="form-group">
+                                                <label>Basic <span class="text-danger">*</span></label>
+                                                <input v-model="basic" class="form-control" type="text">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>DA(40%) <span class="text-danger">*</span></label>
+                                                <input v-model="da" class="form-control" type="text">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>HRA(15%) <span class="text-danger">*</span></label>
+                                                <input v-model="hra" class="form-control" type="text">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Conveyance <span class="text-danger">*</span></label>
+                                                <input v-model="conveyance" class="form-control" type="text">
+                                            </div>
+                                            <div class="form-group">
+                                                
+                                                <label>Allowance <span class="text-danger">*</span></label>
+                                                <input v-model="allowance" class="form-control" type="text">
+                                            </div>
+                                            <div class="form-group">
+                                                
+                                                <label>Medical Allowance <span class="text-danger">*</span></label>
+                                                <input v-model="ma" class="form-control" type="text">
+                                            </div>
+                                            <div class="form-group">
+                                                
+                                                <label>Others <span class="text-danger">*</span></label>
+                                                <input class="form-control" type="text">
+                                            </div>
+                                            <div class="add-more">
+                                                <a href="#"><i class="fa fa-plus-circle"></i> Add More</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <h4 class="text-primary">Deductions</h4>
+                                            <div class="form-group">
+                                                
+                                                <label>TDS <span class="text-danger">*</span></label>
+                                                <input v-model="tds" class="form-control" type="text">
+                                            </div>
+                                            <div class="form-group">
+                                                
+                                                <label>ESI <span class="text-danger">*</span></label>
+                                                <input v-model="esi" class="form-control" type="text">
+                                            </div>
+                                            <div class="form-group">
+                                                
+                                                <label>PF <span class="text-danger">*</span></label>
+                                                <input v-model="pf" class="form-control" type="text">
+                                            </div>
+                                            <div class="form-group">
+                                                
+                                                <label>Leave <span class="text-danger">*</span></label>
+                                                <input v-model="leave" class="form-control" type="text">
+                                            </div>
+                                            <div class="form-group">
+                                                
+                                                <label>Prof. Tax<span class="text-danger">*</span></label>
+                                                <input v-model="tax" class="form-control" type="text">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Labour Welfare <span class="text-danger">*</span></label>
+                                                <input v-model="labourWelfare" class="form-control" type="text">
+                                            </div>
+                                            <div class="form-group">
+                                                
+                                                <label>Others <span class="text-danger">*</span></label>
+                                                <input class="form-control" type="text">
+                                            </div>
+                                            <div class="add-more">
+                                                <a href="#"><i class="fa fa-plus-circle"></i> Add More</a>
+                                            </div>
+                                        </div>
+                                    </div>
                   <div class="form-group">
                                         <label>Reason <span class="text-danger">*</span></label>
                                         <textarea class="form-control" v-model="reason" rows="4"></textarea>
-                                    </div> -->
+                                    </div>
                   <div class="submit-section">
                     <button
                       @click.prevent="onSubmit"
@@ -858,288 +214,352 @@
         </v-dialog>
         <!-- /Add Resignation Modal -->
 
-                <!-- Edit Salary Modal -->
-                <div id="edit_salary" class="modal custom-modal fade" role="dialog">
-                    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Edit Staff Salary</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label>Select Staff</label>
-                                                <select class="select">
-                                                    <option>John Doe</option>
-                                                    <option>Richard Miles</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <label>Net Salary</label>
-                                            <input class="form-control" type="text" value="$4000">
-                                        </div>
+        <!-- Edit Resignation Modal -->
+        <v-dialog v-model="dialogEdit" max-width="725px"
+          >
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Edit Resignation</h5>
+                <button
+                  type="button"
+                  class="close"
+                  @click="closeEdit"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form @submit.prevent="updateEmployeeResignation">
+                  <div class="form-group">
+                    <label>Resigning Employee <span class="text-danger">*</span></label>
+                    <select class="form-control" v-model="employeeId">
+                      <option>Select Resigning Employee</option>
+                      <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName}}</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                      <label>Notice Date <span class="text-danger">*</span></label>
+                      <div class="cal-icon">
+                        <datepicker v-model="resignation.noticeDate" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label>Resignation Date <span class="text-danger">*</span></label>
+                      <div class="cal-icon">
+                        <datepicker v-model="resignation.resignationDate" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
+                      </div>
+                  </div>
+                  <div class="form-group">
+                                        <label>Reason <span class="text-danger">*</span></label>
+                                        <textarea class="form-control" v-model="resignation.reason" rows="4"></textarea>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <h4 class="text-primary">Earnings</h4>
-                                            <div class="form-group">
-                                                <label>Basic</label>
-                                                <input class="form-control" type="text" value="$6500">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>DA(40%)</label>
-                                                <input class="form-control" type="text" value="$2000">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>HRA(15%)</label>
-                                                <input class="form-control" type="text" value="$700">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Conveyance</label>
-                                                <input class="form-control" type="text" value="$70">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Allowance</label>
-                                                <input class="form-control" type="text" value="$30">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Medical Allowance</label>
-                                                <input class="form-control" type="text" value="$20">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Others</label>
-                                                <input class="form-control" type="text">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <h4 class="text-primary">Deductions</h4>
-                                            <div class="form-group">
-                                                <label>TDS</label>
-                                                <input class="form-control" type="text" value="$300">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>ESI</label>
-                                                <input class="form-control" type="text" value="$20">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>PF</label>
-                                                <input class="form-control" type="text" value="$20">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Leave</label>
-                                                <input class="form-control" type="text" value="$250">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Prof. Tax</label>
-                                                <input class="form-control" type="text" value="$110">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Labour Welfare</label>
-                                                <input class="form-control" type="text" value="$10">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Fund</label>
-                                                <input class="form-control" type="text" value="$40">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Others</label>
-                                                <input class="form-control" type="text" value="$15">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="submit-section">
-                                        <button class="btn btn-primary submit-btn">Save</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /Edit Salary Modal -->
 
-                <!-- Delete Salary Modal -->
-                <div class="modal custom-modal fade" id="delete_salary" role="dialog">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <div class="form-header">
-                                    <h3>Delete Salary</h3>
-                                    <p>Are you sure want to delete?</p>
-                                </div>
-                                <div class="modal-btn delete-action">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <a href="javascript:void(0);"
-                                                class="btn btn-primary continue-btn">Delete</a>
-                                        </div>
-                                        <div class="col-6">
-                                            <a href="javascript:void(0);" data-dismiss="modal"
-                                                class="btn btn-primary cancel-btn">Cancel</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /Delete Salary Modal -->
-
+                  
+                  <div class="submit-section">
+                    <button class="btn btn-primary submit-btn">Submit</button>
+                  </div>
+                </form>
+              </div>
             </div>
-            <!-- /Page Wrapper -->
-        </div>
+          
+        </v-dialog>
+        <!-- /Edit Resignation Modal -->
+
+        <!-- Delete Resignation Modal -->
+        <v-dialog v-model="dialogDelete" max-width="725px"
+          >
+            <div class="modal-content">
+              <div class="modal-body">
+                <div class="form-header">
+                  <h3>Delete Resignation</h3>
+                  <p>Are you sure want to delete?</p>
+                </div>
+                <div class="modal-btn delete-action">
+                  <div class="row">
+                    <div class="col-6">
+                      <a
+                        @click.prevent="deleteEmployeeResignation"
+                        class="btn btn-primary continue-btn"
+                        data-dismiss="modal"
+                        >Delete</a
+                      >
+                    </div>
+                    <div class="col-6">
+                      <a
+                        href="javascript:void(0);"
+                        data-dismiss="modal"
+                        class="btn btn-primary cancel-btn"
+                        >Cancel</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+        </v-dialog>
+        <!-- /Delete Resignation Modal -->
+      </div>
+      <!-- /Page Wrapper -->
     </div>
+  </div>
 </template>
 <script>
-    import LayoutHeader from '@/components/layouts/Header.vue'
-    import LayoutSidebar from '@/components/layouts/Sidebar.vue'
-    import { authenticationService } from "@/services/authenticationService"
-    import { employeeService } from '@/services/employeeService'
+import LayoutHeader from "@/components/layouts/Header.vue";
+import LayoutSidebar from "@/components/layouts/Sidebar.vue";
+import { required, sameAs } from "vuelidate/lib/validators";
+import { employeeService } from "@/services/employeeService.js";
+import Datepicker from 'vuejs-datepicker'
+import { authenticationService } from "@/services/authenticationService";
 
-    export default {
-        components: {
-            LayoutHeader,                                                                                                                                                                                                                                                                                                                                                                      
-            LayoutSidebar,
-        },
-        data() {
-        return {
-            dialog: false,
-            dialogEdit: false,
-            dialogDelete: false,
-            headers: [
-            {
-                text: 'Employee',
-                align: 'start',
-                value: 'profile',
-            },
-            { text: 'Employee ID', value: 'employee.designation' },
-            { text: 'Email', value: 'email' },
-            { text: 'Join Date', value: '' },
-            { text: 'Role', value: '' },
-            { text: 'Payslip', value: '' },
-            { text: '', value: 'actions', sortable: false },
-            { text: 'Salary', value: '' },
-            ],
-            staff: "",
-            netSalary: "",
-            salaries: [],
-            basic: "",
-            hra: "",
-            pf: "",
-            allowance: "",
-            leaveAllowance: "",
-            hmo: "",
-            employeeId: "",
-            employee: [],
-            loading: false,
-            error: "",
-            employees: [],
-            submitted: false,
-            //employee: authenticationService.currentOfficeValue,
-            company: authenticationService.currentOfficeValue,
-            };
-        },
-        watch: {
-            dialog (val) {
-            val || this.close()
-            },
-            dialogDelete (val) {
-            val || this.closeDelete()
-            },
-            dialogEdit (val) {
-            val || this.closeEdit()
-            },
-        },
-        methods: {
-            getEmployees () {
-                employeeService.getEmployees(this.company.id)
-                .then(
-                    model => { this.employees = model
-                    console.log(model) 
-                    },
-                    error => { error = error }
-                )
-            },
-            getEmployeeSalary () {
-                employeeService.getEmployeeSalary(id)
-                .then(
-                    m => { this.employees = model 
-                        console.log(model)
-                    },
-                    error => { error = error }
-                )
-            },
-            openDialog(){
-                this.dialog = true
-            },
-            close() {
-                this.dialog = false
-            },
-            closeEdit() {
-                this.dialogEdit = false
-            },
-            closeDelete() {
-                this.dialogDelete = false
-            },
-            setEditResignation(model) {
-                this.resignation = model;
-                this.dialogEdit = true
-            },
-            setDeleteResignation(model) {
-                this.resignation = model;
-                this.dialogDelete = true;
-            },
-            
-        },
-        mounted() {
-            this.getEmployees()
-            this.getEmployeeSalary()
-            // Date Time Picker
+export default {
+  components: {
+    LayoutHeader,
+    LayoutSidebar,
+    Datepicker
+  },
 
-            if ($('.datetimepicker').length > 0) {
-                $('.datetimepicker').datetimepicker({
-                    format: 'DD/MM/YYYY',
-                    icons: {
-                        up: "fa fa-angle-up",
-                        down: "fa fa-angle-down",
-                        next: 'fa fa-angle-right',
-                        previous: 'fa fa-angle-left'
+  data() {
+    return {
+      dialog: false,
+      dialogEdit: false,
+      dialogDelete: false,
+      headers: [
+      {
+        text: 'Resigning Employee',
+        align: 'start',
+        value: 'profile',
+      },
+      { text: 'Designation', value: 'employee.designation' },
+      { text: 'Reason', value: 'reason' },
+      { text: 'Notice Date', value: 'noticeDate' },
+      { text: 'Resignation Date', value: 'resignationDate' },
+      { text: '', value: 'actions', sortable: false },
+    ],
+      name: "",
+      employeeId: "",
+      reason: "",
+      noticeDate: "",
+      resignationDate: "",
+      resignation: {},
+      salaries: [],
+      employee: [],
+      loading: false,
+      error: "",
+      employees: [],
+      submitted: false,
+      //employee: authenticationService.currentOfficeValue,
+      company: authenticationService.currentOfficeValue,
+      basic: "",
+      hra: "",
+      ma: "",
+      pf: "",
+      allowance: "",
+      leaveAllowance: "",
+      hmo: "",
+      tax: "",
+      netSalary: "",
+      leave: "",
+      tds: "",
+      da: "",
+      conveyance: "",
+      esi: "",
+      labourWelfare: "",
+
+
+    };
+  },
+
+  validations: {
+    name: { required },
+    reason: { required },
+    noticeDate: { required },
+    resignationDate: { required },
+  },
+  watch: {
+    dialog (val) {
+      val || this.close()
+    },
+    dialogDelete (val) {
+      val || this.closeDelete()
+    },
+    dialogEdit (val) {
+      val || this.closeEdit()
+    },
+  },
+  methods: {
+    getEmployees () {
+        const companyId = this.company.id;
+        employeeService.getEmployees(companyId)
+          .then(
+            model => { this.employees = model
+            console.log(model) 
+            },
+            error => { error = error }
+          )
+    },
+    getEmployeeSalary() {
+      const companyId = this.company.id;
+      employeeService.getEmployeeSalary(this.employeeId).then(
+        (model) => {
+          console.log(model)
+          this.salaries = model;
+        },
+        (error) => {
+          error = error;
+        }
+      );
+    },
+    getEmployeeStatutory() {
+      employeeService.getEmployeeStatutory(this.employeeId).then(
+        (model) => {
+          console.log('model statutory', model)
+          this.salaries = model;
+        },
+        (error) => {
+          error = error;
+        }
+      );
+    },
+    openDialog(){
+      this.dialog = true
+    },
+    close() {
+      this.dialog = false
+    },
+    closeEdit() {
+      this.dialogEdit = false
+    },
+    closeDelete() {
+      this.dialogDelete = false
+    },
+    setEditResignation(model) {
+      this.resignation = model;
+      this.dialogEdit = true
+    },
+    setDeleteResignation(model) {
+      this.resignation = model;
+      this.dialogDelete = true;
+    },
+
+    onSubmit() {
+      this.submitted = true;
+
+      
+      this.loading = true;
+        // console.log('basic', this.basic)
+        // console.log('hra', this.hra)
+        // console.log('ma', this.ma)
+        // console.log('pf', this.pf)
+        // console.log('allowance',                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             this.allowance)
+        // console.log('leaveAllowance', this.leaveAllowance)
+        // console.log('hmo', this.hmo)
+        // console.log('tax', this.tax)
+        // console.log('tax', this.tax)
+
+
+        
+
+      employeeService
+        .addEmployeeSalary(
+          this.basic,
+          this.hra,
+          this.ma,
+          this.pf,
+          this.allowance,
+          this.leaveAllowance,
+          this.hmo,
+          this.tax,
+          this.netSalary,
+          this.employeeId
+        )
+        .then(
+          (id) => {
+            employeeService.getEmployeeSalary(this.employeeId).then((w) => {
+              this.salaries = w, console.log(w); this.close()
+            });
+          },
+          (error) => {
+            this.error = error;
+            this.loading = false;
+          }
+        );
+    },
+    updateEmployeeResignation () {
+        this.submitted = true;
+
+        this.loading = true;
+        console.log(this.resignation)
+        employeeService.updateEmployeeResignation(this.resignation.id, this.resignation.resignationDate, this.resignation.reason, this.resignation.noticeDate, this.resignation.employeeId)
+                .then(id => {
+                      employeeService.getEmployeeResignations(this.company.id)
+                        .then(
+                         o => {this.salaries = o, console.log(o), this.closeEdit()}
+                        )
+          },
+                    error => {
+                        this.error = error;
+                        this.loading = false;
                     }
-                });
-            }
+                );
+            
+    },
+    deleteEmployeeResignation () {
+      const id = this.resignation.id;
+      console.log(this.resignation)
+        employeeService.removeEmployeeResignation(id)
+          .then(id => {
+            employeeService.getEmployeeResignations(this.company.id)
+                      .then(
+                        model => { this.salaries = model
+                        console.log(model)
+                        this.closeDelete() },
+                        error => { error = error }
+                      )
+          })
+    },
+  },
 
-            // Select 2
-            if ($('.select').length > 0) {
-                $('.select').select2({
-                    minimumResultsForSearch: -1,
-                    width: '100%'
-                });
-            }
-            // Multiselect
-            if ($('#customleave_select').length > 0) {
-                $('#customleave_select').multiselect();
-            }
-            if ($('#edit_customleave_select').length > 0) {
-                $('#edit_customleave_select').multiselect();
-            }
-            // Datatable
+  mounted() {
 
-            if ($('.datatable').length > 0) {
-                $('.datatable').DataTable({
-                    "bFilter": false,
-                });
-            }
-            if ($('.floating').length > 0) {
-                $('.floating').on('focus blur', function (e) {
-                    $(this).parents('.form-focus').toggleClass('focused', (e.type === 'focus' || this.value.length > 0));
-                }).trigger('blur');
-            }
-        },
-        name: 'salary'
+     this.getEmployees()
+     this.getEmployeeSalary()
+    // Datatable
+    //this.getEmployees(this.employee.id);
+    //this.getEmployeeResignations(this.company.id);
+
+    if ($(".datatable").length > 0) {
+      $(".datatable").DataTable({
+        bFilter: false,
+      });
     }
+    // Date Time Picker
+
+    if ($(".datetimepicker").length > 0) {
+      $(".datetimepicker").datetimepicker({
+        format: "DD/MM/YYYY",
+        icons: {
+          up: "fa fa-angle-up",
+          down: "fa fa-angle-down",
+          next: "fa fa-angle-right",
+          previous: "fa fa-angle-left",
+        },
+      });
+    }
+
+    if ($(".floating").length > 0) {
+      $(".floating")
+        .on("focus blur", function (e) {
+          $(this)
+            .parents(".form-focus")
+            .toggleClass(
+              "focused",
+              e.type === "focus" || this.value.length > 0
+            );
+        })
+        .trigger("blur");
+    }
+  },
+  name: "salary",
+};
 </script>

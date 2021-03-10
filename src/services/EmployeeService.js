@@ -41,6 +41,7 @@ export const employeeService = {
     getEmployeeSalary,
     updateEmployeeSalary,
     //removeEmployeeSalary
+    getEmployeeStatutory
 
 }
 
@@ -618,3 +619,13 @@ function updateEmployeeSalary(id, basic, hra, ma, pf, allowance, leaveAllowance,
 //         });
 
 // }
+
+function getEmployeeStatutory(id) {
+    return fetch(`${config.apiurl}/Employee/GetEmployeeStatutory/${id}/`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+            console.log(model)
+            return model
+        });
+    
+}
