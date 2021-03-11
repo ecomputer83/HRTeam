@@ -84,7 +84,7 @@
                       <td>5 Jan 2019</td>
                       <td>
                         <router-link to="/profile" class="avatar avatar-xs">
-                          <!-- <img src="../../assets/profiles/avatar-04.jpg" alt=""> -->
+                          <img src="../../assets/profiles/avatar-04.jpg" alt="">
                         </router-link>
                         <h2>
                           <router-link to="/profile">Loren Gatlin</router-link>
@@ -126,7 +126,7 @@
                       <td>5 Jan 2019</td>
                       <td>
                         <router-link to="/profile" class="avatar avatar-xs">
-                          <!-- <img src="../../assets/profiles/avatar-03.jpg" alt=""> -->
+                          <img src="../../assets/profiles/avatar-03.jpg" alt="">
                         </router-link>
                         <h2>
                           <router-link to="/profile">Tarah Shropshire</router-link>
