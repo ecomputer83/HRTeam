@@ -54,27 +54,27 @@
 												<div class="col-md-7">
 													<ul class="personal-info">
 														<li>
-															<div class="title">Phone:</div>
+															<div class="title-label">Phone:</div>
 															<div class="text"><a href="">{{employee.phone}}</a></div>
 														</li>
 														<li>
-															<div class="title">Email:</div>
+															<div class="title-label">Email:</div>
 															<div class="text"><a href="">{{employee.email}}</a></div>
 														</li>
 														<li>
-															<div class="title">Birthday:</div>
+															<div class="title-label">Birthday:</div>
 															<div class="text">{{employee.birthday}}</div>
 														</li>
 														<li>
-															<div class="title">Address:</div>
+															<div class="title-label">Address:</div>
 															<div class="text">{{employee.address}}</div>
 														</li>
 														<li>
-															<div class="title">Gender:</div>
+															<div class="title-label">Gender:</div>
 															<div class="text">{{employee.gender}}</div>
 														</li>
 														<!-- <li>
-															<div class="title">Reports to:</div>
+															<div class="title-label">Reports to:</div>
 															<div class="text">
 																<div class="avatar-box">
 																	<div class="avatar avatar-xs">
@@ -89,7 +89,7 @@
 												</div>
 											</div>
 										</div>
-										<div class="pro-edit"><a data-target="#profile_info" data-toggle="modal" v-if="myAccount"
+										<div class="pro-edit"><a @click="openProfile" v-if="myAccount"
 												class="edit-icon" href="#"><i class="fa fa-pencil"></i></a></div>
 									</div>
 								</div>
@@ -104,9 +104,8 @@
 									<li class="nav-item"><a href="#emp_profile" data-toggle="tab"
 											class="nav-link active">Profile</a></li>
 					
-									<li class="nav-item"><a href="#bank_statutory" data-toggle="tab"
-											class="nav-link">Bank & Statutory <small class="text-danger">(Admin
-												Only)</small></a></li>
+									<li class="nav-item"><a href="#bank_statutory" data-toggle="tab" v-if="hrAccount"
+											class="nav-link">Bank & Statutory</a></li>
 								</ul>
 							</div>
 						</div>
@@ -121,31 +120,31 @@
 									<div class="card profile-box flex-fill">
 										<div class="card-body">
 											<h3 class="card-title">Personal Informations <a href="#" class="edit-icon" v-if="myAccount"
-													data-toggle="modal" data-target="#personal_info_modal"><i
+													@click="openPersonalInfo"><i
 														class="fa fa-pencil"></i></a></h3>
 											<ul class="personal-info">
 												<li>
-													<div class="title">Passport No.</div>
+													<div class="title-label">Passport No.</div>
 													<div class="text">{{employee.passportIdentificationNumber}}</div>
 												</li>
 												<!-- <li>
-													<div class="title">Passport Exp Date.</div>
+													<div class="title-label">Passport Exp Date.</div>
 													<div class="text">9876543210</div>
 												</li> -->
 												<li>
-													<div class="title">Tel</div>
+													<div class="title-label">Tel</div>
 													<div class="text"><a href="">{{employee.phone}}</a></div>
 												</li>
 												<li>
-													<div class="title">Nationality</div>
+													<div class="title-label">Nationality</div>
 													<div class="text">{{employee.nationality}}</div>
 												</li>
 												<li>
-													<div class="title">Religion</div>
+													<div class="title-label">Religion</div>
 													<div class="text">{{employee.religion}}</div>
 												</li>
 												<li>
-													<div class="title">Marital status</div>
+													<div class="title-label">Marital status</div>
 													<div class="text">{{employee.maritalStatus}}</div>
 												</li>
 											</ul>
@@ -156,21 +155,21 @@
 									<div class="card profile-box flex-fill">
 										<div class="card-body">
 											<h3 class="card-title">Emergency Contact <a href="#" class="edit-icon" v-if="myAccount"
-													data-toggle="modal" data-target="#emergency_contact_modal"><i
+													@click="openEmergencyContact"><i
 														class="fa fa-pencil"></i></a></h3>
 											<div  v-if="employee.employeeEmergencies.length > 0">
 											<h5 class="section-title">Primary</h5>
 											<ul class="personal-info">
 												<li>
-													<div class="title">Name</div>
+													<div class="title-label">Name</div>
 													<div class="text">{{employee.employeeEmergencies[0].name}}</div>
 												</li>
 												<li>
-													<div class="title">Relationship</div>
+													<div class="title-label">Relationship</div>
 													<div class="text">{{employee.employeeEmergencies[0].relationship}}</div>
 												</li>
 												<li>
-													<div class="title">Phone </div>
+													<div class="title-label">Phone </div>
 													<div class="text">{{employee.employeeEmergencies[0].phone1 +', '+employee.employeeEmergencies[0].phone2}}</div>
 												</li>
 											</ul>
@@ -178,15 +177,15 @@
 											<h5 class="section-title"  v-if="employee.employeeEmergencies.length > 1">Secondary</h5>
 											<ul class="personal-info"  v-if="employee.employeeEmergencies.length > 1">
 												<li>
-													<div class="title">Name</div>
+													<div class="title-label">Name</div>
 													<div class="text">{{employee.employeeEmergencies[1].name}}</div>
 												</li>
 												<li>
-													<div class="title">Relationship</div>
+													<div class="title-label">Relationship</div>
 													<div class="text">{{employee.employeeEmergencies[1].relationship}}</div>
 												</li>
 												<li>
-													<div class="title">Phone </div>
+													<div class="title-label">Phone </div>
 													<div class="text">{{employee.employeeEmergencies[1].phone1 +', '+employee.employeeEmergencies[1].phone2}}</div>
 												</li>
 											</ul>
@@ -200,15 +199,15 @@
 									<div class="card profile-box flex-fill">
 										<div class="card-body">
 											<h3 class="card-title">Bank information <a href="#" class="edit-icon" v-if="myAccount"
-													data-toggle="modal" data-target="#bank_info_modal"><i
+													@click="openBankInfo"><i
 														class="fa fa-pencil"></i></a></h3>
 											<ul class="personal-info" v-if="employee.employeeBank">
 												<li>
-													<div class="title">Bank name</div>
+													<div class="title-label">Bank name</div>
 													<div class="text">{{employee.employeeBank.bankName}}</div>
 												</li>
 												<li>
-													<div class="title">Bank account No.</div>
+													<div class="title-label">Bank account No.</div>
 													<div class="text">{{employee.employeeBank.bankAccountNumber}}</div>
 												</li>
 											</ul>
@@ -219,7 +218,7 @@
 									<div class="card profile-box flex-fill">
 										<div class="card-body">
 											<h3 class="card-title">Family Informations <a href="#" class="edit-icon" v-if="myAccount"
-													data-toggle="modal" data-target="#family_info_modal"><i
+													@click="openFamilyInfo"><i
 														class="fa fa-pencil"></i></a></h3>
 											<div class="table-responsive">
 												<table class="table table-nowrap">
@@ -263,7 +262,7 @@
 									<div class="card profile-box flex-fill">
 										<div class="card-body">
 											<h3 class="card-title">Education Informations <a href="#" class="edit-icon" v-if="myAccount"
-													data-toggle="modal" data-target="#education_info"><i
+													@click="openEducation"><i
 														class="fa fa-pencil"></i></a></h3>
 											<div class="experience-box">
 												<ul class="experience-list">
@@ -289,7 +288,7 @@
 									<div class="card profile-box flex-fill">
 										<div class="card-body">
 											<h3 class="card-title">Experience <a href="#" class="edit-icon" v-if="myAccount"
-													data-toggle="modal" data-target="#experience_info"><i
+													@click="openExperience"><i
 														class="fa fa-pencil"></i></a></h3>
 											<div class="experience-box">
 												<ul class="experience-list">
@@ -319,18 +318,18 @@
 							<div class="card">
 								<div class="card-body">
 									<h3 class="card-title"> Basic Salary Information</h3>
-									<form>
+									<form @submit.prevent="onPostStatutory">
 										<div class="row">
 											<div class="col-sm-4">
 												<div class="form-group">
 													<label class="col-form-label">Salary basis <span
 															class="text-danger">*</span></label>
-													<select class="select">
+													<select class="select" v-model="employee.employeeStatutory.salaryBasis">
 														<option>Select salary basis type</option>
-														<option>Hourly</option>
-														<option>Daily</option>
-														<option>Weekly</option>
-														<option>Monthly</option>
+														<option value="hourly">Hourly</option>
+														<option value="daily">Daily</option>
+														<option value="weekly">Weekly</option>
+														<option value="monthly">Monthly</option>
 													</select>
 												</div>
 											</div>
@@ -343,19 +342,8 @@
 															<span class="input-group-text">$</span>
 														</div>
 														<input type="text" class="form-control"
-															placeholder="Type your salary amount" value="0.00">
+															placeholder="Type your salary amount" v-model="employee.employeeStatutory.salaryAmount">
 													</div>
-												</div>
-											</div>
-											<div class="col-sm-4">
-												<div class="form-group">
-													<label class="col-form-label">Payment type</label>
-													<select class="select">
-														<option>Select payment type</option>
-														<option>Bank transfer</option>
-														<option>Check</option>
-														<option>Cash</option>
-													</select>
 												</div>
 											</div>
 										</div>
@@ -365,168 +353,53 @@
 											<div class="col-sm-4">
 												<div class="form-group">
 													<label class="col-form-label">PF contribution</label>
-													<select class="select">
+													<select class="select" v-model="employeePF">
 														<option>Select PF contribution</option>
-														<option>Yes</option>
-														<option>No</option>
+														<option value="1">Yes</option>
+														<option value="0">No</option>
 													</select>
 												</div>
 											</div>
 											<div class="col-sm-4">
-												<div class="form-group">
+												<div class="form-group" v-if="employeePF == 1">
 													<label class="col-form-label">PF No. <span
 															class="text-danger">*</span></label>
-													<select class="select">
-														<option>Select PF contribution</option>
-														<option>Yes</option>
-														<option>No</option>
-													</select>
+													<input type="text" class="form-control" v-model="employee.employeeStatutory.pensionNo"
+															placeholder="Type your pension number">
 												</div>
 											</div>
 										</div>
-										<div class="row">
+										<div class="row" v-if="employeePF == 1">
 											<div class="col-sm-4">
 												<div class="form-group">
-													<label class="col-form-label">Employee PF rate</label>
-													<select class="select">
-														<option>Select PF contribution</option>
-														<option>Yes</option>
-														<option>No</option>
-													</select>
+													<label class="col-form-label">PF Manager</label>
+													<input type="text" class="form-control" v-model="employee.employeeStatutory.pensionManager"
+															placeholder="Type your pension manager">
 												</div>
 											</div>
 											<div class="col-sm-4">
 												<div class="form-group">
-													<label class="col-form-label">Additional rate <span
+													<label class="col-form-label">Employee PF rate <span
 															class="text-danger">*</span></label>
-													<select class="select">
-														<option>Select additional rate</option>
-														<option>0%</option>
-														<option>1%</option>
-														<option>2%</option>
-														<option>3%</option>
-														<option>4%</option>
-														<option>5%</option>
-														<option>6%</option>
-														<option>7%</option>
-														<option>8%</option>
-														<option>9%</option>
-														<option>10%</option>
+													<select class="select" v-model="employee.employeeStatutory.employeeRate">
+														<option>Select PF rate</option>
+														<option value="0">0%</option>
+														<option value="1">1%</option>
+														<option value="2">2%</option>
+														<option value="3">3%</option>
+														<option value="4">4%</option>
+														<option value="5">5%</option>
+														<option value="6">6%</option>
+														<option value="7">7%</option>
+														<option value="8">8%</option>
+														<option value="9">9%</option>
+														<option value="10">10%</option>
 													</select>
 												</div>
 											</div>
-											<div class="col-sm-4">
-												<div class="form-group">
-													<label class="col-form-label">Total rate</label>
-													<input type="text" class="form-control" placeholder="N/A"
-														value="11%">
-												</div>
-											</div>
+											
 										</div>
-										<div class="row">
-											<div class="col-sm-4">
-												<div class="form-group">
-													<label class="col-form-label">Employee PF rate</label>
-													<select class="select">
-														<option>Select PF contribution</option>
-														<option>Yes</option>
-														<option>No</option>
-													</select>
-												</div>
-											</div>
-											<div class="col-sm-4">
-												<div class="form-group">
-													<label class="col-form-label">Additional rate <span
-															class="text-danger">*</span></label>
-													<select class="select">
-														<option>Select additional rate</option>
-														<option>0%</option>
-														<option>1%</option>
-														<option>2%</option>
-														<option>3%</option>
-														<option>4%</option>
-														<option>5%</option>
-														<option>6%</option>
-														<option>7%</option>
-														<option>8%</option>
-														<option>9%</option>
-														<option>10%</option>
-													</select>
-												</div>
-											</div>
-											<div class="col-sm-4">
-												<div class="form-group">
-													<label class="col-form-label">Total rate</label>
-													<input type="text" class="form-control" placeholder="N/A"
-														value="11%">
-												</div>
-											</div>
-										</div>
-
-										<hr>
-										<h3 class="card-title"> ESI Information</h3>
-										<div class="row">
-											<div class="col-sm-4">
-												<div class="form-group">
-													<label class="col-form-label">ESI contribution</label>
-													<select class="select">
-														<option>Select ESI contribution</option>
-														<option>Yes</option>
-														<option>No</option>
-													</select>
-												</div>
-											</div>
-											<div class="col-sm-4">
-												<div class="form-group">
-													<label class="col-form-label">ESI No.</label>
-													<select class="select">
-														<option>Select ESI contribution</option>
-														<option>Yes</option>
-														<option>No</option>
-													</select>
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-sm-4">
-												<div class="form-group">
-													<label class="col-form-label">Employee ESI rate</label>
-													<select class="select">
-														<option>Select ESI contribution</option>
-														<option>Yes</option>
-														<option>No</option>
-													</select>
-												</div>
-											</div>
-											<div class="col-sm-4">
-												<div class="form-group">
-													<label class="col-form-label">Additional rate <span
-															class="text-danger">*</span></label>
-													<select class="select">
-														<option>Select additional rate</option>
-														<option>0%</option>
-														<option>1%</option>
-														<option>2%</option>
-														<option>3%</option>
-														<option>4%</option>
-														<option>5%</option>
-														<option>6%</option>
-														<option>7%</option>
-														<option>8%</option>
-														<option>9%</option>
-														<option>10%</option>
-													</select>
-												</div>
-											</div>
-											<div class="col-sm-4">
-												<div class="form-group">
-													<label class="col-form-label">Total rate</label>
-													<input type="text" class="form-control" placeholder="N/A"
-														value="11%">
-												</div>
-											</div>
-										</div>
-
+										
 										<div class="submit-section">
 											<button class="btn btn-primary submit-btn" type="submit">Save</button>
 										</div>
@@ -539,13 +412,13 @@
 					</div>
 				</div>
 				<!-- /Page Content -->
-				<emergency-contact-modal :model="employee.employeeEmergencies" :id="this.$route.params.id" v-if="employee.employeeEmergencies.length > 0"></emergency-contact-modal>
-				<personal-info-modal :model="employee" v-if="employee.firstName"></personal-info-modal>
-				<profile-modal :model="employee" v-if="employee.firstName"></profile-modal>
-				<bank-info-modal :model="employee.employeeBank" :id="this.$route.params.id" v-if="this.$route.params.id"></bank-info-modal>
-				<family-info-modal :model="employee.employeeFamilies" :id="this.$route.params.id" v-if="this.$route.params.id"></family-info-modal>
-				<experience-modal :model="employee.employeeExperiences" :id="this.$route.params.id" v-if="this.$route.params.id"></experience-modal>
-				<education-modal :model="employee.employeeEducations" :id="this.$route.params.id" v-if="this.$route.params.id"></education-modal>
+				<emergency-contact-modal :model="employee.employeeEmergencies" :id="this.$route.params.id" :dialog="emergencyContactDialog" v-if="emergencyContactDialog" :method="closeEmergencyContact"></emergency-contact-modal>
+				<personal-info-modal :model="employee" :dialog="personalInfoDialog" v-if="personalInfoDialog" :method="closeEmergencyContact"></personal-info-modal>
+				<profile-modal :model="employee" :dialog="profileDialog" v-if="profileDialog" :method="closeProfile"></profile-modal>
+				<bank-info-modal :model="employee.employeeBank" :id="this.$route.params.id" :dialog="bankInfoDialog" v-if="bankInfoDialog" :method="closeBankInfo"></bank-info-modal>
+				<family-info-modal :model="employee.employeeFamilies" :id="this.$route.params.id" :dialog="familyInfoDialog" v-if="familyInfoDialog" :method="closeFamilyInfo"></family-info-modal>
+				<experience-modal :model="employee.employeeExperiences" :id="this.$route.params.id" :dialog="experienceDialog" v-if="experienceDialog" :method="closeEmergencyContact"></experience-modal>
+				<education-modal :model="employee.employeeEducations" :id="this.$route.params.id" :dialog="educationDialog" v-if="educationDialog" :method="closeEducation"></education-modal>
 				
 
 				
@@ -592,8 +465,17 @@
 		},
 		data(){
 			return {
+				experienceDialog: false,
+				profileDialog: false,
+				personalInfoDialog: false,
+				familyInfoDialog: false,
+				bankInfoDialog: false,
+				educationDialog: false,
+				emergencyContactDialog: false,
+
 				currentUser: authenticationService.currentUserValue,
 				myAccount: false,
+				hrAccount: false,
 			employee: {
 				firstName: null,
 				gender: "",
@@ -610,15 +492,28 @@
 				employeeEmergencies: [],
 				employeeExperiences: [],
 				employeeFamilies: [],
+				employeePension: {
+					id: 0,
+					pensionNo: "",
+					employeeRate: 0,
+					pensionManager: ""
+				},
+				employeeStatutory: {
+					id: 0,
+					salaryBasis: "",
+					salaryAmount: 0.00
+				}
+			},
+			employeePF: 0,
 				
-			}
 		}
 		},
 		mounted() {
 			if(this.$route.params.id){
 			this.GetEmployee();
 			console.log(this.currentUser)
-			this.myAccount = this.currentUser.employee.id == this.employee.id
+			this.myAccount = (this.currentUser.employee.id == this.employee.id || this.currentUser.role == "HRAdmin")
+			this.hrAccount = this.currentUser.role == "HRAdmin"
 			}else{
 				this.$route.push('/employees')
 			}
@@ -657,13 +552,121 @@
 			}
 		},
 		methods: {
+			openProfile() {
+				this.profileDialog = true
+			},
+			openPersonalInfo() {
+				this.personalInfoDialog = true
+			},
+			openBankInfo() {
+				this.bankInfoDialog = true
+			},
+			openEducation() {
+				this.educationDialog = true
+			},
+			openEmergencyContact() {
+				this.emergencyContactDialog = true
+			},
+			openExperience() {
+				this.experienceDialog = true
+			},
+			openFamilyInfo() {
+				this.familyInfoDialog = true
+			},
+
+			closeProfile(employee) {
+				if(employee)
+				this.employee = employee
+				this.profileDialog = true
+			},
+			closePersonalInfo(employee) {
+				if(employee)
+				this.employee = employee
+				this.personalInfoDialog = true
+			},
+			closeBankInfo(employee) {
+				if(employee)
+				this.employee = employee
+				this.bankInfoDialog = true
+			},
+			closeEducation(employee) {
+				if(employee)
+				this.employee = employee
+				this.educationDialog = true
+			},
+			closeEmergencyContact(employee) {
+				if(employee)
+				this.employee = employee
+				this.emergencyContactDialog = true
+			},
+			closeExperience(employee) {
+				if(employee)
+				this.employee = employee
+				this.experienceDialog = true
+			},
+			closeFamilyInfo(employee) {
+				if(employee)
+				this.employee = employee
+				this.familyInfoDialog = true
+			},
 			GetEmployee () {
           employeeService.getEmployeeDetail(this.$route.params.id)
             .then(
-                model => { this.employee = model},
+                model => { 
+					this.employee = model;
+					if(!this.employee.employeePension){
+						this.employee.employeePension = {id: 0, pensionNo: "", employeeRate: 0, pensionManager: ""}
+					}
+					if(!this.employee.employeeStatutory){
+						this.employee.employeeStatutory = {id: 0, salaryBasis: "", salaryAmount: 0.00 }
+					}
+				},
                 error => { this.error = error }
             )
-      },
+      		},
+			onPostStatutory(){
+				if(this.employee.employeeStatutory.id == 0){
+					employeeService.addEmployeeStatutory(this.employee.id, this.employee.employeeStatutory, this.employee.employeePension)
+            		.then(
+                			model => { 
+								employeeService.getEmployeeDetail(this.$route.params.id)
+            					.then(
+               						 model => { 
+									this.employee = model;
+									if(!this.employee.employeePension){
+										this.employee.employeePension = {id: 0, pensionNo: "", employeeRate: 0, pensionManager: ""}
+									}
+									if(!this.employee.employeeStatutory){
+										this.employee.employeeStatutory = {id: 0, salaryBasis: "", salaryAmount: 0.00 }
+									}
+									},
+               						 error => { this.error = error }
+            						)
+							},
+                			error => { this.error = error }
+            			)
+				}else{
+					employeeService.updateEmployeeStatutory(this.employee.id, this.employee.employeeStatutory, this.employee.employeePension)
+            		.then(
+                			model => { 
+								employeeService.getEmployeeDetail(this.$route.params.id)
+            					.then(
+               						  model => { 
+									this.employee = model;
+									if(!this.employee.employeePension){
+										this.employee.employeePension = {id: 0, pensionNo: "", employeeRate: 0, pensionManager: ""}
+									}
+									if(!this.employee.employeeStatutory){
+										this.employee.employeeStatutory = {id: 0, salaryBasis: "", salaryAmount: 0.00 }
+									}
+									},
+               						 error => { this.error = error }
+            						)
+							},
+                			error => { this.error = error }
+            			)
+				}
+			}
 		},
 		name: 'profile'
 	}

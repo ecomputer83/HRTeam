@@ -1,11 +1,10 @@
 <template>
     <!-- Experience Modal -->
-				<div id="experience_info" class="modal custom-modal fade" role="dialog">
-					<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+				<v-dialog v-model="dialog" max-width="725px">
 						<div class="modal-content">
 							<div class="modal-header">
 								<h5 class="modal-title">Experience Informations</h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<button type="button" class="close" @click="method(employee)">
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
@@ -83,8 +82,7 @@
 								</form>
 							</div>
 						</div>
-					</div>
-				</div>
+				</v-dialog>
 				<!-- /Experience Modal -->
 </template>
 
@@ -95,10 +93,13 @@ import { employeeService } from '@/services/employeeService';
   export default {
     props: {
         model: {},
-        id: 0
+        id: 0,
+		dialog: Boolean,
+		method: { type: Function }
     },
     data() {
       return {
+		  employee: null,
           employeeId: this.id,
           companyName: (this.model) ? '' : this.model.companyName,
           position: (this.model) ? '' : this.model.position,
@@ -117,6 +118,8 @@ import { employeeService } from '@/services/employeeService';
         endYear: { required }
     },
     mounted() {
+		this.$emit('update:employee', this.employee);
+		this.$emit('update:experienceDialog', this.dialog);
         if ($('.datetimepicker').length > 0) {
 				$('.datetimepicker').datetimepicker({
 					format: 'DD/MM/YYYY',
@@ -135,6 +138,7 @@ import { employeeService } from '@/services/employeeService';
 			}
     },
     methods: {
+		
         postExperience() {
             this.submitted = true;
             console.log(this.Id)
@@ -146,11 +150,36 @@ import { employeeService } from '@/services/employeeService';
             if(this.model.id){
 
                 employeeService.updateEmployeeExperience(this.model.id, this.employeeId, this.companyName, this.position, this.startYear, this.endYear)
-                .then(model => { this.message = 'Experience update successfully!'},
+                .then(model => { this.message = 'Experience update successfully!'
+				employeeService.getEmployeeDetail(this.employeeId)
+            	.then(
+                model => { 
+					this.employee = model;
+					if(!this.employee.employeePension){
+						this.employee.employeePension = {id: 0, pensionNo: "", employeeRate: 0, pensionManager: ""}
+					}
+					if(!this.employee.employeeStatutory){
+						this.employee.employeeStatutory = {id: 0, salaryBasis: "", salaryAmount: 0.00 }
+					}
+				},
+                error => { this.error = error })
+				},
                     error => { this.error = error})
             }else{
                 employeeService.addEmployeeExperience(this.employeeId, this.companyName, this.position, this.startYear, this.endYear)
-                .then(model => { this.message = 'Experience create successfully!'},
+                .then(model => { this.message = 'Experience create successfully!'
+				employeeService.getEmployeeDetail(this.employeeId)
+            	.then(
+                model => { 
+					this.employee = model;
+					if(!this.employee.employeePension){
+						this.employee.employeePension = {id: 0, pensionNo: "", employeeRate: 0, pensionManager: ""}
+					}
+					if(!this.employee.employeeStatutory){
+						this.employee.employeeStatutory = {id: 0, salaryBasis: "", salaryAmount: 0.00 }
+					}
+				},
+                error => { this.error = error })},
                     error => { this.error = error})
             }
         },
@@ -165,6 +194,18 @@ import { employeeService } from '@/services/employeeService';
                       this.startYear = '',
                       this.endYear = '',
                       this.message = 'Experience removed successfully!'
+					  employeeService.getEmployeeDetail(this.employeeId)
+            	.then(
+                model => { 
+					this.employee = model;
+					if(!this.employee.employeePension){
+						this.employee.employeePension = {id: 0, pensionNo: "", employeeRate: 0, pensionManager: ""}
+					}
+					if(!this.employee.employeeStatutory){
+						this.employee.employeeStatutory = {id: 0, salaryBasis: "", salaryAmount: 0.00 }
+					}
+				},
+                error => { this.error = error })
 					},
                     error => {
                         this.error = error;

@@ -1,11 +1,10 @@
 <template>
     <!-- Emergency Contact Modal -->
-				<div id="emergency_contact_modal" class="modal custom-modal fade" role="dialog">
-					<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+				<v-dialog v-model="dialog" max-width="725px">
 						<div class="modal-content">
 							<div class="modal-header">
 								<h5 class="modal-title">Personal Information</h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<button type="button" class="close" @click="method(employee)">
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
@@ -110,8 +109,7 @@
 								</form>
 							</div>
 						</div>
-					</div>
-				</div>
+				</v-dialog>
 				<!-- /Emergency Contact Modal -->
 </template>
 
@@ -122,7 +120,9 @@ import { employeeService } from '@/services/employeeService';
   export default {
     props: {
         model: Array,
-        id: 0
+        id: 0,
+		dialog: Boolean,
+		method: { type: Function }
     },
     data() {
       return {
@@ -153,6 +153,8 @@ import { employeeService } from '@/services/employeeService';
     },
     mounted() {
         console.log(this.model)
+		this.$emit('update:employee', this.employee);
+		this.$emit('update:emergencyContactDialog', this.dialog);
     },
     methods: {
         postEmergency() {
@@ -166,11 +168,36 @@ import { employeeService } from '@/services/employeeService';
             if(this.model[0].id){
 
                 employeeService.updateEmployeeEmergency(this.model[0].id, this.employeeId, this.pname, this.prelationship, this.pphone1, this.pphone2, this.model[1].id, this.sname, this.srelationship, this.sphone1, this.sphone2)
-                .then(model => { this.message = 'Emergency update successfully!'},
+                .then(model => { this.message = 'Emergency update successfully!'
+				employeeService.getEmployeeDetail(this.employeeId)
+            	.then(
+                model => { 
+					this.employee = model;
+					if(!this.employee.employeePension){
+						this.employee.employeePension = {id: 0, pensionNo: "", employeeRate: 0, pensionManager: ""}
+					}
+					if(!this.employee.employeeStatutory){
+						this.employee.employeeStatutory = {id: 0, salaryBasis: "", salaryAmount: 0.00 }
+					}
+				},
+                error => { this.error = error })
+				},
                     error => { this.error = error})
             }else{
                 employeeService.addEmployeeEmergency(this.employeeId, this.pname, this.prelationship, this.pphone1, this.pphone2, this.sname, this.srelationship, this.sphone1, this.sphone2)
-                .then(model => { this.message = 'Emergency create successfully!'},
+                .then(model => { this.message = 'Emergency create successfully!'
+				employeeService.getEmployeeDetail(this.employeeId)
+            	.then(
+                model => { 
+					this.employee = model;
+					if(!this.employee.employeePension){
+						this.employee.employeePension = {id: 0, pensionNo: "", employeeRate: 0, pensionManager: ""}
+					}
+					if(!this.employee.employeeStatutory){
+						this.employee.employeeStatutory = {id: 0, salaryBasis: "", salaryAmount: 0.00 }
+					}
+				},
+                error => { this.error = error })},
                     error => { this.error = error})
             }
         },
@@ -185,6 +212,18 @@ import { employeeService } from '@/services/employeeService';
                       this.startYear = '',
                       this.endYear = '',
                       this.message = 'Emergency removed successfully!'
+					  employeeService.getEmployeeDetail(this.employeeId)
+            	.then(
+                model => { 
+					this.employee = model;
+					if(!this.employee.employeePension){
+						this.employee.employeePension = {id: 0, pensionNo: "", employeeRate: 0, pensionManager: ""}
+					}
+					if(!this.employee.employeeStatutory){
+						this.employee.employeeStatutory = {id: 0, salaryBasis: "", salaryAmount: 0.00 }
+					}
+				},
+                error => { this.error = error })
 					},
                     error => {
                         this.error = error;

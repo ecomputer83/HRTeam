@@ -9,7 +9,7 @@
                   <tr>
                     <td>Start Date</td>
                     <td>
-                      <input type="date" class="form-control" name="" id="" />
+                      <input type="date" class="form-controlz" name="" id="" />
                     </td>
                   </tr>
                   <tr>
@@ -18,7 +18,7 @@
                       <select
                         name="experience"
                         id="experience"
-                        class="form-control"
+                        class="form-controlz"
                       >
                         <option value="experience 1">
                           experience 1
@@ -41,7 +41,7 @@
                       <select
                         name="Job Location"
                         id="Job_Location"
-                        class="form-control"
+                        class="form-controlz"
                       >
                         <option value="Job Location 1">
                           Job Location 1
@@ -102,7 +102,7 @@
                       <select
                         name="traveling"
                         id="traveling"
-                        class="form-control"
+                        class="form-controlz"
                       >
                         <option value="">----</option>
                         <option value="Not Required">

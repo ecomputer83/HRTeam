@@ -1,11 +1,10 @@
 <template>
     <!-- Personal Info Modal -->
-				<div id="personal_info_modal" class="modal custom-modal fade" role="dialog">
-					<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+				<v-dialog v-model="dialog" max-width="725px">
 						<div class="modal-content">
 							<div class="modal-header">
 								<h5 class="modal-title">Personal Information</h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<button type="button" class="close" @click="method(employee)">
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
@@ -77,8 +76,7 @@
 								</form>
 							</div>
 						</div>
-					</div>
-				</div>
+				</v-dialog>
 				<!-- /Personal Info Modal -->
 </template>
 
@@ -87,10 +85,13 @@ import { required, sameAs } from 'vuelidate/lib/validators';
 import { employeeService } from '@/services/employeeService';
   export default {
     props: {
-        model: {}
+        model: {},
+		dialog: Boolean,
+		method: { type: Function }
     },
     data() {
       return {
+		  employee: null,
           passportIdentificationNumber: this.model.passportIdentificationNumber,
           nationality: this.model.nationality,
           phone: this.model.phone,
@@ -110,6 +111,8 @@ import { employeeService } from '@/services/employeeService';
     },
     mounted() {
 		console.log(this.model)
+		this.$emit('update:employee', this.employee);
+		this.$emit('update:personalInfoDialog', this.dialog);
     },
     methods: {
 
@@ -122,6 +125,19 @@ import { employeeService } from '@/services/employeeService';
             }
 			employeeService.updateEmployeePersonalInfo(this.model.id, this.passportIdentificationNumber, this.nationality, this.phone, this.religion, this.maritalStatus)
                 this.message = 'Personal Info update successfully!';
+				employeeService.getEmployeeDetail(this.$route.params.id)
+            	.then(
+                model => { 
+					this.employee = model;
+					if(!this.employee.employeePension){
+						this.employee.employeePension = {id: 0, pensionNo: "", employeeRate: 0, pensionManager: ""}
+					}
+					if(!this.employee.employeeStatutory){
+						this.employee.employeeStatutory = {id: 0, salaryBasis: "", salaryAmount: 0.00 }
+					}
+				},
+                error => { this.error = error }
+            )
 		}
     }
   }

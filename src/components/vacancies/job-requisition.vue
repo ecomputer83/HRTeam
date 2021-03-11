@@ -6,7 +6,7 @@
         ><input
           value="title"
           type="text"
-          class="form-control"
+          class="form-controlz"
           name="requisition_title"
           id="requisition_title"
         />
