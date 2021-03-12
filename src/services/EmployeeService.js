@@ -587,16 +587,14 @@ function removeEmployeePromotion(id) {
         });
 }
 
-function updateEmployeePromotion(id, from, to, date,) {
+function updateEmployeePromotion(employeeId, from, to, date,) {
     var req = {
-        id,
-        id,
         from,
         to,
         date,
         employeeId
     }
-    return fetch(`${config.apiurl}/Expense/PutExpensePromotion/${id}`, requestOptions.put(req))
+    return fetch(`${config.apiurl}/Expense/PutExpensePromotion/${employeeId}`, requestOptions.put(req))
         .then(handleResponse)
         .then(id => {
             return id;

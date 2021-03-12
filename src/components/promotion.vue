@@ -38,7 +38,6 @@
                 <table class="table table-striped custom-table dt-responsive">
                   <thead>
                     <tr>
-                      <th>#</th>
                       <th>Promoted Employee</th>
                       <th>Department</th>
                       <th>Promotion Designation From</th>
@@ -48,8 +47,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>1</td>
+                    <tr v-for="item in promotions" v-bind:key="item.id">
                       <td>
                         <h2 class="table-avatar blue-link">
                           <router-link to="/profile" class="avatar"
@@ -58,13 +56,15 @@
                               src="../assets/profiles/avatar-02.jpg"
                             />
                           </router-link>
-                          <router-link to="/profile">John Doe</router-link>
+                          <router-link to="/profile">{{
+                            `${item.employee.firstName} ${item.employee.lastName}`
+                          }}</router-link>
                         </h2>
                       </td>
-                      <td>Web Development</td>
-                      <td>Web Developer</td>
-                      <td>Sr Web Developer</td>
-                      <td>28 Feb 2019</td>
+                      <td>{{ employee.department }}</td>
+                      <td>{{ item.from }}</td>
+                      <td>{{ item.to }}</td>
+                      <td>{{ item.date }}</td>
                       <td class="text-right">
                         <div class="dropdown dropdown-action">
                           <a
@@ -77,14 +77,14 @@
                           <div class="dropdown-menu dropdown-menu-right">
                             <a
                               class="dropdown-item"
-                              href="#"
+                              @click="setPromotion(item)"
                               data-toggle="modal"
                               data-target="#edit_promotion"
                               ><i class="fa fa-pencil m-r-5"></i> Edit</a
                             >
                             <a
                               class="dropdown-item"
-                              href="#"
+                              @click="setPromotion(item)"
                               data-toggle="modal"
                               data-target="#delete_promotion"
                               ><i class="fa fa-trash-o m-r-5"></i> Delete</a
@@ -272,8 +272,9 @@
                   <div class="row">
                     <div class="col-6">
                       <a
-                        href="javascript:void(0);"
+                        @click.prevent="deletePromotion"
                         class="btn btn-primary continue-btn"
+                        data-dismiss="modal"
                         >Delete</a
                       >
                     </div>
@@ -359,8 +360,8 @@ export default {
       );
     },
 
-    setPromotion() {
-      this.promotions = model;
+    setPromotion(item) {
+      this.promotions = item;
     },
 
     getPromotions() {
@@ -387,6 +388,31 @@ export default {
           this.error = error;
         }
       );
+    },
+
+    updatePromotion() {
+      this.submitted = true;
+      const id = this.employeeLeave.id;
+      this.loading = true;
+      employeeService
+        .updateEmployeePromotion(
+          id,
+          this.promotion.from,
+          this.promotion.to,
+          this.promotion.to,
+          this.promotion.date
+        )
+        .then(
+          (id) => {
+            employeeService.getPromotions(this.company.id).then((o) => {
+              this.employeeLeaves = o;
+            });
+          },
+          (error) => {
+            this.error = error;
+            this.loading = false;
+          }
+        );
     },
 
     onSubmit() {
