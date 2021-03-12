@@ -99,7 +99,7 @@
               </div>
               <div class="modal-body">
                 <form @submit.prevent="onSubmit">
-                    <div class="row">
+                    <div class="row"> 
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Select Staff <span class="text-danger">*</span></label>
@@ -365,6 +365,7 @@ export default {
       conveyance: "",
       esi: "",
       labourWelfare: "",
+      statutories: []
 
 
     };
@@ -414,7 +415,7 @@ export default {
       employeeService.getEmployeeStatutory(this.employeeId).then(
         (model) => {
           console.log('model statutory', model)
-          this.salaries = model;
+          this.statutories = model;
         },
         (error) => {
           error = error;
