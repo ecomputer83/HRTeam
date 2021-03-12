@@ -170,6 +170,9 @@
                       <input
                         v-model="date"
                         type="text"
+                        calendar-class
+                        input-class
+                        bootstrap-styling
                         class="form-control datetimepicker"
                       />
                     </div>
@@ -300,6 +303,7 @@ import LayoutSidebar from "@/components/layouts/Sidebar.vue";
 import { required, sameAs } from "vuelidate/lib/validators";
 import { employeeService } from "@/services/employeeService.js";
 import { organizationService } from "@/services/organizationService.js";
+import Datepicker from "vuejs-datepicker";
 import { authenticationService } from "@/services/authenticationService";
 
 export default {
@@ -313,6 +317,9 @@ export default {
       from: 0,
       to: 0,
       date: "",
+      employeeId: 0,
+      designationId: "",
+      designationIdd: "",
       promotions: [],
       promotion: null,
       submitted: false,

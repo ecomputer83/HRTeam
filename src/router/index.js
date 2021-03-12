@@ -50,6 +50,7 @@ import resignation from '@/components/resignation';
 import salary from '@/components/payroll/salary'
 import salaryview from '@/components/payroll/salaryview'
 import payrollitems from '@/components/payroll/payrollitems'
+import expensereports from '@/components/reports/expensereports'
 import policies from '@/components/policies'
 import promotion from '@/components/promotion'
 import { authenticationService } from '@/services/authenticationService';
@@ -374,6 +375,12 @@ const router = new Router({
       name: 'policies',
       component: policies,
       meta: { authorize: [Role.HRAdmin] },
+    },
+    {
+      path: '/expense-reports',
+      name: 'expensereports',
+      component: expensereports,
+      //meta: { authorize: [Role.HRAdmin] },
     }
 
   ],
