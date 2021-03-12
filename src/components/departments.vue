@@ -29,46 +29,41 @@
           <!----Datatable-->
           <div class="row">
             <div class="col-md-12">
-                                                        <div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="error">
-								                            <strong>Error!</strong> {{error}}
-								                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-									                            <span aria-hidden="true">&times;</span>
-								                            </button>
-							                            </div>
-                                        </div>
-            <div class="col-md-12">
-              <div>
-                <table class="table table-striped custom-table mb-0 datatable">
-                  <thead>
-                    <tr>
-                      <th style="width: 30px;">#</th>
-                      <th>Department Name</th>
-                      <th class="text-right">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(item, index) in departments" v-bind:key="item.id">
-                      <td>{{index + 1}}</td>
-                      <td>{{item.name}}</td>
-                      <td class="text-right">
-                        <div class="dropdown dropdown-action">
-                          <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
-                            aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" @click="setDepartment(item)" data-toggle="modal" data-target="#edit_department"><i
-                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                            <a class="dropdown-item" @click="setDepartment(item)" data-toggle="modal" data-target="#delete_department"><i
-                                class="fa fa-trash-o m-r-5"></i> Delete</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    
-                  </tbody>
-                </table>
+              <div class="table-responsive">
+                <v-data-table
+                  :headers="headers"
+                  :items="departments"
+                  sort-by=""
+                  class="elevation-1"
+                  >
+                <template v-slot:[`item.actions`]="{ item }">
+                  <div class="dropdown dropdown-action">
+                    <a
+                      href="#"
+                      class="action-icon dropdown-toggle"
+                      data-toggle="dropdown"
+                      aria-expanded="false"
+                      ><i class="material-icons">more_vert</i></a
+                    >
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <a
+                        class="dropdown-item"
+                        @click="setEditDepartment(item)"
+                        ><i class="fa fa-pencil m-r-5"></i> Edit</a
+                      >
+                      <a
+                        class="dropdown-item"
+                        @click="setDeleteDepartment(item)"
+                        ><i class="fa fa-trash-o m-r-5"></i> Delete</a
+                      >
+                    </div>
+                  </div>
+                </template>
+                </v-data-table>
               </div>
             </div>
           </div>
+
           <!---/Datatable-->
         </div>
         <!-- /Page Content -->

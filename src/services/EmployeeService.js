@@ -556,9 +556,12 @@ function updateEmployeeResignation(id, resignationDate, reason, noticeDate, empl
         });
 }
 
-function addEmployeePromotion(promotionFor, promotionFrom, PromotionTo, promotionDate, employeeId) {
+function addEmployeePromotion(from, to, date, employeeId) {
     var req = {
-        promotionFor, promotionFrom, PromotionTo, ptomotionDate, employeeId
+        from,
+        to,
+        date,
+        employeeId
     }
     return fetch(`${config.apiurl}/Expense/PostExpensePromotion`, requestOptions.post(req))
         .then(handleResponse)
@@ -584,13 +587,13 @@ function removeEmployeePromotion(id) {
         });
 }
 
-function updateEmployeePromotion(id, promotionFor, promotionFrom, PromotionTo, promotionDate, employeeId) {
+function updateEmployeePromotion(id, from, to, date,) {
     var req = {
         id,
-        promotionFor,
-        promotionFrom,
-        PromotionTo,
-        promotionDate,
+        id,
+        from,
+        to,
+        date,
         employeeId
     }
     return fetch(`${config.apiurl}/Expense/PutExpensePromotion/${id}`, requestOptions.put(req))
