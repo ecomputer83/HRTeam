@@ -167,13 +167,11 @@
                       >Promotion Date <span class="text-danger">*</span></label
                     >
                     <div class="cal-icon">
-                      <input
-                        v-model="date"
-                        type="text"
-                        calendar-class
-                        input-class
-                        bootstrap-styling
-                        class="form-control datetimepicker"
+                      <datepicker 
+                        v-model="date" 
+                        calendar-class input-class bootstrap-styling 
+                        class="form-control datetimepicker" 
+                        type="text" 
                       />
                     </div>
                   </div>
@@ -311,6 +309,7 @@ export default {
   components: {
     LayoutHeader,
     LayoutSidebar,
+    Datepicker
   },
 
   data() {
@@ -418,6 +417,7 @@ export default {
     onSubmit() {
       this.submitted = true;
       this.loading = true;
+      console.log('this.date', this.date)
       employeeService
         .addEmployeePromotion(this.from, this.to, this.date, this.employeeId)
         .then(
