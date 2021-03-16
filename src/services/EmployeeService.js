@@ -40,12 +40,15 @@ export const employeeService = {
     addEmployeeTermination,
     updateEmployeeTermination,
     removeEmployeeTermination,
-    addEmployeeSalary,
     getEmployeeSalary,
-    updateEmployeeSalary,
-    //removeEmployeeSalary
-    getEmployeeStatutory
-
+    addEmployeeSalary,
+    addEmployeePromotion,
+    getEmployeePromotion,
+    removeEmployeePromotion,
+    updateEmployeePromotion,
+    addExpenseClaim,
+    getExpenseClaim,
+    
 }
 
 
@@ -591,42 +594,83 @@ function updateEmployeeResignation(id, resignationDate, reason, noticeDate, empl
         .then(id => {
             return id;
         });
-    }
+}
 
-function addEmployeeSalary(basic, hra, ma, pf, allowance, leaveAllowance, hmo, tax, netSalary, employeeId) {
-    const req = {
-        basic,
-        hra,
-        ma,
-        pf,
-        allowance,
-        leaveAllowance,
-        hmo,
-        tax,
-        netSalary,
+function addEmployeePromotion(from, to, date, employeeId) {
+    var req = {
+        from,
+        to,
+        date,
         employeeId
     }
-    return fetch(`${config.apiurl}/Employee/PostEmployeeSalary`, requestOptions.post(req))
+    return fetch(`${config.apiurl}/Expense/PostExpensePromotion`, requestOptions.post(req))
         .then(handleResponse)
         .then(id => {
-    
+
             return id;
         });
-    }
+}
 
-function getEmployeeSalary(id) {
-    return fetch(`${config.apiurl}/Employee/GetEmployeeSalary/${id}/`, requestOptions.get())
+function getEmployeePromotion(companyid) {
+    return fetch(`${config.apiurl}/Expense/GetExpensePromotion/${companyid}`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+            return model
+        });
+}
+
+function removeEmployeePromotion(id) {
+    return fetch(`${config.apiurl}/Expense/DeleteExpensePromotion/${id}`, requestOptions.delete())
+        .then(handleResponse)
+        .then(model => {
+            return model
+        });
+}
+
+function updateEmployeePromotion(employeeId, from, to, date,) {
+    var req = {
+        from,
+        to,
+        date,
+        employeeId
+    }
+    return fetch(`${config.apiurl}/Expense/PutExpensePromotion/${employeeId}`, requestOptions.put(req))
+        .then(handleResponse)
+        .then(id => {
+            return id;
+        });
+}
+
+function addExpenseClaim(date, remark, amount, assignee) {
+    var req = {
+        date,
+        remark,
+        amount,
+        assignee,
+        approval: null,
+        approvalDate: null
+    }
+    //console.log(req)
+    return fetch(`${config.apiurl}/Expense/PostExpenseClaim`, requestOptions.post(req))
+        .then(handleResponse)
+        .then(id => {
+
+            return id;
+        });
+}
+
+function getExpenseClaim(id) {
+    return fetch(`${config.apiurl}/Expense​/GetExpenseClaim​/${id}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
             console.log(model)
             return model
         });
-    
+
 }
 
-function updateEmployeeSalary(id, basic, hra, ma, pf, allowance, leaveAllowance, hmo, tax, netSalary, employeeId) {
-  
-    const req = {
+function addEmployeeSalary(basic, hra, ma, pf, allowance, leaveAllowance, hmo, tax, netSalary, employeeId) {
+    var req = {
         basic,
         hra,
         ma,
@@ -638,29 +682,20 @@ function updateEmployeeSalary(id, basic, hra, ma, pf, allowance, leaveAllowance,
         netSalary,
         employeeId
     }
-    return fetch(`${config.apiurl}/Employee/UpdateEmployeeSalary/${id}`, requestOptions.put(req))
+    return fetch(`${config.apiurl}​/Employee​/PostEmployeeSalary`, requestOptions.post(req))
         .then(handleResponse)
         .then(id => {
-          return id;
+
+            return id;
         });
 }
 
-// function removeEmployeeSalary(id) {
-
-//     return fetch(`${config.apiurl}//${id}`, requestOptions.delete())
-//         .then(handleResponse)
-//         .then(model => {
-//             return model
-//         });
-
-// }
-
-function getEmployeeStatutory(id) {
-    return fetch(`${config.apiurl}/Employee/GetEmployeeStatutory/${id}/`, requestOptions.get())
+function getEmployeeSalary(id) {
+    return fetch(`${config.apiurl}/Employee/GetEmployeeSalary/${id}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
             console.log(model)
             return model
         });
-    
+
 }

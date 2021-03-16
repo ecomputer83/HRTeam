@@ -1,167 +1,81 @@
 <template>
-  <div class="expensereports">
+  <div class="resignation">
     <div class="main-wrapper">
-      <layout-sidebar></layout-sidebar>
       <layout-header></layout-header>
+      <layout-sidebar></layout-sidebar>
       <!-- Page Wrapper -->
       <div class="page-wrapper">
-
         <!-- Page Content -->
         <div class="content container-fluid">
-
           <!-- Page Header -->
           <div class="page-header">
-            <div class="row">
-              <div class="col-sm-12">
-                <h3 class="page-title">Expense Report</h3>
+            <div class="row align-items-center">
+              <div class="col">
+                <h3 class="page-title">Expense Reports</h3>
                 <ul class="breadcrumb">
                   <li class="breadcrumb-item">
                     <router-link to="/index">Dashboard</router-link>
                   </li>
-                  <li class="breadcrumb-item active">Expense Report</li>
+                  <li class="breadcrumb-item active">Expense Reports</li>
                 </ul>
+              </div>
+              <div class="col-auto float-right ml-auto">
+                <a
+                  @click="openDialog"
+                  class="btn add-btn"
+                  ><i class="fa fa-plus"></i> Add Expense Reports</a
+                >
               </div>
             </div>
           </div>
           <!-- /Page Header -->
-
-          <!-- Search Filter -->
-          <div class="row filter-row">
-            <div class="col-sm-6 col-md-3">
-              <div class="form-group form-focus select-focus">
-                <select class="select floating">
-                  <option>Select buyer</option>
-                  <option>Loren Gatlin</option>
-                  <option>Tarah Shropshire</option>
-                </select>
-                <label class="focus-label">Purchased By</label>
-              </div>
-            </div>
-            <div class="col-sm-6 col-md-3">
-              <div class="form-group form-focus">
-                <div class="cal-icon">
-                  <input class="form-control floating datetimepicker" type="text">
-                </div>
-                <label class="focus-label">From</label>
-              </div>
-            </div>
-            <div class="col-sm-6 col-md-3">
-              <div class="form-group form-focus">
-                <div class="cal-icon">
-                  <input class="form-control floating datetimepicker" type="text">
-                </div>
-                <label class="focus-label">To</label>
-              </div>
-            </div>
-            <div class="col-sm-6 col-md-3">
-              <a href="#" class="btn btn-success btn-block"> Search </a>
-            </div>
-          </div>
-          <!-- /Search Filter -->
           <!----Datatable-->
           <div class="row">
             <div class="col-md-12">
               <div class="table-responsive">
-                <table class="table table-striped custom-table dt-responsive">
-                  <thead>
-                    <tr>
-                      <th>Item</th>
-                      <th>Purchase From</th>
-                      <th>Purchase Date</th>
-                      <th>Purchased By</th>
-                      <th>Amount</th>
-                      <th>Paid By</th>
-                      <th class="text-center">Status</th>
-                      <th class="text-right">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <strong>Dell Laptop</strong>
-                      </td>
-                      <td>Amazon</td>
-                      <td>5 Jan 2019</td>
-                      <td>
-                        <router-link to="/profile" class="avatar avatar-xs">
-                          <img src="../../assets/profiles/avatar-04.jpg" alt="">
-                        </router-link>
-                        <h2>
-                          <router-link to="/profile">Loren Gatlin</router-link>
+                <v-data-table
+                                      :headers="headers"
+                                      :items="expenses"
+                                      sort-by=""
+                                      class="elevation-1"
+                                      >
+
+      <template v-slot:[`item.actions`]="{ item }">
+        
+        <div class="dropdown dropdown-action">
+                          <a
+                            href="#"
+                            class="action-icon dropdown-toggle"
+                            data-toggle="dropdown"
+                            aria-expanded="false"
+                            ><i class="material-icons">more_vert</i></a
+                          >
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a
+                              class="dropdown-item"
+                              @click="setEditExpense(item)"
+                              ><i class="fa fa-pencil m-r-5"></i> Edit</a
+                            >
+                            <a
+                              class="dropdown-item"
+                              @click="setDeleteExpense(item)"
+                              ><i class="fa fa-trash-o m-r-5"></i> Delete</a
+                            >
+                          </div>
+                        </div>
+      </template>
+      <template v-slot:[`item.profile`]="{ item }">
+        <h2 class="table-avatar blue-link">
+                          <router-link to="/profile" class="avatar"
+                            ><img alt="" src="../../assets/profiles/avatar-02.jpg"
+                          /></router-link>
+                          <router-link to="/profile">{{
+                            `${item.employee.firstName} ${item.employee.lastName}`
+                          }}</router-link>
                         </h2>
-                      </td>
-                      <td>$ 1215</td>
-                      <td>Cash</td>
-                      <td class="text-center">
-                        <div class="dropdown action-label">
-                          <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown"
-                            aria-expanded="false">
-                            <i class="fa fa-dot-circle-o text-danger"></i> Pending
-                          </a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-danger"></i> Pending</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-success"></i>
-                              Approved</a>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="text-right">
-                        <div class="dropdown dropdown-action">
-                          <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
-                            aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_leave"><i
-                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_approve"><i
-                                class="fa fa-trash-o m-r-5"></i> Delete</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <strong>Mac System</strong>
-                      </td>
-                      <td>Amazon</td>
-                      <td>5 Jan 2019</td>
-                      <td>
-                        <router-link to="/profile" class="avatar avatar-xs">
-                          <img src="../../assets/profiles/avatar-03.jpg" alt="">
-                        </router-link>
-                        <h2>
-                          <router-link to="/profile">Tarah Shropshire</router-link>
-                        </h2>
-                      </td>
-                      <td>$ 1215</td>
-                      <td>Cheque</td>
-                      <td class="text-center">
-                        <div class="dropdown action-label">
-                          <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown"
-                            aria-expanded="false">
-                            <i class="fa fa-dot-circle-o text-success"></i> Approved
-                          </a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-danger"></i> Pending</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-success"></i>
-                              Approved</a>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="text-right">
-                        <div class="dropdown dropdown-action">
-                          <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
-                            aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_leave"><i
-                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_approve"><i
-                                class="fa fa-trash-o m-r-5"></i> Delete</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+      </template>
+                                  </v-data-table>
+                
               </div>
             </div>
           </div>
@@ -169,60 +83,399 @@
         </div>
         <!-- /Page Content -->
 
+        <!-- Add Resignation Modal -->
+        <v-dialog v-model="dialog" max-width="725px"
+          >
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Add Expense Reports</h5>
+                <button
+                  type="button"
+                  class="close"
+                  @click="close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form @submit.prevent="onSubmit">
+                  <div class="form-group">
+                    <label>Employee <span class="text-danger">*</span></label>
+                    <select class="form-control" v-model="employeeId">
+                      <option>Select Staff</option>
+                      <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName}}</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Assignee <span class="text-danger">*</span></label>
+                    <select class="form-control" v-model="assigneeId">
+                      <option>Select Staff</option>
+                      <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName}}</option>
+                    </select>
+                  </div>
+                  <!-- <div class="form-group">
+                      <label>Notice Date <span class="text-danger">*</span></label>
+                      <div class="cal-icon">
+                        <datepicker v-model="noticeDate" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
+                      </div>
+                  </div> -->
+                  <div class="form-group">
+                    <label>Amount<span class="text-danger">*</span></label>
+                    <input v-model="amount" type="text" class="form-control">
+                  </div>
+                  <div class="form-group">
+                      <label>Date <span class="text-danger">*</span></label>
+                      <div class="cal-icon">
+                        <datepicker v-model="date" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
+                      </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Reason <span class="text-danger">*</span></label>
+                    <textarea class="form-control" v-model="remark" rows="4"></textarea>
+                  </div>
+                  <div class="submit-section">
+                    <button
+                      @click.prevent="onSubmit"
+                      data-dismiss="modal"
+                      class="btn btn-primary submit-btn"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+        </v-dialog>
+        <!-- /Add Resignation Modal -->
+
+        <!-- Edit Resignation Modal -->
+        <v-dialog v-model="dialogEdit" max-width="725px"
+          >
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Edit Resignation</h5>
+                <button
+                  type="button"
+                  class="close"
+                  @click="closeEdit"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form @submit.prevent="updateEmployeeResignation">
+                  <div class="form-group">
+                    <label>Resigning Employee <span class="text-danger">*</span></label>
+                    <select class="form-control" v-model="employeeId">
+                      <option>Select Resigning Employee</option>
+                      <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName}}</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                      <label>Notice Date <span class="text-danger">*</span></label>
+                      <div class="cal-icon">
+                        <datepicker v-model="resignation.noticeDate" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label>Resignation Date <span class="text-danger">*</span></label>
+                      <div class="cal-icon">
+                        <datepicker v-model="resignation.resignationDate" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
+                      </div>
+                  </div>
+                  <div class="form-group">
+                                        <label>Reason <span class="text-danger">*</span></label>
+                                        <textarea class="form-control" v-model="resignation.reason" rows="4"></textarea>
+                                    </div>
+
+                  
+                  <div class="submit-section">
+                    <button class="btn btn-primary submit-btn">Submit</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          
+        </v-dialog>
+        <!-- /Edit Resignation Modal -->
+
+        <!-- Delete Resignation Modal -->
+        <v-dialog v-model="dialogDelete" max-width="725px"
+          >
+            <div class="modal-content">
+              <div class="modal-body">
+                <div class="form-header">
+                  <h3>Delete Resignation</h3>
+                  <p>Are you sure want to delete?</p>
+                </div>
+                <div class="modal-btn delete-action">
+                  <div class="row">
+                    <div class="col-6">
+                      <a
+                        @click.prevent="deleteEmployeeResignation"
+                        class="btn btn-primary continue-btn"
+                        data-dismiss="modal"
+                        >Delete</a
+                      >
+                    </div>
+                    <div class="col-6">
+                      <a
+                        href="javascript:void(0);"
+                        data-dismiss="modal"
+                        class="btn btn-primary cancel-btn"
+                        >Cancel</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+        </v-dialog>
+        <!-- /Delete Resignation Modal -->
       </div>
       <!-- /Page Wrapper -->
     </div>
   </div>
 </template>
 <script>
-  import LayoutHeader from '@/components/layouts/Header.vue'
-  import LayoutSidebar from '@/components/layouts/Sidebar.vue'
-  export default {
-    components: {
-      LayoutHeader,
-      LayoutSidebar,
-    },
-    mounted() {
-      // Date Time Picker
+import LayoutHeader from "@/components/layouts/Header.vue";
+import LayoutSidebar from "@/components/layouts/Sidebar.vue";
+import { required, sameAs } from "vuelidate/lib/validators";
+import { employeeService } from "@/services/employeeService.js";
+import Datepicker from 'vuejs-datepicker'
+import { authenticationService } from "@/services/authenticationService";
 
-      if ($('.datetimepicker').length > 0) {
-        $('.datetimepicker').datetimepicker({
-          format: 'DD/MM/YYYY',
-          icons: {
-            up: "fa fa-angle-up",
-            down: "fa fa-angle-down",
-            next: 'fa fa-angle-right',
-            previous: 'fa fa-angle-left'
+export default {
+  components: {
+    LayoutHeader,
+    LayoutSidebar,
+    Datepicker
+  },
+
+  data() {
+    return {
+      dialog: false,
+      dialogEdit: false,
+      dialogDelete: false,
+      headers: [
+      {
+        text: 'Employee',
+        align: 'start',
+        value: 'profile',
+      },
+      { text: 'Designation', value: 'employee.designation' },
+      { text: 'Reason', value: 'reason' },
+      { text: 'Notice Date', value: 'noticeDate' },
+      { text: 'Resignation Date', value: 'resignationDate' },
+      { text: '', value: 'actions', sortable: false },
+    ],
+      name: "",
+      employeeId: "",
+      remark: "",
+      amount: "",
+      assignee: "",
+      assigneeId: "",
+      date: "",
+      resignationDate: "",
+      resignation: {},
+      expenses: [],
+      employee: [],
+      loading: false,
+      error: "",
+      employees: [],
+      submitted: false,
+      //employee: authenticationService.currentOfficeValue,
+      company: authenticationService.currentOfficeValue,
+    };
+  },
+
+  validations: {
+    name: { required },
+    reason: { required },
+    noticeDate: { required },
+    resignationDate: { required },
+  },
+  watch: {
+    dialog (val) {
+      val || this.close()
+    },
+    dialogDelete (val) {
+      val || this.closeDelete()
+    },
+    dialogEdit (val) {
+      val || this.closeEdit()
+    },
+  },
+  methods: {
+    // getEmployees(id) {
+    //   employeeService.getEmployees(id).then(
+    //     (model) => {
+    //       console.log(model);
+    //       this.employees = model;
+    //     },
+    //     (error) => {
+    //       error = error;
+    //     }
+    //   );
+    // },
+
+    getEmployees () {
+        const companyId = this.company.id;
+        //console.log('this.company.id', this.company.id)
+        employeeService.getEmployees(companyId)
+          .then(
+            model => { this.employees = model
+            console.log(model) 
+            },
+            error => { error = error }
+          )
+    },
+    getEmployeeResignations() {
+      const companyId = this.company.id;
+      employeeService.getEmployeeResignations(companyId).then(
+        (model) => {
+          console.log(model)
+          this.resignations = model;
+        },
+        (error) => {
+          error = error;
+        }
+      );
+    },
+    getExpenseClaim() {
+      employeeService.getExpenseClaim().then(
+        (model) => {
+          console.log(model)
+          this.expenses = model
+        },
+        (error) => {
+          error = error;
+        }
+      )
+    },
+    openDialog(){
+      this.dialog = true
+    },
+    close() {
+      this.dialog = false
+    },
+    closeEdit() {
+      this.dialogEdit = false
+    },
+    closeDelete() {
+      this.dialogDelete = false
+    },
+    setEditResignation(model) {
+      this.resignation = model;
+      this.dialogEdit = true
+    },
+    setDeleteResignation(model) {
+      this.resignation = model;
+      this.dialogDelete = true;
+    },
+
+    onSubmit() {
+      this.submitted = true;
+
+      
+      this.loading = true;
+      employeeService
+        .addExpenseClaim(
+          this.date,
+          this.remark,
+          this.amount = parseInt(this.amount),
+          this.assigneeId,
+          this.approval,
+          this.approvalDate
+        )
+        .then(
+          (id) => {
+            employeeService.getExpenseClaim(this.employeeId).then((w) => {
+              this.expenses = w, console.log(w); this.close()
+            });
+          },
+          (error) => {
+            this.error = error;
+            this.loading = false;
           }
-        });
-      }
-      // Select 2
-      if ($('.select').length > 0) {
-        $('.select').select2({
-          minimumResultsForSearch: -1,
-          width: '100%'
-        });
-      }
-      // Multiselect
-      if ($('#customleave_select').length > 0) {
-        $('#customleave_select').multiselect();
-      }
-      if ($('#edit_customleave_select').length > 0) {
-        $('#edit_customleave_select').multiselect();
-      }
-      // Datatable
-
-      if ($('.datatable').length > 0) {
-        $('.datatable').DataTable({
-          "bFilter": false,
-        });
-      }
-      if ($('.floating').length > 0) {
-        $('.floating').on('focus blur', function (e) {
-          $(this).parents('.form-focus').toggleClass('focused', (e.type === 'focus' || this.value.length > 0));
-        }).trigger('blur');
-      }
+        );
     },
-    name: 'expensereports'
-  }
+    // updateEmployeeResignation () {
+    //     this.submitted = true;
+
+    //     this.loading = true;
+    //     console.log(this.resignation)
+    //     employeeService.updateEmployeeResignation(this.resignation.id, this.resignation.resignationDate, this.resignation.reason, this.resignation.noticeDate, this.resignation.employeeId)
+    //             .then(id => {
+    //                   employeeService.getEmployeeResignations(this.company.id)
+    //                     .then(
+    //                      o => {this.resignations = o, console.log(o), this.closeEdit()}
+    //                     )
+    //       },
+    //                 error => {
+    //                     this.error = error;
+    //                     this.loading = false;
+    //                 }
+    //             );
+            
+    // },
+    // deleteEmployeeResignation () {
+    //   const id = this.resignation.id;
+    //   console.log(this.resignation)
+    //     employeeService.removeEmployeeResignation(id)
+    //       .then(id => {
+    //         employeeService.getEmployeeResignations(this.company.id)
+    //                   .then(
+    //                     model => { this.resignations = model
+    //                     console.log(model)
+    //                     this.closeDelete() },
+    //                     error => { error = error }
+    //                   )
+    //       })
+    // },
+  },
+
+  mounted() {
+    this.getExpenseClaim()
+    this.getEmployees()
+     //this.getEmployeeResignations()
+    // Datatable
+    //this.getEmployees(this.employee.id);
+    //this.getEmployeeResignations(this.company.id);
+
+    if ($(".datatable").length > 0) {
+      $(".datatable").DataTable({
+        bFilter: false,
+      });
+    }
+    // Date Time Picker
+
+    if ($(".datetimepicker").length > 0) {
+      $(".datetimepicker").datetimepicker({
+        format: "DD/MM/YYYY",
+        icons: {
+          up: "fa fa-angle-up",
+          down: "fa fa-angle-down",
+          next: "fa fa-angle-right",
+          previous: "fa fa-angle-left",
+        },
+      });
+    }
+
+    if ($(".floating").length > 0) {
+      $(".floating")
+        .on("focus blur", function (e) {
+          $(this)
+            .parents(".form-focus")
+            .toggleClass(
+              "focused",
+              e.type === "focus" || this.value.length > 0
+            );
+        })
+        .trigger("blur");
+    }
+  },
+  name: "expensereports",
+};
 </script>
