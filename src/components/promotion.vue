@@ -361,6 +361,7 @@ export default {
 
     setPromotion(item) {
       this.promotions = item;
+      console.log(`item`, item)
     },
 
     getPromotions() {

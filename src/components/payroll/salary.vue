@@ -83,7 +83,7 @@
         </div>
         <!-- /Page Content -->
 
-        <!-- Add Resignation Modal -->
+        <!-- Add Salary Modal -->
         <v-dialog v-model="dialog" max-width="725px"
           >
             <div class="modal-content">
@@ -103,7 +103,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Select Staff <span class="text-danger">*</span></label>
-                                <select class="form-control" v-model="employeeId" v-on:change="getEmployeeStatutory">
+                                <select class="form-control" v-model="employeeId" v-on:change="getEmployeeDetail">
                                 <option>Select Staff</option>
                                 <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName}}</option>
                                 </select>
@@ -139,6 +139,16 @@
                                                 
                                                 <label>Allowance <span class="text-danger">*</span></label>
                                                 <input v-model="allowance" class="form-control" type="text">
+                                            </div>
+                                            <div class="form-group">
+                                                
+                                                <label>Leave Allowance <span class="text-danger">*</span></label>
+                                                <input v-model="leaveAllowance" class="form-control" type="text">
+                                            </div>
+                                            <div class="form-group">
+                                                
+                                                <label>hmo <span class="text-danger">*</span></label>
+                                                <input v-model="hmo" class="form-control" type="text">
                                             </div>
                                             <div class="form-group">
                                                 
@@ -365,7 +375,7 @@ export default {
       conveyance: "",
       esi: "",
       labourWelfare: "",
-      statutories: []
+      details: []
 
 
     };
@@ -411,11 +421,11 @@ export default {
         }
       );
     },
-    getEmployeeStatutory() {
-      employeeService.getEmployeeStatutory(this.employeeId).then(
+    getEmployeeDetail() {
+      employeeService.getEmployeeDetail(this.employeeId).then(
         (model) => {
-          console.log('model statutory', model)
-          this.statutories = model;
+          console.log('model detail', model)
+          this.details = model;
         },
         (error) => {
           error = error;
@@ -446,20 +456,7 @@ export default {
     onSubmit() {
       this.submitted = true;
 
-      
-      this.loading = true;
-        // console.log('basic', this.basic)
-        // console.log('hra', this.hra)
-        // console.log('ma', this.ma)
-        // console.log('pf', this.pf)
-        // console.log('allowance',                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             this.allowance)
-        // console.log('leaveAllowance', this.leaveAllowance)
-        // console.log('hmo', this.hmo)
-        // console.log('tax', this.tax)
-        // console.log('tax', this.tax)
-
-
-        
+      this.loading = true;      
 
       employeeService
         .addEmployeeSalary(
