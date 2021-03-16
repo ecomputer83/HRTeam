@@ -48,7 +48,7 @@ export const employeeService = {
     updateEmployeePromotion,
     addExpenseClaim,
     getExpenseClaim,
-    
+    getEmployeeSalaries
 }
 
 
@@ -682,7 +682,7 @@ function addEmployeeSalary(basic, hra, ma, pf, allowance, leaveAllowance, hmo, t
         netSalary,
         employeeId
     }
-    return fetch(`${config.apiurl}​/Employee​/PostEmployeeSalary`, requestOptions.post(req))
+    return fetch(`${config.apiurl}/employee/postEmployeeSalary`, requestOptions.post(req))
         .then(handleResponse)
         .then(id => {
 
@@ -692,6 +692,16 @@ function addEmployeeSalary(basic, hra, ma, pf, allowance, leaveAllowance, hmo, t
 
 function getEmployeeSalary(id) {
     return fetch(`${config.apiurl}/Employee/GetEmployeeSalary/${id}`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+            console.log(model)
+            return model
+        });
+
+}
+
+function getEmployeeSalaries(id) {
+    return fetch(`${config.apiurl}/Employee/GetallEmployeeSalaries/${id}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
             console.log(model)

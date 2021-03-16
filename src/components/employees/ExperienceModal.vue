@@ -1,6 +1,6 @@
 <template>
     <!-- Experience Modal -->
-				<v-dialog v-model="dialog" max-width="725px">
+				<v-dialog v-model="modalDialog" max-width="725px">
 						<div class="modal-content">
 							<div class="modal-header">
 								<h5 class="modal-title">Experience Informations</h5>
@@ -99,6 +99,7 @@ import { employeeService } from '@/services/employeeService';
     },
     data() {
       return {
+		  modalDialog: this.dialog,
 		  employee: null,
           employeeId: this.id,
           companyName: (this.model) ? '' : this.model.companyName,

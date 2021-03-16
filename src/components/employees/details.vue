@@ -241,7 +241,7 @@
 																		class="action-icon dropdown-toggle" href="#"><i
 																			class="material-icons">more_vert</i></a>
 																	<div class="dropdown-menu dropdown-menu-right">
-																		<a href="#" class="dropdown-item"><i
+																		<a @click="openFamilyInfo" class="dropdown-item"><i
 																				class="fa fa-pencil m-r-5"></i> Edit</a>
 																		<a href="#" class="dropdown-item"><i
 																				class="fa fa-trash-o m-r-5"></i>
@@ -324,7 +324,7 @@
 												<div class="form-group">
 													<label class="col-form-label">Salary basis <span
 															class="text-danger">*</span></label>
-													<select class="select" v-model="employee.employeeStatutory.salaryBasis">
+													<select class="form-control" v-model="employee.employeeStatutory.salaryBasis">
 														<option>Select salary basis type</option>
 														<option value="hourly">Hourly</option>
 														<option value="daily">Daily</option>
@@ -350,30 +350,20 @@
 										<hr>
 										<h3 class="card-title"> PF Information</h3>
 										<div class="row">
+											
 											<div class="col-sm-4">
 												<div class="form-group">
-													<label class="col-form-label">PF contribution</label>
-													<select class="select" v-model="employeePF">
-														<option>Select PF contribution</option>
-														<option value="1">Yes</option>
-														<option value="0">No</option>
-													</select>
-												</div>
-											</div>
-											<div class="col-sm-4">
-												<div class="form-group" v-if="employeePF == 1">
 													<label class="col-form-label">PF No. <span
 															class="text-danger">*</span></label>
-													<input type="text" class="form-control" v-model="employee.employeeStatutory.pensionNo"
+													<input type="text" class="form-control" v-model="employee.employeePension.pensionNo"
 															placeholder="Type your pension number">
 												</div>
 											</div>
-										</div>
-										<div class="row" v-if="employeePF == 1">
+										
 											<div class="col-sm-4">
 												<div class="form-group">
 													<label class="col-form-label">PF Manager</label>
-													<input type="text" class="form-control" v-model="employee.employeeStatutory.pensionManager"
+													<input type="text" class="form-control" v-model="employee.employeePension.pensionManager"
 															placeholder="Type your pension manager">
 												</div>
 											</div>
@@ -381,7 +371,7 @@
 												<div class="form-group">
 													<label class="col-form-label">Employee PF rate <span
 															class="text-danger">*</span></label>
-													<select class="select" v-model="employee.employeeStatutory.employeeRate">
+													<select class="form-control" v-model="employee.employeePension.employeeRate">
 														<option>Select PF rate</option>
 														<option value="0">0%</option>
 														<option value="1">1%</option>
@@ -495,7 +485,7 @@
 				employeePension: {
 					id: 0,
 					pensionNo: "",
-					employeeRate: 0,
+					employeeRate: "0",
 					pensionManager: ""
 				},
 				employeeStatutory: {
@@ -577,37 +567,37 @@
 			closeProfile(employee) {
 				if(employee)
 				this.employee = employee
-				this.profileDialog = true
+				this.profileDialog = false
 			},
 			closePersonalInfo(employee) {
 				if(employee)
 				this.employee = employee
-				this.personalInfoDialog = true
+				this.personalInfoDialog = false
 			},
 			closeBankInfo(employee) {
 				if(employee)
 				this.employee = employee
-				this.bankInfoDialog = true
+				this.bankInfoDialog = false
 			},
 			closeEducation(employee) {
 				if(employee)
 				this.employee = employee
-				this.educationDialog = true
+				this.educationDialog = false
 			},
 			closeEmergencyContact(employee) {
 				if(employee)
 				this.employee = employee
-				this.emergencyContactDialog = true
+				this.emergencyContactDialog = false
 			},
 			closeExperience(employee) {
 				if(employee)
 				this.employee = employee
-				this.experienceDialog = true
+				this.experienceDialog = false
 			},
 			closeFamilyInfo(employee) {
 				if(employee)
 				this.employee = employee
-				this.familyInfoDialog = true
+				this.familyInfoDialog = false
 			},
 			GetEmployee () {
           employeeService.getEmployeeDetail(this.$route.params.id)
@@ -615,7 +605,9 @@
                 model => { 
 					this.employee = model;
 					if(!this.employee.employeePension){
-						this.employee.employeePension = {id: 0, pensionNo: "", employeeRate: 0, pensionManager: ""}
+						this.employee.employeePension = {id: 0, pensionNo: "", employeeRate: "0", pensionManager: ""}
+					}else{
+						this.employee.employeePension.employeeRate = model.employeePension.employeeRate.toString()
 					}
 					if(!this.employee.employeeStatutory){
 						this.employee.employeeStatutory = {id: 0, salaryBasis: "", salaryAmount: 0.00 }
@@ -626,6 +618,8 @@
       		},
 			onPostStatutory(){
 				if(this.employee.employeeStatutory.id == 0){
+					this.employee.employeeStatutory.salaryAmount = parseInt(this.employee.employeeStatutory.salaryAmount)
+					this.employee.employeePension.employeeRate = parseInt(this.employee.employeePension.employeeRate)
 					employeeService.addEmployeeStatutory(this.employee.id, this.employee.employeeStatutory, this.employee.employeePension)
             		.then(
                 			model => { 
@@ -635,7 +629,9 @@
 									this.employee = model;
 									if(!this.employee.employeePension){
 										this.employee.employeePension = {id: 0, pensionNo: "", employeeRate: 0, pensionManager: ""}
-									}
+									}else{
+						this.employee.employeePension.employeeRate = model.employeePension.employeeRate.toString()
+					}
 									if(!this.employee.employeeStatutory){
 										this.employee.employeeStatutory = {id: 0, salaryBasis: "", salaryAmount: 0.00 }
 									}
@@ -646,6 +642,8 @@
                 			error => { this.error = error }
             			)
 				}else{
+					this.employee.employeeStatutory.salaryAmount = parseInt(this.employee.employeeStatutory.salaryAmount)
+					this.employee.employeePension.employeeRate = parseInt(this.employee.employeePension.employeeRate)
 					employeeService.updateEmployeeStatutory(this.employee.id, this.employee.employeeStatutory, this.employee.employeePension)
             		.then(
                 			model => { 
@@ -655,7 +653,9 @@
 									this.employee = model;
 									if(!this.employee.employeePension){
 										this.employee.employeePension = {id: 0, pensionNo: "", employeeRate: 0, pensionManager: ""}
-									}
+									}else{
+						this.employee.employeePension.employeeRate = model.employeePension.employeeRate.toString()
+					}
 									if(!this.employee.employeeStatutory){
 										this.employee.employeeStatutory = {id: 0, salaryBasis: "", salaryAmount: 0.00 }
 									}
