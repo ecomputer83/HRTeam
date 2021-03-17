@@ -318,10 +318,10 @@ export default {
       },
       { text: 'Employee ID', value: 'employeeId' },
       { text: 'Email', value: 'employee.email' },
-      { text: 'Join Date', value: '' },
-      { text: 'Role', value: 'employee.designationId' },
-      { text: 'Salary', value: '' },
-      { text: 'Payslip', value: '' },                                                       
+      { text: 'Role', value: 'employee.designation.name' },
+      { text: 'Salary', value: 'basic' },
+      { text: 'Receive Salary', value: 'netSalary' },
+      { text: 'Payslip', value: 'paySlip', sortable: false  },                                                       
       { text: 'Actions', value: 'actions', sortable: false },
     ],
       name: "",
@@ -492,7 +492,8 @@ export default {
         )
         .then(
           (id) => {
-            employeeService.getEmployeeSalary(this.employeeId).then((w) => {
+            const companyId = this.company.id;
+              employeeService.getEmployeeSalaries(companyId).then((w) => {
               this.salaries = w, console.log(w); this.close()
             });
           },
@@ -501,12 +502,6 @@ export default {
             this.loading = false;
           }
         );
-    },
-    getEmployeeSalary () {
-      employeeService.getEmployeeSalary(this.employeeId).then((w) => {
-        this.salaries = w; console.log('ww', w); this.close()
-      });
-
     },
     updateEmployeeResignation () {
         this.submitted = true;
