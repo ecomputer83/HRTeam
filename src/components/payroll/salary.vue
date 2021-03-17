@@ -344,6 +344,7 @@ export default {
       resignationDate: "",
       resignation: {},
       salaries: [],
+      salary: {},
       employee: [],
       loading: false,
       error: "",
@@ -399,7 +400,10 @@ export default {
     ma (val) {
       this.calculateSalary()
     },
-    others (val) {
+    dothers (val) {
+      this.calculateSalary()
+    },
+    salary (val) {
       this.calculateSalary()
     }
   },
@@ -407,13 +411,15 @@ export default {
     clearModel () {
       this.basic = "0"; this.conveyance = "0"; this.allowance = "0"; this.leaveAllowance = "0"; this.ma = "0";
       this.pf = "0"; this.tax = "0"; this.leave = "0"; this.labourWelfare = "0"; this.dothers = "0";
-      this.netSalary = "0"; this.details = {}
+      this.netSalary = "0"; this.details = {}, this.employeeId = ""
     },
     calculateSalary () {
-      var totalrevenue = parseInt(this.basic) + parseInt(this.conveyance) + parseInt(this.allowance) + parseInt(this.leaveAllowance) + parseInt(this.ma)
-      var totalrevenuewithoutbasic = parseInt(this.conveyance) + parseInt(this.allowance) + parseInt(this.leaveAllowance) + parseInt(this.ma)
+      var totalrevenue = parseInt(this.basic) + parseInt(this.conveyance =="" ? "0" : this.conveyance) + parseInt(this.allowance == "" ? "0" : this.allowance) + parseInt(this.leaveAllowance == "" ? "0" : this.leaveAllowance) + parseInt(this.ma == "" ? "0" : this.ma)
+      var totalrevenuewithoutbasic = parseInt(this.conveyance =="" ? "0" : this.conveyance) + parseInt(this.allowance == "" ? "0" : this.allowance) + parseInt(this.leaveAllowance == "" ? "0" : this.leaveAllowance) + parseInt(this.ma == "" ? "0" : this.ma)
+      if(this.basic != "0")
       this.tax = this.calculateTax(totalrevenuewithoutbasic);
-      var totaldeduction = parseInt(this.pf) + parseInt(this.tax) + parseInt(this.leave) + parseInt(this.labourWelfare) + parseInt(this.dothers)
+
+      var totaldeduction = parseInt(this.pf =="" ? "0" : this.pf) + parseInt(this.tax =="" ? "0" : this.tax) + parseInt(this.leave =="" ? "0" : this.leave) + parseInt(this.labourWelfare =="" ? "0" : this.labourWelfare) + parseInt(this.dothers =="" ? "0" : this.dothers)
       this.netSalary = totalrevenue - totaldeduction;
     },
 
