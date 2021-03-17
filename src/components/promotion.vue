@@ -61,7 +61,7 @@
                           }}</router-link>
                         </h2>
                       </td>
-                      <td>{{ employee.department }}</td>
+                      <td>{{ item.employee.department }}</td>
                       <td>{{ item.from }}</td>
                       <td>{{ item.to }}</td>
                       <td>{{ item.date }}</td>
@@ -167,11 +167,13 @@
                       >Promotion Date <span class="text-danger">*</span></label
                     >
                     <div class="cal-icon">
-                      <datepicker 
-                        v-model="date" 
-                        calendar-class input-class bootstrap-styling 
-                        class="form-control datetimepicker" 
-                        type="text" 
+                      <datepicker
+                        v-model="date"
+                        calendar-class
+                        input-class
+                        bootstrap-styling
+                        class="form-control datetimepicker"
+                        type="text"
                       />
                     </div>
                   </div>
@@ -309,7 +311,7 @@ export default {
   components: {
     LayoutHeader,
     LayoutSidebar,
-    Datepicker
+    Datepicker,
   },
 
   data() {
@@ -340,6 +342,7 @@ export default {
       employeeService.getEmployees(companyId).then(
         (model) => {
           this.employees = model;
+          console.log(model);
         },
         (error) => {
           error = error;
@@ -403,7 +406,7 @@ export default {
         )
         .then(
           (id) => {
-            employeeService.getPromotions(this.company.id).then((o) => {
+            employeeService.getEmployeePromotion(this.company.id).then((o) => {
               this.employeeLeaves = o;
             });
           },
@@ -417,7 +420,7 @@ export default {
     onSubmit() {
       this.submitted = true;
       this.loading = true;
-      console.log('this.date', this.date)
+      console.log("this.date", this.date);
       employeeService
         .addEmployeePromotion(this.from, this.to, this.date, this.employeeId)
         .then(
