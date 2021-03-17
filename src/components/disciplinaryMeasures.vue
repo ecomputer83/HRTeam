@@ -1,595 +1,463 @@
 <template>
-  <div class="disciplinaryMeasures">
+  <div class="resignation">
     <div class="main-wrapper">
       <layout-header></layout-header>
       <layout-sidebar></layout-sidebar>
       <!-- Page Wrapper -->
       <div class="page-wrapper">
-
         <!-- Page Content -->
         <div class="content container-fluid">
-
           <!-- Page Header -->
           <div class="page-header">
-            <div class="row">
-              <div class="col-sm-12">
-                <h3 class="page-title">Welcome Admin!</h3>
+            <div class="row align-items-center">
+              <div class="col">
+                <h3 class="page-title">Disciplinary Measures</h3>
                 <ul class="breadcrumb">
-                  <li class="breadcrumb-item active">disciplinary Measures</li>
+                  <li class="breadcrumb-item">
+                    <router-link to="/index">Dashboard</router-link>
+                  </li>
+                  <li class="breadcrumb-item active">Disciplinary Measures</li>
                 </ul>
+              </div>
+              <div class="col-auto float-right ml-auto">
+                <a
+                  @click="openDialog"
+                  class="btn add-btn"
+                  ><i class="fa fa-plus"></i> Add Disciplinary Measures</a
+                >
               </div>
             </div>
           </div>
           <!-- /Page Header -->
-
+          <!----Datatable-->
           <div class="row">
-    <div class="col-md-12">
-								<div class="card">
-									<div class="card-body">
-										<h6 class="card-title">Bottom line tabs</h6>
-										<ul class="nav nav-tabs nav-tabs-bottom">
-											<li class="nav-item"><a class="nav-link active" href="#bottom-tab1" data-toggle="tab">Home</a></li>
-											<li class="nav-item"><a class="nav-link" href="#bottom-tab2" data-toggle="tab">Profile</a></li>
-										</ul>
-                    
-										<div class="tab-content">
-											<div class="tab-pane show active" id="bottom-tab1">
-												<div class="row">
             <div class="col-md-12">
               <div class="table-responsive">
-                <table class="table table-striped custom-table mb-0 datatable">
-                  <thead>
-                    <tr>
-                      <th>Employee</th>
-                      <th>Leave Type</th>
-                      <th>From</th>
-                      <th>To</th>
-                      <th>No of Days</th>
-                      <th>Reason</th>
-                      <th class="text-center">Status</th>
-                      <th class="text-right">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <h2 class="table-avatar">
-                          <router-link to="/profile" class="avatar"><img alt="" src="../assets/profiles/avatar-09.jpg">
-                          </router-link>
-                          <a href="#">Richard Miles <span>Web Developer</span></a>
+                <v-data-table
+                                      :headers="headers"
+                                      :items="disciplinarymeasures"
+                                      sort-by="firstName"
+                                      class="elevation-1"
+                                      >
+
+      <template v-slot:[`item.actions`]="{ item }">
+        
+        <div class="dropdown dropdown-action">
+                          <a
+                            href="#"
+                            class="action-icon dropdown-toggle"
+                            data-toggle="dropdown"
+                            aria-expanded="false"
+                            ><i class="material-icons">more_vert</i></a
+                          >
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a
+                              class="dropdown-item"
+                              @click="setEditDisciplinaryMeasures(item)"
+                              ><i class="fa fa-pencil m-r-5"></i> Edit</a
+                            >
+                            <a
+                              class="dropdown-item"
+                              @click="setDeleteDisciplinaryMeasures(item)"
+                              ><i class="fa fa-trash-o m-r-5"></i> Delete</a
+                            >
+                          </div>
+                        </div>
+      </template>
+      <template v-slot:[`item.profile`]="{ item }">
+        <h2 class="table-avatar blue-link">
+                          <router-link to="/profile" class="avatar"
+                            ><img alt="" src="../assets/profiles/avatar-02.jpg"
+                          /></router-link>
+                          <router-link to="/profile">{{
+                            `${item.employee.firstName} ${item.employee.lastName}`
+                          }}</router-link>
                         </h2>
-                      </td>
-                      <td>Casual Leave</td>
-                      <td>8 Mar 2019</td>
-                      <td>9 Mar 2019</td>
-                      <td>2 days</td>
-                      <td>Going to Hospital</td>
-                      <td class="text-center">
-                        <div class="dropdown action-label">
-                          <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown"
-                            aria-expanded="false">
-                            <i class="fa fa-dot-circle-o text-purple"></i> New
-                          </a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-purple"></i> New</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-info"></i> Pending</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#approve_leave"><i
-                                class="fa fa-dot-circle-o text-success"></i> Approved</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-danger"></i>
-                              Declined</a>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="text-right">
-                        <div class="dropdown dropdown-action">
-                          <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
-                            aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_leave"><i
-                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_approve"><i
-                                class="fa fa-trash-o m-r-5"></i> Delete</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <h2 class="table-avatar">
-                          <router-link to="/profile" class="avatar"><img alt="" src="../assets/profiles/avatar-02.jpg">
-                          </router-link>
-                          <a> John Doe <span>Web Designer</span></a>
-                        </h2>
-                      </td>
-                      <td>Medical Leave</td>
-                      <td>27 Feb 2019</td>
-                      <td>27 Feb 2019</td>
-                      <td>1 day</td>
-                      <td>Going to Hospital</td>
-                      <td class="text-center">
-                        <div class="dropdown action-label">
-                          <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown"
-                            aria-expanded="false">
-                            <i class="fa fa-dot-circle-o text-success"></i> Approved
-                          </a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-purple"></i> New</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-info"></i> Pending</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#approve_leave"><i
-                                class="fa fa-dot-circle-o text-success"></i> Approved</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-danger"></i>
-                              Declined</a>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="text-right">
-                        <div class="dropdown dropdown-action">
-                          <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
-                            aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_leave"><i
-                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_approve"><i
-                                class="fa fa-trash-o m-r-5"></i> Delete</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <h2 class="table-avatar">
-                          <router-link to="/profile" class="avatar"><img alt="" src="../assets/profiles/avatar-10.jpg">
-                          </router-link>
-                          <a>John Smith <span>Android Developer</span></a>
-                        </h2>
-                      </td>
-                      <td>LOP</td>
-                      <td>24 Feb 2019</td>
-                      <td>25 Feb 2019</td>
-                      <td>2 days</td>
-                      <td>Personnal</td>
-                      <td class="text-center">
-                        <div class="dropdown action-label">
-                          <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown"
-                            aria-expanded="false">
-                            <i class="fa fa-dot-circle-o text-success"></i> Approved
-                          </a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-purple"></i> New</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-info"></i> Pending</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#approve_leave"><i
-                                class="fa fa-dot-circle-o text-success"></i> Approved</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-danger"></i>
-                              Declined</a>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="text-right">
-                        <div class="dropdown dropdown-action">
-                          <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
-                            aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_leave"><i
-                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_approve"><i
-                                class="fa fa-trash-o m-r-5"></i> Delete</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <h2 class="table-avatar">
-                          <router-link to="/profile" class="avatar"><img alt="" src="../assets/profiles/avatar-05.jpg">
-                          </router-link>
-                          <a>Mike Litorus <span>IOS Developer</span></a>
-                        </h2>
-                      </td>
-                      <td>Paternity Leave</td>
-                      <td>13 Feb 2019</td>
-                      <td>17 Feb 2019</td>
-                      <td>5 days</td>
-                      <td>Going to Hospital</td>
-                      <td class="text-center">
-                        <div class="dropdown action-label">
-                          <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown"
-                            aria-expanded="false">
-                            <i class="fa fa-dot-circle-o text-danger"></i> Declined
-                          </a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-purple"></i> New</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-info"></i> Pending</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#approve_leave"><i
-                                class="fa fa-dot-circle-o text-success"></i> Approved</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-danger"></i>
-                              Declined</a>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="text-right">
-                        <div class="dropdown dropdown-action">
-                          <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
-                            aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_leave"><i
-                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_approve"><i
-                                class="fa fa-trash-o m-r-5"></i> Delete</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <h2 class="table-avatar">
-                          <router-link to="/profile" class="avatar"><img alt="" src="../assets/profiles/avatar-24.jpg">
-                          </router-link>
-                          <a>Richard Parker <span>Web Developer</span></a>
-                        </h2>
-                      </td>
-                      <td>Casual Leave</td>
-                      <td>30 Jan 2019</td>
-                      <td>31 Jan 2019</td>
-                      <td>2 days</td>
-                      <td>Going to Hospital</td>
-                      <td class="text-center">
-                        <div class="dropdown action-label">
-                          <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown"
-                            aria-expanded="false">
-                            <i class="fa fa-dot-circle-o text-purple"></i> New
-                          </a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-purple"></i> New</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-info"></i> Pending</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#approve_leave"><i
-                                class="fa fa-dot-circle-o text-success"></i> Approved</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-danger"></i>
-                              Declined</a>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="text-right">
-                        <div class="dropdown dropdown-action">
-                          <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
-                            aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_leave"><i
-                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_approve"><i
-                                class="fa fa-trash-o m-r-5"></i> Delete</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <h2 class="table-avatar">
-                          <router-link to="/profile" class="avatar"><img alt="" src="../assets/profiles/avatar-08.jpg">
-                          </router-link>
-                          <a>Catherine Manseau <span>Web Developer</span></a>
-                        </h2>
-                      </td>
-                      <td>Maternity Leave</td>
-                      <td>5 Jan 2019</td>
-                      <td>15 Jan 2019</td>
-                      <td>10 days</td>
-                      <td>Going to Hospital</td>
-                      <td class="text-center">
-                        <div class="dropdown action-label">
-                          <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown"
-                            aria-expanded="false">
-                            <i class="fa fa-dot-circle-o text-success"></i> Approved
-                          </a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-purple"></i> New</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-info"></i> Pending</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#approve_leave"><i
-                                class="fa fa-dot-circle-o text-success"></i> Approved</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-danger"></i>
-                              Declined</a>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="text-right">
-                        <div class="dropdown dropdown-action">
-                          <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
-                            aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_leave"><i
-                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_approve"><i
-                                class="fa fa-trash-o m-r-5"></i> Delete</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <h2 class="table-avatar">
-                          <router-link to="/profile" class="avatar"><img alt="" src="../assets/profiles/avatar-15.jpg">
-                          </router-link>
-                          <a>Buster Wigton <span>Web Developer</span></a>
-                        </h2>
-                      </td>
-                      <td>Hospitalisation</td>
-                      <td>15 Jan 2019</td>
-                      <td>25 Jan 2019</td>
-                      <td>10 days</td>
-                      <td>Going to Hospital</td>
-                      <td class="text-center">
-                        <div class="dropdown action-label">
-                          <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown"
-                            aria-expanded="false">
-                            <i class="fa fa-dot-circle-o text-success"></i> Approved
-                          </a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-purple"></i> New</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-info"></i> Pending</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#approve_leave"><i
-                                class="fa fa-dot-circle-o text-success"></i> Approved</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-danger"></i>
-                              Declined</a>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="text-right">
-                        <div class="dropdown dropdown-action">
-                          <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
-                            aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_leave"><i
-                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_approve"><i
-                                class="fa fa-trash-o m-r-5"></i> Delete</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <h2 class="table-avatar">
-                          <router-link to="/profile" class="avatar"><img alt="" src="../assets/profiles/avatar-20.jpg">
-                          </router-link>
-                          <a>Melita Faucher <span>Web Developer</span></a>
-                        </h2>
-                      </td>
-                      <td>Casual Leave</td>
-                      <td>13 Jan 2019</td>
-                      <td>14 Jan 2019</td>
-                      <td>2 days</td>
-                      <td>Going to Hospital</td>
-                      <td class="text-center">
-                        <div class="dropdown action-label">
-                          <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown"
-                            aria-expanded="false">
-                            <i class="fa fa-dot-circle-o text-danger"></i> Declined
-                          </a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-purple"></i> New</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-info"></i> Pending</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#approve_leave"><i
-                                class="fa fa-dot-circle-o text-success"></i> Approved</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-danger"></i>
-                              Declined</a>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="text-right">
-                        <div class="dropdown dropdown-action">
-                          <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
-                            aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_leave"><i
-                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_approve"><i
-                                class="fa fa-trash-o m-r-5"></i> Delete</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <h2 class="table-avatar">
-                          <router-link to="/profile" class="avatar"><img alt="" src="../assets/profiles/avatar-03.jpg">
-                          </router-link>
-                          <a>Tarah Shropshire <span>Web Developer</span></a>
-                        </h2>
-                      </td>
-                      <td>Casual Leave</td>
-                      <td>10 Jan 2019</td>
-                      <td>10 Jan 2019</td>
-                      <td>1 day</td>
-                      <td>Going to Hospital</td>
-                      <td class="text-center">
-                        <div class="dropdown action-label">
-                          <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown"
-                            aria-expanded="false">
-                            <i class="fa fa-dot-circle-o text-purple"></i> New
-                          </a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-purple"></i> New</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-info"></i> Pending</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#approve_leave"><i
-                                class="fa fa-dot-circle-o text-success"></i> Approved</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-danger"></i>
-                              Declined</a>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="text-right">
-                        <div class="dropdown dropdown-action">
-                          <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
-                            aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_leave"><i
-                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_approve"><i
-                                class="fa fa-trash-o m-r-5"></i> Delete</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <h2 class="table-avatar">
-                          <router-link to="/profile" class="avatar"><img alt="" src="../assets/profiles/avatar-20.jpg">
-                          </router-link>
-                          <a>Domenic Houston <span>Web Developer</span></a>
-                        </h2>
-                      </td>
-                      <td>Casual Leave</td>
-                      <td>10 Jan 2019</td>
-                      <td>11 Jan 2019</td>
-                      <td>2 days</td>
-                      <td>Going to Hospital</td>
-                      <td class="text-center">
-                        <div class="dropdown action-label">
-                          <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown"
-                            aria-expanded="false">
-                            <i class="fa fa-dot-circle-o text-success"></i> Approved
-                          </a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-purple"></i> New</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-info"></i> Pending</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#approve_leave"><i
-                                class="fa fa-dot-circle-o text-success"></i> Approved</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-danger"></i>
-                              Declined</a>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="text-right">
-                        <div class="dropdown dropdown-action">
-                          <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
-                            aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_leave"><i
-                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_approve"><i
-                                class="fa fa-trash-o m-r-5"></i> Delete</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <h2 class="table-avatar">
-                          <router-link to="/profile" class="avatar"><img alt="" src="../assets/profiles/avatar-02.jpg">
-                          </router-link>
-                          <a>John Doe <span>Web Designer</span></a>
-                        </h2>
-                      </td>
-                      <td>Casual Leave</td>
-                      <td>9 Jan 2019</td>
-                      <td>10 Jan 2019</td>
-                      <td>2 days</td>
-                      <td>Going to Hospital</td>
-                      <td class="text-center">
-                        <div class="dropdown action-label">
-                          <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown"
-                            aria-expanded="false">
-                            <i class="fa fa-dot-circle-o text-success"></i> Approved
-                          </a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-purple"></i> New</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-info"></i> Pending</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#approve_leave"><i
-                                class="fa fa-dot-circle-o text-success"></i> Approved</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-danger"></i>
-                              Declined</a>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="text-right">
-                        <div class="dropdown dropdown-action">
-                          <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
-                            aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_leave"><i
-                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_approve"><i
-                                class="fa fa-trash-o m-r-5"></i> Delete</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <h2 class="table-avatar">
-                          <router-link to="/profile" class="avatar"><img alt="" src="../assets/profiles/avatar-25.jpg">
-                          </router-link>
-                          <a>Rolland Webber <span>Web Developer</span></a>
-                        </h2>
-                      </td>
-                      <td>Casual Leave</td>
-                      <td>7 Jan 2019</td>
-                      <td>8 Jan 2019</td>
-                      <td>2 days</td>
-                      <td>Going to Hospital</td>
-                      <td class="text-center">
-                        <div class="dropdown action-label">
-                          <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown"
-                            aria-expanded="false">
-                            <i class="fa fa-dot-circle-o text-danger"></i> Declined
-                          </a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-purple"></i> New</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-info"></i> Pending</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#approve_leave"><i
-                                class="fa fa-dot-circle-o text-success"></i> Approved</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-danger"></i>
-                              Declined</a>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="text-right">
-                        <div class="dropdown dropdown-action">
-                          <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
-                            aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_leave"><i
-                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_approve"><i
-                                class="fa fa-trash-o m-r-5"></i> Delete</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+      </template>
+                                  </v-data-table>
+                
               </div>
             </div>
           </div>
-											</div>
-											<div class="tab-pane" id="bottom-tab2">
-												Tab content 2
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-  </div>
+          <!---/Datatable-->
+        </div>
         <!-- /Page Content -->
+
+        <!-- Add Resignation Modal -->
+        <v-dialog v-model="dialog" max-width="725px"
+          >
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Add Disciplinary Measures</h5>
+                <button
+                  type="button"
+                  class="close"
+                  @click="close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form @submit.prevent="onSubmit">
+                  <div class="form-group">
+                    <label>Employee <span class="text-danger">*</span></label>
+                    <select class="form-control" v-model="employeeId">
+                      <option>Employee</option>
+                      <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName}}</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                      <label>Date <span class="text-danger">*</span></label>
+                      <div class="cal-icon">
+                        <datepicker v-model="date" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label>HR Manager <span class="text-danger">*</span></label>
+                      <input class="form-control" v-model="hrmanager" />
+                  </div>
+                  <!-- <div class="form-group">
+                      <label>Resignation Date <span class="text-danger">*</span></label>
+                      <div class="cal-icon">
+                        <datepicker v-model="resignationDate" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
+                      </div>
+                  </div> -->
+                  <div class="form-group">
+                      <label>Reason <span class="text-danger">*</span></label>
+                      <textarea class="form-control" v-model="reason" rows="4"></textarea>
+                  </div>
+                  <div class="form-group">
+                      <label>Remark <span class="text-danger">*</span></label>
+                      <input class="form-control" v-model="remark" />
+                  </div>
+                  <div class="submit-section">
+                    <button
+                      @click.prevent="onSubmit"
+                      data-dismiss="modal"
+                      class="btn btn-primary submit-btn"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+        </v-dialog>
+        <!-- /Add Resignation Modal -->
+
+        <!-- Edit Resignation Modal -->
+        <v-dialog v-model="dialogEdit" max-width="725px"
+          >
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Edit Resignation</h5>
+                <button
+                  type="button"
+                  class="close"
+                  @click="closeEdit"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form @submit.prevent="updateEmployeeResignation">
+                  <div class="form-group">
+                    <label>Resigning Employee <span class="text-danger">*</span></label>
+                    <select class="form-control" v-model="employeeId">
+                      <option>Select Resigning Employee</option>
+                      <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName}}</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                      <label>Notice Date <span class="text-danger">*</span></label>
+                      <div class="cal-icon">
+                        <datepicker v-model="resignation.noticeDate" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label>Resignation Date <span class="text-danger">*</span></label>
+                      <div class="cal-icon">
+                        <datepicker v-model="resignation.resignationDate" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label>Reason <span class="text-danger">*</span></label>
+                      <textarea class="form-control" v-model="resignation.reason" rows="4"></textarea>
+                  </div>
+
+                  
+                  <div class="submit-section">
+                    <button class="btn btn-primary submit-btn">Submit</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          
+        </v-dialog>
+        <!-- /Edit Resignation Modal -->
+
+        <!-- Delete Resignation Modal -->
+        <v-dialog v-model="dialogDelete" max-width="725px"
+          >
+            <div class="modal-content">
+              <div class="modal-body">
+                <div class="form-header">
+                  <h3>Delete Resignation</h3>
+                  <p>Are you sure want to delete?</p>
+                </div>
+                <div class="modal-btn delete-action">
+                  <div class="row">
+                    <div class="col-6">
+                      <a
+                        @click.prevent="deleteEmployeeResignation"
+                        class="btn btn-primary continue-btn"
+                        data-dismiss="modal"
+                        >Delete</a
+                      >
+                    </div>
+                    <div class="col-6">
+                      <a
+                        href="javascript:void(0);"
+                        data-dismiss="modal"
+                        class="btn btn-primary cancel-btn"
+                        >Cancel</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+        </v-dialog>
+        <!-- /Delete Resignation Modal -->
       </div>
+      <!-- /Page Wrapper -->
     </div>
-    <!-- /Page Wrapper -->
-  </div>
   </div>
 </template>
 <script>
-  import LayoutHeader from '@/components/layouts/Header.vue'
-  import LayoutSidebar from '@/components/layouts/Sidebar.vue'
-  import Vue from 'vue'
-  export default {
-    components: {
-      LayoutHeader,
-      LayoutSidebar,
+import LayoutHeader from "@/components/layouts/Header.vue";
+import LayoutSidebar from "@/components/layouts/Sidebar.vue";
+import { required, sameAs } from "vuelidate/lib/validators";
+import { employeeService } from "@/services/employeeService.js";
+import Datepicker from 'vuejs-datepicker'
+import { authenticationService } from "@/services/authenticationService";
+
+export default {
+  components: {
+    LayoutHeader,
+    LayoutSidebar,
+    Datepicker
+  },
+
+  data() {
+    return {
+      dialog: false,
+      dialogEdit: false,
+      dialogDelete: false,
+      headers: [
+      {
+        text: 'Form',
+        align: 'start',
+        value: 'profile',
+      },
+      { text: 'Reason', value: 'reason' },
+      { text: 'Employee', value: 'employee.designation' },
+      { text: 'Date', value: 'date' },
+      { text: 'Status Reason', value: 'statusReason' },
+      { text: 'Department(Employee)', value: 'deparment' },
+      { text: '', value: 'actions', sortable: false },
+    ],
+      name: "",
+      employeeId: "",
+      reason: "",
+      noticeDate: "",
+      resignationDate: "",
+      resignation: {},
+      resignations: [],
+      employee: [],
+      loading: false,
+      error: "",
+      employees: [],
+      submitted: false,
+      //employee: authenticationService.currentOfficeValue,
+      company: authenticationService.currentOfficeValue,
+    };
+  },
+
+  validations: {
+    name: { required },
+    reason: { required },
+    noticeDate: { required },
+    resignationDate: { required },
+  },
+  watch: {
+    dialog (val) {
+      val || this.close()
     },
-    mounted() {
+    dialogDelete (val) {
+      val || this.closeDelete()
+    },
+    dialogEdit (val) {
+      val || this.closeEdit()
+    },
+  },
+  methods: {
+    // getEmployees(id) {
+    //   employeeService.getEmployees(id).then(
+    //     (model) => {
+    //       console.log(model);
+    //       this.employees = model;
+    //     },
+    //     (error) => {
+    //       error = error;
+    //     }
+    //   );
+    // },
+
+    getEmployees () {
+        const companyId = this.company.id;
+        //console.log('this.company.id', this.company.id)
+        employeeService.getEmployees(companyId)
+          .then(
+            model => { this.employees = model
+            console.log(model) 
+            },
+            error => { error = error }
+          )
+     },
+    getEmployeeResignations() {
+      const companyId = this.company.id;
+      employeeService.getEmployeeResignations(companyId).then(
+        (model) => {
+          console.log(model)
+          this.resignations = model;
+        },
+        (error) => {
+          error = error;
+        }
+      );
+    },
+    openDialog(){
+      this.dialog = true
+    },
+    close() {
+      this.dialog = false
+    },
+    closeEdit() {
+      this.dialogEdit = false
+    },
+    closeDelete() {
+      this.dialogDelete = false
+    },
+    setEditDisciplinaryMeasures(model) {
+      this.resignation = model;
+      this.dialogEdit = true
+    },
+    setDeleteDisciplinaryMeasures(model) {
+      this.resignation = model;
+      this.dialogDelete = true;
+    },
+
+    onSubmit() {
+      this.submitted = true;
+
       
+      this.loading = true;
+      employeeService
+        .addEmployeeResignation(
+          this.resignationDate,
+          this.reason,
+          this.noticeDate,
+          this.employeeId
+        )
+        .then(
+          (id) => {
+            employeeService.getEmployeeResignations(this.company.id).then((w) => {
+              this.resignations = w, console.log(w); this.close()
+            });
+          },
+          (error) => {
+            this.error = error;
+            this.loading = false;
+          }
+        );
     },
-    methods: {
+    updateEmployeeResignation () {
+        this.submitted = true;
+
+        this.loading = true;
+        console.log(this.resignation)
+        employeeService.updateEmployeeResignation(this.resignation.id, this.resignation.resignationDate, this.resignation.reason, this.resignation.noticeDate, this.resignation.employeeId)
+                .then(id => {
+                      employeeService.getEmployeeResignations(this.company.id)
+                        .then(
+                         o => {this.resignations = o, console.log(o), this.closeEdit()}
+                        )
+          },
+                    error => {
+                        this.error = error;
+                        this.loading = false;
+                    }
+                );
+            
     },
-    name: 'disciplinaryMeasures'
-  }
-</Script>
+    deleteEmployeeResignation () {
+      const id = this.resignation.id;
+      console.log(this.resignation)
+        employeeService.removeEmployeeResignation(id)
+          .then(id => {
+            employeeService.getEmployeeResignations(this.company.id)
+                      .then(
+                        model => { this.resignations = model
+                        console.log(model)
+                        this.closeDelete() },
+                        error => { error = error }
+                      )
+          })
+    },
+  },
+
+  mounted() {
+
+     this.getEmployees()
+     this.getEmployeeResignations()
+    // Datatable
+    //this.getEmployees(this.employee.id);
+    //this.getEmployeeResignations(this.company.id);
+
+    if ($(".datatable").length > 0) {
+      $(".datatable").DataTable({
+        bFilter: false,
+      });
+    }
+    // Date Time Picker
+
+    if ($(".datetimepicker").length > 0) {
+      $(".datetimepicker").datetimepicker({
+        format: "DD/MM/YYYY",
+        icons: {
+          up: "fa fa-angle-up",
+          down: "fa fa-angle-down",
+          next: "fa fa-angle-right",
+          previous: "fa fa-angle-left",
+        },
+      });
+    }
+
+    if ($(".floating").length > 0) {
+      $(".floating")
+        .on("focus blur", function (e) {
+          $(this)
+            .parents(".form-focus")
+            .toggleClass(
+              "focused",
+              e.type === "focus" || this.value.length > 0
+            );
+        })
+        .trigger("blur");
+    }
+  },
+  name: "disciplinarymeasures",
+};
+</script>

@@ -1,11 +1,10 @@
 <template>
     <!-- Profile Modal -->
-				<div id="profile_info" class="modal custom-modal fade" role="dialog">
-					<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+				<v-dialog v-model="modalDialog" max-width="725px">
 						<div class="modal-content">
 							<div class="modal-header">
 								<h5 class="modal-title">Profile Information</h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<button type="button" class="close" @click="method(employee)">
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
@@ -100,8 +99,7 @@
 								</form>
 							</div>
 						</div>
-					</div>
-				</div>
+				</v-dialog>
 				<!-- /Profile Modal -->
 </template>
 
@@ -111,10 +109,14 @@ import { required, sameAs } from 'vuelidate/lib/validators';
 import { employeeService } from '@/services/employeeService';
   export default {
      props: {
-        model: {}
+        model: {},
+		dialog: Boolean,
+		method: { type: Function }
     },
     data() {
       return {
+		  modalDialog: this.dialog,
+		  employee: null,
           firstName: this.model.firstName,
           lastName: this.model.lastName,
           birthday: this.model.birthday,
@@ -136,6 +138,8 @@ import { employeeService } from '@/services/employeeService';
         gender: { required }
     },
     mounted() {
+		this.$emit('update:employee', this.employee);
+		this.$emit('update:profileDialog', this.dialog);
 		if ($('.datetimepicker').length > 0) {
 				$('.datetimepicker').datetimepicker({
 					format: 'DD/MM/YYYY',
@@ -159,6 +163,19 @@ import { employeeService } from '@/services/employeeService';
             }
 			employeeService.updateEmployeeProfileInfo(this.model.id, this.firstName, this.lastName, this.phone, this.birthday, this.gender, this.address)
                 this.message = 'Profile Info update successfully!';
+				employeeService.getEmployeeDetail(this.model.id)
+            	.then(
+                model => { 
+					this.employee = model;
+					if(!this.employee.employeePension){
+						this.employee.employeePension = {id: 0, pensionNo: "", employeeRate: 0, pensionManager: ""}
+					}
+					if(!this.employee.employeeStatutory){
+						this.employee.employeeStatutory = {id: 0, salaryBasis: "", salaryAmount: 0.00 }
+					}
+				},
+                error => { this.error = error }
+            )
 		}
     }
   }

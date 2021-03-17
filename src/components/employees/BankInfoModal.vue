@@ -1,11 +1,10 @@
 <template>
     <!-- Family Info Modal -->
-				<div id="bank_info_modal" class="modal custom-modal fade" role="dialog">
-					<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+				<v-dialog v-model="modalDialog" max-width="725px">
 						<div class="modal-content">
 							<div class="modal-header">
 								<h5 class="modal-title"> Bank Informations</h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<button type="button" class="close" @click="method(employee)">
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
@@ -59,8 +58,7 @@
 								</form>
 							</div>
 						</div>
-					</div>
-				</div>
+				</v-dialog>
 				<!-- /Family Info Modal -->
 </template>
 
@@ -71,10 +69,14 @@ import { employeeService } from '@/services/employeeService';
   export default {
     props: {
         model: {},
-        id: 0
+        id: 0,
+		dialog: Boolean,
+		method: { type: Function }
     },
     data() {
       return {
+		  modalDialog: this.dialog,
+		  employee: null,
           employeeId: this.id,
           bankAccountNumber: (this.model) ? this.model.bankAccountNumber : '',
           bankName: (this.model) ? this.model.bankName : '',
@@ -88,7 +90,8 @@ import { employeeService } from '@/services/employeeService';
         bankName: { required }
     },
     mounted() {
-
+		this.$emit('update:employee', this.employee);
+		this.$emit('update:bankInfoDialog', this.dialog);
     },
     methods: {
         postBank() {
@@ -102,11 +105,37 @@ import { employeeService } from '@/services/employeeService';
             if(this.model){
 
                 employeeService.updateEmployeeBank(this.model.id, this.employeeId, this.bankAccountNumber, this.bankName)
-                .then(model => { this.message = 'Bank Info update successfully!'},
+                .then(model => { this.message = 'Bank Info update successfully!'
+					employeeService.getEmployeeDetail(this.employeeId)
+            	.then(
+                model => { 
+					this.employee = model;
+					if(!this.employee.employeePension){
+						this.employee.employeePension = {id: 0, pensionNo: "", employeeRate: 0, pensionManager: ""}
+					}
+					if(!this.employee.employeeStatutory){
+						this.employee.employeeStatutory = {id: 0, salaryBasis: "", salaryAmount: 0.00 }
+					}
+				},
+                error => { this.error = error })
+				},
                     error => { this.error = error})
             }else{
                 employeeService.addEmployeeBank(this.employeeId, this.bankAccountNumber, this.bankName)
-                .then(model => { this.message = 'Bank Info create successfully!'},
+                .then(model => { this.message = 'Bank Info create successfully!'
+					employeeService.getEmployeeDetail(this.employeeId)
+            	.then(
+                model => { 
+					this.employee = model;
+					if(!this.employee.employeePension){
+						this.employee.employeePension = {id: 0, pensionNo: "", employeeRate: 0, pensionManager: ""}
+					}
+					if(!this.employee.employeeStatutory){
+						this.employee.employeeStatutory = {id: 0, salaryBasis: "", salaryAmount: 0.00 }
+					}
+				},
+                error => { this.error = error })
+				},
                     error => { this.error = error})
             }
         },

@@ -19,8 +19,12 @@
                 </ul>
               </div>
               <div class="col-auto float-right ml-auto">
-                <a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_designation"><i
-                    class="fa fa-plus"></i> Add Designation</a>
+                <a 
+                  @click="openDialog" 
+                  class="btn add-btn" 
+                >
+                  <i class="fa fa-plus"></i> Add Designation
+                </a>
               </div>
             </div>
           </div>
@@ -313,7 +317,7 @@
       updateDesignation () {
         this.submitted = true;
           
-            this.loading = true;
+        this.loading = true;
         //console.log('department updated 1')
         organizationService.updateDesignation(this.designation.id, this.designation.departmentId, this.designation.name)
           .then(id => {

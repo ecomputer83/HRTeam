@@ -1,11 +1,10 @@
 <template>
     <!-- Family Info Modal -->
-				<div id="family_info_modal" class="modal custom-modal fade" role="dialog">
-					<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+				<v-dialog v-model="modalDialog" max-width="725px">
 						<div class="modal-content">
 							<div class="modal-header">
 								<h5 class="modal-title"> Family Informations</h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<button type="button" class="close" @click="method(employee)">
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
@@ -67,8 +66,7 @@
 								</form>
 							</div>
 						</div>
-					</div>
-				</div>
+                </v-dialog>
 				<!-- /Family Info Modal -->
 </template>
 
@@ -79,10 +77,14 @@ import { employeeService } from '@/services/employeeService';
   export default {
     props: {
         model: {},
-        id: 0
+        id: 0,
+		dialog: Boolean,
+		method: { type: Function }
     },
     data() {
       return {
+          modalDialog: this.dialog,
+          employee: null,
           employeeId: this.id,
           name: this.model.name,
           relationship: this.model.relationship,
@@ -98,7 +100,8 @@ import { employeeService } from '@/services/employeeService';
         phoneNo: { required }
     },
     mounted() {
-
+        this.$emit('update:employee', this.employee);
+        this.$emit('update:familyInfoDialog', this.dialog);
     },
     methods: {
         postFamily() {
@@ -112,11 +115,39 @@ import { employeeService } from '@/services/employeeService';
             if(this.model.id){
 
                 employeeService.updateEmployeeFamily(this.model.id, this.employeeId, this.name, this.relationship, this.phoneNo)
-                .then(model => { this.message = 'Family update successfully!'},
+                .then(model => { 
+                    this.message = 'Family update successfully!'
+                    employeeService.getEmployeeDetail(this.employeeId)
+            	.then(
+                model => { 
+					this.employee = model;
+					if(!this.employee.employeePension){
+						this.employee.employeePension = {id: 0, pensionNo: "", employeeRate: 0, pensionManager: ""}
+					}
+					if(!this.employee.employeeStatutory){
+						this.employee.employeeStatutory = {id: 0, salaryBasis: "", salaryAmount: 0.00 }
+					}
+				},
+                error => { this.error = error })
+                },
                     error => { this.error = error})
             }else{
                 employeeService.addEmployeeFamily(this.employeeId, this.name, this.relationship, this.phoneNo)
-                .then(model => { this.message = 'Family create successfully!'},
+                .then(model => { 
+                    this.message = 'Family create successfully!'
+                    employeeService.getEmployeeDetail(this.employeeId)
+            	.then(
+                model => { 
+					this.employee = model;
+					if(!this.employee.employeePension){
+						this.employee.employeePension = {id: 0, pensionNo: "", employeeRate: 0, pensionManager: ""}
+					}
+					if(!this.employee.employeeStatutory){
+						this.employee.employeeStatutory = {id: 0, salaryBasis: "", salaryAmount: 0.00 }
+					}
+				},
+                error => { this.error = error })
+                },
                     error => { this.error = error})
             }
         },
@@ -130,6 +161,18 @@ import { employeeService } from '@/services/employeeService';
                       this.relationship = '',
                       this.phone = '',
                       this.message = 'Family removed successfully!'
+                      employeeService.getEmployeeDetail(this.employeeId)
+            	.then(
+                model => { 
+					this.employee = model;
+					if(!this.employee.employeePension){
+						this.employee.employeePension = {id: 0, pensionNo: "", employeeRate: 0, pensionManager: ""}
+					}
+					if(!this.employee.employeeStatutory){
+						this.employee.employeeStatutory = {id: 0, salaryBasis: "", salaryAmount: 0.00 }
+					}
+				},
+                error => { this.error = error })
 					},
                     error => {
                         this.error = error;

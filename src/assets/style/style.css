@@ -258,20 +258,20 @@ select.form-control[multiple], select.form-control[size] {
 	2. Table
 -----------------------*/
 
-.table {
+.table, v-table {
 	color: #333;
 }
 .table.table-white {
 	background-color: #fff;
 }
-.table thead th {
+.table thead th, v-table thead th {
 	font-weight: 500;
     letter-spacing: 0.05em;
 }
 .table-striped > tbody > tr:nth-of-type(2n+1) {
 	background-color: #f6f6f6;
 }
-table.table td h2 {
+table td h2 {
 	display: inline-block;
 	font-size: inherit;
 	font-weight: 400;
@@ -279,7 +279,7 @@ table.table td h2 {
 	padding: 0;
 	vertical-align: middle;
 }
-table.table td h2.table-avatar {
+table.table td h2.table-avatar, v-table td h2.table-avatar {
     align-items: center;
     display: inline-flex;
     font-size: inherit;
@@ -289,16 +289,16 @@ table.table td h2.table-avatar {
     vertical-align: middle;
 	white-space: nowrap;
 }
-table.table td h2.table-avatar.blue-link a {
+table.table td h2.table-avatar.blue-link a, v-table td h2.table-avatar.blue-link a {
 	color: #007bff;
 }
-table.table td h2 a {
+table.table td h2 a, v-table td h2 a {
 	color: #333;
 }
-table.table td h2 a:hover {
+table.table td h2 a:hover, v-table td h2 a:hover {
 	color: #ff9b44;
 }
-table.table td h2 span {
+table.table td h2 span, v-table td h2 span {
 	color: #888;
 	display: block;
 	font-size: 12px;
@@ -3245,7 +3245,7 @@ table.dataTable thead > tr > td.sorting {
 .profile-details {
 	text-align: center;
 }
-.personal-info li .title {
+.personal-info li .title-label {
 	color: #4f4f4f;
 	float: left;
 	font-weight: 500;
@@ -8221,12 +8221,12 @@ a.fc-day-grid-event.fc-h-event.fc-event.fc-start.fc-end.fc-draggable.fc-resizabl
 textarea {
   height: auto !important;
 }
-.form-control {
-  border: none !important;
-  height: 35px !important;
-}
-.form-control:hover,
-.form-control:focus {
+.form-controlz {
+	border: none !important;
+	height: 35px !important;
+  }
+.form-controlz:hover,
+.form-controlz:focus {
   border: 1px solid #d4cbcb !important;
 }
 .custom-switch {

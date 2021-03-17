@@ -13,7 +13,7 @@
                       <select
                         name="requestor"
                         id="requestor"
-                        class="form-control" v-model="vacancy.requestedBy"
+                        class="form-controlz" v-model="vacancy.requestedBy"
                       >
                         <option
                         v-for="(item, index) in staffs"
@@ -28,7 +28,7 @@
                   <tr>
                     <td>Requested On</td>
                     <td>
-                      <input type="date" class="form-control" name="" id="" v-model="vacancy.requestedOn" />
+                      <input type="date" class="form-controlz" name="" id="" v-model="vacancy.requestedOn" />
                     </td>
                   </tr>
                 </tbody>
@@ -41,15 +41,15 @@
                   <tr>
                     <td>Application Period From</td>
                     <td>
-                      <input type="date" class="form-control" name="" id="" v-model="vacancy.periodFrom" />
-                      <input type="time" class="form-control" name="" id="" v-model="vacancy.periodFromTime" />
+                      <input type="date" class="form-controlz" name="" id="" v-model="vacancy.periodFrom" />
+                      <input type="time" class="form-controlz" name="" id="" v-model="vacancy.periodFromTime" />
                     </td>
                   </tr>
                   <tr>
                     <td>Application Period Until</td>
                     <td>
-                      <input type="date" class="form-control" name="" id="" v-model="vacancy.periodTo" />
-                      <input type="time" class="form-control" name="" id="" v-model="vacancy.periodToTime" />
+                      <input type="date" class="form-controlz" name="" id="" v-model="vacancy.periodTo" />
+                      <input type="time" class="form-controlz" name="" id="" v-model="vacancy.periodToTime" />
                     </td>
                   </tr>
                   

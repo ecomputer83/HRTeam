@@ -9,12 +9,14 @@ export const employeeService = {
     addEmployeeEmergency,
     addEmployeeBank,
     addEmployeeFamily,
+    addEmployeeStatutory,
     updateEmployee,
     updateEmployeeExperience,
     updateEmployeeEducation,
     updateEmployeeEmergency,
     updateEmployeeBank,
     updateEmployeeFamily,
+    updateEmployeeStatutory,
     getEmployees,
     getEmployeeDetail,
     removeEmployee,
@@ -24,6 +26,7 @@ export const employeeService = {
     removeEmployeeEmergency,
     updateEmployeePersonalInfo,
     updateEmployeeProfileInfo,
+    removeEmployeePension,
     addEmployeeLeave,
     getEmployeeLeaves,
     //getEmployeeLeaves
@@ -37,10 +40,15 @@ export const employeeService = {
     addEmployeeTermination,
     updateEmployeeTermination,
     removeEmployeeTermination,
+    getEmployeeSalary,
+    addEmployeeSalary,
     addEmployeePromotion,
     getEmployeePromotion,
     removeEmployeePromotion,
-    updateEmployeePromotion
+    updateEmployeePromotion,
+    addExpenseClaim,
+    getExpenseClaim,
+    getEmployeeSalaries
 }
 
 
@@ -171,6 +179,17 @@ function addEmployeeFamily(employeeId, name, relationship, phoneNo) {
         });
 }
 
+function addEmployeeStatutory(employeeId, salary, pf) {
+    salary.employeeId = employeeId
+    pf.employeeId = employeeId
+    return fetch(`${config.apiurl}/employee/PostEmployeeStatutory`, requestOptions.post(salary))
+        .then(handleResponse)
+        .then(id => {
+            fetch(`${config.apiurl}/employee/PostEmployeePension`, requestOptions.post(pf))
+            return id;
+        });
+}
+
 function updateEmployee(id, companyId, rankId, firstName, lastName, email, phone, designationId) {
     var req = {
         id,
@@ -209,7 +228,16 @@ function updateEmployeePersonalInfo(id, passportIdentificationNumber, nationalit
             return model;
         })
 }
-
+function updateEmployeeStatutory(employeeId, salary, pf) {
+    salary.employeeId = employeeId
+    pf.employeeId = employeeId
+    return fetch(`${config.apiurl}/employee/UpdateEmployeeStatutory/${salary.id}`, requestOptions.put(salary))
+        .then(handleResponse)
+        .then(id => {
+            fetch(`${config.apiurl}/employee/UpdateEmployeePension/${pf.id}`, requestOptions.put(pf))
+            return id;
+        });
+}
 function updateEmployeeProfileInfo(id, firstName, lastName, phone, birthday, gender, address) {
     this.getEmployeeDetail(id)
         .then(model => {
@@ -336,6 +364,8 @@ function getEmployeeLeaves(companyId) {
 
 }
 
+
+
 function removeEmployee(employeeId) {
 
     return fetch(`${config.apiurl}/employee/DeleteEmployee/${employeeId}`, requestOptions.delete())
@@ -349,6 +379,16 @@ function removeEmployee(employeeId) {
 function removeEmployeeEducation(Id) {
 
     return fetch(`${config.apiurl}/employee/DeleteEmployeeEducation/${Id}`, requestOptions.delete())
+        .then(handleResponse)
+        .then(model => {
+            return model
+        });
+
+}
+
+function removeEmployeePension(Id) {
+
+    return fetch(`${config.apiurl}/employee/DeleteEmployeePension/${Id}`, requestOptions.delete())
         .then(handleResponse)
         .then(model => {
             return model
@@ -599,4 +639,73 @@ function updateEmployeePromotion(employeeId, from, to, date,) {
         .then(id => {
             return id;
         });
+}
+
+function addExpenseClaim(date, remark, amount, assignee) {
+    var req = {
+        date,
+        remark,
+        amount,
+        assignee,
+        approval: null,
+        approvalDate: null
+    }
+    //console.log(req)
+    return fetch(`${config.apiurl}/Expense/PostExpenseClaim`, requestOptions.post(req))
+        .then(handleResponse)
+        .then(id => {
+
+            return id;
+        });
+}
+
+function getExpenseClaim(id) {
+    return fetch(`${config.apiurl}/Expense​/GetExpenseClaim​/${id}`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+            console.log(model)
+            return model
+        });
+
+}
+
+function addEmployeeSalary(basic, hra, ma, pf, allowance, leaveAllowance, hmo, tax, netSalary, employeeId) {
+    var req = {
+        basic,
+        hra,
+        ma,
+        pf,
+        allowance,
+        leaveAllowance,
+        hmo,
+        tax,
+        netSalary,
+        employeeId
+    }
+    return fetch(`${config.apiurl}/employee/postEmployeeSalary`, requestOptions.post(req))
+        .then(handleResponse)
+        .then(id => {
+
+            return id;
+        });
+}
+
+function getEmployeeSalary(id) {
+    return fetch(`${config.apiurl}/Employee/GetEmployeeSalary/${id}`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+            console.log(model)
+            return model
+        });
+
+}
+
+function getEmployeeSalaries(id) {
+    return fetch(`${config.apiurl}/Employee/GetallEmployeeSalaries/${id}`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+            console.log(model)
+            return model
+        });
+
 }
