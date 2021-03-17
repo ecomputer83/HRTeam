@@ -34,47 +34,47 @@
             <div class="col-md-12">
               <div class="table-responsive">
                 <v-data-table
-                    :headers="headers"
-                    :items="salaries"
-                    sort-by=""
-                    class="elevation-1"
+                  :headers="headers"
+                  :items="salaries"
+                  sort-by=""
+                  class="elevation-1"
                 >
 
                 <template v-slot:[`item.actions`]="{ item }">
         
-                <div class="dropdown dropdown-action">
-                          <a
-                            href="#"
-                            class="action-icon dropdown-toggle"
-                            data-toggle="dropdown"
-                            aria-expanded="false"
-                            ><i class="material-icons">more_vert</i></a
-                          >
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a
-                              class="dropdown-item"
-                              @click="setEditResignation(item)"
-                              ><i class="fa fa-pencil m-r-5"></i> Edit</a
-                            >
-                            <a
-                              class="dropdown-item"
-                              @click="setDeleteResignation(item)"
-                              ><i class="fa fa-trash-o m-r-5"></i> Delete</a
-                            >
-                          </div>
-                        </div>
-      </template>
-      <template v-slot:[`item.profile`]="{ item }">
-        <h2 class="table-avatar blue-link">
-                          <router-link to="/profile" class="avatar"
-                            ><img alt="" src="../../assets/profiles/avatar-02.jpg"
-                          /></router-link>
-                          <router-link to="/profile">{{
-                            `${item.employee.firstName} ${item.employee.lastName}`
-                          }}</router-link>
-                        </h2>
-      </template>
-                                  </v-data-table>
+                  <div class="dropdown dropdown-action">
+                    <a
+                      href="#"
+                      class="action-icon dropdown-toggle"
+                      data-toggle="dropdown"
+                      aria-expanded="false"
+                      ><i class="material-icons">more_vert</i></a
+                    >
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <a
+                        class="dropdown-item"
+                        @click="setEditSalary(item)"
+                        ><i class="fa fa-pencil m-r-5"></i> Edit</a
+                      >
+                      <a
+                        class="dropdown-item"
+                        @click="setDeleteSalary(item)"
+                        ><i class="fa fa-trash-o m-r-5"></i> Delete</a
+                      >
+                    </div>
+                  </div>
+                </template>
+                <template v-slot:[`item.profile`]="{ item }">
+                  <h2 class="table-avatar blue-link">
+                    <router-link to="/profile" class="avatar"
+                      ><img alt="" src="../../assets/profiles/avatar-02.jpg"
+                    /></router-link>
+                    <router-link to="/profile">{{
+                      `${item.employee.firstName} ${item.employee.lastName}`
+                    }}</router-link>
+                  </h2>
+                </template>
+              </v-data-table>
                
               </div>
             </div>
@@ -312,15 +312,17 @@ export default {
       dialogDelete: false,
       headers: [
       {
-        text: 'Resigning Employee',
+        text: 'Employee',
         align: 'start',
         value: 'profile',
       },
-      { text: 'Designation', value: 'employee.designation' },
-      { text: 'Reason', value: 'reason' },
-      { text: 'Notice Date', value: 'noticeDate' },
-      { text: 'Resignation Date', value: 'resignationDate' },
-      { text: '', value: 'actions', sortable: false },
+      { text: 'Employee ID', value: 'employeeId' },
+      { text: 'Email', value: 'employee.email' },
+      { text: 'Join Date', value: '' },
+      { text: 'Role', value: 'employee.designationId' },
+      { text: 'Salary', value: '' },
+      { text: 'Payslip', value: '' },                                                       
+      { text: 'Actions', value: 'actions', sortable: false },
     ],
       name: "",
       employeeId: "",
@@ -461,12 +463,12 @@ export default {
     closeDelete() {
       this.dialogDelete = false
     },
-    setEditResignation(model) {
-      this.resignation = model;
+    setEditSalary(model) {
+      this.salaries = model;
       this.dialogEdit = true
     },
-    setDeleteResignation(model) {
-      this.resignation = model;
+    setDeleteSalary(model) {
+      this.salaries = model;
       this.dialogDelete = true;
     },
 
@@ -499,6 +501,12 @@ export default {
             this.loading = false;
           }
         );
+    },
+    getEmployeeSalary () {
+      employeeService.getEmployeeSalary(this.employeeId).then((w) => {
+        this.salaries = w; console.log('ww', w); this.close()
+      });
+
     },
     updateEmployeeResignation () {
         this.submitted = true;
