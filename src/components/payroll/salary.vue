@@ -99,6 +99,24 @@
               </div>
               <div class="modal-body">
                 <form @submit.prevent="onSubmit">
+                    <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="error">
+								                            <strong>Error!</strong> {{error}}
+								                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									                            <span aria-hidden="true">&times;</span>
+								                            </button>
+							                            </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+							                            <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="message">
+								                            <strong>Success!</strong> {{message}}
+								                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									                            <span aria-hidden="true">&times;</span>
+								                            </button>
+							                            </div>
+                                                    </div>
+                                                </div>
                     <div class="row"> 
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -142,11 +160,6 @@
                                                 
                                                 <label>Medical Allowance <span class="text-danger">*</span></label>
                                                 <input v-model="ma" class="form-control" type="text">
-                                            </div>
-                                            <div class="form-group">
-                                                
-                                                <label>Others <span class="text-danger">*</span></label>
-                                                <input class="form-control" v-model="others" type="text">
                                             </div>
                                             <!-- <div class="add-more">
                                                 <a href="#"><i class="fa fa-plus-circle"></i> Add More</a>
@@ -318,10 +331,10 @@ export default {
       },
       { text: 'Employee ID', value: 'employeeId' },
       { text: 'Email', value: 'employee.email' },
-      { text: 'Join Date', value: '' },
-      { text: 'Role', value: 'employee.designationId' },
-      { text: 'Salary', value: '' },
-      { text: 'Payslip', value: '' },                                                       
+      { text: 'Role', value: 'employee.designation.name' },
+      { text: 'Salary', value: 'basic' },
+      { text: 'Receive Salary', value: 'netSalary' },
+      { text: 'Payslip', value: 'paySlip', sortable: false  },                                                       
       { text: 'Actions', value: 'actions', sortable: false },
     ],
       name: "",
@@ -331,6 +344,7 @@ export default {
       resignationDate: "",
       resignation: {},
       salaries: [],
+      salary: {},
       employee: [],
       loading: false,
       error: "",
@@ -352,9 +366,8 @@ export default {
       conveyance: "0",
       dothers: "0",
       labourWelfare: "0",
-      others: "0",
-      details: []
-
+      details: [],
+      message: null
 
     };
   },
@@ -387,16 +400,26 @@ export default {
     ma (val) {
       this.calculateSalary()
     },
-    others (val) {
+    dothers (val) {
+      this.calculateSalary()
+    },
+    salary (val) {
       this.calculateSalary()
     }
   },
   methods: {
+    clearModel () {
+      this.basic = "0"; this.conveyance = "0"; this.allowance = "0"; this.leaveAllowance = "0"; this.ma = "0";
+      this.pf = "0"; this.tax = "0"; this.leave = "0"; this.labourWelfare = "0"; this.dothers = "0";
+      this.netSalary = "0"; this.details = {}, this.employeeId = ""
+    },
     calculateSalary () {
-      var totalrevenue = parseInt(this.basic) + parseInt(this.conveyance) + parseInt(this.allowance) + parseInt(this.leaveAllowance) + parseInt(this.ma) + parseInt(this.others)
-      var totalrevenuewithoutbasic = parseInt(this.conveyance) + parseInt(this.allowance) + parseInt(this.leaveAllowance) + parseInt(this.ma) + parseInt(this.others)
+      var totalrevenue = parseInt(this.basic) + parseInt(this.conveyance =="" ? "0" : this.conveyance) + parseInt(this.allowance == "" ? "0" : this.allowance) + parseInt(this.leaveAllowance == "" ? "0" : this.leaveAllowance) + parseInt(this.ma == "" ? "0" : this.ma)
+      var totalrevenuewithoutbasic = parseInt(this.conveyance =="" ? "0" : this.conveyance) + parseInt(this.allowance == "" ? "0" : this.allowance) + parseInt(this.leaveAllowance == "" ? "0" : this.leaveAllowance) + parseInt(this.ma == "" ? "0" : this.ma)
+      if(this.basic != "0")
       this.tax = this.calculateTax(totalrevenuewithoutbasic);
-      var totaldeduction = parseInt(this.pf) + parseInt(this.tax) + parseInt(this.leave) + parseInt(this.labourWelfare) + parseInt(this.dothers)
+
+      var totaldeduction = parseInt(this.pf =="" ? "0" : this.pf) + parseInt(this.tax =="" ? "0" : this.tax) + parseInt(this.leave =="" ? "0" : this.leave) + parseInt(this.labourWelfare =="" ? "0" : this.labourWelfare) + parseInt(this.dothers =="" ? "0" : this.dothers)
       this.netSalary = totalrevenue - totaldeduction;
     },
 
@@ -440,11 +463,18 @@ export default {
       employeeService.getEmployeeDetail(this.employeeId).then(
         (model) => {
           console.log('model detail', model)
+          if(model.employeeStatutory){
+            this.error = null;
           this.details = model;
           this.basic = model.employeeStatutory.salaryAmount;
           this.pf = (model.employeePension.employeeRate * model.employeeStatutory.salaryAmount) / 100;
           this.tax = this.calculateTax(0);
           this.calculateSalary();
+
+          }else{
+            this.basic = "0"; this.pf = "0"; this.tax = "0";
+            this.error = "The selected staff'salary cannot be found, please update his statutory information"
+          }
         },
         (error) => {
           error = error;
@@ -455,7 +485,8 @@ export default {
       this.dialog = true
     },
     close() {
-      this.dialog = false
+      this.dialog = false;
+      this.clearModel();
     },
     closeEdit() {
       this.dialogEdit = false
@@ -492,7 +523,8 @@ export default {
         )
         .then(
           (id) => {
-            employeeService.getEmployeeSalary(this.employeeId).then((w) => {
+            const companyId = this.company.id;
+              employeeService.getEmployeeSalaries(companyId).then((w) => {
               this.salaries = w, console.log(w); this.close()
             });
           },
@@ -501,12 +533,6 @@ export default {
             this.loading = false;
           }
         );
-    },
-    getEmployeeSalary () {
-      employeeService.getEmployeeSalary(this.employeeId).then((w) => {
-        this.salaries = w; console.log('ww', w); this.close()
-      });
-
     },
     updateEmployeeResignation () {
         this.submitted = true;
