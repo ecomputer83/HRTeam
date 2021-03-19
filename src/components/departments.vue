@@ -21,11 +21,7 @@
                 </ul>
               </div>
               <div class="col-auto float-right ml-auto">
-                <a
-                  href="#"
-                  class="btn add-btn"
-                  data-toggle="modal"
-                  data-target="#add_department"
+                <a class="btn add-btn" @click="openDialog"
                   ><i class="fa fa-plus"></i> Add Department</a
                 >
               </div>
@@ -109,57 +105,54 @@
         <!-- /Page Content -->
 
         <!-- Add Department Modal -->
-        <div id="add_department" class="modal custom-modal fade" role="dialog">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Add Department</h5>
-                <button
-                  type="button"
-                  class="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <form>
-                  <div class="form-group">
-                    <label
-                      >Department Name <span class="text-danger">*</span></label
-                    >
-                    <input
-                      type="text"
-                      v-model.trim="$v.name.$model"
-                      id="name"
-                      name="name"
-                      class="form-control"
-                      :class="{ 'is-invalid': submitted && $v.name.$error }"
-                    />
-                    <div
-                      v-if="submitted && !$v.name.required"
-                      class="invalid-feedback"
-                    >
-                      Department Name is required
-                    </div>
+        <!-- <div id="add_department" class="modal custom-modal fade" role="dialog"> -->
+        <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+        <v-dialog v-model="dialog" max-width="725px">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Add Department</h5>
+              <button type="button" class="close" @click="close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label
+                    >Department Name <span class="text-danger">*</span></label
+                  >
+                  <input
+                    type="text"
+                    v-model.trim="$v.name.$model"
+                    id="name"
+                    name="name"
+                    class="form-control"
+                    :class="{ 'is-invalid': submitted && $v.name.$error }"
+                  />
+                  <div
+                    v-if="submitted && !$v.name.required"
+                    class="invalid-feedback"
+                  >
+                    Department Name is required
+                  </div>
 
-                    <!-- <input class="form-control" type="text" v-model="departmentName" > -->
-                  </div>
-                  <div class="submit-section">
-                    <button
-                      @click.prevent="onSubmit"
-                      class="btn btn-primary submit-btn"
-                      data-dismiss="modal"
-                    >
-                      Submit
-                    </button>
-                  </div>
-                </form>
-              </div>
+                  <!-- <input class="form-control" type="text" v-model="departmentName" > -->
+                </div>
+                <div class="submit-section">
+                  <button
+                    @click.prevent="onSubmit"
+                    class="btn btn-primary submit-btn"
+                    data-dismiss="modal"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
-        </div>
+        </v-dialog>
+        <!-- </div> -->
+        <!-- </div> -->
         <!-- /Add Department Modal -->
 
         <!-- Edit Department Modal -->
@@ -262,19 +255,6 @@ export default {
     LayoutHeader,
     LayoutSidebar,
   },
-
-  watch: {
-    dialog(val) {
-      val || this.close();
-    },
-    dialogDelete(val) {
-      val || this.closeDelete();
-    },
-    dialogEdit(val) {
-      val || this.closeEdit();
-    },
-  },
-
   data() {
     return {
       dialog: false,
@@ -291,6 +271,19 @@ export default {
   validations: {
     name: { required },
   },
+
+  watch: {
+    dialog(val) {
+      val || this.close();
+    },
+    dialogDelete(val) {
+      val || this.closeDelete();
+    },
+    dialogEdit(val) {
+      val || this.closeEdit();
+    },
+  },
+
   methods: {
     clearModel() {
       this.name = "";
@@ -356,6 +349,7 @@ export default {
         },
         (e) => {
           this.error = "Designation being used in some information";
+          this.dialogDelete = false;
         }
       );
     },

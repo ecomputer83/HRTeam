@@ -20,11 +20,7 @@ m<template>
                 </ul>
               </div>
               <div class="col-auto float-right ml-auto">
-                <a
-                  href="#"
-                  class="btn add-btn"
-                  data-toggle="modal"
-                  data-target="#add_leave"
+                <a class="btn add-btn" @click="openDialog"
                   ><i class="fa fa-plus"></i> Add Leave</a
                 >
               </div>
@@ -244,12 +240,7 @@ m<template>
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title">Add Leave</h5>
-                  <button
-                    type="button"
-                    class="close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
+                  <button type="button" @click="close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
@@ -650,7 +641,11 @@ export default {
   },
   data() {
     return {
+      dialog: false,
+      dialogEdit: false,
+      dialogDelete: false,
       leaveType: {},
+      leave: null,
       employeeLeaves: [],
       employeeLeave: {},
       leaves: [],
@@ -668,7 +663,51 @@ export default {
       status: "",
     };
   },
+
+  watch: {
+    dialog(val) {
+      val || this.close();
+    },
+    dialogDelete(val) {
+      val || this.closeDelete();
+    },
+    dialogEdit(val) {
+      val || this.closeEdit();
+    },
+  },
+
   methods: {
+    clearModel() {
+      this.name = "";
+    },
+
+    close() {
+      this.dialog = false;
+      this.clearModel();
+    },
+
+    openDialog() {
+      this.dialog = true;
+    },
+
+    closeEdit() {
+      this.dialogEdit = false;
+    },
+
+    closeDelete() {
+      this.dialogDelete = false;
+    },
+
+    setEditRank(model) {
+      this.leave = model;
+      this.dialogEdit = true;
+    },
+
+    setDeleteRank(model) {
+      this.leave = model;
+      this.dialogDelete = true;
+    },
+
     deleteLeave() {
       const id = this.employeeLeave.id;
       employeeService.removeEmployeeLeave(id).then(
