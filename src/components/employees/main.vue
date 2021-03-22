@@ -22,7 +22,7 @@
                                 </ul>
                             </div>
                             <div class="col-auto float-right ml-auto">
-                                <a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_employee"><i
+                                <a class="btn add-btn" @click="openDialog"><i
                                         class="fa fa-plus"></i> Add Employee</a>
                                 <div class="view-icons">
                                     <router-link to="/employees" class="grid-view btn btn-link"><i class="fa fa-th"></i>
@@ -100,10 +100,10 @@
                                                         data-toggle="dropdown" aria-expanded="false"><i
                                                             class="material-icons">more_vert</i></a>
                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" @click="setEmployee(model)" data-toggle="modal"
+                                                        <a class="dropdown-item" @click="setEditEmployee(model)" data-toggle="modal"
                                                             data-target="#edit_employee"><i
                                                                 class="fa fa-pencil m-r-5"></i> Edit</a>
-                                                        <a class="dropdown-item" @click="setEmployee(model)" data-toggle="modal"
+                                                        <a class="dropdown-item" @click="setDeletEmployee(model)" data-toggle="modal"
                                                             data-target="#delete_employee"><i
                                                                 class="fa fa-trash-o m-r-5"></i>
                                                             Delete</a>
@@ -121,12 +121,11 @@
                 <!-- /Page Content -->
 
                 <!-- Add Employee Modal -->
-                <div id="add_employee" class="modal custom-modal fade" role="dialog">
-                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <v-dialog v-model="dialog" max-width="725px">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title">Add Employee</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="clearModel">
+                                <button type="button" class="close" @click="close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -238,17 +237,16 @@
                                 </form>
                             </div>
                         </div>
-                    </div>
-                </div>
+                </v-dialog>
+                   
                 <!-- /Add Employee Modal -->
 
                 <!-- Edit Employee Modal -->
-                <div id="edit_employee" class="modal custom-modal fade" role="dialog">
-                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <v-dialog v-model="dialogEdit" max-width="725px">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title">Edit Employee</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="clearModel">
+                                <button type="button" class="close" aria-label="Close" @click="close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -277,26 +275,26 @@
                                             <div class="form-group">
                                                 <label class="col-form-label">First Name <span
                                                         class="text-danger">*</span></label>
-                                                <input class="form-control" v-model="employee.firstName" type="text">
+                                                <input class="form-control" v-model="employee.firstName" type="text" v-if="employee">
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label class="col-form-label">Last Name</label>
-                                                <input class="form-control" v-model="employee.lastName" type="text">
+                                                <input class="form-control" v-model="employee.lastName" type="text" v-if="employee">
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label class="col-form-label">Email <span
                                                         class="text-danger">*</span></label>
-                                                <input class="form-control" v-model="employee.email" type="email">
+                                                <input class="form-control" v-model="employee.email" type="email" v-if="employee">
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label class="col-form-label">Phone </label>
-                                                <input class="form-control" v-model="employee.phone" type="text">
+                                                <input class="form-control" v-model="employee.phone" type="text" v-if="employee">
                                             </div>
                                         </div>
                                         <!-- <div class="col-sm-6">
@@ -330,7 +328,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Designation <span class="text-danger">*</span></label>
-                                                 <select class="form-control" v-model="employee.designationId">
+                                                 <select class="form-control" v-model="employee.designationId" v-if="employee">
                                                     <option>Select Designation</option>
                                                     <option v-for="item in designations" :key="item.id" :value="parseInt(item.id)">{{item.name}}</option>
                                                 </select>
@@ -340,7 +338,7 @@
                                             <div class="form-group">
                                                 <label>Level <span class="text-danger">*</span></label>
                                                 
-                                                <select class="form-control" v-model="employee.rankId">
+                                                <select class="form-control" v-model="employee.rankId" v-if="employee">
                                                     <option>Select Level</option>
                                                     <option v-for="item in ranks" :key="item.id" :value="parseInt(item.id)">{{item.rankName}}</option>
                                                 </select>
@@ -353,13 +351,11 @@
                                 </form>
                             </div>
                         </div>
-                    </div>
-                </div>
+                        </v-dialog>
                 <!-- /Edit Employee Modal -->
 
                 <!-- Delete Employee Modal -->
-                <div class="modal custom-modal fade" id="delete_employee" role="dialog">
-                    <div class="modal-dialog modal-dialog-centered">
+                <v-dialog v-model="dialogDelete" max-width="725px">
                         <div class="modal-content">
                             <div class="modal-body">
                                 <div class="form-header">
@@ -369,8 +365,11 @@
                                 <div class="modal-btn delete-action">
                                     <div class="row">
                                         <div class="col-6">
-                                            <a @click="removeEmployee"
-                                                class="btn btn-primary continue-btn">Delete</a>
+                                            <a 
+                                            @click="removeEmployee"
+                                            class="btn btn-primary continue-btn"
+                                            data-dismiss="modal">
+                                            Delete</a>
                                         </div>
                                         <div class="col-6">
                                             <a href="javascript:void(0);" data-dismiss="modal"
@@ -380,8 +379,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                </v-dialog>
                 <!-- /Delete Employee Modal -->
 
             </div>
@@ -418,7 +416,10 @@
       submitted: false,
       loading: false,
       error: '',
-      message: ''
+      message: '',
+      dialog: false,
+      dialogEdit: false,
+      dialogDelete: false
     }
   },
     validations: {
@@ -430,33 +431,51 @@
             email: { required },
             designationId: { required }
     },
+
+  watch: { 
+    dialog(val) {
+      val || this.close();
+    },
+    dialogDelete(val) {
+      val || this.closeDelete();
+    },
+    dialogEdit(val) {
+      val || this.closeEdit();
+    },
+  },
+    
   methods: {
-      GetDesignations(){
+    GetDesignations(){
           organizationService.getDesignations()
           .then(
               model => { 
                   this.designations = model},
               error => { this.error = error }
           )
-      },
-      GetRanks(){
+    },
+    
+    GetRanks(){
           organizationService.getRanks()
           .then(
               model => { this.ranks = model},
               error => {this.error = error}
           )
-      },
-      GetEmployees () {
+    },
+    
+    GetEmployees () {
           employeeService.getEmployees(this.company.id)
             .then(
                 model => { this.employees = model},
                 error => { this.error = error }
             )
-      },
-      setEmployee(employee){
-          this.employee = employee
-      },
-      removeEmployee(){
+    
+    },
+
+    setEmployee(employee){
+      this.employee = employee;
+    },
+
+    removeEmployee(){
           if(this.employee){
               employeeService.removeEmployee(this.employee.id)
               .then(
@@ -471,8 +490,19 @@
                     }
               )
           }
-      },
-      onSubmit () {
+    },
+
+    setEditEmployee(model) {
+      this.employee = model;
+      this.dialogEdit = true;
+    },
+
+    setDeletEmployee(model) {
+      this.employee = model;
+      this.dialogDelete = true;
+    },
+
+    onSubmit () {
             this.submitted = true;
 
             // stop here if form is invalid
@@ -490,6 +520,7 @@
                         .then(
                           model => { this.employees = model;
                           //this.message = '';
+                          this.dialog = false;
                           }
                         )
 					},
@@ -498,9 +529,9 @@
                         this.loading = false;
                     }
                 );
-        },
+    },
 
-        onPutSubmit () {
+    onPutSubmit () {
             this.submitted = true;
             employeeService.updateEmployee(this.employee.id, this.company.id, this.employee.rankId, this.employee.firstName, this.employee.lastName, this.employee.email, this.employee.phone, this.employee.designationId)
                 .then(
@@ -510,6 +541,7 @@
                         .then(
                           model => { this.employees = model;
                           //this.message = '';
+                           this.dialogEdit = false;
                           }
                         )
 					},
@@ -518,9 +550,9 @@
                         this.loading = false;
                     }
                 );
-        },
+    },
 
-        clearModel () {
+    clearModel () {
             this.firstName = '';
             this.lastName =  '';
             this.rankId = null;
@@ -531,9 +563,27 @@
             this.employee = null;
             this.error = '';
             this.message = ''
-        }
+    },
+
+    close() {
+      this.dialog = false;
+      this.clearModel();
+    },
+
+    openDialog() {
+      this.dialog = true;
+    },
+
+    closeEdit() {
+      this.dialogEdit = false;
+    },
+
+    closeDelete() {
+      this.dialogDelete = false;
+    },
   },
-        mounted() {
+
+  mounted() {
             this.GetRanks();
             this.GetDesignations();
             this.GetEmployees();
@@ -571,7 +621,7 @@
                     $(this).parents('.form-focus').toggleClass('focused', (e.type === 'focus' || this.value.length > 0));
                 }).trigger('blur');
             }
-        },
+  },
         name: 'employeeslist'
-    }
+    };
 </script>
