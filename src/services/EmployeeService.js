@@ -42,6 +42,8 @@ export const employeeService = {
     removeEmployeeTermination,
     getEmployeeSalary,
     addEmployeeSalary,
+    updateEmployeeSalary,
+    removeEmployeeSalary,
     addEmployeePromotion,
     getEmployeePromotion,
     removeEmployeePromotion,
@@ -669,12 +671,13 @@ function getExpenseClaim(id) {
 
 }
 
-function addEmployeeSalary(basic, hra, ma, pf, allowance, leaveAllowance, hmo, tax, netSalary, employeeId) {
+function addEmployeeSalary(basic, hra, ma, pf, leave, allowance, leaveAllowance, hmo, tax, netSalary, employeeId) {
     var req = {
         basic,
         hra,
         ma,
         pf,
+        leave,
         allowance,
         leaveAllowance,
         hmo,
@@ -705,6 +708,39 @@ function getEmployeeSalaries(id) {
         .then(handleResponse)
         .then(model => {
             console.log(model)
+            return model
+        });
+
+}
+
+function updateEmployeeSalary(id, basic, hra, ma, pf, leave, allowance, leaveAllowance, hmo, tax, netSalary, employeeId) {
+
+    var req = {
+        basic,
+        hra,
+        ma,
+        pf,
+        leave,
+        allowance,
+        leaveAllowance,
+        hmo,
+        tax,
+        netSalary,
+        employeeId
+    }
+    
+    return fetch(`${config.apiurl}/Employee/UpdateEmployeeSalary/${id}`, requestOptions.put(req))
+        .then(handleResponse)
+        .then(id => {
+            return id;
+        });
+}
+
+function removeEmployeeSalary(id) {
+
+    return fetch(`${config.apiurl}/Employee/DeleteEmployeeSalary/${id}`, requestOptions.delete())
+        .then(handleResponse)
+        .then(model => {
             return model
         });
 

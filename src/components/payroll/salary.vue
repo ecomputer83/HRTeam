@@ -170,7 +170,7 @@
                       />
                     </div>
 
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                       <label
                         >Conveyance <span class="text-danger">*</span></label
                       >
@@ -179,7 +179,8 @@
                         class="form-control"
                         type="text"
                       />
-                    </div>
+                    </div> -->
+                    
                     <div class="form-group">
                       <label
                         >Allowance <span class="text-danger">*</span></label
@@ -229,7 +230,7 @@
                       <input v-model="leave" class="form-control" type="text" />
                     </div>
                     <div class="form-group">
-                      <label>Prof. Tax<span class="text-danger">*</span></label>
+                      <label>Tax<span class="text-danger">*</span></label>
                       <input
                         v-model="tax"
                         class="form-control"
@@ -237,7 +238,7 @@
                         readonly
                       />
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                       <label
                         >Labour Welfare
                         <span class="text-danger">*</span></label
@@ -247,12 +248,12 @@
                         class="form-control"
                         type="text"
                       />
-                    </div>
+                    </div> -->
                     <div class="form-group">
                       <label>Others <span class="text-danger">*</span></label>
                       <input
                         class="form-control"
-                        v-model="dothers"
+                        v-model="others"
                         type="text"
                       />
                     </div>
@@ -278,10 +279,217 @@
             </div>
           </div>
         </v-dialog>
-        <!-- /Add Resignation Modal -->
+        <!-- /Add Salary Modal -->
+
+        <!-- Edit Salary Modal -->
+        <v-dialog v-model="dialogEdit" max-width="725px">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit Salary</h5>
+              <button type="button" class="close" @click="close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form @submit.prevent="updateEmployeeSalary">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div
+                      class="alert alert-danger alert-dismissible fade show"
+                      role="alert"
+                      v-if="error"
+                    >
+                      <strong>Error!</strong> {{ error }}
+                      <button
+                        type="button"
+                        class="close"
+                        data-dismiss="alert"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div
+                      class="alert alert-success alert-dismissible fade show"
+                      role="alert"
+                      v-if="message"
+                    >
+                      <strong>Success!</strong> {{ message }}
+                      <button
+                        type="button"
+                        class="close"
+                        data-dismiss="alert"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label
+                        >Select Staff <span class="text-danger">*</span></label
+                      >
+                      <select
+                        class="form-control"
+                        v-model="salary.employeeId"
+                        v-on:change="getEmployeeDetail"
+                      >
+                        <option>Select Staff</option>
+                        <option
+                          v-for="item in employees"
+                          :key="item.id"
+                          :value="item.id"
+                        >
+                          {{ item.firstName + " " + item.lastName }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label
+                        >Net Salary <span class="text-danger">*</span></label
+                      >
+                      <input
+                        v-model="updateNetSalary"
+                        class="form-control"
+                        type="text"
+                        readonly
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <h4 class="text-primary">Earnings</h4>
+                    <div class="form-group">
+                      <label>Basic <span class="text-danger">*</span></label>
+                      <input
+                        v-model="salary.basic"
+                        class="form-control"
+                        type="text"
+                        readonly
+                      />
+                    </div>
+
+                    <!-- <div class="form-group">
+                      <label
+                        >Conveyance <span class="text-danger">*</span></label
+                      >
+                      <input
+                        v-model="conveyance"
+                        class="form-control"
+                        type="text"
+                      />
+                    </div> -->
+                    
+                    <div class="form-group">
+                      <label
+                        >Allowance <span class="text-danger">*</span></label
+                      >
+                      <input
+                        v-model="salary.allowance"
+                        class="form-control"
+                        type="text"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label
+                        >Leave Allowance
+                        <span class="text-danger">*</span></label
+                      >
+                      <input
+                        v-model="salary.leaveAllowance"
+                        class="form-control"
+                        type="text"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label
+                        >Medical Allowance
+                        <span class="text-danger">*</span></label
+                      >
+                      <input v-model="salary.ma" class="form-control" type="text" />
+                    </div>
+                    <!-- <div class="add-more">
+                                                <a href="#"><i class="fa fa-plus-circle"></i> Add More</a>
+                                            </div> -->
+                  </div>
+                  <div class="col-sm-6">
+                    <h4 class="text-primary">Deductions</h4>
+
+                    <div class="form-group">
+                      <label>PF <span class="text-danger">*</span></label>
+                      <input
+                        v-model="salary.pf"
+                        class="form-control"
+                        type="text"
+                        readonly
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label>Leave <span class="text-danger">*</span></label>
+                      <input v-model="salary.leave" class="form-control" type="text" />
+                    </div>
+                    <div class="form-group">
+                      <label>Tax<span class="text-danger">*</span></label>
+                      <input
+                        v-model="salary.tax"
+                        class="form-control"
+                        type="text"
+                        readonly
+                      />
+                    </div>
+                    <!-- <div class="form-group">
+                      <label
+                        >Labour Welfare
+                        <span class="text-danger">*</span></label
+                      >
+                      <input
+                        v-model="labourWelfare"
+                        class="form-control"
+                        type="text"
+                      />
+                    </div> -->
+                    <div class="form-group">
+                      <label>Others <span class="text-danger">*</span></label>
+                      <input
+                        class="form-control"
+                        v-model="salary.others"
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Reason <span class="text-danger">*</span></label>
+                  <textarea
+                    class="form-control"
+                    v-model="salary.reason"
+                    rows="4"
+                  ></textarea>
+                </div>
+                <div class="submit-section">
+                  <button
+                    @click.prevent="updateEmployeeSalary"
+                    class="btn btn-primary submit-btn"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </v-dialog>
+        <!-- /Edit Salary Modal -->
 
         <!-- Edit Resignation Modal -->
-        <v-dialog v-model="dialogEdit" max-width="725px">
+        <!-- <v-dialog v-model="dialogEdit" max-width="725px">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title">Edit Resignation</h5>
@@ -350,22 +558,22 @@
               </form>
             </div>
           </div>
-        </v-dialog>
+        </v-dialog> -->
         <!-- /Edit Resignation Modal -->
 
-        <!-- Delete Resignation Modal -->
+        <!-- Delete Salary Modal -->
         <v-dialog v-model="dialogDelete" max-width="725px">
           <div class="modal-content">
             <div class="modal-body">
               <div class="form-header">
-                <h3>Delete Resignation</h3>
+                <h3>Delete Salary</h3>
                 <p>Are you sure want to delete?</p>
               </div>
               <div class="modal-btn delete-action">
                 <div class="row">
                   <div class="col-6">
                     <a
-                      @click.prevent="deleteEmployeeResignation"
+                      @click.prevent="removeEmployeeSalary"
                       class="btn btn-primary continue-btn"
                       data-dismiss="modal"
                       >Delete</a
@@ -426,10 +634,6 @@ export default {
       ],
       name: "",
       employeeId: "",
-      reason: "",
-      noticeDate: "",
-      resignationDate: "",
-      resignation: {},
       salaries: [],
       salary: {},
       employee: [],
@@ -451,7 +655,8 @@ export default {
       tds: "0",
       da: "0",
       conveyance: "0",
-      dothers: "0",
+      others: "0",
+      reason: "0",
       labourWelfare: "0",
       details: [],
       message: null,
@@ -461,8 +666,8 @@ export default {
   validations: {
     name: { required },
     reason: { required },
-    noticeDate: { required },
-    resignationDate: { required },
+    // noticeDate: { required },
+    // resignationDate: { required },
   },
   watch: {
     dialog(val) {
@@ -477,6 +682,9 @@ export default {
     conveyance(val) {
       this.calculateSalary();
     },
+    leave(val) {
+      this.calculateSalary();
+    },
     allowance(val) {
       this.calculateSalary();
     },
@@ -486,12 +694,18 @@ export default {
     ma(val) {
       this.calculateSalary();
     },
-    dothers(val) {
+    others(val) {
       this.calculateSalary();
     },
     salary(val) {
       this.calculateSalary();
     },
+  },
+  computed: {
+    updateNetSalary: function () {
+      this.updateCalculateSalary()
+      return this.salary.netSalary;
+    }
   },
   methods: {
     clearModel() {
@@ -528,8 +742,31 @@ export default {
         parseInt(this.tax == "" ? "0" : this.tax) +
         parseInt(this.leave == "" ? "0" : this.leave) +
         parseInt(this.labourWelfare == "" ? "0" : this.labourWelfare) +
-        parseInt(this.dothers == "" ? "0" : this.dothers);
+        parseInt(this.others == "" ? "0" : this.others);
       this.netSalary = totalrevenue - totaldeduction;
+    },
+    updateCalculateSalary() {
+      var totalrevenue =
+        parseInt(this.salary.basic) +
+        parseInt(this.conveyance == "" ? "0" : this.conveyance) +
+        parseInt(this.salary.allowance == "" ? "0" : this.salary.allowance) +
+        parseInt(this.salary.leaveAllowance == "" ? "0" : this.salary.leaveAllowance) +
+        parseInt(this.salary.ma == "" ? "0" : this.salary.ma);
+      var totalrevenuewithoutbasic =
+        parseInt(this.conveyance == "" ? "0" : this.conveyance) +
+        parseInt(this.salary.allowance == "" ? "0" : this.salary.allowance) +
+        parseInt(this.salary.leaveAllowance == "" ? "0" : this.salary.leaveAllowance) +
+        parseInt(this.salary.ma == "" ? "0" : this.salary.ma);
+      if (this.salary.basic != "0")
+        this.salary.tax = this.calculateTax(totalrevenuewithoutbasic);
+
+      var totaldeduction =
+        parseInt(this.salary.pf == "" ? "0" : this.salary.pf) +
+        parseInt(this.salary.tax == "" ? "0" : this.salary.tax) +
+        parseInt(this.salary.leave == "" ? "0" : this.salary.leave) +
+        parseInt(this.labourWelfare == "" ? "0" : this.labourWelfare) +
+        parseInt(this.salary.others == "" ? "0" : this.salary.others);
+      this.salary.netSalary = totalrevenue - totaldeduction;
     },
 
     calculateTax(params) {
@@ -612,11 +849,11 @@ export default {
       this.dialogDelete = false;
     },
     setEditSalary(model) {
-      this.salaries = model;
+      this.salary = model;
       this.dialogEdit = true;
     },
     setDeleteSalary(model) {
-      this.salaries = model;
+      this.salary = model;
       this.dialogDelete = true;
     },
 
@@ -631,6 +868,7 @@ export default {
           (this.hra = parseInt(this.hra)),
           (this.ma = parseInt(this.ma)),
           (this.pf = parseInt(this.pf)),
+          (this.leave = parseInt(this.leave)),
           (this.allowance = parseInt(this.allowance)),
           (this.leaveAllowance = parseInt(this.leaveAllowance)),
           (this.hmo = 0),
@@ -653,23 +891,30 @@ export default {
         );
     },
 
-    updateEmployeeResignation() {
+    updateEmployeeSalary() {
       this.submitted = true;
 
       this.loading = true;
-      console.log(this.resignation);
+      //console.log(this.resignation);
       employeeService
-        .updateEmployeeResignation(
-          this.resignation.id,
-          this.resignation.resignationDate,
-          this.resignation.reason,
-          this.resignation.noticeDate,
-          this.resignation.employeeId
+        .updateEmployeeSalary(
+          parseInt(this.salary.id),
+          parseInt(this.salary.basic),
+          parseInt(this.salary.hra),
+          parseInt(this.salary.ma),
+          parseInt(this.salary.pf),
+          parseInt(this.salary.leave),
+          parseInt(this.salary.allowance),
+          parseInt(this.salary.leaveAllowance),
+          (this.hmo = 0),
+          parseInt(this.salary.tax),
+          parseInt(this.updateNetSalary),
+          parseInt(this.salary.employeeId)
         )
         .then(
           (id) => {
             employeeService
-              .getEmployeeResignations(this.company.id)
+              .getEmployeeSalaries(this.company.id)
               .then((o) => {
                 (this.salaries = o), console.log(o), this.closeEdit();
               });
@@ -681,11 +926,11 @@ export default {
         );
     },
 
-    deleteEmployeeResignation() {
-      const id = this.resignation.id;
-      console.log(this.resignation);
-      employeeService.removeEmployeeResignation(id).then((id) => {
-        employeeService.getEmployeeResignations(this.company.id).then(
+    removeEmployeeSalary() {
+      const id = this.salary.id;
+      //console.log(this.resignation);
+      employeeService.removeEmployeeSalary(id).then((id) => {
+        employeeService.getEmployeeSalaries(this.company.id).then(
           (model) => {
             this.salaries = model;
             console.log(model);
@@ -698,6 +943,7 @@ export default {
       });
     },
   },
+  
 
   mounted() {
     this.getEmployees();
