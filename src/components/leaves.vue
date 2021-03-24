@@ -380,8 +380,7 @@ m<template>
           </div>
           <!-- /Add Leave Modal -->
           <!-- Edit Leave Modal -->
-          <div id="edit_leave" class="modal custom-modal fade" role="dialog">
-            <div class="modal-dialog modal-dialog-centered" role="document">
+          <v-dialog v-model="dialog" max-width="725px">
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title">Edit Leave</h5>
@@ -545,8 +544,7 @@ m<template>
                   </form>
                 </div>
               </div>
-            </div>
-          </div>
+          </v-dialog>
           <!-- /Edit Leave Modal -->
           <!-- Approve Leave Modal -->
           <div class="modal custom-modal fade" id="approve_leave" role="dialog">
@@ -824,6 +822,7 @@ export default {
                 this.employeeLeaves = model;
                 //console.log(model[0])
                 this.message = "";
+                this.dialog=false;
               }
               // error => { error = error }
             );

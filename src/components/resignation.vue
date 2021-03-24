@@ -388,11 +388,20 @@ export default {
         }
       );
     },
+
+    clearModel() {
+      this.employeeId= "",
+      this.reason= "",
+      this.noticeDate= "",
+      this.resignationDate= ""
+    },
+
     openDialog(){
       this.dialog = true
     },
     close() {
-      this.dialog = false
+      this.dialog = false;
+      this.clearModel();
     },
     closeEdit() {
       this.dialogEdit = false
@@ -424,7 +433,8 @@ export default {
         .then(
           (id) => {
             employeeService.getEmployeeResignations(this.company.id).then((w) => {
-              this.resignations = w, console.log(w); this.close()
+              this.resignations = w;
+              this.close();
             });
           },
           (error) => {

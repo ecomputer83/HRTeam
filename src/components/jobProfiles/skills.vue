@@ -152,8 +152,7 @@
         <!-- /Add Department Modal -->
 
         <!-- Edit Department Modal -->
-        <div id="edit_department" class="modal custom-modal fade" role="dialog">
-          <div class="modal-dialog modal-dialog-centered" role="document">
+        <v-dialog v-model="dialogEdit" max-width="725px">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">Edit Skill</h5>
@@ -213,8 +212,7 @@
                 </form>
               </div>
             </div>
-          </div>
-        </div>
+        </v-dialog>
         <!-- /Edit Department Modal -->
 
         <!-- Delete Department Modal -->
