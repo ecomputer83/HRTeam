@@ -603,7 +603,6 @@ export default {
       this.submitted = true;
 
       this.loading = true;
-      console.log(this.termination);
       employeeService
         .updateEmployeeTermination(
           this.termination.id,
@@ -618,7 +617,7 @@ export default {
             employeeService
               .getEmployeeTerminations(this.company.id)
               .then((o) => {
-                (this.terminations = o), console.log(o);
+                (this.terminations = o);
                 this.closeEdit();
               });
           },

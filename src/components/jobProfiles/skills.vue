@@ -22,10 +22,7 @@
               </div>
               <div class="col-auto float-right ml-auto">
                 <a
-                  href="#"
-                  class="btn add-btn"
-                  data-toggle="modal"
-                  data-target="#add_department"
+                  class="btn add-btn" @click="openDialog"
                   ><i class="fa fa-plus"></i> Add Skill</a
                 >
               </div>
@@ -86,22 +83,56 @@
         <!-- /Page Content -->
 
         <!-- Add Department Modal -->
-        <div id="add_department" class="modal custom-modal fade" role="dialog">
-          <div class="modal-dialog modal-dialog-centered" role="document">
+        <v-dialog v-model="dialog" max-width="725px">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">Add Skill</h5>
                 <button
                   type="button"
                   class="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
+                  @click="close"
                 >
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
                 <form @submit.prevent="onSubmit">
+                  <div class="row">
+                      <div class="col-md-12">
+                        <div
+                          class="alert alert-danger alert-dismissible fade show"
+                          role="alert"
+                          v-if="error"
+                        >
+                          <strong>Error!</strong> {{ error }}
+                          <button
+                            type="button"
+                            class="close"
+                            data-dismiss="alert"
+                            aria-label="Close"
+                          >
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div
+                          class="alert alert-success alert-dismissible fade show"
+                          role="alert"
+                          v-if="message"
+                        >
+                          <strong>Success!</strong> {{ message }}
+                          <button
+                            type="button"
+                            class="close"
+                            data-dismiss="alert"
+                            aria-label="Close"
+                          >
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   <div class="form-group">
                     <label>Skill Name <span class="text-danger">*</span></label>
                     <input
@@ -147,12 +178,12 @@
                 </form>
               </div>
             </div>
-          </div>
-        </div>
+        </v-dialog>
         <!-- /Add Department Modal -->
 
         <!-- Edit Department Modal -->
-        <v-dialog v-model="dialogEdit" max-width="725px">
+        <div id="edit_department" class="modal custom-modal fade" role="dialog">
+          <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">Edit Skill</h5>
@@ -212,7 +243,8 @@
                 </form>
               </div>
             </div>
-        </v-dialog>
+          </div>
+        </div>
         <!-- /Edit Department Modal -->
 
         <!-- Delete Department Modal -->
@@ -283,7 +315,24 @@ export default {
       submitted: false,
       skilltypes: [],
       company: authenticationService.currentOfficeValue,
+      dialog: false,
+      dialogEdit: false,
+      dialogDelete: false,
+      message: "",
+      error: "",
     };
+  },
+
+   watch: {
+    dialog(val) {
+      val || this.close();
+    },
+    dialogDelete(val) {
+      val || this.closeDelete();
+    },
+    dialogEdit(val) {
+      val || this.closeEdit();
+    },
   },
 
   validations: {
@@ -292,6 +341,39 @@ export default {
   },
 
   methods: {
+    clearModel() {
+      this.name = "";
+      this.type = "";
+      this.description = "";
+    },
+
+    close() {
+      this.dialog = false;
+      this.clearModel();
+    },
+
+    openDialog() {
+      this.dialog = true;
+    },
+
+    closeEdit() {
+      this.dialogEdit = false;
+    },
+
+    closeDelete() {
+      this.dialogDelete = false;
+    },
+
+    setEditSkills(item) {
+      this.skill = item;
+      this.dialogEdit = true;
+    },
+
+    setDeleteSkills(item) {
+      this.skill = item;
+      this.dialogDelete = true;
+    },
+
     handleCreateSkillType() {
       handleCreateSkill = !this.isCreatedSkill;
     },
@@ -334,8 +416,10 @@ export default {
         .addSkill(this.company.id, this.name, this.description, this.type)
         .then(
           (id) => {
+            this.message = "Skill created successfully";
             skillsService.getSkills(this.company.id).then((w) => {
               this.skills = w;
+              this.close();
             });
           },
           (error) => {

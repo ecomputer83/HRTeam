@@ -106,7 +106,6 @@
                           bootstrap-styling
                           class="form-control datetimepicker"
                           type="text"
-                          value="01/07/2007"
                         />
                       </div>
                       <label class="focus-label">Period From</label>
@@ -135,7 +134,6 @@
                           bootstrap-styling
                           class="form-control datetimepicker"
                           type="text"
-                          value="08/06/2018"
                         />
                       </div>
                       <label class="focus-label">Period To</label>

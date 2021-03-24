@@ -22,10 +22,7 @@
               </div>
               <div class="col-auto float-right ml-auto">
                 <a
-                  href="#"
-                  class="btn add-btn"
-                  data-toggle="modal"
-                  data-target="#add_department"
+                  class="btn add-btn" @click="openDialog"
                   ><i class="fa fa-plus"></i> Add Skill Grade</a
                 >
               </div>
@@ -91,22 +88,56 @@
         <!-- /Page Content -->
 
         <!-- Add Department Modal -->
-        <div id="add_department" class="modal custom-modal fade" role="dialog">
-          <div class="modal-dialog modal-dialog-centered" role="document">
+        <v-dialog v-model="dialog" max-width="725px">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">Add Skill Grade</h5>
                 <button
                   type="button"
                   class="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
+                  @click="close"
                 >
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
                 <form @submit.prevent="onSubmit">
+                  <div class="row">
+                      <div class="col-md-12">
+                        <div
+                          class="alert alert-danger alert-dismissible fade show"
+                          role="alert"
+                          v-if="error"
+                        >
+                          <strong>Error!</strong> {{ error }}
+                          <button
+                            type="button"
+                            class="close"
+                            data-dismiss="alert"
+                            aria-label="Close"
+                          >
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div
+                          class="alert alert-success alert-dismissible fade show"
+                          role="alert"
+                          v-if="message"
+                        >
+                          <strong>Success!</strong> {{ message }}
+                          <button
+                            type="button"
+                            class="close"
+                            data-dismiss="alert"
+                            aria-label="Close"
+                          >
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   <div class="form-group">
                     <label>Grade Name <span class="text-danger">*</span></label>
                     <input
@@ -149,8 +180,7 @@
                 </form>
               </div>
             </div>
-          </div>
-        </div>
+        </v-dialog>
         <!-- /Add Department Modal -->
 
         <!-- Edit Department Modal -->
@@ -282,6 +312,11 @@ export default {
       error: "",
       submitted: false,
       company: authenticationService.currentOfficeValue,
+      dialog: false,
+      dialogEdit: false,
+      dialogDelete: false,
+      message: "",
+      error: "",
     };
   },
 
@@ -291,7 +326,52 @@ export default {
     type: { required },
   },
 
+   watch: {
+    dialog(val) {
+      val || this.close();
+    },
+    dialogDelete(val) {
+      val || this.closeDelete();
+    },
+    dialogEdit(val) {
+      val || this.closeEdit();
+    },
+  },
+
   methods: {
+    clearModel() {
+      this.name = "";
+      this.type = "";
+      this.rating = "";
+    },
+
+    close() {
+      this.dialog = false;
+      this.clearModel();
+    },
+
+    openDialog() {
+      this.dialog = true;
+    },
+
+    closeEdit() {
+      this.dialogEdit = false;
+    },
+
+    closeDelete() {
+      this.dialogDelete = false;
+    },
+
+    setEditTermination(item) {
+      this.termination = item;
+      this.dialogEdit = true;
+    },
+
+    setDeleteTermination(item) {
+      this.termination = item;
+      this.dialogDelete = true;
+    },
+
     handleCreateGrade() {
       handleCreateGrade = !this.isCreated;
     },
@@ -312,6 +392,7 @@ export default {
       skillsService.removeskillGrade(id).then((id) => {
         skillsService.getskillGrades(this.company.id).then((r) => {
           this.skillGrades = r;
+          
         });
       });
     },
@@ -338,8 +419,10 @@ export default {
         )
         .then(
           (id) => {
+            this.message = "Termination created successfully";
             skillsService.getskillGrades(this.company.id).then((a) => {
               this.skillGrades = a;
+              this.close();
             });
           },
           (error) => {
