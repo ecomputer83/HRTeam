@@ -21,11 +21,7 @@
                 </ul>
               </div>
               <div class="col-auto float-right ml-auto">
-                <a
-                  href="#"
-                  class="btn add-btn"
-                  data-toggle="modal"
-                  data-target="#add_department"
+                <a class="btn add-btn" @click="openDialog"
                   ><i class="fa fa-plus"></i> Add Skill Type</a
                 >
               </div>
@@ -87,53 +83,82 @@
         <!-- /Page Content -->
 
         <!-- Add Department Modal -->
-        <div id="add_department" class="modal custom-modal fade" role="dialog">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Add Skill Type</h5>
-                <button
-                  type="button"
-                  class="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <form @submit.prevent="onSubmit">
-                  <div class="form-group">
-                    <label>Type Name <span class="text-danger">*</span></label>
-                    <input
-                      v-model.trim="$v.name.$model"
-                      id="name"
-                      name="name"
-                      class="form-control"
-                      :class="{ 'is-invalid': submitted && $v.name.$error }"
-                      type="text"
-                    />
+        <v-dialog v-model="dialog" max-width="725px">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Add Skill Type</h5>
+              <button type="button" class="close" @click="close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form @submit.prevent="onSubmit">
+                <div class="row">
+                  <div class="col-md-12">
                     <div
-                      v-if="submitted && !$v.name.required"
-                      class="invalid-feedback"
+                      class="alert alert-danger alert-dismissible fade show"
+                      role="alert"
+                      v-if="error"
                     >
-                      SkillType name is required
+                      <strong>Error!</strong> {{ error }}
+                      <button
+                        type="button"
+                        class="close"
+                        data-dismiss="alert"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
                     </div>
                   </div>
-                  <div class="submit-section">
-                    <button
-                      @click.prevent="onSubmit"
-                      data-dismiss="modal"
-                      class="btn btn-primary submit-btn"
+                  <div class="col-md-12">
+                    <div
+                      class="alert alert-success alert-dismissible fade show"
+                      role="alert"
+                      v-if="message"
                     >
-                      Submit
-                    </button>
+                      <strong>Success!</strong> {{ message }}
+                      <button
+                        type="button"
+                        class="close"
+                        data-dismiss="alert"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
                   </div>
-                </form>
-              </div>
+                </div>
+                <div class="form-group">
+                  <label>Type Name <span class="text-danger">*</span></label>
+                  <input
+                    v-model.trim="$v.name.$model"
+                    id="name"
+                    name="name"
+                    class="form-control"
+                    :class="{ 'is-invalid': submitted && $v.name.$error }"
+                    type="text"
+                  />
+                  <div
+                    v-if="submitted && !$v.name.required"
+                    class="invalid-feedback"
+                  >
+                    SkillType name is required
+                  </div>
+                </div>
+                <div class="submit-section">
+                  <button
+                    @click.prevent="onSubmit"
+                    data-dismiss="modal"
+                    class="btn btn-primary submit-btn"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
-        </div>
+        </v-dialog>
         <!-- /Add Department Modal -->
 
         <!-- Edit Department Modal -->
@@ -241,6 +266,11 @@ export default {
       error: "",
       isCreatedSkillType: false,
       company: authenticationService.currentOfficeValue,
+      dialog: false,
+      dialogEdit: false,
+      dialogDelete: false,
+      message: "",
+      error: "",
     };
   },
 
@@ -248,7 +278,40 @@ export default {
     name: { required },
   },
 
+  watch: {
+    dialog(val) {
+      val || this.close();
+    },
+    dialogDelete(val) {
+      val || this.closeDelete();
+    },
+    dialogEdit(val) {
+      val || this.closeEdit();
+    },
+  },
+
   methods: {
+    clearModel() {
+      this.name = "";
+    },
+
+    close() {
+      this.dialog = false;
+      this.clearModel();
+    },
+
+    openDialog() {
+      this.dialog = true;
+    },
+
+    closeEdit() {
+      this.dialogEdit = false;
+    },
+
+    closeDelete() {
+      this.dialogDelete = false;
+    },
+
     handleCreateSkillType() {
       handleCreateSkillType = !this.isCreatedSkillType;
     },
@@ -287,8 +350,10 @@ export default {
       this.loading = true;
       skillsService.addSkillType(this.name, this.company.id).then(
         (id) => {
+          this.message = "Skilltype created successfully";
           skillsService.getSkillTypes(this.company.id).then((r) => {
             this.skilltypes = r;
+            this.close();
           });
         },
         (error) => {

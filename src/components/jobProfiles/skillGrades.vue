@@ -21,8 +21,7 @@
                 </ul>
               </div>
               <div class="col-auto float-right ml-auto">
-                <a
-                  class="btn add-btn" @click="openDialog"
+                <a class="btn add-btn" @click="openDialog"
                   ><i class="fa fa-plus"></i> Add Skill Grade</a
                 >
               </div>
@@ -89,97 +88,93 @@
 
         <!-- Add Department Modal -->
         <v-dialog v-model="dialog" max-width="725px">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Add Skill Grade</h5>
-                <button
-                  type="button"
-                  class="close"
-                  @click="close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <form @submit.prevent="onSubmit">
-                  <div class="row">
-                      <div class="col-md-12">
-                        <div
-                          class="alert alert-danger alert-dismissible fade show"
-                          role="alert"
-                          v-if="error"
-                        >
-                          <strong>Error!</strong> {{ error }}
-                          <button
-                            type="button"
-                            class="close"
-                            data-dismiss="alert"
-                            aria-label="Close"
-                          >
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                      </div>
-                      <div class="col-md-12">
-                        <div
-                          class="alert alert-success alert-dismissible fade show"
-                          role="alert"
-                          v-if="message"
-                        >
-                          <strong>Success!</strong> {{ message }}
-                          <button
-                            type="button"
-                            class="close"
-                            data-dismiss="alert"
-                            aria-label="Close"
-                          >
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  <div class="form-group">
-                    <label>Grade Name <span class="text-danger">*</span></label>
-                    <input
-                      v-model.trim="$v.name.$model"
-                      class="form-control"
-                      type="text"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label>Rating <span class="text-danger">*</span></label>
-                    <input
-                      v-model.trim="$v.rating.$model"
-                      id="name"
-                      name="name"
-                      class="form-control"
-                      type="number"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label>Grade Type <span class="text-danger">*</span></label>
-                    <select
-                      v-model.trim="$v.type.$model"
-                      class="select form-control"
-                    >
-                      <option>-- Select --</option>
-                      <option value="Profession Grade">Profession Grade</option>
-                      <option value="Soft Grade">Soft Grade</option>
-                      <option value="Language Grade">Language Grade</option>
-                    </select>
-                  </div>
-                  <div class="submit-section">
-                    <button
-                      @click.prevent="onSubmit"
-                      data-dismiss="modal"
-                      class="btn btn-primary submit-btn"
-                    >
-                      Submit
-                    </button>
-                  </div>
-                </form>
-              </div>
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Add Skill Grade</h5>
+              <button type="button" class="close" @click="close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
+            <div class="modal-body">
+              <form @submit.prevent="onSubmit">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div
+                      class="alert alert-danger alert-dismissible fade show"
+                      role="alert"
+                      v-if="error"
+                    >
+                      <strong>Error!</strong> {{ error }}
+                      <button
+                        type="button"
+                        class="close"
+                        data-dismiss="alert"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div
+                      class="alert alert-success alert-dismissible fade show"
+                      role="alert"
+                      v-if="message"
+                    >
+                      <strong>Success!</strong> {{ message }}
+                      <button
+                        type="button"
+                        class="close"
+                        data-dismiss="alert"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Grade Name <span class="text-danger">*</span></label>
+                  <input
+                    v-model.trim="$v.name.$model"
+                    class="form-control"
+                    type="text"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Rating <span class="text-danger">*</span></label>
+                  <input
+                    v-model.trim="$v.rating.$model"
+                    id="name"
+                    name="name"
+                    class="form-control"
+                    type="number"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Grade Type <span class="text-danger">*</span></label>
+                  <select
+                    v-model.trim="$v.type.$model"
+                    class="select form-control"
+                  >
+                    <option>-- Select --</option>
+                    <option value="Profession Grade">Profession Grade</option>
+                    <option value="Soft Grade">Soft Grade</option>
+                    <option value="Language Grade">Language Grade</option>
+                  </select>
+                </div>
+                <div class="submit-section">
+                  <button
+                    @click.prevent="onSubmit"
+                    data-dismiss="modal"
+                    class="btn btn-primary submit-btn"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
         </v-dialog>
         <!-- /Add Department Modal -->
 
@@ -265,6 +260,7 @@
                       <a
                         class="btn btn-primary continue-btn"
                         @click="removeSkillGrade"
+                        data-dismiss="modal"
                         >Delete</a
                       >
                     </div>
@@ -326,7 +322,7 @@ export default {
     type: { required },
   },
 
-   watch: {
+  watch: {
     dialog(val) {
       val || this.close();
     },
@@ -392,7 +388,7 @@ export default {
       skillsService.removeskillGrade(id).then((id) => {
         skillsService.getskillGrades(this.company.id).then((r) => {
           this.skillGrades = r;
-          
+          this.closeDelete();
         });
       });
     },

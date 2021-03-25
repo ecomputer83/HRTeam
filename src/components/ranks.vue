@@ -576,7 +576,7 @@ export default {
     rankName: { required },
   },
 
-  watch: {
+  watch: { 
     dialog(val) {
       val || this.close();
     },
@@ -589,10 +589,6 @@ export default {
   },
 
   methods: {
-    clearModel() {
-      this.name = "";
-    },
-
     getRanks() {
       organizationService.getRanks().then((o) => {
         this.ranks = o;
@@ -601,6 +597,22 @@ export default {
     // handleNewRank() {
     //   handleNewRank = !this.isCreateNewRank
     // },
+    
+    clearModel() {
+      this.rankName = "";
+          this.readHoliday = "";
+          this.readLeave = "";
+          this.readAssets = "";
+          this.readTimesheet = "";
+          this.writeHolidays = "";
+          this.writeLeave = "";
+          this.writeAssets = "";
+          this.writeTimesheet = "";
+          this.deleteHolidays = "";
+          this.deleteLeave = "";
+          this.deleteAssets = "";
+          this.deleteTimesheet = "";
+    },
 
     close() {
       this.dialog = false;
@@ -711,7 +723,7 @@ export default {
             this.message = "Rank created successfully";
             organizationService.getRanks().then((o) => {
               this.ranks = o;
-              this.dialog = false;
+              this.close();
             });
           },
           (error) => {
