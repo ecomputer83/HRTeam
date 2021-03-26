@@ -642,6 +642,7 @@ export default {
     FamilyInfoModal,
     BankInfoModal,
     EmergencyContactModal,
+    Datepicker,
   },
   data() {
     return {
