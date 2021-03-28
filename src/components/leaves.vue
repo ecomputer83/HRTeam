@@ -251,7 +251,7 @@ m<template>
                           <div class="dropdown-menu dropdown-menu-right">
                             <a
                               class="dropdown-item"
-                              @click="setLeave(item)"
+                              @click="setEditLeave(item)"
                               data-toggle="modal"
                               data-target="#edit_leave"
                               ><i class="fa fa-pencil m-r-5"></i> Edit</a
@@ -275,295 +275,307 @@ m<template>
           <!---/Datatable-->
           <!-- /Page Content -->
           <!-- Add Leave Modal -->
-              <v-dialog v-model="dialog" max-width="725px">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title">Add Leave</h5>
-                    <button type="button" @click="close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
+          <v-dialog v-model="dialog" max-width="725px">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Add Leave</h5>
+                <button type="button" @click="close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form @submit.prevent="onSubmit">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div
+                        class="alert alert-danger alert-dismissible fade show"
+                        role="alert"
+                        v-if="error"
+                      >
+                        <strong>Error!</strong> {{ error }}
+                        <button
+                          type="button"
+                          class="close"
+                          data-dismiss="alert"
+                          aria-label="Close"
+                        >
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div
+                        class="alert alert-success alert-dismissible fade show"
+                        role="alert"
+                        v-if="message"
+                      >
+                        <strong>Success!</strong> {{ message }}
+                        <button
+                          type="button"
+                          class="close"
+                          data-dismiss="alert"
+                          aria-label="Close"
+                        >
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                  <div class="modal-body">
-                    <form @submit.prevent="onSubmit">
-                      <div class="row">
-                        <div class="col-md-12">
-                          <div
-                            class="alert alert-danger alert-dismissible fade show"
-                            role="alert"
-                            v-if="error"
-                          >
-                            <strong>Error!</strong> {{ error }}
-                            <button
-                              type="button"
-                              class="close"
-                              data-dismiss="alert"
-                              aria-label="Close"
-                            >
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                          </div>
-                        </div>
-                        <div class="col-md-12">
-                          <div
-                            class="alert alert-success alert-dismissible fade show"
-                            role="alert"
-                            v-if="message"
-                          >
-                            <strong>Success!</strong> {{ message }}
-                            <button
-                              type="button"
-                              class="close"
-                              data-dismiss="alert"
-                              aria-label="Close"
-                            >
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label>Employee <span class="text-danger">*</span></label>
-                        <select class="form-control" v-model="employeeId">
-                          <option>Select Staff</option>
-                          <option
-                            v-for="member in employees"
-                            :key="member.id"
-                            :value="member.id"
-                          >
-                            {{ member.lastName + " " + member.firstName }}
-                          </option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label
-                          >Leave Type <span class="text-danger">*</span></label
-                        >
-                        <select class="form-control" v-model="leaveType">
-                          <option>Select Leave Type</option>
-                          <option
-                            v-for="item in leaveTypes"
-                            :key="item.id"
-                            :value="item.id"
-                          >
-                            {{ item.name }}
-                          </option>
-                        </select>
-                      </div>
-                      <div class="form-group wrapper-class">
-                        <label>From <span class="text-danger">*</span></label>
-                        <div class="cal-icon">
-                          <datepicker
-                            v-model="fromDate"
-                            calendar-class
-                            input-class
-                            bootstrap-styling
-                            class="form-control datetimepicker"
-                            type="text"
-                          />
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label>To <span class="text-danger">*</span></label>
-                        <div class="cal-icon">
-                          <datepicker
-                            v-model="toDate"
-                            bootstrap-styling
-                            class="form-control datetimepicker"
-                            type="date"
-                          />
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label
-                          >Number of days
-                          <span class="text-danger">*</span></label
-                        >
-                        <input
-                          :value="this.getNoOfDaysInterval()"
-                          class="form-control"
-                          readonly
-                          type="text"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <label
-                          >Remaining Leaves
-                          <span class="text-danger">*</span></label
-                        >
-                        <input
-                          :value="this.getRemainingDays()"
-                          class="form-control"
-                          readonly
-                          type="text"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <label
-                          >Leave Reason <span class="text-danger">*</span></label
-                        >
-                        <textarea
-                          v-model="reason"
-                          rows="4"
-                          class="form-control"
-                        ></textarea>
-                      </div>
-                      <div class="submit-section">
-                        <button class="btn btn-primary submit-btn">Submit</button>
-                      </div>
-                    </form>
+                  <div class="form-group">
+                    <label>Employee <span class="text-danger">*</span></label>
+                    <select class="form-control" v-model="employeeId">
+                      <option>Select Staff</option>
+                      <option
+                        v-for="member in employees"
+                        :key="member.id"
+                        :value="member.id"
+                      >
+                        {{ member.lastName + " " + member.firstName }}
+                      </option>
+                    </select>
                   </div>
-                </div>
-              </v-dialog>
+                  <div class="form-group">
+                    <label>Leave Type <span class="text-danger">*</span></label>
+                    <select class="form-control" v-model="leaveType">
+                      <option>Select Leave Type</option>
+                      <option
+                        v-for="item in leaveTypes"
+                        :key="item.id"
+                        :value="item.id"
+                      >
+                        {{ item.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-group wrapper-class">
+                    <label>From <span class="text-danger">*</span></label>
+                    <div class="cal-icon">
+                      <datepicker
+                        v-model="fromDate"
+                        calendar-class
+                        input-class
+                        bootstrap-styling
+                        class="form-control datetimepicker"
+                        type="text"
+                      />
+                      <!-- <input class="form-control datetimepicker" type="text"> -->
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>To <span class="text-danger">*</span></label>
+                    <div class="cal-icon">
+                      <datepicker
+                        v-model="toDate"
+                        bootstrap-styling
+                        class="form-control datetimepicker"
+                        type="date"
+                      />
+                      <!-- <input class="form-control datetimepicker" type="text"> -->
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label
+                      >Number of days <span class="text-danger">*</span></label
+                    >
+                    <input
+                      :value="this.getNoOfDaysInterval()"
+                      class="form-control"
+                      readonly
+                      type="text"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label
+                      >Remaining Leaves
+                      <span class="text-danger">*</span></label
+                    >
+                    <input
+                      :value="this.getRemainingDays()"
+                      class="form-control"
+                      readonly
+                      type="text"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label
+                      >Leave Reason <span class="text-danger">*</span></label
+                    >
+                    <textarea
+                      v-model="reason"
+                      rows="4"
+                      class="form-control"
+                    ></textarea>
+                  </div>
+                  <div class="submit-section">
+                    <button class="btn btn-primary submit-btn">Submit</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </v-dialog>
           <!-- /Add Leave Modal -->
           <!-- Edit Leave Modal -->
           <v-dialog v-model="dialogEdit" max-width="725px">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">Edit Leave</h5>
-                  <button
-                    type="button"
-                    class="close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <form>
-                    <div class="row">
-                      <div class="col-md-12">
-                        <div
-                          class="alert alert-danger alert-dismissible fade show"
-                          role="alert"
-                          v-if="error"
-                        >
-                          <strong>Error!</strong> {{ error }}
-                          <button
-                            type="button"
-                            class="close"
-                            data-dismiss="alert"
-                            aria-label="Close"
-                          >
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                      </div>
-                      <div class="col-md-12">
-                        <div
-                          class="alert alert-success alert-dismissible fade show"
-                          role="alert"
-                          v-if="message"
-                        >
-                          <strong>Success!</strong> {{ message }}
-                          <button
-                            type="button"
-                            class="close"
-                            data-dismiss="alert"
-                            aria-label="Close"
-                          >
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label>Employee <span class="text-danger">*</span></label>
-                      <select class="form-control" v-model="employeeId">
-                        <option>Select Staff</option>
-                        <option
-                          v-for="member in employees"
-                          :key="member.id"
-                          :value="member.id"
-                        >
-                          {{ member.lastName }}
-                        </option>
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <label
-                        >Leave Type <span class="text-danger">*</span></label
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Edit Leave</h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div
+                        class="alert alert-danger alert-dismissible fade show"
+                        role="alert"
+                        v-if="error"
                       >
-                      <select class="form-control" v-model="leaveType">
-                        <option>Select Leave Type</option>
-                        <option
-                          v-for="item in leaveTypes"
-                          :key="item.id"
-                          :value="item.id"
+                        <strong>Error!</strong> {{ error }}
+                        <button
+                          type="button"
+                          class="close"
+                          data-dismiss="alert"
+                          aria-label="Close"
                         >
-                          {{ item.name }}
-                        </option>
-                        <!-- <option>Casual Leave 12 Days</option> -->
-                      </select>
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
                     </div>
-                    <div class="form-group">
+                    <div class="col-md-12">
+                      <div
+                        class="alert alert-success alert-dismissible fade show"
+                        role="alert"
+                        v-if="message"
+                      >
+                        <strong>Success!</strong> {{ message }}
+                        <button
+                          type="button"
+                          class="close"
+                          data-dismiss="alert"
+                          aria-label="Close"
+                        >
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Employee <span class="text-danger">*</span></label>
+                    <select class="form-control" v-model="employeeId">
+                      <option>Select Staff</option>
+                      <option
+                        v-for="member in employees"
+                        :key="member.id"
+                        :value="member.id"
+                      >
+                        {{ member.lastName }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Leave Type <span class="text-danger">*</span></label>
+                    <select class="form-control" v-model="leaveType">
+                      <option>Select Leave Type</option>
+                      <option
+                        v-for="item in leaveTypes"
+                        :key="item.id"
+                        :value="item.id"
+                      >
+                        {{ item.name }}
+                      </option>
+                      <!-- <option>Casual Leave 12 Days</option> -->
+                    </select>
+                  </div>
+                  <!-- <div class="form-group">
                       <label>From <span class="text-danger">*</span></label>
                       <div class="cal-icon">
-                        <datepicker
-                          v-model="employeeLeave.fromDate"
-                          bootstrap-styling
-                          class="form-control datetimepicker"
-                          type="date"
-                        />
+                        <input id="fromDate" class="form-control datetimepicker" 
+                          
+                          v-model="employeeLeave.fromDate" type="date">
                       </div>
-                    </div>
-                    <div class="form-group">
+                    </div> -->
+                  <!-- <div class="form-group">
                       <label>To <span class="text-danger">*</span></label>
                       <div class="cal-icon">
-                        <datepicker
-                          v-model="employeeLeave.toDate"
-                          bootstrap-styling
-                          class="form-control datetimepicker"
-                          type="date"
-                        />
+                        <input class="form-control datetimepicker" v-model="employeeLeave.toDate" type="text">
                       </div>
-                    </div>
-                    <div class="form-group">
-                      <label
-                        >Number of days
-                        <span class="text-danger">*</span></label
-                      >
-                      <input
-                        class="form-control"
-                        readonly
-                        type="text"
-                        :value="this.getNoOfDaysInterval()"
+                    </div> -->
+                  <div class="form-group">
+                    <label>From <span class="text-danger">*</span></label>
+                    <div class="cal-icon">
+                      <datepicker
+                        v-model="employeeLeave.fromDate"
+                        bootstrap-styling
+                        class="form-control datetimepicker"
+                        type="date"
                       />
+                      <!-- <input class="form-control datetimepicker" type="text"> -->
                     </div>
-                    <div class="form-group">
-                      <label
-                        >Remaining Leaves
-                        <span class="text-danger">*</span></label
-                      >
-                      <input
-                        class="form-control"
-                        readonly
-                        :value="this.getRemainingDays()"
-                        type="text"
+                  </div>
+                  <div class="form-group">
+                    <label>To <span class="text-danger">*</span></label>
+                    <div class="cal-icon">
+                      <datepicker
+                        v-model="employeeLeave.toDate"
+                        bootstrap-styling
+                        class="form-control datetimepicker"
+                        type="date"
                       />
+                      <!-- <input class="form-control datetimepicker" type="text"> -->
                     </div>
-                    <div class="form-group">
-                      <label
-                        >Leave Reason <span class="text-danger">*</span></label
-                      >
-                      <textarea
-                        rows="4"
-                        class="form-control"
-                        v-model="employeeLeave.reason"
-                      ></textarea>
-                    </div>
-                    <div class="submit-section">
-                      <button
-                        @click.prevent="updateLeave"
-                        class="btn btn-primary submit-btn"
-                        data-dismiss="modal"
-                      >
-                        Save
-                      </button>
-                    </div>
-                  </form>
-                </div>
+                  </div>
+                  <div class="form-group">
+                    <label
+                      >Number of days <span class="text-danger">*</span></label
+                    >
+                    <input
+                      class="form-control"
+                      readonly
+                      type="text"
+                      :value="this.getNoOfDaysInterval()"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label
+                      >Remaining Leaves
+                      <span class="text-danger">*</span></label
+                    >
+                    <input
+                      class="form-control"
+                      readonly
+                      :value="this.getRemainingDays()"
+                      type="text"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label
+                      >Leave Reason <span class="text-danger">*</span></label
+                    >
+                    <textarea
+                      rows="4"
+                      class="form-control"
+                      v-model="employeeLeave.reason"
+                    ></textarea>
+                  </div>
+                  <div class="submit-section">
+                    <button
+                      @click.prevent="updateLeave"
+                      class="btn btn-primary submit-btn"
+                      data-dismiss="modal"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </form>
               </div>
+            </div>
           </v-dialog>
           <!-- /Edit Leave Modal -->
           <!-- Approve Leave Modal -->
@@ -710,7 +722,12 @@ export default {
 
   methods: {
     clearModel() {
-      this.name = "";
+      this.employeeId = "";
+      this.reason = "";
+      this.daysInterval = "";
+      this.toDate = "";
+      this.fromDate = "";
+      this.leaveTypes = "";
     },
 
     close() {
@@ -730,13 +747,13 @@ export default {
       this.dialogDelete = false;
     },
 
-    setEditRank(model) {
-      this.leave = model;
+    setEditLeave(item) {
+      this.leave = item;
       this.dialogEdit = true;
     },
 
-    setDeleteRank(model) {
-      this.leave = model;
+    setDeleteLeave(item) {
+      this.leave = item;
       this.dialogDelete = true;
     },
 
@@ -775,6 +792,7 @@ export default {
           (id) => {
             employeeService.getEmployeeLeaves(this.company.id).then((o) => {
               this.employeeLeaves = o;
+              this.closeEdit();
             });
           },
           (error) => {
@@ -856,7 +874,7 @@ export default {
                 this.employeeLeaves = model;
                 //console.log(model[0])
                 this.message = "";
-                this.dialog=false;
+                this.close();
               }
               // error => { error = error }
             );
