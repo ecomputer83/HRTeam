@@ -171,104 +171,7 @@ m<template>
                     </h2>
                   </template>
                 </v-data-table>
-                <!-- <table class="table table-striped custom-table mb-0 datatable">
-                  <thead>
-                    <tr>
-                      <th>Employee</th>
-                      <th>Leave Type</th>
-                      <th>From</th>
-                      <th>To</th>
-                      <th>No of Days</th>
-                      <th>Reason</th>
-                      <th class="text-center">Status</th>
-                      <th class="text-right">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="item in employeeLeaves" v-bind:key="item.id">
-                      <td>
-                        <h2 class="table-avatar">
-                          <router-link to="/profile" class="avatar"
-                            ><img
-                              alt=""
-                              src="../assets/profiles/avatar-09.jpg"
-                            />
-                          </router-link>
-                          <a href="#">{{
-                            `${item.employee.firstName} ${item.employee.lastName}`
-                          }}</a>
-                        </h2>
-                      </td>
-                      <td>{{ item.leaveType.name }}</td>
-                      <td>{{ item.fromDate }}</td>
-                      <td>{{ item.toDate }}</td>
-                      <td>{{ item.days }} days</td>
-                      <td>{{ item.reason }}</td>
-                      <td class="text-center">
-                        <div class="dropdown action-label">
-                          <a
-                            class="btn btn-white btn-sm btn-rounded dropdown-toggle"
-                            href="#"
-                            data-toggle="dropdown"
-                            aria-expanded="false"
-                          >
-                            <i class="fa fa-dot-circle-o text-purple"></i> New
-                          </a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" value="0" href="#"
-                              ><i class="fa fa-dot-circle-o text-purple"></i>
-                              New</a
-                            >
-                            <a class="dropdown-item" value="1" href="#"
-                              ><i class="fa fa-dot-circle-o text-info"></i>
-                              Pending</a
-                            >
-                            <a
-                              class="dropdown-item"
-                              value="2"
-                              href="#"
-                              data-toggle="modal"
-                              data-target="#approve_leave"
-                              ><i class="fa fa-dot-circle-o text-success"></i>
-                              Approved</a
-                            >
-                            <a class="dropdown-item" value="3" href="#"
-                              ><i class="fa fa-dot-circle-o text-danger"></i>
-                              Declined</a
-                            >
-                          </div>
-                        </div>
-                      </td>
-                      <td class="text-right">
-                        <div class="dropdown dropdown-action">
-                          <a
-                            href="#"
-                            class="action-icon dropdown-toggle"
-                            data-toggle="dropdown"
-                            aria-expanded="false"
-                            ><i class="material-icons">more_vert</i></a
-                          >
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a
-                              class="dropdown-item"
-                              @click="setEditLeave(item)"
-                              data-toggle="modal"
-                              data-target="#edit_leave"
-                              ><i class="fa fa-pencil m-r-5"></i> Edit</a
-                            >
-                            <a
-                              class="dropdown-item"
-                              @click="setLeave(item)"
-                              data-toggle="modal"
-                              data-target="#delete_approve"
-                              ><i class="fa fa-trash-o m-r-5"></i> Delete</a
-                            >
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table> -->
+               
               </div>
             </div>
           </div>
@@ -415,21 +318,16 @@ m<template>
           </v-dialog>
           <!-- /Add Leave Modal -->
           <!-- Edit Leave Modal -->
-          <v-dialog v-model="dialogEdit" max-width="725px">
+         <v-dialog v-model="dialogEdit" max-width="725px">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">Edit Leave</h5>
-                <button
-                  type="button"
-                  class="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
+                <button type="button" @click="closeEdit">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
-                <form>
+                <form @submit.prevent="updateLeave">
                   <div class="row">
                     <div class="col-md-12">
                       <div
@@ -468,20 +366,20 @@ m<template>
                   </div>
                   <div class="form-group">
                     <label>Employee <span class="text-danger">*</span></label>
-                    <select class="form-control" v-model="employeeId">
+                    <select class="form-control" v-model="leave.employeeId">
                       <option>Select Staff</option>
                       <option
                         v-for="member in employees"
                         :key="member.id"
                         :value="member.id"
                       >
-                        {{ member.lastName }}
+                        {{ member.lastName + " " + member.firstName }}
                       </option>
                     </select>
                   </div>
                   <div class="form-group">
                     <label>Leave Type <span class="text-danger">*</span></label>
-                    <select class="form-control" v-model="leaveType">
+                    <select class="form-control" v-model="leave.leaveTypeId">
                       <option>Select Leave Type</option>
                       <option
                         v-for="item in leaveTypes"
@@ -490,31 +388,18 @@ m<template>
                       >
                         {{ item.name }}
                       </option>
-                      <!-- <option>Casual Leave 12 Days</option> -->
                     </select>
                   </div>
-                  <!-- <div class="form-group">
-                      <label>From <span class="text-danger">*</span></label>
-                      <div class="cal-icon">
-                        <input id="fromDate" class="form-control datetimepicker" 
-                          
-                          v-model="employeeLeave.fromDate" type="date">
-                      </div>
-                    </div> -->
-                  <!-- <div class="form-group">
-                      <label>To <span class="text-danger">*</span></label>
-                      <div class="cal-icon">
-                        <input class="form-control datetimepicker" v-model="employeeLeave.toDate" type="text">
-                      </div>
-                    </div> -->
-                  <div class="form-group">
+                  <div class="form-group wrapper-class">
                     <label>From <span class="text-danger">*</span></label>
                     <div class="cal-icon">
                       <datepicker
-                        v-model="employeeLeave.fromDate"
+                        v-model="leave.fromDate"
+                        calendar-class
+                        input-class
                         bootstrap-styling
                         class="form-control datetimepicker"
-                        type="date"
+                        type="text"
                       />
                       <!-- <input class="form-control datetimepicker" type="text"> -->
                     </div>
@@ -523,7 +408,7 @@ m<template>
                     <label>To <span class="text-danger">*</span></label>
                     <div class="cal-icon">
                       <datepicker
-                        v-model="employeeLeave.toDate"
+                        v-model="leave.toDate"
                         bootstrap-styling
                         class="form-control datetimepicker"
                         type="date"
@@ -536,10 +421,10 @@ m<template>
                       >Number of days <span class="text-danger">*</span></label
                     >
                     <input
+                      :value="this.getNoOfDaysIntervalEdit()"
                       class="form-control"
                       readonly
                       type="text"
-                      :value="this.getNoOfDaysInterval()"
                     />
                   </div>
                   <div class="form-group">
@@ -548,9 +433,9 @@ m<template>
                       <span class="text-danger">*</span></label
                     >
                     <input
+                      :value="this.getRemainingDaysEdit()"
                       class="form-control"
                       readonly
-                      :value="this.getRemainingDays()"
                       type="text"
                     />
                   </div>
@@ -559,19 +444,13 @@ m<template>
                       >Leave Reason <span class="text-danger">*</span></label
                     >
                     <textarea
+                      v-model="leave.reason"
                       rows="4"
                       class="form-control"
-                      v-model="employeeLeave.reason"
                     ></textarea>
                   </div>
                   <div class="submit-section">
-                    <button
-                      @click.prevent="updateLeave"
-                      class="btn btn-primary submit-btn"
-                      data-dismiss="modal"
-                    >
-                      Save
-                    </button>
+                    <button class="btn btn-primary submit-btn">Submit</button>
                   </div>
                 </form>
               </div>
@@ -680,7 +559,7 @@ export default {
           align: 'start',
           value: 'profile',
         },
-        { text: 'LeaveType', value: 'employeeLeave.leaveType.name' },
+        { text: 'LeaveType', value: 'leaveType.name' },
         { text: 'From', value: 'fromDate' },
         { text: 'To', value: 'toDate' },
         { text: 'No of Days', value: '' },
@@ -689,7 +568,7 @@ export default {
         { text: 'Action', value: 'actions', sortable: false },
       ],
       leaveType: {},
-      leave: null,
+      leave: {},
       employeeLeaves: [],
       employeeLeave: {},
       leaves: [],
@@ -750,6 +629,7 @@ export default {
     setEditLeave(item) {
       this.leave = item;
       this.dialogEdit = true;
+      console.log(`item`, item)
     },
 
     setDeleteLeave(item) {
@@ -776,17 +656,17 @@ export default {
     },
     updateLeave() {
       this.submitted = true;
-      const id = this.employeeLeave.id;
+      const id = this.leave.id;
       this.loading = true;
       employeeService
         .updateEmployeeLeave(
           id,
           this.company.id,
-          this.employeeId,
-          this.employeeLeave.fromDate,
-          this.employeeLeave.toDate,
-          this.employeeLeave.reason,
-          this.leaveType
+          this.leave.employeeId,
+          this.leave.fromDate,
+          this.leave.toDate,
+          this.leave.reason,
+          this.leave.leaveTypeId
         )
         .then(
           (id) => {
@@ -840,8 +720,19 @@ export default {
       const b = a / (1000 * 60 * 60 * 24);
       return b + 1;
     },
+    getNoOfDaysIntervalEdit() {
+      const a =
+        new Date(this.leave.toDate).getTime() - new Date(this.leave.fromDate).getTime();
+      const b = a / (1000 * 60 * 60 * 24);
+      return b + 1;
+    },
     getRemainingDays() {
       const a = new Date(this.toDate).getTime() - new Date().getTime();
+      const b = a / (1000 * 60 * 60 * 24);
+      return Math.floor(b + 1);
+    },
+    getRemainingDaysEdit() {
+      const a = new Date(this.leave.toDate).getTime() - new Date().getTime();
       const b = a / (1000 * 60 * 60 * 24);
       return Math.floor(b + 1);
     },
