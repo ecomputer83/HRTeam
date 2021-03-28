@@ -34,36 +34,36 @@
             <div class="col-md-12">
               <div class="table-responsive">
                 <v-data-table
-                                      :headers="headers"
-                                      :items="resignations"
-                                      sort-by="firstName"
-                                      class="elevation-1"
-                                      >
+                  :headers="headers"
+                  :items="resignations"
+                  sort-by="firstName"
+                  class="elevation-1"
+                >
 
-      <template v-slot:[`item.actions`]="{ item }">
+              <template v-slot:[`item.actions`]="{ item }">
         
-        <div class="dropdown dropdown-action">
-                          <a
-                            href="#"
-                            class="action-icon dropdown-toggle"
-                            data-toggle="dropdown"
-                            aria-expanded="false"
-                            ><i class="material-icons">more_vert</i></a
-                          >
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a
-                              class="dropdown-item"
-                              @click="setEditResignation(item)"
-                              ><i class="fa fa-pencil m-r-5"></i> Edit</a
-                            >
-                            <a
-                              class="dropdown-item"
-                              @click="setDeleteResignation(item)"
-                              ><i class="fa fa-trash-o m-r-5"></i> Delete</a
-                            >
-                          </div>
-                        </div>
-      </template>
+                <div class="dropdown dropdown-action">
+                  <a
+                    href="#"
+                    class="action-icon dropdown-toggle"
+                    data-toggle="dropdown"
+                    aria-expanded="false"
+                    ><i class="material-icons">more_vert</i></a
+                  >
+                  <div class="dropdown-menu dropdown-menu-right">
+                    <a
+                      class="dropdown-item"
+                      @click="setEditResignation(item)"
+                      ><i class="fa fa-pencil m-r-5"></i> Edit</a
+                    >
+                    <a
+                      class="dropdown-item"
+                      @click="setDeleteResignation(item)"
+                      ><i class="fa fa-trash-o m-r-5"></i> Delete</a
+                    >
+                  </div>
+                </div>
+              </template>
       <template v-slot:[`item.profile`]="{ item }">
         <h2 class="table-avatar blue-link">
                           <router-link to="/profile" class="avatar"

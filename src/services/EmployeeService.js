@@ -369,7 +369,7 @@ function getEmployeeLeaves(companyId) {
 
 
 function removeEmployee(employeeId) {
-
+    console.log(employeeId)
     return fetch(`${config.apiurl}/employee/DeleteEmployee/${employeeId}`, requestOptions.delete())
         .then(handleResponse)
         .then(model => {

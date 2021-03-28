@@ -482,7 +482,7 @@
                   id => {
                       employeeService.GetEmployees()
                         .then(
-                          model => {employee = model}
+                          model => {employees = model}
                         )
 					},
                     error => {

@@ -21,10 +21,8 @@
               </div>
               <div class="col-auto float-right ml-auto">
                 <a
-                  href="#"
+                  @click="openDialog"
                   class="btn add-btn"
-                  data-toggle="modal"
-                  data-target="#add_promotion"
                   ><i class="fa fa-plus"></i> Add Promotion</a
                 >
               </div>
@@ -35,7 +33,48 @@
           <div class="row">
             <div class="col-md-12">
               <div class="table-responsive">
-                <table class="table table-striped custom-table dt-responsive">
+                <v-data-table
+                  :headers="headers"
+                  :items="promotions"
+                  sort-by=""
+                  class="elevation-1"
+                >
+
+                <template v-slot:[`item.actions`]="{ item }">
+                  <div class="dropdown dropdown-action">
+                    <a
+                      href="#"
+                      class="action-icon dropdown-toggle"
+                      data-toggle="dropdown"
+                      aria-expanded="false"
+                      ><i class="material-icons">more_vert</i></a
+                    >
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <a
+                        class="dropdown-item"
+                        @click="setEditPromotion(item)"
+                        ><i class="fa fa-pencil m-r-5"></i> Edit</a
+                      >
+                      <a
+                        class="dropdown-item"
+                        @click="setDeletePromotion(item)"
+                        ><i class="fa fa-trash-o m-r-5"></i> Delete</a
+                      >
+                    </div>
+                  </div>
+              </template>
+              <template v-slot:[`item.profile`]="{ item }">
+                <h2 class="table-avatar blue-link">
+                  <router-link to="/profile" class="avatar"
+                    ><img alt="" src="../assets/profiles/avatar-02.jpg"
+                  /></router-link>
+                  <router-link to="/profile">{{
+                    `${item.employee.firstName} ${item.employee.lastName}`
+                  }}</router-link>
+                </h2>
+              </template>
+            </v-data-table>
+                <!-- <table class="table table-striped custom-table dt-responsive">
                   <thead>
                     <tr>
                       <th>Promoted Employee</th>
@@ -94,7 +133,7 @@
                       </td>
                     </tr>
                   </tbody>
-                </table>
+                </table> -->
               </div>
             </div>
           </div>
@@ -103,16 +142,19 @@
         <!-- /Page Content -->
 
         <!-- Add Promotion Modal -->
-        <div id="add_promotion" class="modal custom-modal fade" role="dialog">
-          <div class="modal-dialog modal-dialog-centered" role="document">
+        <v-dialog v-model="dialog" max-width="725px"
+          >
+        <!-- <div id="add_promotion" class="modal custom-modal fade" role="dialog">
+          <div class="modal-dialog modal-dialog-centered" role="document"> -->
+
+
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">Add Promotion</h5>
                 <button
                   type="button"
                   class="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
+                  @click="close"
                 >
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -189,13 +231,21 @@
                 </form>
               </div>
             </div>
-          </div>
-        </div>
+
+            
+          <!-- </div>
+        </div> -->
+
+        </v-dialog>
         <!-- /Add Promotion Modal -->
 
         <!-- Edit Promotion Modal -->
-        <div id="edit_promotion" class="modal custom-modal fade" role="dialog">
-          <div class="modal-dialog modal-dialog-centered" role="document">
+        <v-dialog v-model="dialogEdit" max-width="725px"
+          >
+
+        <!-- <div id="edit_promotion" class="modal custom-modal fade" role="dialog">
+          <div class="modal-dialog modal-dialog-centered" role="document"> -->
+
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">Edit Promotion</h5>
@@ -242,7 +292,15 @@
                       >Promotion Date <span class="text-danger">*</span></label
                     >
                     <div class="cal-icon">
-                      <input type="text" class="form-control datetimepicker" />
+                      <!-- <input type="text" class="form-control datetimepicker" /> -->
+                      <datepicker 
+                        v-model="date" 
+                        calendar-class 
+                        input-class 
+                        bootstrap-styling 
+                        class="form-control datetimepicker" 
+                        type="text" 
+                      />
                     </div>
                   </div>
                   <div class="submit-section">
@@ -251,8 +309,12 @@
                 </form>
               </div>
             </div>
-          </div>
-        </div>
+
+            
+          <!-- </div>
+        </div> -->
+
+        </v-dialog>
         <!-- /Edit Promotion Modal -->
 
         <!-- Delete Promotion Modal -->
@@ -316,6 +378,21 @@ export default {
 
   data() {
     return {
+      dialog: false,
+      dialogEdit: false,
+      dialogDelete: false,
+      headers: [
+      {
+        text: 'Promoted Employee',
+        align: 'start',
+        value: 'profile',
+      },
+      { text: 'Department', value: 'employee.designationId' },
+      { text: 'Promotion Designation From', value: 'from' },
+      { text: 'Promotion Designation To', value: 'to' },
+      { text: 'Promotion Date', value: 'date' },
+      { text: 'Action', value: 'actions', sortable: false },
+    ],
       from: 0,
       to: 0,
       date: "",
@@ -328,7 +405,7 @@ export default {
       loading: false,
       error: "",
       fro: "",
-      employee: [],
+      employee: {},
       employees: [],
       designation: [],
       designations: [],
@@ -337,6 +414,13 @@ export default {
   },
 
   methods: {
+    openDialog(){
+      this.dialog = true
+    },
+    close() {
+      this.dialog = false;
+      //this.clearModel();
+    },
     getEmployees() {
       const companyId = this.company.id;
       employeeService.getEmployees(companyId).then(
@@ -361,7 +445,7 @@ export default {
         }
       );
     },
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
     setPromotion(item) {
       this.promotions = item;
       console.log(`item`, item)
@@ -372,6 +456,7 @@ export default {
       employeeService.getEmployeePromotion(companyId).then(
         (model) => {
           this.promotions = model;
+          console.log(`modelP`, model)
         },
         (error) => {
           error = error;
