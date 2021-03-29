@@ -27,7 +27,7 @@
 								<div class="card">
                   <div class="card-header">
                     <div class="d-flex justify-content-between">
-                      <h4 class="card-title  mb-0">Account Manager</h4>
+                      <h4 class="card-title  mb-0">{{title}}</h4>
                     <div class="col-auto float-right ml-auto">
                       <button class="btn btn-primary submit-btn" type="submit" :disabled="loading">Save</button>
                     </div>
@@ -344,8 +344,9 @@
     },
     data() {
       return {
-        profileId: (this.$route.params) ? this.$route.params.id: 0,
+        profileId: (this.$route.params.id) ? this.$route.params.id: 0,
         company: authenticationService.currentOfficeValue,
+        title: (this.$route.params.id) ? '' : 'New Job Profile',
         profile: {
           id: 0,
           rankId: 0,
@@ -460,13 +461,14 @@
       onSubmit() {
         this.submitted = true;
             console.log("onSubmit")
-            // stop here if form is invalid
-            this.$v.$touch();
-            if (this.$v.$invalid) {
-                return;
+            if(!this.profile.educationRequirement){
+              this.error = "Education requirement is required, Please click on Detail tab";
+              return 
             }
+            // stop here if form is invalid
+            
 
-            if(this.$route.params){
+            if(this.$route.params.id){
 
               jobService.updateJobProfile(this.profile.id, this.professionId, this.profile.rankId, this.profile.departmentId, this.profile.title, this.profile.experience,
                 this.profile.description, parseInt(this.profile.salaryMin), parseInt(this.profile.salaryMax), parseInt(this.profile.averageSalary), this.profile.educationRequirement, this.profile.educationDegree, this.profile.status)
@@ -475,6 +477,11 @@
               },
               error => { this.error = error})
             }else{
+            
+            this.$v.$touch();
+            if (this.$v.$invalid) {
+                return;
+            }
             
               jobService.addJobProfile(this.company.id, this.profile.rankId, this.profile.departmentId, this.profile.title, this.profile.experience,
                 this.profile.description, parseInt(this.profile.salaryMin), parseInt(this.profile.salaryMax), parseInt(this.profile.averageSalary), this.profile.educationRequirement, this.profile.educationDegree)
@@ -487,7 +494,7 @@
       },
 
       getSkillLevels () {
-        if(this.$route.params) {
+        if(this.$route.params.id) {
           jobService.getJobSkillLevels(this.$route.params.id)
             .then( m => {
               this.skillLevels = m
@@ -506,7 +513,7 @@
       },
 
       getProfile() {
-        if(this.$route.params) {
+        if(this.$route.params.id) {
           jobService.getJobProfile(this.$route.params.id)
             .then ( m => {
                 
@@ -514,6 +521,7 @@
                   this.profile = m
                   jobService.getJobProfession(this.$route.params.id)
                   .then( p => {
+                    this.title = p.title
                     this.professionId = p.id,
                     this.profile.educationRequirement = p.educationRequirement,
                     this.profile.educationDegree = p.educationDegree

@@ -59,7 +59,45 @@
                       id="solid-rounded-justified-tab1"
                     >
                       <div class="table-responsive">
-                        <table class="datatable table table-stripped mb-0">
+
+                  <v-data-table
+                    :headers="headers"
+                    :items="activeprofiles"
+                    sort-by="firstName"
+                    class="elevation-1"
+                  >
+                    <template v-slot:[`item.actions`]="{ item }">
+                      <div class="dropdown dropdown-action">
+                        <a
+                          href="#"
+                          class="action-icon dropdown-toggle"
+                          data-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <i class="material-icons"
+                          >more_vert</i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <router-link
+                            :to="{
+                              name: 'jobprofileinfo',
+                              params: { id: item.id },
+                            }"
+                            class="dropdown-item"
+                            ><i class="fa fa-pencil m-r-5"></i> Edit</router-link
+                          >
+                          <a
+                            class="dropdown-item"
+                            @click="setDeleteProfile(item)"
+                            ><i class="fa fa-trash-o m-r-5"></i> Delete</a
+                          >
+                        </div>
+                        </div>
+                    </template>
+                    
+                  </v-data-table>
+
+                        <!-- <table class="datatable table table-stripped mb-0">
                           <thead>
                             <tr>
                               <th>Name</th>
@@ -121,7 +159,8 @@
                               </td>
                             </tr>
                           </tbody>
-                        </table>
+                        </table> -->
+                        
                       </div>
                     </div>
                     <div class="tab-pane" id="solid-rounded-justified-tab2">
@@ -170,16 +209,13 @@
                                         params: { id: model.id },
                                       }"
                                       class="dropdown-item"
-                                      data-toggle="modal"
-                                      data-target="#edit_employee"
                                       ><i class="fa fa-pencil m-r-5"></i>
                                       Edit</router-link
                                     >
                                     <a
                                       class="dropdown-item"
                                       href="#"
-                                      data-toggle="modal"
-                                      data-target="#delete_employee"
+                                      @click="setDeleteProfile(item)"
                                       ><i class="fa fa-trash-o m-r-5"></i>
                                       Delete</a
                                     >
@@ -198,6 +234,38 @@
           </div>
           <!-- /Page Content -->
         </div>
+        <v-dialog v-model="dialog" max-width="725px"
+          >
+            <div class="modal-content">
+              <div class="modal-body">
+                <div class="form-header">
+                  <h3>Delete Job Profile</h3>
+                  <p>Are you sure want to delete?</p>
+                </div>
+                <div class="modal-btn delete-action">
+                  <div class="row">
+                    <div class="col-6">
+                      <a
+                        @click.prevent="deleteJobProfile"
+                        class="btn btn-primary continue-btn"
+                        data-dismiss="modal"
+                        >Delete</a
+                      >
+                    </div>
+                    <div class="col-6">
+                      <a
+                        href="javascript:void(0);"
+                        data-dismiss="modal"
+                        class="btn btn-primary cancel-btn"
+                        >Cancel</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+        </v-dialog>
       </div>
       <!-- /Page Wrapper -->
     </div>
@@ -216,9 +284,21 @@ export default {
   },
   data() {
     return {
+      dialog: false,
       activeprofiles: [],
+      activeprofile: {},
       inactiveprofiles: [],
       currentOffice: authenticationService.currentOfficeValue,
+      headers: [
+      {
+        text: 'Name',
+        align: 'start',
+        value: 'title',
+      },
+      { text: 'Job Level', value: 'rank.rankName' },
+      { text: 'Department', value: 'department.name' },
+      { text: '', value: 'actions', sortable: false },
+    ],
     };
   },
   mounted() {
@@ -242,12 +322,37 @@ export default {
     }
   },
   methods: {
+
     getProfiles() {
       jobService.getJobProfiles(this.currentOffice.id).then((p) => {
         this.activeprofiles = p.filter((c) => c.status == 1);
         this.inactiveprofiles = p.filter((c) => c.status == 0);
       });
     },
+    setEditProfile(model) {
+      this.activeprofile = model;
+      this.dialogEdit = true
+    },
+    setDeleteProfile(model) {
+      this.dialog = true,
+      this.activeprofile = model;
+    },
+    closeDelete() {
+      this.dialog = false
+    },
+    deleteJobProfile() {
+      const id = this.activeprofile.id;
+      //console.log(this.activeprofile)
+      //console.log(`id`, id)
+      jobService.removeJobProfiles(id)
+          .then(id => {
+            jobService.getJobProfiles(this.currentOffice.id).then((p) => {
+              this.activeprofiles = p.filter((c) => c.status == 1);
+              this.inactiveprofiles = p.filter((c) => c.status == 0);
+              this.closeDelete()
+            });
+          })
+    }
   },
   name: "jobprofile",
 };

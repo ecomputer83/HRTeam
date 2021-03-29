@@ -23,7 +23,7 @@
           <!-- /Page Header -->
 
           <div class="row">
-            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+            <!-- <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
               <div class="card dash-widget">
                 <div class="card-body">
                   <span class="dash-widget-icon"><i class="fa fa-cubes"></i></span>
@@ -55,8 +55,8 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+            </div> -->
+            <div class="col-md-4 col-sm-4 col-lg-4 col-xl-4">
               <div class="card dash-widget">
                 <div class="card-body">
                   <span class="dash-widget-icon"><i class="fa fa-user"></i></span>
@@ -67,9 +67,51 @@
                 </div>
               </div>
             </div>
+
+            <div class="col-md-4 col-sm-4 col-lg-4 col-xl-4">
+            <div class="card">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between mb-3">
+                      <div>
+                        <span class="d-block">Earnings</span>
+                      </div>
+                      <div>
+                        <span class="text-success">+12.5%</span>
+                      </div>
+                    </div>
+                    <h3 class="mb-3">#1,42,300</h3>
+                    <div class="progress mb-2" style="height: 5px;">
+                      <div class="progress-bar bg-primary" role="progressbar" style="width: 70%;" aria-valuenow="40"
+                        aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <!-- <p class="mb-0">Previous Month <span class="text-muted">#1,15,852</span></p> -->
+                  </div>
+                </div>
+              </div>
+
+                <div class="col-md-4 col-sm-4 col-lg-4 col-xl-4">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between mb-3">
+                      <div>
+                        <span class="d-block">Expenses</span>
+                      </div>
+                      <div>
+                        <span class="text-danger">-2.8%</span>
+                      </div>
+                    </div>
+                    <h3 class="mb-3">#8,500</h3>
+                    <div class="progress mb-2" style="height: 5px;">
+                      <div class="progress-bar bg-primary" role="progressbar" style="width: 70%;" aria-valuenow="40"
+                        aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <!-- <p class="mb-0">Previous Month <span class="text-muted">#7,500</span></p> -->
+                  </div>
+                </div>
+                </div>
           </div>
 
-          <div class="row">
+          <!-- <div class="row">
             <div class="col-md-12">
               <div class="row">
                 <div class="col-md-6 text-center">
@@ -90,9 +132,9 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
 
-          <div class="row">
+          <!-- <div class="row">
             <div class="col-md-12">
               <div class="card-group m-b-30">
                 <div class="card">
@@ -124,12 +166,12 @@
                         <span class="text-success">+12.5%</span>
                       </div>
                     </div>
-                    <h3 class="mb-3">$1,42,300</h3>
+                    <h3 class="mb-3">#1,42,300</h3>
                     <div class="progress mb-2" style="height: 5px;">
                       <div class="progress-bar bg-primary" role="progressbar" style="width: 70%;" aria-valuenow="40"
                         aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
-                    <p class="mb-0">Previous Month <span class="text-muted">$1,15,852</span></p>
+                    <p class="mb-0">Previous Month <span class="text-muted">#1,15,852</span></p>
                   </div>
                 </div>
 
@@ -143,12 +185,12 @@
                         <span class="text-danger">-2.8%</span>
                       </div>
                     </div>
-                    <h3 class="mb-3">$8,500</h3>
+                    <h3 class="mb-3">#8,500</h3>
                     <div class="progress mb-2" style="height: 5px;">
                       <div class="progress-bar bg-primary" role="progressbar" style="width: 70%;" aria-valuenow="40"
                         aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
-                    <p class="mb-0">Previous Month <span class="text-muted">$7,500</span></p>
+                    <p class="mb-0">Previous Month <span class="text-muted">#7,500</span></p>
                   </div>
                 </div>
 
@@ -162,21 +204,21 @@
                         <span class="text-danger">-75%</span>
                       </div>
                     </div>
-                    <h3 class="mb-3">$1,12,000</h3>
+                    <h3 class="mb-3">#1,12,000</h3>
                     <div class="progress mb-2" style="height: 5px;">
                       <div class="progress-bar bg-primary" role="progressbar" style="width: 70%;" aria-valuenow="40"
                         aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
-                    <p class="mb-0">Previous Month <span class="text-muted">$1,42,000</span></p>
+                    <p class="mb-0">Previous Month <span class="text-muted">#1,42,000</span></p>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <!-- Statistics Widget -->
           <div class="row">
-            <div class="col-md-12 col-lg-12 col-xl-4 d-flex">
+            <!-- <div class="col-md-12 col-lg-12 col-xl-4 d-flex">
               <div class="card flex-fill dash-statistics">
                 <div class="card-body">
                   <h5 class="card-title">Statistics</h5>
@@ -219,7 +261,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <div class="col-md-12 col-lg-6 col-xl-4 d-flex">
               <div class="card flex-fill">
@@ -320,7 +362,7 @@
             <div class="col-md-6 d-flex">
               <div class="card card-table flex-fill">
                 <div class="card-header">
-                  <h3 class="card-title mb-0">Invoices</h3>
+                  <h3 class="card-title mb-0">Payslip</h3>
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
@@ -343,7 +385,7 @@
                             <h2><a href="#">Global Technologies</a></h2>
                           </td>
                           <td>11 Mar 2019</td>
-                          <td>$380</td>
+                          <td>#380</td>
                           <td>
                             <span class="badge bg-inverse-warning">Partially Paid</span>
                           </td>
@@ -356,7 +398,7 @@
                             <h2><a href="#">Delta Infotech</a></h2>
                           </td>
                           <td>8 Feb 2019</td>
-                          <td>$500</td>
+                          <td>#500</td>
                           <td>
                             <span class="badge bg-inverse-success">Paid</span>
                           </td>
@@ -369,7 +411,7 @@
                             <h2><a href="#">Cream Inc</a></h2>
                           </td>
                           <td>23 Jan 2019</td>
-                          <td>$60</td>
+                          <td>#60</td>
                           <td>
                             <span class="badge bg-inverse-danger">Unpaid</span>
                           </td>
@@ -386,7 +428,7 @@
             <div class="col-md-6 d-flex">
               <div class="card card-table flex-fill">
                 <div class="card-header">
-                  <h3 class="card-title mb-0">Payments</h3>
+                  <h3 class="card-title mb-0">Salary Payments</h3>
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
@@ -411,7 +453,7 @@
                           </td>
                           <td>Paypal</td>
                           <td>11 Mar 2019</td>
-                          <td>$380</td>
+                          <td>#380</td>
                         </tr>
                         <tr>
                           <td>
@@ -422,7 +464,7 @@
                           </td>
                           <td>Paypal</td>
                           <td>8 Feb 2019</td>
-                          <td>$500</td>
+                          <td>#500</td>
                         </tr>
                         <tr>
                           <td>
@@ -433,7 +475,7 @@
                           </td>
                           <td>Paypal</td>
                           <td>23 Jan 2019</td>
-                          <td>$60</td>
+                          <td>#60</td>
                         </tr>
                       </tbody>
                     </table>
@@ -446,7 +488,7 @@
             </div>
           </div>
 
-          <div class="row">
+          <!-- <div class="row">
             <div class="col-md-6 d-flex">
               <div class="card card-table flex-fill">
                 <div class="card-header">
@@ -821,7 +863,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
 
         </div>
         <!-- /Page Content -->

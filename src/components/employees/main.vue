@@ -476,7 +476,7 @@
     },
 
     removeEmployee(){
-          if(this.employee){
+        //   if(this.employee){
               employeeService.removeEmployee(this.employee.id)
               .then(
                   id => {
@@ -489,7 +489,7 @@
                         this.error = error;
                     }
               )
-          }
+        //   }
     },
 
     setEditEmployee(model) {

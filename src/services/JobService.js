@@ -17,7 +17,8 @@ export const jobService = {
     getVancancies,
     getVancanciesByOrg,
     getVancancyById,
-    getVacancySummaries
+    getVacancySummaries,
+    removeJobProfiles
 }
 
 function addJobProfile(companyId, rankId, departmentId, title, experience, description, salaryMin, salaryMax, averageSalary, educationRequirement, educationDegree) {
@@ -152,4 +153,14 @@ function getJobProfiles(id) {
     return fetch(`${config.apiurl}/Job/GetJobProfiles?Id=${id}`, requestOptions.get())
                 .then(handleResponse)
                 .then( model => { return model })
+}
+
+function removeJobProfiles(id) {
+
+    return fetch(`${config.apiurl}/Job?Id=${id}`, requestOptions.delete())
+        .then(handleResponse)
+        .then(model => {
+            return model
+        });
+
 }

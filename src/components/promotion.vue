@@ -33,35 +33,37 @@
           <div class="row">
             <div class="col-md-12">
               <div class="table-responsive">
-                <v-data-table
+               
+                   <v-data-table
                   :headers="headers"
                   :items="promotions"
                   sort-by=""
                   class="elevation-1"
                 >
 
-                <template v-slot:[`item.actions`]="{ item }">
-                  <div class="dropdown dropdown-action">
+              <template v-slot:[`item.actions`]="{ item }">
+        
+                <div class="dropdown dropdown-action">
+                  <a
+                    href="#"
+                    class="action-icon dropdown-toggle"
+                    data-toggle="dropdown"
+                    aria-expanded="false"
+                    ><i class="material-icons">more_vert</i></a
+                  >
+                  <div class="dropdown-menu dropdown-menu-right">
                     <a
-                      href="#"
-                      class="action-icon dropdown-toggle"
-                      data-toggle="dropdown"
-                      aria-expanded="false"
-                      ><i class="material-icons">more_vert</i></a
+                      class="dropdown-item"
+                      @click="setEditPromotion(item)"
+                      ><i class="fa fa-pencil m-r-5"></i> Edit</a
                     >
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <a
-                        class="dropdown-item"
-                        @click="setEditPromotion(item)"
-                        ><i class="fa fa-pencil m-r-5"></i> Edit</a
-                      >
-                      <a
-                        class="dropdown-item"
-                        @click="setDeletePromotion(item)"
-                        ><i class="fa fa-trash-o m-r-5"></i> Delete</a
-                      >
-                    </div>
+                    <a
+                      class="dropdown-item"
+                      @click="setDeletePromotion(item)"
+                      ><i class="fa fa-trash-o m-r-5"></i> Delete</a
+                    >
                   </div>
+                </div>
               </template>
               <template v-slot:[`item.profile`]="{ item }">
                 <h2 class="table-avatar blue-link">
@@ -74,6 +76,7 @@
                 </h2>
               </template>
             </v-data-table>
+
                 <!-- <table class="table table-striped custom-table dt-responsive">
                   <thead>
                     <tr>
@@ -387,7 +390,7 @@ export default {
         align: 'start',
         value: 'profile',
       },
-      { text: 'Department', value: 'employee.designationId' },
+      { text: 'Department', value: '' },
       { text: 'Promotion Designation From', value: 'from' },
       { text: 'Promotion Designation To', value: 'to' },
       { text: 'Promotion Date', value: 'date' },
@@ -400,7 +403,7 @@ export default {
       designationId: "",
       designationIdd: "",
       promotions: [],
-      promotion: null,
+      promotion:{},
       submitted: false,
       loading: false,
       error: "",
@@ -426,7 +429,7 @@ export default {
       employeeService.getEmployees(companyId).then(
         (model) => {
           this.employees = model;
-          console.log(model);
+          //console.log(model);
         },
         (error) => {
           error = error;
@@ -438,7 +441,7 @@ export default {
       organizationService.getDesignations().then(
         (model) => {
           this.designations = model;
-          console.log("model", model);
+          //console.log("model", model);
         },
         (error) => {
           error = error;
