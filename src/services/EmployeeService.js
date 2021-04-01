@@ -50,7 +50,8 @@ export const employeeService = {
     updateEmployeePromotion,
     addExpenseClaim,
     getExpenseClaim,
-    getEmployeeSalaries
+    getEmployeeSalaries,
+    getPaidSalaries
 }
 
 
@@ -745,6 +746,16 @@ function removeEmployeeSalary(id) {
     return fetch(`${config.apiurl}/Employee/DeleteEmployeeSalary/${id}`, requestOptions.delete())
         .then(handleResponse)
         .then(model => {
+            return model
+        });
+
+}
+
+function getPaidSalaries(id) {
+    return fetch(`${config.apiurl}/Employee/GetPaidSalaries/${id}`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+            console.log(model)
             return model
         });
 

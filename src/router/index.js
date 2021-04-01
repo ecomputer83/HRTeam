@@ -363,7 +363,7 @@ const router = new Router({
       path: '/salaryview',
       name: 'salaryview',
       component: salaryview,
-      meta: { authorize: [Role.HRAdmin] },
+      meta: { authorize: [Role.Employee] },
     },
     {
       path: '/payrollitems',
