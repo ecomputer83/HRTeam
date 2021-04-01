@@ -43,6 +43,9 @@
 "></i> <span>Employees</span></router-link>
       </li>
       <li class="policies">
+        <router-link to="/paidsalary"><i class="la la la-user"></i> <span>Paid Salary</span></router-link>
+      </li>
+      <li class="policies">
         <router-link to="/leaves"><i class="la la la-user"></i> <span>Leave</span></router-link>
       </li>
       <li class="policies">

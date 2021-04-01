@@ -255,39 +255,54 @@
                 <button
                   type="button"
                   class="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
+                  @click="closeEdit"
                 >
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
-                <form>
+                <form @submit.prevent="updatePromotion">
                   <div class="form-group">
                     <label
                       >Promotion For <span class="text-danger">*</span></label
                     >
-                    <input class="form-control" type="text" value="John Doe" />
+                    <select class="form-control" v-model="promotion.employeeId">
+                      <option>Select Employee</option>
+                      <option
+                        v-for="item in employees"
+                        :key="item.id"
+                        :value="item.id"
+                      >
+                        {{ item.firstName }}
+                      </option>
+                    </select>
                   </div>
                   <div class="form-group">
                     <label
                       >Promotion From <span class="text-danger">*</span></label
                     >
-                    <input
-                      class="form-control"
-                      type="text"
-                      value="Web Developer"
-                      readonly
-                    />
+                    <select class="form-control" v-model="promotion.from">
+                      <option
+                        v-for="item in designations"
+                        :key="item.id"
+                        :value="item.id"
+                      >
+                        {{ item.name }}
+                      </option>
+                    </select>
                   </div>
                   <div class="form-group">
                     <label
                       >Promotion To <span class="text-danger">*</span></label
                     >
-                    <select class="select">
-                      <option>Web Developer</option>
-                      <option>Web Designer</option>
-                      <option>SEO Analyst</option>
+                    <select class="form-control" v-model="promotion.to">
+                      <option
+                        v-for="item in designations"
+                        :key="item.id"
+                        :value="item.id"
+                      >
+                        {{ item.name }}
+                      </option>
                     </select>
                   </div>
                   <div class="form-group">
@@ -295,14 +310,13 @@
                       >Promotion Date <span class="text-danger">*</span></label
                     >
                     <div class="cal-icon">
-                      <!-- <input type="text" class="form-control datetimepicker" /> -->
-                      <datepicker 
-                        v-model="date" 
-                        calendar-class 
-                        input-class 
-                        bootstrap-styling 
-                        class="form-control datetimepicker" 
-                        type="text" 
+                      <datepicker
+                        v-model="promotion.date"
+                        calendar-class
+                        input-class
+                        bootstrap-styling
+                        class="form-control datetimepicker"
+                        type="text"
                       />
                     </div>
                   </div>
@@ -321,12 +335,15 @@
         <!-- /Edit Promotion Modal -->
 
         <!-- Delete Promotion Modal -->
-        <div
+        <v-dialog v-model="dialogDelete" max-width="725px"
+          >
+
+        <!-- <div
           class="modal custom-modal fade"
           id="delete_promotion"
           role="dialog"
         >
-          <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-dialog modal-dialog-centered"> -->
             <div class="modal-content">
               <div class="modal-body">
                 <div class="form-header">
@@ -355,8 +372,10 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          <!-- </div>
+        </div> -->
+
+        </v-dialog>
         <!-- /Delete Promotion Modal -->
       </div>
       <!-- /Page Wrapper -->
@@ -422,7 +441,27 @@ export default {
     },
     close() {
       this.dialog = false;
-      //this.clearModel();
+      this.clearModel();
+    },
+    closeEdit() {
+      this.dialogEdit = false;
+    },
+    closeDelete() {
+      this.dialogDelete = false;
+    },
+    setEditPromotion(item) {
+      this.promotion = item;
+      this.dialogEdit = true;
+    },
+    setDeletePromotion(item) {
+      this.promotion = item;
+      this.dialogDelete = true;
+    },
+    clearModel() {
+      this.from= "",
+      this.to= "",
+      this.date= "",
+      this.employeeId= ""
     },
     getEmployees() {
       const companyId = this.company.id;
@@ -449,14 +488,15 @@ export default {
       );
     },
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-    setPromotion(item) {
-      this.promotions = item;
-      console.log(`item`, item)
-    },
+    // setEditPromotion(item) {
+    //   this.promotions = item;
+    //   console.log(`item`, item)
+    // },
 
     getPromotions() {
       const companyId = this.company.id;
-      employeeService.getEmployeePromotion(companyId).then(
+      //console.log('this.company', this.company)
+      employeeService.getPromotions(companyId).then(
         (model) => {
           this.promotions = model;
           console.log(`modelP`, model)
@@ -471,8 +511,8 @@ export default {
       const id = this.promotion.id;
       employeeService.removeEmployeePromotion(id).then(
         (id) => {
-          employeeService.getEmployeePromotion(this.company.id).then((p) => {
-            this.promotions = p;
+          employeeService.getPromotions(this.company.id).then((p) => {
+            this.promotions = p; this.closeDelete();
           });
         },
         (error) => {
@@ -483,20 +523,22 @@ export default {
 
     updatePromotion() {
       this.submitted = true;
-      const id = this.employeeLeave.id;
+      console.log(`this.promotion`, this.promotion)
       this.loading = true;
       employeeService
         .updateEmployeePromotion(
-          id,
           this.promotion.from,
           this.promotion.to,
-          this.promotion.to,
-          this.promotion.date
+          this.promotion.date,
+          this.promotion.employeeId,
+          this.promotion.companyId
         )
         .then(
           (id) => {
-            employeeService.getEmployeePromotion(this.company.id).then((o) => {
-              this.employeeLeaves = o;
+            employeeService.getPromotions(this.company.id).then((o) => {
+              this.promotions = o; this.closeEdit();
+              console.log(`o`, o)
+              
             });
           },
           (error) => {
@@ -511,11 +553,13 @@ export default {
       this.loading = true;
       console.log("this.date", this.date);
       employeeService
-        .addEmployeePromotion(this.from, this.to, this.date, this.employeeId)
+        .addEmployeePromotion(this.from, this.to, this.date, this.employeeId, this.company.id)
         .then(
           (id) => {
-            employeeService.getEmployeePromotion(this.company.id).then((w) => {
+            employeeService.getPromotions(this.company.id).then((w) => {
               this.promotions = w;
+              this.close();
+              //console.log(`w`, w)
             });
           },
           (error) => {

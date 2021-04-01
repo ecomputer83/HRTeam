@@ -29,6 +29,7 @@ import leaveTypeForm from '@/components/leaveTypeForm'
 import rank from '@/components/rank'
 import profile from '@/components/employees/profile'
 import details from '@/components/employees/details'
+import paidsalary from '@/components/employees/paidsalary'
 import login from '@/components/login'
 import attendanceEmployee from '@/components/attendanceEmployee'
 import timesheetEmployee from '@/components/timesheetEmployee'
@@ -381,6 +382,11 @@ const router = new Router({
       name: 'expensereports',
       component: expensereports,
       //meta: { authorize: [Role.HRAdmin] },
+    },
+    {
+      path: '/paidsalary',
+      name: 'paidsalary',
+      component: paidsalary
     }
 
   ],

@@ -33,7 +33,37 @@
                   </div>
                 <div class="card-body">
                   <div class="table-responsive">
-                    <table class="datatable table table-stripped mb-0">
+
+                <v-data-table
+                  :headers="headers"
+                  :items="vacancies"
+                  sort-by=""
+                  class="elevation-1"
+                >
+                  <template v-slot:[`item.actions`]="{ item }">
+                    <div class="dropdown dropdown-action">
+                  <a
+                    href="#"
+                    class="action-icon dropdown-toggle"
+                    data-toggle="dropdown"
+                    aria-expanded="false"
+                    ><i class="material-icons">more_vert</i></a
+                  >
+                  <div class="dropdown-menu dropdown-menu-right">
+                    <a
+                      class="dropdown-item"
+                      ><i class="fa fa-pencil m-r-5"></i> Edit</a
+                    >
+                    <a
+                      class="dropdown-item"
+                      ><i class="fa fa-trash-o m-r-5"></i> Delete</a
+                    >
+                  </div>
+                </div>
+                  </template>
+                </v-data-table>
+
+                    <!-- <table class="datatable table table-stripped mb-0">
                       <thead>
                         <tr>
                           <th>Name</th>
@@ -62,7 +92,7 @@
                           <td>{{model.supervisorInterviewCount}}</td>
                         </tr>
                       </tbody>
-                    </table>
+                    </table> -->
                   </div>
                 </div>
               </div>
@@ -78,8 +108,8 @@
 <script>
 import LayoutHeader from "@/components/layouts/Header.vue";
 import LayoutSidebar from "@/components/layouts/Sidebar.vue";
-  import { authenticationService } from '@/services/authenticationService';
-  import { jobService } from '@/services/jobService';
+import { authenticationService } from '@/services/authenticationService';
+import { jobService } from '@/services/jobService';
 import Vue from "vue";
 export default {
   components: {
@@ -88,6 +118,20 @@ export default {
   },
   data() {
       return {
+          headers: [
+            {
+              text: 'Name',
+              align: 'start',
+              value: 'title',
+            },
+            { text: 'Received', value: '0' },
+            { text: 'Employed Applicants', value: 'acceptedApplicationCount' },
+            { text: 'Rejected Applicants', value: 'rejectedApplicationCount' },
+            { text: 'New', value: 'newApplicationCount' },
+            { text: 'HR Interview', value: 'hrInterviewCount' },
+            { text: 'Supervisor Interview', value: 'supervisorInterviewCount' },
+            // { text: 'Action', value: 'actions', sortable: false },
+          ],
           vacancies: [],
           currentOffice: authenticationService.currentOfficeValue
       }

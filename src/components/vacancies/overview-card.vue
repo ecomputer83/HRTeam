@@ -15,7 +15,7 @@
                 <select
                   name="job profile"
                   id="job_profile"
-                  class="form-controlz" v-model="vacancy.jobProfileId"
+                  class="form-control" v-model="vacancy.jobProfileId"
                 >
                    <option
                         v-for="(item, index) in profiles"
@@ -30,13 +30,13 @@
             <tr>
               <td>Quantity of Position</td>
               <td>
-                <input class="form-controlz" type="number" v-model="vacancy.quantity" />
+                <input class="form-control" type="number" v-model="vacancy.quantity" />
               </td>
             </tr>
             <tr>
               <td>Designation</td>
               <td>
-                <select name="designation" id="designation" class="form-controlz" v-model="vacancy.designationId">
+                <select name="designation" id="designation" class="form-control" v-model="vacancy.designationId">
                    <option
                         v-for="(item, index) in designations"
                         :key="index"
@@ -50,10 +50,10 @@
             <tr>
               <td>Designation</td>
               <td>
-                <select name="designation" id="designation" class="form-controlz" v-model="vacancy.designationId">
+                <select name="designation" id="designation" class="form-control" v-model="vacancy.designationId">
                    <select
                       v-model="vacancy.type"
-                      class="select form-controlz"
+                      class="select form-control"
                     >
                       <option>-- Select --</option>
                       <option value="Full Time">Full Time</option>
@@ -68,7 +68,7 @@
               <td>
                 <textarea
                   style="height: auto !important"
-                  class="form-controlz"
+                  class="form-control"
                   type="text" v-model="vacancy.description"
                 >
 Manager for all accounts in his area</textarea
