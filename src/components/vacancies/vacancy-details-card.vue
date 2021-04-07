@@ -37,7 +37,6 @@
             <div class="datatable table mb-0 col-xs-12 col-md-6 p-0 pl-sm-3">
               <table class="w-100">
                 <tbody>
-                  
                   <tr>
                     <td>Application Period From</td>
                     <td>

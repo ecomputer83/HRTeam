@@ -199,20 +199,20 @@
                 <ul style="display: none">
                   <li>
                     <router-link
-                      to="/performanceindicator"
+                      to="/performance-indicator"
                       class="performanceindicator"
                     >
                       Performance Indicator
                     </router-link>
                   </li>
                   <li>
-                    <router-link to="/performance" class="performance">
+                    <router-link to="/performance-review" class="performance">
                       Performance Review
                     </router-link>
                   </li>
                   <li>
                     <router-link
-                      to="/performanceappraisal"
+                      to="/performance-appraisal"
                       class="performanceappraisal"
                     >
                       Performance Appraisal

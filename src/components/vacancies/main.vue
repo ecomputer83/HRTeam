@@ -24,12 +24,12 @@
               <div class="card">
                 <div class="card-header">
                     <div class="d-flex justify-content-between">
-                                      <h4 class="card-title mb-0">Vacancies Information</h4>
-                                      <div class="col-auto float-right ml-auto">
-                                          <router-link to="/addvacancy" class="btn add-btn"><i
-                                            class="fa fa-plus"></i>Add Vacancy</router-link>
-                                        </div>
-                                    </div>
+                      <h4 class="card-title mb-0">Vacancies Information</h4>
+                      <div class="col-auto float-right ml-auto">
+                          <router-link to="/addvacancy" class="btn add-btn"><i
+                            class="fa fa-plus"></i>Add Vacancy</router-link>
+                        </div>
+                    </div>
                   </div>
                 <div class="card-body">
                   <div class="table-responsive">

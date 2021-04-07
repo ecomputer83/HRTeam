@@ -54,6 +54,9 @@ import payrollitems from '@/components/payroll/payrollitems'
 import expensereports from '@/components/reports/expensereports'
 import policies from '@/components/policies'
 import promotion from '@/components/promotion'
+import performanceIndicator from '@/components/performance/performanceIndicator'
+import performanceReview from '@/components/performance/performanceReview'
+import performanceAppraisal from '@/components/performance/performanceAppraisal'
 import { authenticationService } from '@/services/authenticationService';
 import { Role } from '@/helpers/role';
 
@@ -360,7 +363,7 @@ const router = new Router({
       meta: { authorize: [Role.HRAdmin] },
     },
     {
-      path: '/salaryview',
+      path: '/salaryview/:id',
       name: 'salaryview',
       component: salaryview,
       meta: { authorize: [Role.Employee] },
@@ -387,7 +390,26 @@ const router = new Router({
       path: '/paidsalary',
       name: 'paidsalary',
       component: paidsalary
-    }
+    },
+    {
+      path: '/performance-indicator',
+      name: 'performanceindicator',
+      component: performanceIndicator,
+      // meta: { authorize: [Role.HRAdmin] },
+    },
+    {
+      path: '/performance-review',
+      name: 'performancereview',
+      component: performanceReview,
+      // meta: { authorize: [Role.HRAdmin] },
+    },
+    {
+      path: '/performance-appraisal',
+      name: 'performanceappraisal',
+      component: performanceAppraisal,
+      // meta: { authorize: [Role.HRAdmin] },
+    },
+    
 
   ],
 
