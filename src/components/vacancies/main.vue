@@ -130,7 +130,7 @@ export default {
             { text: 'New', value: 'newApplicationCount' },
             { text: 'HR Interview', value: 'hrInterviewCount' },
             { text: 'Supervisor Interview', value: 'supervisorInterviewCount' },
-            // { text: 'Action', value: 'actions', sortable: false },
+            { text: 'Action', value: 'actions', sortable: false },
           ],
           vacancies: [],
           currentOffice: authenticationService.currentOfficeValue
