@@ -51,7 +51,11 @@ export const employeeService = {
     addExpenseClaim,
     getExpenseClaim,
     getEmployeeSalaries,
-    getPaidSalaries
+    getPaidSalaries,
+    addDisciplinaryMeasure,
+    getDisciplinaryMeasure,
+    updateDisciplinaryMeasure,
+    removeDisciplinaryMeasure
 }
 
 
@@ -756,6 +760,56 @@ function getPaidSalaries(id) {
         .then(handleResponse)
         .then(model => {
             console.log(model)
+            return model
+        });
+
+}
+
+function addDisciplinaryMeasure(date, hrManager, reason, remark, employeeId) {
+    var req = {
+        date,
+        hrManager,
+        reason,
+        remark,
+        employeeId
+    }
+    return fetch(`${config.apiurl}/Employee/PostDisciplinaryMeasure`, requestOptions.post(req))
+        .then(handleResponse)
+        .then(id => {
+
+            return id;
+        });
+}
+
+function getDisciplinaryMeasure(employeeId) {
+    return fetch(`${config.apiurl}/Employee/GetDisciplinaryMeasure/${employeeId}`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+            console.log(model)
+            return model
+        });
+}
+
+function updateDisciplinaryMeasure(id, resignationDate, reason, noticeDate, employeeId) {
+    var req = {
+        date,
+        hrManager,
+        reason,
+        remark,
+        employeeId
+    }
+    return fetch(`${config.apiurl}/Employee/UpdateDisciplinaryMeasure/${id}`, requestOptions.put(req))
+        .then(handleResponse)
+        .then(id => {
+            return id;
+        });
+}
+
+function removeDisciplinaryMeasure(id) {
+
+    return fetch(`${config.apiurl}/Employee/DeleteDisciplinaryMeasure/${id}`, requestOptions.delete())
+        .then(handleResponse)
+        .then(model => {
             return model
         });
 

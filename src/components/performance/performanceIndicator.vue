@@ -22,8 +22,10 @@
                 </ul>
               </div>
               <div class="col-auto float-right ml-auto">
-                <a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_indicator"><i
-                    class="fa fa-plus"></i> Add New</a>
+                <a
+                  class="btn add-btn"
+                  @click="openDialog"
+                ><i class="fa fa-plus"></i> Add New</a>
               </div>
             </div>
           </div>
@@ -32,50 +34,47 @@
           <div class="row">
             <div class="col-md-12">
               <div class="table-responsive">
-
-                  <v-data-table
+                <v-data-table
                   :headers="headers"
-                  :items="resignations"
+                  :items="performanceIndicators"
                   sort-by="firstName"
                   class="elevation-1"
                 >
-
-              <template v-slot:[`item.actions`]="{ item }">
-        
-                <div class="dropdown dropdown-action">
-                  <a
-                    href="#"
-                    class="action-icon dropdown-toggle"
-                    data-toggle="dropdown"
-                    aria-expanded="false"
-                    ><i class="material-icons">more_vert</i></a
-                  >
-                  <div class="dropdown-menu dropdown-menu-right">
-                    <a
-                      class="dropdown-item"
-                      @click="setEditResignation(item)"
-                      ><i class="fa fa-pencil m-r-5"></i> Edit</a
-                    >
-                    <a
-                      class="dropdown-item"
-                      @click="setDeleteResignation(item)"
-                      ><i class="fa fa-trash-o m-r-5"></i> Delete</a
-                    >
-                  </div>
-                </div>
-              </template>
-      <template v-slot:[`item.profile`]="{ item }">
-        <h2 class="table-avatar blue-link">
-                          <router-link to="/profile" class="avatar"
-                            ><img alt="" src="~@/assets/profiles/avatar-02.jpg"
-                          /></router-link>
-                          <router-link to="/profile">{{
-                            `${item.employee.firstName} ${item.employee.lastName}`
-                          }}</router-link>
-                        </h2>
-      </template>
-                                  </v-data-table>
-
+                  <template v-slot:[`item.actions`]="{ item }">
+            
+                    <div class="dropdown dropdown-action">
+                      <a
+                        href="#"
+                        class="action-icon dropdown-toggle"
+                        data-toggle="dropdown"
+                        aria-expanded="false"
+                        ><i class="material-icons">more_vert</i></a
+                      >
+                      <div class="dropdown-menu dropdown-menu-right">
+                        <a
+                          class="dropdown-item"
+                          @click="setEditPerformanceIndicator(item)"
+                          ><i class="fa fa-pencil m-r-5"></i> Edit</a
+                        >
+                        <a
+                          class="dropdown-item"
+                          @click="setDeletePerformanceIndicator(item)"
+                          ><i class="fa fa-trash-o m-r-5"></i> Delete</a
+                        >
+                      </div>
+                    </div>
+                  </template>
+                  <template v-slot:[`item.profile`]="{ item }">
+                    <h2 class="table-avatar blue-link">
+                      <router-link to="/profile" class="avatar"
+                        ><img alt="" src="~@/assets/profiles/avatar-02.jpg"
+                      /></router-link>
+                      <router-link to="/profile">{{
+                        `${item.employee.firstName} ${item.employee.lastName}`
+                      }}</router-link>
+                    </h2>
+                  </template>
+                </v-data-table>
               </div>
             </div>
           </div>
@@ -84,43 +83,63 @@
         <!-- /Page Content -->
 
         <!-- Add Performance Indicator Modal -->
-        <div id="add_indicator" class="modal custom-modal fade" role="dialog">
-          <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <v-dialog v-model="dialog" max-width="725px">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">Set New Indicator</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button 
+                  type="button" 
+                  class="close" 
+                  @click="close"
+                >
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
-                <form>
+                <form @submit.prevent="onSubmit">
                   <div class="row">
                     <div class="col-sm-12">
                       <div class="form-group">
-                        <label class="col-form-label">Designation</label>
-                        <select class="select">
+                        <label>Designation <span class="text-danger">*</span></label>
+                        <select class="form-control" v-model="designationId">
                           <option>Select Designation</option>
-                          <option>Web Designer</option>
-                          <option>IOS Developer</option>
+                          <option v-for="item in designations" :key="item.id" :value="item.id">{{item.name}}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label>Added By <span class="text-danger">*</span></label>
+                        <select class="form-control" v-model="employeeId">
+                          <option>Select Employee</option>
+                          <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName}}</option>
                         </select>
                       </div>
                     </div>
                     <div class="col-sm-6">
                       <h4 class="modal-sub-title">Technical</h4>
+
+                      <!-- <div class="form-group">
+                        <label>Customer Experience <span class="text-danger">*</span></label>
+                        <select class="form-control" v-model="employeeId">
+                          <option>Select Employee</option>
+                          <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName}}</option>
+                        </select>
+                      </div> -->
+
                       <div class="form-group">
                         <label class="col-form-label">Customer Experience</label>
-                        <select class="select">
-                          <option>None</option>
-                          <option>Beginner</option>
-                          <option>Intermediate</option>
-                          <option>Advanced</option>
-                          <option>Expert / Leader</option>
+                        <select class="select" v-model="tech_CE">
+                          <option disabled value="">None</option>
+                          <option value="beginner">Beginner</option>
+                          <option value="intermediate">Intermediate</option>
+                          <option value="advanced">Advanced</option>
+                          <option value="expert">Expert / Leader</option>
                         </select>
                       </div>
                       <div class="form-group">
                         <label class="col-form-label">Marketing</label>
-                        <select class="select">
+                        <select class="select" v-model="tech_Marketing">
                           <option>None</option>
                           <option>Beginner</option>
                           <option>Intermediate</option>
@@ -268,8 +287,7 @@
                 </form>
               </div>
             </div>
-          </div>
-        </div>
+        </v-dialog>
         <!-- /Add Performance Indicator Modal -->
 
         <!-- Edit Performance Indicator Modal -->
@@ -494,6 +512,10 @@
 <script>
   import LayoutHeader from '@/components/layouts/Header.vue'
   import LayoutSidebar from '@/components/layouts/Sidebar.vue'
+  import { organizationService } from '@/services/organizationService'
+  import { employeeService } from "@/services/employeeService.js"
+  import { authenticationService } from '@/services/authenticationService';
+  
   export default {
     components: {
       LayoutHeader,
@@ -501,19 +523,77 @@
     },
     data () {
         return {
-            headers: [
-                { text: 'Designation', value: 'salaryDate' },
-                { text: 'Department', value: 'netSalary' },
-                { text: 'Added By', value: 'payslip', sortable: false },
-                { text: 'Create At', value: 'netSalary' },
-                { text: 'Status', value: 'payslip', sortable: false },
-                { text: 'Actions', value: 'actions', sortable: false },
-            ],
-            // paidSalaries: [],
-            // employee: authenticationService.currentUserValue
+          dialog: false,
+          dialogEdit: false,
+          dialogDelete: false,
+          headers: [
+            { text: 'Designation', value: 'salaryDate' },
+            { text: 'Department', value: 'netSalary' },
+            { text: 'Added By', value: 'payslip', sortable: false },
+            { text: 'Create At', value: 'netSalary' },
+            { text: 'Status', value: 'payslip', sortable: false },
+            { text: 'Actions', value: 'actions', sortable: false },
+          ],
+          designations: [],
+          performanceIndicator: {},
+          performanceIndicators: [],
+          employeeId: "",
+          employees: [],
+          designationId: "",
+          tech_CE: "",
+          tech_Marketing: "",
+          
+          company: authenticationService.currentOfficeValue,
         }
     },
+    methods: {
+      openDialog(){
+      this.dialog = true
+      },
+      close() {
+        this.dialog = false;
+        //this.clearModel();
+      },
+      closeEdit() {
+        this.dialogEdit = false
+      },
+      closeDelete() {
+        this.dialogDelete = false
+      },
+      setEditPerformanceIndicator(model) {
+        this.performanceIndicator = model;
+        this.dialogEdit = true
+      },
+      setDeletePerformanceIndicator(model) {
+        this.performanceIndicator = model;
+        this.dialogDelete = true;
+      },
+      GetDesignations(){
+          organizationService.getDesignations()
+          .then(
+              model => { 
+                  this.designations = model},
+              error => { this.error = error }
+          )
+      },
+      getEmployees () {
+        const companyId = this.company.id;
+        console.log('this.company.id', this.company.id)
+        employeeService.getEmployees(companyId)
+          .then(
+            model => { this.employees = model
+            console.log(model) 
+            },
+            error => { error = error }
+          )
+     },
+     onSubmit() {
+       console.log(`this.tech_CE`, this.tech_CE)
+     },
+    },
     mounted() {
+      this.GetDesignations()
+      this.getEmployees()
       // Date Time Picker
 
       if ($('.datetimepicker').length > 0) {

@@ -1,0 +1,121 @@
+import config from '../../config/index';
+import requestOptions from '@/helpers/RequestOptions';
+import handleResponse from '@/helpers/HandleResponses';
+
+
+export const performanceService = {
+    addDesignationPerformance,
+    getDesignationPerformances,
+    getDesignationPerformance,
+    updateDesignationPerformance,
+    removeDesignationPerformance
+}
+
+function addDesignationPerformance(
+    tech_CE, 
+    tech_Marketing, 
+    tech_Management, 
+    tech_Administration, 
+    tech_Presentation, 
+    tech_QOW, 
+    tech_Efficiency,
+    org_Integrity,
+    org_professionalism,
+    org_Teamwork,
+    org_CriticalThinking,
+    org_Conflict,
+    org_Attendance,
+    org_ATMD,
+    designationId
+    ) {
+    var req = {
+        tech_CE,
+        tech_Marketing,
+        tech_Management,
+        tech_Administration,
+        tech_Presentation,
+        tech_QOW,
+        tech_Efficiency,
+        org_Integrity,
+        org_professionalism,
+        org_Teamwork,
+        org_CriticalThinking,
+        org_Conflict,
+        org_Attendance,
+        org_ATMD,
+        designationId
+    }
+    return fetch(`${config.apiurl}/Designation/PostDesignationPerformance`, requestOptions.post(req))
+        .then(handleResponse)
+        .then(id => {
+
+            return id;
+        });
+}
+
+function getDesignationPerformances() {
+    return fetch(`${config.apiurl}/Designation/GetDesignationPerformances`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+            console.log(model)
+            return model
+        });
+
+}
+
+function getDesignationPerformance(id) {
+    return fetch(`${config.apiurl}/Designation/GetDesignationPerformance/${id}`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+            console.log(model)
+            return model
+        });
+
+}
+
+function updateDesignationPerformance(
+        id,
+        tech_CE, 
+        tech_Marketing, 
+        tech_Management, 
+        tech_Administration, 
+        tech_Presentation, 
+        tech_QOW, 
+        tech_Efficiency,
+        org_Integrity,
+        org_professionalism,
+        org_Teamwork,
+        org_CriticalThinking,
+        org_Conflict,
+        org_Attendance,
+        org_ATMD,
+        designationId
+    ) {
+    var req = {
+        tech_CE,
+        tech_Marketing,
+        tech_Management,
+        tech_Administration,
+        tech_Presentation,
+        tech_QOW,
+        tech_Efficiency,
+        org_Integrity,
+        org_professionalism,
+        org_Teamwork,
+        org_CriticalThinking,
+        org_Conflict,
+        org_Attendance,
+        org_ATMD,
+        designationId
+    }
+    return fetch(`${config.apiurl}/Designation/PutDesignationPerformance/${id}`, requestOptions.put(req))
+        .then(handleResponse)
+        .then(id => {
+            return id;
+        });
+}
+
+function removeDesignationPerformance(id) {
+    return fetch(`${config.apiurl}/Designation/DeleteDesinationPerformance/${id}`, requestOptions.delete())
+
+}

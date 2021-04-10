@@ -1,5 +1,5 @@
 <template>
-  <div class="resignation">
+  <div class="disciplinaryMeasure">
     <div class="main-wrapper">
       <layout-header></layout-header>
       <layout-sidebar></layout-sidebar>
@@ -34,48 +34,45 @@
             <div class="col-md-12">
               <div class="table-responsive">
                 <v-data-table
-                                      :headers="headers"
-                                      :items="disciplinarymeasures"
-                                      sort-by="firstName"
-                                      class="elevation-1"
-                                      >
-
-      <template v-slot:[`item.actions`]="{ item }">
-        
-        <div class="dropdown dropdown-action">
+                  :headers="headers"
+                  :items="disciplinaryMeasures"
+                  sort-by="firstName"
+                  class="elevation-1"
+                >
+                  <template v-slot:[`item.actions`]="{ item }">
+                    <div class="dropdown dropdown-action">
+                      <a
+                        href="#"
+                        class="action-icon dropdown-toggle"
+                        data-toggle="dropdown"
+                        aria-expanded="false"
+                        ><i class="material-icons">more_vert</i></a
+                      >
+                        <div class="dropdown-menu dropdown-menu-right">
                           <a
-                            href="#"
-                            class="action-icon dropdown-toggle"
-                            data-toggle="dropdown"
-                            aria-expanded="false"
-                            ><i class="material-icons">more_vert</i></a
+                            class="dropdown-item"
+                            @click="setEditDisciplinaryMeasure(item)"
+                            ><i class="fa fa-pencil m-r-5"></i> Edit</a
                           >
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a
-                              class="dropdown-item"
-                              @click="setEditDisciplinaryMeasures(item)"
-                              ><i class="fa fa-pencil m-r-5"></i> Edit</a
-                            >
-                            <a
-                              class="dropdown-item"
-                              @click="setDeleteDisciplinaryMeasures(item)"
-                              ><i class="fa fa-trash-o m-r-5"></i> Delete</a
-                            >
-                          </div>
+                          <a
+                            class="dropdown-item"
+                            @click="setDeleteDisciplinaryMeasure(item)"
+                            ><i class="fa fa-trash-o m-r-5"></i> Delete</a
+                          >
                         </div>
-      </template>
-      <template v-slot:[`item.profile`]="{ item }">
-        <h2 class="table-avatar blue-link">
-                          <router-link to="/profile" class="avatar"
-                            ><img alt="" src="../assets/profiles/avatar-02.jpg"
-                          /></router-link>
-                          <router-link to="/profile">{{
-                            `${item.employee.firstName} ${item.employee.lastName}`
-                          }}</router-link>
-                        </h2>
-      </template>
-                                  </v-data-table>
-                
+                    </div>
+                  </template>
+                  <template v-slot:[`item.profile`]="{ item }">
+                    <h2 class="table-avatar blue-link">
+                      <router-link to="/profile" class="avatar"
+                        ><img alt="" src="../assets/profiles/avatar-02.jpg"
+                      /></router-link>
+                      <router-link to="/profile">{{
+                        `${item.employee.firstName} ${item.employee.lastName}`
+                      }}</router-link>
+                    </h2>
+                  </template>
+                </v-data-table>
               </div>
             </div>
           </div>
@@ -83,7 +80,7 @@
         </div>
         <!-- /Page Content -->
 
-        <!-- Add Resignation Modal -->
+        <!-- Add disciplinaryMeasure Modal -->
         <v-dialog v-model="dialog" max-width="725px"
           >
             <div class="modal-content">
@@ -114,12 +111,12 @@
                   </div>
                   <div class="form-group">
                       <label>HR Manager <span class="text-danger">*</span></label>
-                      <input class="form-control" v-model="hrmanager" />
+                      <input class="form-control" v-model="hrManager" />
                   </div>
                   <!-- <div class="form-group">
-                      <label>Resignation Date <span class="text-danger">*</span></label>
+                      <label>disciplinaryMeasure Date <span class="text-danger">*</span></label>
                       <div class="cal-icon">
-                        <datepicker v-model="resignationDate" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
+                        <datepicker v-model="disciplinaryMeasureDate" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
                       </div>
                   </div> -->
                   <div class="form-group">
@@ -143,14 +140,14 @@
               </div>
             </div>
         </v-dialog>
-        <!-- /Add Resignation Modal -->
+        <!-- /Add disciplinaryMeasure Modal -->
 
-        <!-- Edit Resignation Modal -->
+        <!-- Edit disciplinaryMeasure Modal -->
         <v-dialog v-model="dialogEdit" max-width="725px"
           >
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Edit Resignation</h5>
+                <h5 class="modal-title">Edit disciplinaryMeasure</h5>
                 <button
                   type="button"
                   class="close"
@@ -160,7 +157,7 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form @submit.prevent="updateEmployeeResignation">
+                <form @submit.prevent="updateDisciplinaryMeasure">
                   <div class="form-group">
                     <label>Resigning Employee <span class="text-danger">*</span></label>
                     <select class="form-control" v-model="employeeId">
@@ -169,47 +166,47 @@
                     </select>
                   </div>
                   <div class="form-group">
-                      <label>Notice Date <span class="text-danger">*</span></label>
+                      <label>disciplinaryMeasure Date <span class="text-danger">*</span></label>
                       <div class="cal-icon">
-                        <datepicker v-model="resignation.noticeDate" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
+                        <datepicker v-model="disciplinaryMeasure.date" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
                       </div>
                   </div>
-                  <div class="form-group">
-                      <label>Resignation Date <span class="text-danger">*</span></label>
-                      <div class="cal-icon">
-                        <datepicker v-model="resignation.resignationDate" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
-                      </div>
+                   <div class="form-group">
+                      <label>Remark <span class="text-danger">*</span></label>
+                      <input class="form-control" v-model="disciplinaryMeasure.hrManager" />
                   </div>
                   <div class="form-group">
                       <label>Reason <span class="text-danger">*</span></label>
-                      <textarea class="form-control" v-model="resignation.reason" rows="4"></textarea>
+                      <textarea class="form-control" v-model="disciplinaryMeasure.reason" rows="4"></textarea>
                   </div>
-
-                  
+                  <div class="form-group">
+                      <label>Remark <span class="text-danger">*</span></label>
+                      <input class="form-control" v-model="disciplinaryMeasure.remark" />
+                  </div>
                   <div class="submit-section">
-                    <button class="btn btn-primary submit-btn">Submit</button>
+                    <button @click.prevent="updateDisciplinaryMeasure" class="btn btn-primary submit-btn">Submit</button>
                   </div>
                 </form>
               </div>
             </div>
           
         </v-dialog>
-        <!-- /Edit Resignation Modal -->
+        <!-- /Edit disciplinaryMeasure Modal -->
 
-        <!-- Delete Resignation Modal -->
+        <!-- Delete disciplinaryMeasure Modal -->
         <v-dialog v-model="dialogDelete" max-width="725px"
           >
             <div class="modal-content">
               <div class="modal-body">
                 <div class="form-header">
-                  <h3>Delete Resignation</h3>
+                  <h3>Delete disciplinaryMeasure</h3>
                   <p>Are you sure want to delete?</p>
                 </div>
                 <div class="modal-btn delete-action">
                   <div class="row">
                     <div class="col-6">
                       <a
-                        @click.prevent="deleteEmployeeResignation"
+                        @click.prevent="deleteDisciplinaryMeasure"
                         class="btn btn-primary continue-btn"
                         data-dismiss="modal"
                         >Delete</a
@@ -229,7 +226,7 @@
             </div>
           
         </v-dialog>
-        <!-- /Delete Resignation Modal -->
+        <!-- /Delete disciplinaryMeasure Modal -->
       </div>
       <!-- /Page Wrapper -->
     </div>
@@ -270,11 +267,12 @@ export default {
     ],
       name: "",
       employeeId: "",
+      hrManager: "",
       reason: "",
-      noticeDate: "",
-      resignationDate: "",
-      resignation: {},
-      resignations: [],
+      remark: "",
+      date: "",
+      disciplinaryMeasure: {},
+      disciplinaryMeasures: [],
       employee: [],
       loading: false,
       error: "",
@@ -288,8 +286,8 @@ export default {
   validations: {
     name: { required },
     reason: { required },
-    noticeDate: { required },
-    resignationDate: { required },
+    date: { required },
+    //disciplinaryMeasureDate: { required },
   },
   watch: {
     dialog (val) {
@@ -326,12 +324,12 @@ export default {
             error => { error = error }
           )
      },
-    getEmployeeResignations() {
-      const companyId = this.company.id;
-      employeeService.getEmployeeResignations(companyId).then(
+    getDisciplinaryMeasure() {
+      // const companyId = this.company.id;
+      employeeService.getDisciplinaryMeasure(this.employeeId).then(
         (model) => {
           console.log(model)
-          this.resignations = model;
+          this.disciplinaryMeasures = model;
         },
         (error) => {
           error = error;
@@ -350,31 +348,31 @@ export default {
     closeDelete() {
       this.dialogDelete = false
     },
-    setEditDisciplinaryMeasures(model) {
-      this.resignation = model;
+    setEditDisciplinaryMeasure(model) {
+      this.disciplinaryMeasure = model;
       this.dialogEdit = true
     },
-    setDeleteDisciplinaryMeasures(model) {
-      this.resignation = model;
+    setDeleteDisciplinaryMeasure(model) {
+      this.disciplinaryMeasure = model;
       this.dialogDelete = true;
     },
 
     onSubmit() {
       this.submitted = true;
-
       
       this.loading = true;
       employeeService
-        .addEmployeeResignation(
-          this.resignationDate,
+        .addDisciplinaryMeasure(
+          this.date,
+          this.hrManager,
           this.reason,
-          this.noticeDate,
+          this.remark,
           this.employeeId
         )
         .then(
           (id) => {
-            employeeService.getEmployeeResignations(this.company.id).then((w) => {
-              this.resignations = w, console.log(w); this.close()
+            employeeService.getDisciplinaryMeasure(this.employeeId).then((w) => {
+              this.disciplinaryMeasures = w, console.log(w); this.close()
             });
           },
           (error) => {
@@ -383,37 +381,45 @@ export default {
           }
         );
     },
-    updateEmployeeResignation () {
+    updateDisciplinaryMeasure () {
         this.submitted = true;
 
         this.loading = true;
-        console.log(this.resignation)
-        employeeService.updateEmployeeResignation(this.resignation.id, this.resignation.resignationDate, this.resignation.reason, this.resignation.noticeDate, this.resignation.employeeId)
-                .then(id => {
-                      employeeService.getEmployeeResignations(this.company.id)
-                        .then(
-                         o => {this.resignations = o, console.log(o), this.closeEdit()}
-                        )
-          },
-                    error => {
-                        this.error = error;
-                        this.loading = false;
-                    }
-                );
+        console.log(this.disciplinaryMeasure)
+        employeeService
+          .updateEmployeedisciplinaryMeasure(
+            this.disciplinaryMeasure.id, 
+            this.disciplinaryMeasure.date, 
+            this.disciplinaryMeasure.hrManager, 
+            this.disciplinaryMeasure.reason, 
+            this.disciplinaryMeasure.remark, 
+            this.disciplinaryMeasure.employeeId
+          )
+            .then(id => {
+                  employeeService.getDisciplinaryMeasures(this.employeeId)
+                    .then(
+                      o => {this.disciplinaryMeasures = o, console.log(o), this.closeEdit()}
+                    )
+              },
+              error => {
+                  this.error = error;
+                  this.loading = false;
+              }
+            );
             
     },
-    deleteEmployeeResignation () {
-      const id = this.resignation.id;
-      console.log(this.resignation)
-        employeeService.removeEmployeeResignation(id)
+    deleteDisciplinaryMeasure () {
+      const id = this.disciplinaryMeasure.id;
+      // console.log(this.disciplinaryMeasure)
+        employeeService.removeDisciplinaryMeasure(id)
           .then(id => {
-            employeeService.getEmployeeResignations(this.company.id)
-                      .then(
-                        model => { this.resignations = model
-                        console.log(model)
-                        this.closeDelete() },
-                        error => { error = error }
-                      )
+            employeeService.getDisciplinaryMeasure(this.employeeId)
+              .then(
+                model => { this.disciplinaryMeasures = model
+                // console.log(model)
+                  this.closeDelete() },
+                  error => { error = error }
+              )
           })
     },
   },
@@ -421,10 +427,10 @@ export default {
   mounted() {
 
      this.getEmployees()
-     this.getEmployeeResignations()
+     this.getDisciplinaryMeasure()
     // Datatable
     //this.getEmployees(this.employee.id);
-    //this.getEmployeeResignations(this.company.id);
+    //this.getEmployeedisciplinaryMeasures(this.company.id);
 
     if ($(".datatable").length > 0) {
       $(".datatable").DataTable({
