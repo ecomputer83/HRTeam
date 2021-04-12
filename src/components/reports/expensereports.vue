@@ -184,18 +184,15 @@
                       </div>
                   </div>
                   <div class="form-group">
-                                        <label>Reason <span class="text-danger">*</span></label>
-                                        <textarea class="form-control" v-model="resignation.reason" rows="4"></textarea>
-                                    </div>
-
-                  
+                    <label>Reason <span class="text-danger">*</span></label>
+                    <textarea class="form-control" v-model="resignation.reason" rows="4"></textarea>
+                  </div>
                   <div class="submit-section">
                     <button class="btn btn-primary submit-btn">Submit</button>
                   </div>
                 </form>
               </div>
             </div>
-          
         </v-dialog>
         <!-- /Edit Resignation Modal -->
 
@@ -321,15 +318,15 @@ export default {
     // },
 
     getEmployees () {
-        const companyId = this.company.id;
-        //console.log('this.company.id', this.company.id)
-        employeeService.getEmployees(companyId)
-          .then(
-            model => { this.employees = model
-            console.log(model) 
-            },
-            error => { error = error }
-          )
+      const companyId = this.company.id;
+      //console.log('this.company.id', this.company.id)
+      employeeService.getEmployees(companyId)
+        .then(
+          model => { this.employees = model
+          console.log(model) 
+          },
+          error => { error = error }
+        )
     },
     getEmployeeResignations() {
       const companyId = this.company.id;
@@ -378,7 +375,6 @@ export default {
     onSubmit() {
       this.submitted = true;
 
-      
       this.loading = true;
       employeeService
         .addExpenseClaim(

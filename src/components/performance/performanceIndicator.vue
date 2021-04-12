@@ -129,7 +129,7 @@
 
                       <div class="form-group">
                         <label class="col-form-label">Customer Experience</label>
-                        <select class="select" v-model="tech_CE">
+                        <select class="select form-control" v-model="tech_CE">
                           <option disabled value="">None</option>
                           <option value="beginner">Beginner</option>
                           <option value="intermediate">Intermediate</option>
@@ -139,8 +139,8 @@
                       </div>
                       <div class="form-group">
                         <label class="col-form-label">Marketing</label>
-                        <select class="select" v-model="tech_Marketing">
-                          <option>None</option>
+                        <select class="select form-control" v-model="tech_Marketing">
+                          <option disabled value="">None</option>
                           <option>Beginner</option>
                           <option>Intermediate</option>
                           <option>Advanced</option>
@@ -149,8 +149,8 @@
                       </div>
                       <div class="form-group">
                         <label class="col-form-label">Management</label>
-                        <select class="select">
-                          <option>None</option>
+                        <select class="select form-control" v-model="tech_Management">
+                          <option disabled value="">None</option>
                           <option>Beginner</option>
                           <option>Intermediate</option>
                           <option>Advanced</option>
@@ -159,8 +159,8 @@
                       </div>
                       <div class="form-group">
                         <label class="col-form-label">Administration</label>
-                        <select class="select">
-                          <option>None</option>
+                        <select class="select form-control" v-model="tech_Administration">
+                          <option disabled value="">None</option>
                           <option>Beginner</option>
                           <option>Intermediate</option>
                           <option>Advanced</option>
@@ -169,8 +169,8 @@
                       </div>
                       <div class="form-group">
                         <label class="col-form-label">Presentation Skill</label>
-                        <select class="select">
-                          <option>None</option>
+                        <select class="select form-control" v-model="tech_Presentation">
+                          <option disabled value="">None</option>
                           <option>Beginner</option>
                           <option>Intermediate</option>
                           <option>Advanced</option>
@@ -179,8 +179,8 @@
                       </div>
                       <div class="form-group">
                         <label class="col-form-label">Quality Of Work</label>
-                        <select class="select">
-                          <option>None</option>
+                        <select class="select form-control" v-model="tech_QOW">
+                          <option disabled value="">None</option>
                           <option>Beginner</option>
                           <option>Intermediate</option>
                           <option>Advanced</option>
@@ -189,8 +189,8 @@
                       </div>
                       <div class="form-group">
                         <label class="col-form-label">Efficiency</label>
-                        <select class="select">
-                          <option>None</option>
+                        <select class="select form-control" v-model="tech_Efficiency">
+                          <option disabled value="">None</option>
                           <option>Beginner</option>
                           <option>Intermediate</option>
                           <option>Advanced</option>
@@ -202,8 +202,8 @@
                       <h4 class="modal-sub-title">Organizational</h4>
                       <div class="form-group">
                         <label class="col-form-label">Integrity</label>
-                        <select class="select">
-                          <option>None</option>
+                        <select class="select form-control" v-model="org_Integrity">
+                          <option disabled value="">None</option>
                           <option>Beginner</option>
                           <option>Intermediate</option>
                           <option>Advanced</option>
@@ -212,8 +212,8 @@
                       </div>
                       <div class="form-group">
                         <label class="col-form-label">Professionalism</label>
-                        <select class="select">
-                          <option>None</option>
+                        <select class="select form-control" v-model="org_Professionalism">
+                          <option disabled value="">None</option>
                           <option>Beginner</option>
                           <option>Intermediate</option>
                           <option>Advanced</option>
@@ -222,8 +222,8 @@
                       </div>
                       <div class="form-group">
                         <label class="col-form-label">Team Work</label>
-                        <select class="select">
-                          <option>None</option>
+                        <select class="select form-control" v-model="org_Teamwork">
+                          <option disabled value="">None</option>
                           <option>Beginner</option>
                           <option>Intermediate</option>
                           <option>Advanced</option>
@@ -232,8 +232,8 @@
                       </div>
                       <div class="form-group">
                         <label class="col-form-label">Critical Thinking</label>
-                        <select class="select">
-                          <option>None</option>
+                        <select class="select form-control" v-model="org_CriticalThinking">
+                          <option disabled value="">None</option>
                           <option>Beginner</option>
                           <option>Intermediate</option>
                           <option>Advanced</option>
@@ -242,8 +242,8 @@
                       </div>
                       <div class="form-group">
                         <label class="col-form-label">Conflict Management</label>
-                        <select class="select">
-                          <option>None</option>
+                        <select class="select form-control" v-model="org_Conflict">
+                          <option disabled value="">None</option>
                           <option>Beginner</option>
                           <option>Intermediate</option>
                           <option>Advanced</option>
@@ -252,8 +252,8 @@
                       </div>
                       <div class="form-group">
                         <label class="col-form-label">Attendance</label>
-                        <select class="select">
-                          <option>None</option>
+                        <select class="select form-control" v-model="org_Attendance">
+                          <option disabled value="">None</option>
                           <option>Beginner</option>
                           <option>Intermediate</option>
                           <option>Advanced</option>
@@ -262,8 +262,8 @@
                       </div>
                       <div class="form-group">
                         <label class="col-form-label">Ability To Meet Deadline</label>
-                        <select class="select">
-                          <option>None</option>
+                        <select class="select form-control" v-model="org_ATMD">
+                          <option disabled value="">None</option>
                           <option>Beginner</option>
                           <option>Intermediate</option>
                           <option>Advanced</option>
@@ -274,7 +274,7 @@
                     <div class="col-sm-12">
                       <div class="form-group">
                         <label class="col-form-label">Status</label>
-                        <select class="select">
+                        <select class="select form-control" v-model="status">
                           <option>Active</option>
                           <option>Inactive</option>
                         </select>
@@ -282,7 +282,7 @@
                     </div>
                   </div>
                   <div class="submit-section">
-                    <button class="btn btn-primary submit-btn">Submit</button>
+                    <button @click.prevent="onSubmit" class="btn btn-primary submit-btn">Submit</button>
                   </div>
                 </form>
               </div>
@@ -514,6 +514,7 @@
   import LayoutSidebar from '@/components/layouts/Sidebar.vue'
   import { organizationService } from '@/services/organizationService'
   import { employeeService } from "@/services/employeeService.js"
+  import { performanceService } from "@/services/performanceService.js"
   import { authenticationService } from '@/services/authenticationService';
   
   export default {
@@ -527,8 +528,8 @@
           dialogEdit: false,
           dialogDelete: false,
           headers: [
-            { text: 'Designation', value: 'salaryDate' },
-            { text: 'Department', value: 'netSalary' },
+            { text: 'Designation', value: 'designation.name' },
+            { text: 'Department', value: 'destination.' },
             { text: 'Added By', value: 'payslip', sortable: false },
             { text: 'Create At', value: 'netSalary' },
             { text: 'Status', value: 'payslip', sortable: false },
@@ -540,8 +541,22 @@
           employeeId: "",
           employees: [],
           designationId: "",
+          addedBy: "",
           tech_CE: "",
           tech_Marketing: "",
+          tech_Management: "",
+          tech_Administration: "",
+          tech_Presentation: "",
+          tech_QOW: "",
+          tech_Efficiency: "",
+          org_Integrity: "",
+          org_Professionalism: "",
+          org_CriticalThinking: "",
+          org_Teamwork: "",
+          org_Conflict: "",
+          org_Attendance: "",
+          org_ATMD: "",
+          status: "",
           
           company: authenticationService.currentOfficeValue,
         }
@@ -587,13 +602,111 @@
             error => { error = error }
           )
      },
-     onSubmit() {
-       console.log(`this.tech_CE`, this.tech_CE)
+     getDesignationPerformances () {
+         const companyId = this.company.id;
+         performanceService.getDesignationPerformances(companyId)
+          .then(
+            (model) => {
+              this.performanceIndicators = model;
+              console.log(`model`, model)
+            },
+            error => { error = error }
+          )
      },
+     onSubmit() {
+       this.submitted = true;
+       this.loading = true;
+
+       performanceService
+        .addDesignationPerformance(
+          this.tech_CE, 
+          this.tech_Marketing, 
+          this.tech_Management, 
+          this.tech_Administration, 
+          this.tech_Presentation, 
+          this.tech_QOW, 
+          this.tech_Efficiency,
+          this.org_Integrity,
+          this.org_Professionalism,
+          this.org_Teamwork,
+          this.org_CriticalThinking,
+          this.org_Conflict,
+          this.org_Attendance,
+          this.org_ATMD,
+          this.designationId,
+          this.addedBy
+        )
+        .then(
+          (id) => {
+            performanceService.getDesignationPerformances(this.company.id).then((u) => {
+              this.performanceIndicators = u;
+              console.log(`u`, u)
+              this.close();
+            });
+          },
+          (error) => {
+            this.error = error;
+            this.loading = false;
+          }
+        );
+     },
+     updateDisciplinaryMeasure () {
+        this.submitted = true;
+        this.loading = true;
+
+       performanceService
+        .updateDesignationPerformance(
+          this.performanceIndicator.tech_CE, 
+          this.performanceIndicator.tech_Marketing, 
+          this.performanceIndicator.tech_Management, 
+          this.performanceIndicator.tech_Administration, 
+          this.performanceIndicator.tech_Presentation, 
+          this.performanceIndicator.tech_QOW, 
+          this.performanceIndicator.tech_Efficiency,
+          this.performanceIndicator.org_Integrity,
+          this.performanceIndicator.org_Professionalism,
+          this.performanceIndicator.org_Teamwork,
+          this.performanceIndicator.org_CriticalThinking,
+          this.performanceIndicator.org_Conflict,
+          this.performanceIndicator.org_Attendance,
+          this.performanceIndicator.org_ATMD,
+          this.performanceIndicator.designationId,
+          this.performanceIndicator.addedBy
+        )
+        .then(
+          (id) => {
+            performanceService.getDesignationPerformances(this.company.id).then((u) => {
+              this.performanceIndicators = u;
+              console.log(`u`, u)
+              this.closeEdit();
+            });
+          },
+          (error) => {
+            this.error = error;
+            this.loading = false;
+          }
+        );
+
+     },
+     deletePerformanceIndicator () {
+      const id = this.performanceIndicator.id;
+      // console.log(this.performanceIndicator);
+        performanceService.removeDesignationPerformance(id)
+          .then(id => {
+            performanceService.getDesignationPerformances(this.company.id)
+              .then(
+                model => { this.performanceIndicators = model
+                console.log(model)
+                this.closeDelete() },
+                error => { error = error }
+              )
+          })
+    },
     },
     mounted() {
       this.GetDesignations()
       this.getEmployees()
+      this.getDesignationPerformances()
       // Date Time Picker
 
       if ($('.datetimepicker').length > 0) {

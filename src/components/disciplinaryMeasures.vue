@@ -36,7 +36,7 @@
                 <v-data-table
                   :headers="headers"
                   :items="disciplinaryMeasures"
-                  sort-by="firstName"
+                  sort-by=""
                   class="elevation-1"
                 >
                   <template v-slot:[`item.actions`]="{ item }">
@@ -68,7 +68,7 @@
                         ><img alt="" src="../assets/profiles/avatar-02.jpg"
                       /></router-link>
                       <router-link to="/profile">{{
-                        `${item.employee.firstName} ${item.employee.lastName}`
+                        `${item.hrManager}`
                       }}</router-link>
                     </h2>
                   </template>
@@ -113,12 +113,11 @@
                       <label>HR Manager <span class="text-danger">*</span></label>
                       <input class="form-control" v-model="hrManager" />
                   </div>
-                  <!-- <div class="form-group">
-                      <label>disciplinaryMeasure Date <span class="text-danger">*</span></label>
-                      <div class="cal-icon">
-                        <datepicker v-model="disciplinaryMeasureDate" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
-                      </div>
+                   <!-- <div class="form-group">
+                      <label>Form <span class="text-danger">*</span></label>
+                      <input class="form-control" v-model="form" />
                   </div> -->
+                  
                   <div class="form-group">
                       <label>Reason <span class="text-danger">*</span></label>
                       <textarea class="form-control" v-model="reason" rows="4"></textarea>
@@ -147,7 +146,7 @@
           >
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Edit disciplinaryMeasure</h5>
+                <h5 class="modal-title">Edit Disciplinary Measure</h5>
                 <button
                   type="button"
                   class="close"
@@ -159,20 +158,20 @@
               <div class="modal-body">
                 <form @submit.prevent="updateDisciplinaryMeasure">
                   <div class="form-group">
-                    <label>Resigning Employee <span class="text-danger">*</span></label>
-                    <select class="form-control" v-model="employeeId">
-                      <option>Select Resigning Employee</option>
+                    <label>Employee <span class="text-danger">*</span></label>
+                    <select class="form-control" v-model="disciplinaryMeasure.employeeId">
+                      <option>Select Employee</option>
                       <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName}}</option>
                     </select>
                   </div>
                   <div class="form-group">
-                      <label>disciplinaryMeasure Date <span class="text-danger">*</span></label>
+                      <label>Date <span class="text-danger">*</span></label>
                       <div class="cal-icon">
                         <datepicker v-model="disciplinaryMeasure.date" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
                       </div>
                   </div>
                    <div class="form-group">
-                      <label>Remark <span class="text-danger">*</span></label>
+                      <label>HR Manager <span class="text-danger">*</span></label>
                       <input class="form-control" v-model="disciplinaryMeasure.hrManager" />
                   </div>
                   <div class="form-group">
@@ -253,17 +252,17 @@ export default {
       dialogEdit: false,
       dialogDelete: false,
       headers: [
-      {
-        text: 'Form',
-        align: 'start',
-        value: 'profile',
-      },
+      // {
+      //   text: 'Form',
+      //   align: 'start',
+      //   value: 'profile',
+      // },
+      { text: 'Form', value: '' },
       { text: 'Reason', value: 'reason' },
-      { text: 'Employee', value: 'employee.designation' },
-      { text: 'Date', value: 'date' },
-      { text: 'Status Reason', value: 'statusReason' },
-      { text: 'Department(Employee)', value: 'deparment' },
-      { text: '', value: 'actions', sortable: false },
+      { text: 'Employee', value: '' },
+      // { text: 'Status Reason', value: 'reason' },
+      { text: 'Department(Employee)', value: '' },
+      { text: 'Actions', value: 'actions', sortable: false },
     ],
       name: "",
       employeeId: "",
@@ -280,6 +279,7 @@ export default {
       submitted: false,
       //employee: authenticationService.currentOfficeValue,
       company: authenticationService.currentOfficeValue,
+      user: authenticationService.currentUserValue
     };
   },
 
@@ -319,23 +319,11 @@ export default {
         employeeService.getEmployees(companyId)
           .then(
             model => { this.employees = model
-            console.log(model) 
+            // console.log(model) 
             },
             error => { error = error }
           )
      },
-    getDisciplinaryMeasure() {
-      // const companyId = this.company.id;
-      employeeService.getDisciplinaryMeasure(this.employeeId).then(
-        (model) => {
-          console.log(model)
-          this.disciplinaryMeasures = model;
-        },
-        (error) => {
-          error = error;
-        }
-      );
-    },
     openDialog(){
       this.dialog = true
     },
@@ -348,6 +336,10 @@ export default {
     closeDelete() {
       this.dialogDelete = false
     },
+    clearList() {
+      this.employeeId = ""
+
+    },
     setEditDisciplinaryMeasure(model) {
       this.disciplinaryMeasure = model;
       this.dialogEdit = true
@@ -356,7 +348,19 @@ export default {
       this.disciplinaryMeasure = model;
       this.dialogDelete = true;
     },
-
+    getDisciplinaryMeasures() {
+      //const user = this.user;
+       console.log(`company`, this.company.id)
+      employeeService.getDisciplinaryMeasures(this.company.id).then(
+        (model) => {
+          this.disciplinaryMeasures = model;
+          // console.log(`model`, model)
+        },
+        (error) => {
+          error = error;
+        }
+      );
+    },
     onSubmit() {
       this.submitted = true;
       
@@ -371,8 +375,8 @@ export default {
         )
         .then(
           (id) => {
-            employeeService.getDisciplinaryMeasure(this.employeeId).then((w) => {
-              this.disciplinaryMeasures = w, console.log(w); this.close()
+            employeeService.getDisciplinaryMeasures(this.employeeId).then((w) => {
+              this.disciplinaryMeasures = w; console.log(w); this.close()
             });
           },
           (error) => {
@@ -387,7 +391,7 @@ export default {
         this.loading = true;
         console.log(this.disciplinaryMeasure)
         employeeService
-          .updateEmployeedisciplinaryMeasure(
+          .updateDisciplinaryMeasure(
             this.disciplinaryMeasure.id, 
             this.disciplinaryMeasure.date, 
             this.disciplinaryMeasure.hrManager, 
@@ -396,7 +400,7 @@ export default {
             this.disciplinaryMeasure.employeeId
           )
             .then(id => {
-                  employeeService.getDisciplinaryMeasures(this.employeeId)
+                  employeeService.getDisciplinaryMeasures(this.company.id)
                     .then(
                       o => {this.disciplinaryMeasures = o, console.log(o), this.closeEdit()}
                     )
@@ -413,7 +417,7 @@ export default {
       // console.log(this.disciplinaryMeasure)
         employeeService.removeDisciplinaryMeasure(id)
           .then(id => {
-            employeeService.getDisciplinaryMeasure(this.employeeId)
+            employeeService.getDisciplinaryMeasures(this.company.id)
               .then(
                 model => { this.disciplinaryMeasures = model
                 // console.log(model)
@@ -427,7 +431,7 @@ export default {
   mounted() {
 
      this.getEmployees()
-     this.getDisciplinaryMeasure()
+     this.getDisciplinaryMeasures()
     // Datatable
     //this.getEmployees(this.employee.id);
     //this.getEmployeedisciplinaryMeasures(this.company.id);

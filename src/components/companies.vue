@@ -39,10 +39,10 @@
                                     <div class="table-responsive">
                                         <table class="table table-hover mb-0">
                                             <thead>
-                                                <tr>
-                                                    <th>Leave Type</th>
-                                                    <th></th>
-                                                </tr>
+                                              <tr>
+                                                <th>Leave Type</th>
+                                                <th></th>
+                                              </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
