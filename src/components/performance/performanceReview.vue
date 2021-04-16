@@ -37,22 +37,36 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <form>
+                                                    <form @submit.prevent="onSubmit">
                                                         <div class="form-group">
                                                             <label for="name">Name</label>
-                                                            <input type="text" class="form-control" id="name">
+                                                            <input type="text" class="form-control" id="name" v-model="name">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="depart3">Department</label>
-                                                            <input type="text" class="form-control" id="depart3">
+                                                            <input type="text" class="form-control" id="depart3" v-model="department">
                                                         </div>
+                                                        <!-- <div class="form-group">
+                                                            <label>Department <span class="text-danger">*</span></label>
+                                                            <select class="form-control" v-model="departmentId">
+                                                            <option>Select Department</option>
+                                                            <option v-for="item in departments" :key="item.id" :value="item.id">{{item.name}}</option>
+                                                            </select>
+                                                        </div> -->
+                                                        <!-- <div class="form-group">
+                                                            <label>Designation <span class="text-danger">*</span></label>
+                                                            <select class="form-control" v-model="designationId">
+                                                            <option>Select Designation</option>
+                                                            <option v-for="item in designations" :key="item.id" :value="item.id">{{item.name}}</option>
+                                                            </select>
+                                                        </div> -->
                                                         <div class="form-group">
                                                             <label for="departa">Designation</label>
-                                                            <input type="text" class="form-control" id="departa">
+                                                            <input type="text" class="form-control" id="departa" v-model="designation">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="qualif">Qualification: </label>
-                                                            <input type="text" class="form-control" id="qualif">
+                                                            <input type="text" class="form-control" id="qualif" v-model="qualification">
                                                         </div>
                                                     </form>
                                                 </td>
@@ -60,19 +74,19 @@
                                                     <form>
                                                         <div class="form-group">
                                                             <label for="doj">Emp ID</label>
-                                                            <input type="text" class="form-control" value="DGT-009">
+                                                            <input type="text" class="form-control" v-model="DGT009">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="doj">Date of Join</label>
-                                                            <input type="text" class="form-control" id="doj">
+                                                            <input type="text" class="form-control" id="doj" v-model="doj">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="doc">Date of Confirmation</label>
-                                                            <input type="text" class="form-control" id="doc">
+                                                            <input type="text" class="form-control" id="doc" v-model="doc">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="qualif1">Previous years of Exp</label>
-                                                            <input type="text" class="form-control" id="qualif1">
+                                                            <input type="text" class="form-control" id="qualif1" v-model="qualification1"/>
                                                         </div>
                                                     </form>
                                                 </td>
@@ -84,7 +98,7 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="depart1"> RO Designation: </label>
-                                                            <input type="text" class="form-control" id="depart1">
+                                                            <input type="text" class="form-control" id="depart1" v-model="department1">
                                                         </div>
                                                     </form>
                                                 </td>
@@ -1176,12 +1190,48 @@
 <script>
     import LayoutHeader from '@/components/layouts/Header.vue'
     import LayoutSidebar from '@/components/layouts/Sidebar.vue'
+    import { organizationService } from '@/services/organizationService'
     export default {
         components: {
             LayoutHeader,
             LayoutSidebar,
         },
+        data() {
+            return {
+                designations: [],
+                designationId: "",
+                departments: [], 
+                departmentId: "",
+                name: "",
+                qualification: ""
+            }
+        },
+        methods: {
+            GetDesignations(){
+                organizationService.getDesignations()
+                .then(
+                    model => { 
+                        this.designations = model;
+                        console.log(`model`, model)
+                    },
+                    error => { this.error = error }
+                )
+            },
+            getDepartments() {
+                organizationService.getDepartments().then(
+                    (model) => {
+                        this.departments = model;
+                        console.log(model);
+                    },
+                    (error) => {
+                        error = error;
+                    }
+                );
+            },
+        },
         mounted() {
+            this.GetDesignations()
+            this.getDepartments()
             // Select 2
             if ($('.select').length > 0) {
                 $('.select').select2({

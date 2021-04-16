@@ -291,217 +291,227 @@
         <!-- /Add Performance Indicator Modal -->
 
         <!-- Edit Performance Indicator Modal -->
-        <div id="edit_indicator" class="modal custom-modal fade" role="dialog">
-          <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Edit Performance Indicator</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <form>
-                  <div class="row">
-                    <div class="col-sm-12">
-                      <div class="form-group">
-                        <label class="col-form-label">Designation</label>
-                        <select class="select">
-                          <option>Select Designation</option>
-                          <option selected>Web Designer</option>
-                          <option>IOS Developer</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-sm-6">
-                      <h4 class="modal-sub-title">Technical</h4>
-                      <div class="form-group">
-                        <label class="col-form-label">Customer Experience</label>
-                        <select class="select">
-                          <option>None</option>
-                          <option>Beginner</option>
-                          <option>Intermediate</option>
-                          <option selected>Advanced</option>
-                          <option>Expert / Leader</option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-form-label">Marketing</label>
-                        <select class="select">
-                          <option>None</option>
-                          <option>Beginner</option>
-                          <option>Intermediate</option>
-                          <option>Advanced</option>
-                          <option selected>Expert / Leader</option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-form-label">Management</label>
-                        <select class="select">
-                          <option>None</option>
-                          <option>Beginner</option>
-                          <option selected>Intermediate</option>
-                          <option>Advanced</option>
-                          <option>Expert / Leader</option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-form-label">Administration</label>
-                        <select class="select">
-                          <option>None</option>
-                          <option>Beginner</option>
-                          <option>Intermediate</option>
-                          <option selected>Advanced</option>
-                          <option>Expert / Leader</option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-form-label">Presentation Skill</label>
-                        <select class="select">
-                          <option>None</option>
-                          <option>Beginner</option>
-                          <option>Intermediate</option>
-                          <option>Advanced</option>
-                          <option>Expert / Leader</option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-form-label">Quality Of Work</label>
-                        <select class="select">
-                          <option>None</option>
-                          <option>Beginner</option>
-                          <option>Intermediate</option>
-                          <option>Advanced</option>
-                          <option>Expert / Leader</option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-form-label">Efficiency</label>
-                        <select class="select">
-                          <option>None</option>
-                          <option>Beginner</option>
-                          <option>Intermediate</option>
-                          <option>Advanced</option>
-                          <option>Expert / Leader</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-sm-6">
-                      <h4 class="modal-sub-title">Organizational</h4>
-                      <div class="form-group">
-                        <label class="col-form-label">Integrity</label>
-                        <select class="select">
-                          <option>None</option>
-                          <option>Beginner</option>
-                          <option>Intermediate</option>
-                          <option>Advanced</option>
-                          <option>Expert / Leader</option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-form-label">Professionalism</label>
-                        <select class="select">
-                          <option>None</option>
-                          <option>Beginner</option>
-                          <option selected>Intermediate</option>
-                          <option>Advanced</option>
-                          <option>Expert / Leader</option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-form-label">Team Work</label>
-                        <select class="select">
-                          <option>None</option>
-                          <option>Beginner</option>
-                          <option>Intermediate</option>
-                          <option>Advanced</option>
-                          <option>Expert / Leader</option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-form-label">Critical Thinking</label>
-                        <select class="select">
-                          <option>None</option>
-                          <option>Beginner</option>
-                          <option>Intermediate</option>
-                          <option selected>Advanced</option>
-                          <option>Expert / Leader</option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-form-label">Conflict Management</label>
-                        <select class="select">
-                          <option>None</option>
-                          <option>Beginner</option>
-                          <option>Intermediate</option>
-                          <option selected>Advanced</option>
-                          <option>Expert / Leader</option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-form-label">Attendance</label>
-                        <select class="select">
-                          <option>None</option>
-                          <option>Beginner</option>
-                          <option selected>Intermediate</option>
-                          <option>Advanced</option>
-                          <option>Expert / Leader</option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-form-label">Ability To Meet Deadline</label>
-                        <select class="select">
-                          <option>None</option>
-                          <option>Beginner</option>
-                          <option>Intermediate</option>
-                          <option selected>Advanced</option>
-                          <option>Expert / Leader</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-sm-12">
-                      <div class="form-group">
-                        <label class="col-form-label">Status</label>
-                        <select class="select">
-                          <option>Active</option>
-                          <option>Inactive</option>
-                        </select>
-                      </div>
+        <v-dialog v-model="dialogEdit" max-width="725px">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit Performance Indicator</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form @submit.prevent="updateDisciplinaryMeasure">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label class="col-form-label">Designation</label>
+                      <select class="select form-control" v-model="performanceIndicator.employeeId">
+                        <option>Select Designation</option>
+                        <option>Web Designer</option>
+                        <option>IOS Developer</option>
+                      </select>
                     </div>
                   </div>
-                  <div class="submit-section">
-                    <button class="btn btn-primary submit-btn">Submit</button>
+                  <div class="col-sm-12">
+                      <div class="form-group">
+                        <label>Added By <span class="text-danger">*</span></label>
+                        <select class="form-control" v-model="performanceIndicator.employeeId">
+                          <option>Select Employee</option>
+                          <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  <div class="col-sm-6">
+                    <h4 class="modal-sub-title">Technical</h4>
+                    <div class="form-group">
+                      <label class="col-form-label">Customer Experience</label>
+                      <select class="select form-control" v-model="performanceIndicator.tech_CE">
+                        <option>None</option>
+                        <option>Beginner</option>
+                        <option>Intermediate</option>
+                        <option>Advanced</option>
+                        <option>Expert / Leader</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-form-label">Marketing</label>
+                      <select class="select form-control" v-model="performanceIndicator.tech_Marketing">
+                        <option>None</option>
+                        <option>Beginner</option>
+                        <option>Intermediate</option>
+                        <option>Advanced</option>
+                        <option>Expert / Leader</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-form-label">Management</label>
+                      <select class="select form-control" v-model="performanceIndicator.tech_Management">
+                        <option>None</option>
+                        <option>Beginner</option>
+                        <option>Intermediate</option>
+                        <option>Advanced</option>
+                        <option>Expert / Leader</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-form-label">Administration</label>
+                      <select class="select form-control" v-model="performanceIndicator.tech_Administration">
+                        <option>None</option>
+                        <option>Beginner</option>
+                        <option>Intermediate</option>
+                        <option selected>Advanced</option>
+                        <option>Expert / Leader</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-form-label">Presentation Skill</label>
+                      <select class="select form-control" v-model="performanceIndicator.tech_Presentation">
+                        <option>None</option>
+                        <option>Beginner</option>
+                        <option>Intermediate</option>
+                        <option>Advanced</option>
+                        <option>Expert / Leader</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-form-label">Quality Of Work</label>
+                      <select class="select form-control" v-model="performanceIndicator.tech_QOW">
+                        <option>None</option>
+                        <option>Beginner</option>
+                        <option>Intermediate</option>
+                        <option>Advanced</option>
+                        <option>Expert / Leader</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-form-label">Efficiency</label>
+                      <select class="select form-control" v-model="performanceIndicator.tech_Efficiency">
+                        <option>None</option>
+                        <option>Beginner</option>
+                        <option>Intermediate</option>
+                        <option>Advanced</option>
+                        <option>Expert / Leader</option>
+                      </select>
+                    </div>
                   </div>
-                </form>
-              </div>
+                  <div class="col-sm-6">
+                    <h4 class="modal-sub-title">Organizational</h4>
+                    <div class="form-group">
+                      <label class="col-form-label">Integrity</label>
+                      <select class="select" form-control v-model="performanceIndicator.org_Integrity">
+                        <option>None</option>
+                        <option>Beginner</option>
+                        <option>Intermediate</option>
+                        <option>Advanced</option>
+                        <option>Expert / Leader</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-form-label">Professionalism</label>
+                      <select class="select form-control" v-model="performanceIndicator.org_Professionalism">
+                        <option>None</option>
+                        <option>Beginner</option>
+                        <option>Intermediate</option>
+                        <option>Advanced</option>
+                        <option>Expert / Leader</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-form-label">Team Work</label>
+                      <select class="select form-control" v-model="performanceIndicator.org_Teamwork">
+                        <option>None</option>
+                        <option>Beginner</option>
+                        <option>Intermediate</option>
+                        <option>Advanced</option>
+                        <option>Expert / Leader</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-form-label">Critical Thinking</label>
+                      <select class="select form-control" v-model="performanceIndicator.org_CriticalThinking">
+                        <option>None</option>
+                        <option>Beginner</option>
+                        <option>Intermediate</option>
+                        <option>Advanced</option>
+                        <option>Expert / Leader</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-form-label">Conflict Management</label>
+                      <select class="select form-control" v-model="performanceIndicator.org_Conflict">
+                        <option>None</option>
+                        <option>Beginner</option>
+                        <option>Intermediate</option>
+                        <option>Advanced</option>
+                        <option>Expert / Leader</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-form-label">Attendance</label>
+                      <select class="select form-control" v-model="performanceIndicator.org_Attendance">
+                        <option>None</option>
+                        <option>Beginner</option>
+                        <option>Intermediate</option>
+                        <option>Advanced</option>
+                        <option>Expert / Leader</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-form-label">Ability To Meet Deadline</label>
+                      <select class="select form-control" v-model="performanceIndicator.org_ATMD">
+                        <option>None</option>
+                        <option>Beginner</option>
+                        <option>Intermediate</option>
+                        <option>Advanced</option>
+                        <option>Expert / Leader</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label class="col-form-label">Status</label>
+                      <select class="select form-control" v-model="performanceIndicator.status">
+                        <option>Active</option>
+                        <option>Inactive</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="submit-section">
+                  <button @click.prevent="updateDisciplinaryMeasure" class="btn btn-primary submit-btn">Submit</button>
+                </div>
+              </form>
             </div>
           </div>
-        </div>
+        </v-dialog>
         <!-- /Edit Performance Indicator Modal -->
 
         <!-- Delete Performance Indicator Modal -->
-        <div class="modal custom-modal fade" id="delete_indicator" role="dialog">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-body">
-                <div class="form-header">
-                  <h3>Delete Performance Indicator List</h3>
-                  <p>Are you sure want to delete?</p>
-                </div>
-                <div class="modal-btn delete-action">
-                  <div class="row">
-                    <div class="col-6">
-                      <a href="javascript:void(0);" class="btn btn-primary continue-btn">Delete</a>
-                    </div>
-                    <div class="col-6">
-                      <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
-                    </div>
+        <v-dialog v-model="dialogDelete" max-width="725px">
+          <div class="modal-content">
+            <div class="modal-body">
+              <div class="form-header">
+                <h3>Delete Performance Indicator List</h3>
+                <p>Are you sure want to delete?</p>
+              </div>
+              <div class="modal-btn delete-action">
+                <div class="row">
+                  <div class="col-6">
+                    <a 
+                      @click.prevent="deletePerformanceIndicator "
+                      class="btn btn-primary continue-btn"
+                    >
+                      Delete
+                    </a>
+                  </div>
+                  <div class="col-6">
+                    <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </v-dialog>
         <!-- /Delete Performance Indicator Modal -->
 
       </div>
@@ -515,7 +525,7 @@
   import { organizationService } from '@/services/organizationService'
   import { employeeService } from "@/services/employeeService.js"
   import { performanceService } from "@/services/performanceService.js"
-  import { authenticationService } from '@/services/authenticationService';
+  import { authenticationService } from '@/services/authenticationService'
   
   export default {
     components: {
@@ -563,7 +573,7 @@
     },
     methods: {
       openDialog(){
-      this.dialog = true
+        this.dialog = true
       },
       close() {
         this.dialog = false;
@@ -577,11 +587,31 @@
       },
       setEditPerformanceIndicator(model) {
         this.performanceIndicator = model;
+        console.log(`model edit`, model)
         this.dialogEdit = true
       },
       setDeletePerformanceIndicator(model) {
         this.performanceIndicator = model;
+        console.log(`model delete`, model)
         this.dialogDelete = true;
+      },
+      clearModel() {
+        this.tech_CE = "", 
+        this.tech_Marketing = "", 
+        this.tech_Management = "", 
+        this.tech_Administration = "", 
+        this.tech_Presentation = "", 
+        this.tech_QOW = "", 
+        this.tech_Efficiency = "",
+        this.org_Integrity = "",
+        this.org_Professionalism = "",
+        this.org_Teamwork = "",
+        this.org_CriticalThinking = "",
+        this.org_Conflict = "",
+        this.org_Attendance = "",
+        this.org_ATMD = "",
+        this.designationId = "",
+        this.addedBy = ""
       },
       GetDesignations(){
           organizationService.getDesignations()
@@ -650,7 +680,7 @@
           }
         );
      },
-     updateDisciplinaryMeasure () {
+     updateDesignationPerformance () {
         this.submitted = true;
         this.loading = true;
 
