@@ -478,7 +478,7 @@
                   </div>
                 </div>
                 <div class="submit-section">
-                  <button @click.prevent="updateDisciplinaryMeasure" class="btn btn-primary submit-btn">Submit</button>
+                  <button @click.prevent="updateDesignationPerformance" class="btn btn-primary submit-btn">Submit</button>
                 </div>
               </form>
             </div>
@@ -539,9 +539,9 @@
           dialogDelete: false,
           headers: [
             { text: 'Designation', value: 'designation.name' },
-            { text: 'Department', value: 'destination.' },
+            { text: 'Department', value: 'destination.department.name' },
             { text: 'Added By', value: 'payslip', sortable: false },
-            { text: 'Create At', value: 'netSalary' },
+            { text: 'Created At', value: 'netSalary' },
             { text: 'Status', value: 'payslip', sortable: false },
             { text: 'Actions', value: 'actions', sortable: false },
           ],
@@ -686,6 +686,7 @@
 
        performanceService
         .updateDesignationPerformance(
+          this.performanceIndicator.id,
           this.performanceIndicator.tech_CE, 
           this.performanceIndicator.tech_Marketing, 
           this.performanceIndicator.tech_Management, 
