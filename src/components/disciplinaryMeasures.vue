@@ -64,14 +64,15 @@
                   </template>
                   <template v-slot:[`item.profile`]="{ item }">
                     <h2 class="table-avatar blue-link">
-                      <router-link to="/profile" class="avatar"
+                      <router-link to="/profile/" class="avatar"
                         ><img alt="" src="../assets/profiles/avatar-02.jpg"
                       /></router-link>
                       <router-link to="/profile">{{
-                        `${item.hrManager}`
+                        `${item.employee.firstName} ${item.employee.lastName}`
                       }}</router-link>
                     </h2>
                   </template>
+                  
                 </v-data-table>
               </div>
             </div>
@@ -113,10 +114,15 @@
                       <label>HR Manager <span class="text-danger">*</span></label>
                       <input class="form-control" v-model="hrManager" />
                   </div>
-                   <!-- <div class="form-group">
+                   <div class="form-group">
                       <label>Form <span class="text-danger">*</span></label>
-                      <input class="form-control" v-model="form" />
-                  </div> -->
+                      <select class="select form-control" v-model="form">
+                                      <option>-- Select --</option>
+                                      <option value="Verbal">Verbal</option>
+                                      <option value="Written">Written</option>
+                                      <option value="Terminated">Terminated</option>
+                                    </select>
+                  </div>
                   
                   <div class="form-group">
                       <label>Reason <span class="text-danger">*</span></label>
@@ -178,6 +184,15 @@
                       <label>Form <span class="text-danger">*</span></label>
                       <input class="form-control" v-model="disciplinary.form" />
                   </div> -->
+                  <div class="form-group">
+                      <label>Form <span class="text-danger">*</span></label>
+                      <select class="select form-control" v-model="disciplinaryMeasure.form">
+                                      <option>-- Select --</option>
+                                      <option value="Verbal">Verbal</option>
+                                      <option value="Written">Written</option>
+                                      <option value="Terminated">Terminated</option>
+                                    </select>
+                  </div>
                   <div class="form-group">
                       <label>Reason <span class="text-danger">*</span></label>
                       <textarea class="form-control" v-model="disciplinaryMeasure.reason" rows="4"></textarea>
@@ -261,14 +276,15 @@ export default {
       //   align: 'start',
       //   value: 'profile',
       // },
-      { text: 'Form', value: '' },
+      { text: 'Form', value: 'form' },
       { text: 'Reason', value: 'reason' },
-      { text: 'Employee', value: 'employee.lastName'},
+      { text: 'Employee', value: 'profile' },
       // { text: 'Status Reason', value: 'reason' },
-      { text: 'Department(Employee)', value: '' },
+      { text: 'Designation(Employee)', value: 'employee.designation.name' },
       { text: 'Actions', value: 'actions', sortable: false },
     ],
       name: "",
+      form: "",
       employeeId: "",
       hrManager: "",
       reason: "",
@@ -290,6 +306,7 @@ export default {
   validations: {
     name: { required },
     reason: { required },
+    form: { required },
     date: { required },
     //disciplinaryMeasureDate: { required },
   },
@@ -372,6 +389,7 @@ export default {
         .addDisciplinaryMeasure(
           this.date,
           this.hrManager,
+          this.form,
           this.reason,
           this.remark,
           this.employeeId
@@ -398,6 +416,7 @@ export default {
             this.disciplinaryMeasure.id, 
             this.disciplinaryMeasure.date, 
             this.disciplinaryMeasure.hrManager, 
+            this.disciplinaryMeasure.form, 
             this.disciplinaryMeasure.reason, 
             this.disciplinaryMeasure.remark, 
             this.disciplinaryMeasure.employeeId

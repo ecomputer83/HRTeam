@@ -369,6 +369,7 @@
 		},
 		data(){
 			return {
+				
 				currentUser: authenticationService.currentUserValue,
 				myAccount: true,
 				employee: {
