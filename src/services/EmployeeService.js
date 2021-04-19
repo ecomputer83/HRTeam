@@ -766,10 +766,11 @@ function getPaidSalaries(id) {
 
 }
 
-function addDisciplinaryMeasure(date, hrManager, reason, remark, employeeId) {
+function addDisciplinaryMeasure(date, hrManager, form, reason, remark, employeeId) {
     var req = {
         date,
         hrManager,
+        form,
         reason,
         remark,
         employeeId
@@ -800,10 +801,12 @@ function getDisciplinaryMeasures(companyId) {
         });
 }
 
-function updateDisciplinaryMeasure(id, date, hrManager, reason, remark, employeeId) {
+function updateDisciplinaryMeasure(id, date, hrManager, form, reason, remark, employeeId) {
     var req = {
+        id,
         date,
         hrManager,
+        form,
         reason,
         remark,
         employeeId

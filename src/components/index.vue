@@ -263,7 +263,7 @@
               </div>
             </div> -->
 
-            <div class="col-md-12 col-lg-6 col-xl-4 d-flex">
+            <div class="col-md-12 col-lg-6 col-xl-6 d-flex">
               <div class="card flex-fill">
                 <div class="card-body">
                   <h4 class="card-title">Task Statistics</h4>
@@ -311,7 +311,7 @@
               </div>
             </div>
 
-            <div class="col-md-12 col-lg-6 col-xl-4 d-flex">
+            <div class="col-md-12 col-lg-6 col-xl-6 d-flex">
               <div class="card flex-fill">
                 <div class="card-body">
                   <h4 class="card-title">Today Absent <span class="badge bg-inverse-danger ml-2">5</span></h4>
