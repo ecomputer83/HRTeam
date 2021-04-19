@@ -174,6 +174,10 @@
                       <label>HR Manager <span class="text-danger">*</span></label>
                       <input class="form-control" v-model="disciplinaryMeasure.hrManager" />
                   </div>
+                   <!-- <div class="form-group">
+                      <label>Form <span class="text-danger">*</span></label>
+                      <input class="form-control" v-model="disciplinary.form" />
+                  </div> -->
                   <div class="form-group">
                       <label>Reason <span class="text-danger">*</span></label>
                       <textarea class="form-control" v-model="disciplinaryMeasure.reason" rows="4"></textarea>
@@ -259,7 +263,7 @@ export default {
       // },
       { text: 'Form', value: '' },
       { text: 'Reason', value: 'reason' },
-      { text: 'Employee', value: '' },
+      { text: 'Employee', value: 'employee.lastName'},
       // { text: 'Status Reason', value: 'reason' },
       { text: 'Department(Employee)', value: '' },
       { text: 'Actions', value: 'actions', sortable: false },
@@ -272,7 +276,7 @@ export default {
       date: "",
       disciplinaryMeasure: {},
       disciplinaryMeasures: [],
-      employee: [],
+      employee: {},
       loading: false,
       error: "",
       employees: [],
@@ -312,7 +316,6 @@ export default {
     //     }
     //   );
     // },
-
     getEmployees () {
         const companyId = this.company.id;
         //console.log('this.company.id', this.company.id)
