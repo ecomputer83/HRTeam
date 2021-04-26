@@ -57,6 +57,8 @@ import promotion from '@/components/promotion'
 import performanceIndicator from '@/components/performance/performanceIndicator'
 import performanceReview from '@/components/performance/performanceReview'
 import performanceAppraisal from '@/components/performance/performanceAppraisal'
+import professionalExcellenceSettings from '@/components/settings/performance/professionalExcellenceSettings'
+import personalExcellenceSettings from '@/components/settings/performance/personalExcellenceSettings'
 import { authenticationService } from '@/services/authenticationService';
 import { Role } from '@/helpers/role';
 
@@ -409,7 +411,18 @@ const router = new Router({
       component: performanceAppraisal,
       // meta: { authorize: [Role.HRAdmin] },
     },
-    
+    {
+      path: '/professional-excellence-settings',
+      name: 'professionalexcellencesettings',
+      component: professionalExcellenceSettings,
+      // meta: { authorize: [Role.HRAdmin] },
+    },
+    {
+      path: '/personal-excellence-settings',
+      name: 'personalexcellencesettings',
+      component: personalExcellenceSettings,
+      // meta: { authorize: [Role.HRAdmin] },
+    }
 
   ],
 

@@ -12,7 +12,11 @@ export const performanceService = {
     addPerformanceAppraisal,
     getPerformanceAppraisals,
     updatePerformanceAppraisal,
-    removePerformanceAppraisal   
+    removePerformanceAppraisal,
+    AddProfessionalExcellenceSettings,
+    getProfessionalExcellenceSettings,
+    UpdateProfessionalExcellenceSettings,
+    removeProfessionalExcellenceSettings
 }
 
 function addDesignationPerformance(
@@ -232,6 +236,52 @@ return fetch(`${config.apiurl}/Designation/PutPerformanceIndicator/${id}`, reque
 
 function removePerformanceAppraisal(id) {
     return fetch(`${config.apiurl}/Designation/DeletePerformanceIndicator/${id}`, requestOptions.delete())
+    .then(handleResponse)
+    .then(id => {
+        return id;
+    })
+}
+
+function AddProfessionalExcellenceSettings(keyResult, keyPerformanceIndicator, weightAge) {
+    var req = {
+        keyResult, 
+        keyPerformanceIndicator, 
+        weightAge
+    }
+    return fetch(`${config.apiurl}/PerformanceReview/AddProffesionalExcellenceSettings`, requestOptions.post(req))
+        .then(handleResponse)
+        .then(id => {
+
+            return id;
+        });
+}
+
+function getProfessionalExcellenceSettings() {
+    return fetch(`${config.apiurl}/PerformanceReview/GetProffesionalExcellenceSettings/${id}`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+            console.log(model)
+            return model
+        });
+
+}
+
+function UpdateProfessionalExcellenceSettings(id, keyResult, keyPerformanceIndicator, weightAge) {
+var req = {
+    id,
+    keyResult, 
+    keyPerformanceIndicator, 
+    weightAge
+}
+return fetch(`${config.apiurl}/PerformanceReview/UpdateProffesionalExcellenceSettings/${id}`, requestOptions.put(req))
+    .then(handleResponse)
+    .then(id => {
+        return id;
+    });
+}
+
+function removeProfessionalExcellenceSettings(id) {
+    return fetch(`${config.apiurl}/PerformanceReview/DeleteProffesionalExcellenceSettings/${id}`, requestOptions.delete())
     .then(handleResponse)
     .then(id => {
         return id;
