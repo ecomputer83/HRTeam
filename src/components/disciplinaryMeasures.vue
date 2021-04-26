@@ -180,6 +180,10 @@
                       <label>HR Manager <span class="text-danger">*</span></label>
                       <input class="form-control" v-model="disciplinaryMeasure.hrManager" />
                   </div>
+                   <!-- <div class="form-group">
+                      <label>Form <span class="text-danger">*</span></label>
+                      <input class="form-control" v-model="disciplinary.form" />
+                  </div> -->
                   <div class="form-group">
                       <label>Form <span class="text-danger">*</span></label>
                       <select class="select form-control" v-model="disciplinaryMeasure.form">
@@ -288,7 +292,7 @@ export default {
       date: "",
       disciplinaryMeasure: {},
       disciplinaryMeasures: [],
-      employee: [],
+      employee: {},
       loading: false,
       error: "",
       employees: [],
@@ -329,7 +333,6 @@ export default {
     //     }
     //   );
     // },
-
     getEmployees () {
         const companyId = this.company.id;
         //console.log('this.company.id', this.company.id)

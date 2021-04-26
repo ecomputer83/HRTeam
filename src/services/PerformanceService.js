@@ -95,9 +95,11 @@ function updateDesignationPerformance(
         org_Conflict,
         org_Attendance,
         org_ATMD,
-        designationId
+        designationId,
+        addedBy
     ) {
     var req = {
+        id,
         tech_CE,
         tech_Marketing,
         tech_Management,
@@ -112,7 +114,8 @@ function updateDesignationPerformance(
         org_Conflict,
         org_Attendance,
         org_ATMD,
-        designationId
+        designationId,
+        addedBy
     }
     return fetch(`${config.apiurl}/Designation/PutDesignationPerformance/${id}`, requestOptions.put(req))
         .then(handleResponse)
@@ -122,7 +125,7 @@ function updateDesignationPerformance(
 }
 
 function removeDesignationPerformance(id) {
-    return fetch(`${config.apiurl}/Designation/DeleteDesinationPerformance/${id}`, requestOptions.delete())
+    return fetch(`${config.apiurl}/Designation/DeleteDesignationPerformance/${id}`, requestOptions.delete())
     .then(handleResponse)
     .then(id => {
         return id;
