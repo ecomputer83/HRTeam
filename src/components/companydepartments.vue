@@ -24,8 +24,7 @@
                 <a
                   href="#"
                   class="btn add-btn"
-                  data-toggle="modal"
-                  data-target="#add_department"
+                  @click="openDialog"
                   ><i class="fa fa-plus"></i> Add Department</a
                 >
               </div>
@@ -53,23 +52,15 @@
             </div>
             <div class="col-md-12">
               <div>
-                <table class="table table-striped custom-table mb-0 datatable">
-                  <thead>
-                    <tr>
-                      <th style="width: 30px">#</th>
-                      <th>Department Name</th>
-                      <th class="text-right">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      v-for="(item, index) in departments"
-                      v-bind:key="item.id"
-                    >
-                      <td>{{ index + 1 }}</td>
-                      <td>{{ item.name }}</td>
-                      <td class="text-right">
-                        <div class="dropdown dropdown-action">
+                <v-data-table
+                                      :headers="headers"
+                                      :items="departments"
+                                      sort-by="name"
+                                      class="elevation-1"
+                                      >
+
+      <template v-slot:[`item.actions`]="{ item }">
+        <div class="dropdown dropdown-action">
                           <a
                             href="#"
                             class="action-icon dropdown-toggle"
@@ -80,24 +71,24 @@
                           <div class="dropdown-menu dropdown-menu-right">
                             <a
                               class="dropdown-item"
-                              @click="setDepartment(item)"
+                              @click="setEditDept(item)"
                               data-toggle="modal"
                               data-target="#edit_department"
                               ><i class="fa fa-pencil m-r-5"></i> Edit</a
                             >
                             <a
                               class="dropdown-item"
-                              @click="setDepartment(item)"
+                              @click="setDeleteDept(item)"
                               data-toggle="modal"
                               data-target="#delete_department"
                               ><i class="fa fa-trash-o m-r-5"></i> Delete</a
                             >
                           </div>
                         </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+
+        
+      </template>
+                                  </v-data-table>
               </div>
             </div>
           </div>
@@ -114,8 +105,7 @@
               <button
                 type="button"
                 class="close"
-                data-dismiss="modal"
-                aria-label="Close"
+                @click="close"
               >
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -160,16 +150,14 @@
         <!-- /Add Department Modal -->
 
         <!-- Edit Department Modal -->
-        <div id="edit_department" class="modal custom-modal fade" role="dialog">
-          <div class="modal-dialog modal-dialog-centered" role="document">
+        <v-dialog v-model="dialogEdit" max-width="725px">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">Edit Department</h5>
                 <button
                   type="button"
                   class="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
+                  @click="closeEdit"
                 >
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -201,17 +189,11 @@
                 </form>
               </div>
             </div>
-          </div>
-        </div>
+          </v-dialog>
         <!-- /Edit Department Modal -->
 
         <!-- Delete Department Modal -->
-        <div
-          class="modal custom-modal fade"
-          id="delete_department"
-          role="dialog"
-        >
-          <div class="modal-dialog modal-dialog-centered">
+        <v-dialog v-model="dialogDelete" max-width="725px">
             <div class="modal-content">
               <div class="modal-body">
                 <div class="form-header">
@@ -231,8 +213,7 @@
                     </div>
                     <div class="col-6">
                       <a
-                        href="javascript:void(0);"
-                        data-dismiss="modal"
+                        @click="closeDelete"
                         class="btn btn-primary cancel-btn"
                         >Cancel</a
                       >
@@ -241,8 +222,7 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+        </v-dialog>
         <!-- /Delete Department Modal -->
       </div>
       <!-- /Page Wrapper -->
@@ -261,9 +241,17 @@ export default {
   },
   data() {
     return {
+      headers: [
+      {
+        text: 'Department Name',
+        align: 'start',
+        value: 'name',
+      },
+      { text: '', value: 'actions', sortable: false },
+    ],
       name: "",
       departments: [],
-      department: null,
+      department: {},
       submitted: false,
       loading: false,
       error: "",
@@ -406,6 +394,6 @@ export default {
 
     this.getDepartments();
   },
-  name: "departments",
+  name: "companydepartments",
 };
 </script>

@@ -26,7 +26,7 @@
           <div class="row">
             <div class="col-lg-6 mx-auto">
                 <form @submit.prevent="onSubmit">
-                            <div class="card" v-if="!this.isCreateCompany">
+                            <div class="card" v-if="this.isCreateCompany == 0">
                                 <div class="card-header">
                   <h4 class="card-title text-center my-auto">Create Company</h4>
                 </div>
@@ -78,7 +78,7 @@
                                 </div>
                             </div>
                         
-              <div class="card"  v-if="this.isCreateCompany">
+              <div class="card"  v-if="this.isCreateCompany == 1">
                   <div class="card-header">
                   <h4 class="card-title text-center my-auto">Create HR Account</h4>
                 </div>
@@ -132,7 +132,115 @@
                     </div>
                    
                     <div class="submit-section">
-                      <button class="btn btn-primary submit-btn" type="button" v-on:click="handleCreateCompany">Back</button>
+                      <button class="btn btn-primary submit-btn" type="button" v-on:click="prev">Back</button>
+                      <button class="btn btn-primary submit-btn" type="button" v-on:click="handleCreateCompany">Next</button>
+                    </div>
+                  
+                </div>
+              </div>
+
+              <div class="card"  v-if="this.isCreateCompany == 2">
+                  <div class="card-header">
+                  <h4 class="card-title text-center my-auto">Company Account Setting</h4>
+                </div>
+                <div class="col-sm-12">
+                      <div class="form-group">
+                        <label class="col-form-label">Employee Abbrevation Code</label>
+                        <input type="text" v-model.trim="$v.abbrv.$model" id="abbrv" name="abbrv" class="form-control" :class="{ 'is-invalid': submitted && $v.abbrv.$error }" />
+                                <div v-if="submitted && !$v.abbrv.required" class="invalid-feedback">Abbrevation Code is required</div>
+                                <div class="invalid-feedback">Code use with employee number for their physical identification code. example: EMP</div>
+                      </div>
+                    </div>
+                <div class="col-sm-12">
+                      <div class="form-group">
+                        <label class="col-form-label">Remita UserName</label>
+                        <input type="text" v-model.trim="$v.remitaUserAccount.$model" id="remitaUserAccount" name="remitaUserAccount" class="form-control" :class="{ 'is-invalid': submitted && $v.remitaUserAccount.$error }" />
+                                <div v-if="submitted && !$v.remitaUserAccount.required" class="invalid-feedback">Remita UserName is required</div>
+                      </div>
+                    </div>
+                <div class="col-sm-12">
+                      <div class="form-group">
+                        <label class="col-form-label">Salary Pay Day</label>
+                        <input type="number" v-model.trim="$v.salaryPayDay.$model" id="salaryPayDay" name="salaryPayDay" class="form-control" :class="{ 'is-invalid': submitted && $v.salaryPayDay.$error }" />
+                                <div v-if="submitted && !$v.salaryPayDay.required" class="invalid-feedback">Salary Pay Day is required</div>
+                      </div>
+                    </div>  
+                    <hr />
+                    <h4 class="card-title text-center my-auto">Salary Account Setting</h4>  
+                    <hr />            
+                <div class="card-body">
+                  <div class="col-sm-12">
+                      <div class="form-group">
+                        <label class="col-form-label">Source Bank Account for Salary Payment</label>
+                        <input type="text" v-model.trim="$v.bankAccountForSalary.$model" id="sourceAccount" name="sourceAccount" class="form-control" :class="{ 'is-invalid': submitted && $v.bankAccountForSalary.$error }" />
+                                <div v-if="submitted && !$v.bankAccountForSalary.required" class="invalid-feedback">Source Bank Account for Salary Payment is required</div>
+                      </div>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label class="col-form-label">Source Bank for Salary Payment</label>
+                        <select class="form-control"  v-model.trim="$v.bankCodeForSalary.$model" :class="{ 'is-invalid': submitted && $v.bankCodeForSalary.$error }">
+                          <option>Select Bank</option>
+                          <option v-for="item in banks" :key="item.lookupValue" :value="item.lookupValue">{{item.lookupDescription}}</option>
+                        </select>
+                                <div v-if="submitted && !$v.bankCodeForSalary.required" class="invalid-feedback">Source Bank for Salary Payment is required</div>
+                      </div>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <input type="checkbox" @change="applySameAccount($event)"  /><label class="col-form-label">  Apply same account to pension and tax</label>
+                      </div>
+                    </div>
+                    <hr />
+                    <h4 class="card-title text-center my-auto">Pension Account Setting</h4>  
+                    <hr />
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label class="col-form-label">Source Bank Account for Pension Payment</label>
+                        <input type="text" v-model.trim="$v.bankAccountForPension.$model" id="bankAccountForPension" name="bankAccountForPension" class="form-control" :class="{ 'is-invalid': submitted && $v.bankAccountForPension.$error }" />
+                                <div v-if="submitted && !$v.bankAccountForPension.required" class="invalid-feedback">Source Bank Account for Pension Payment is required</div>
+                      </div>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label class="col-form-label">Source Bank for Pension Payment</label>
+                        <select class="form-control"  v-model.trim="$v.bankCodeForPension.$model" :class="{ 'is-invalid': submitted && $v.bankCodeForPension.$error }">
+                          <option>Select Bank</option>
+                          <option v-for="item in banks" :key="item.lookupValue" :value="item.lookupValue">{{item.lookupDescription}}</option>
+                        </select>
+                                <div v-if="submitted && !$v.bankCodeForPension.required" class="invalid-feedback">Source Bank for Pension Payment is required</div>
+                      </div>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label class="col-form-label">Employer Code</label>
+                        <input type="text" v-model.trim="$v.employerCodeForPension.$model" id="employerCodeForPension" name="employerCodeForPension" class="form-control" :class="{ 'is-invalid': submitted && $v.employerCodeForPension.$error }" />
+                                <div v-if="submitted && !$v.employerCodeForPension.required" class="invalid-feedback">Employer Code is required</div>
+                      </div>
+                    </div>
+                    <hr />
+                    <h4 class="card-title text-center my-auto">Tax Account Setting</h4>  
+                    <hr />
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label class="col-form-label">Source Bank Account for Tax Payment</label>
+                        <input type="text" v-model.trim="$v.bankAccountForTax.$model" id="bankAccountForTax" name="bankAccountForTax" class="form-control" :class="{ 'is-invalid': submitted && $v.bankAccountForTax.$error }" />
+                                <div v-if="submitted && !$v.bankAccountForTax.required" class="invalid-feedback">Source Bank Account for Tax Payment is required</div>
+                      </div>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label class="col-form-label">Source Bank for Tax Payment</label>
+                        <select class="form-control"  v-model.trim="$v.bankCodeForTax.$model" :class="{ 'is-invalid': submitted && $v.bankCodeForTax.$error }">
+                          <option>Select Bank</option>
+                          <option v-for="item in banks" :key="item.lookupValue" :value="item.lookupValue">{{item.lookupDescription}}</option>
+                        </select>
+                                <div v-if="submitted && !$v.bankCodeForTax.required" class="invalid-feedback">Source Bank for Tax Payment is required</div>
+                      </div>
+                    </div>
+                   
+                    <div class="submit-section">
+                      <button class="btn btn-primary submit-btn" type="button" v-on:click="prev">Back</button>
                       <button class="btn btn-primary submit-btn" type="submit" :disabled="loading">Submit</button>
                     </div>
                   
@@ -165,7 +273,9 @@ export default {
   },
   data(){
     return {
+        id: null,
         name: '',
+        abbrv: '',
         contactPerson: '',
         companyaddress: '',
         contactphone: "",
@@ -176,10 +286,21 @@ export default {
         phone: '',
         email: '',
         address: '',
+        bankAccountForSalary: '',
+        bankCodeForSalary: '',
+        bankAccountForPension: '',
+        bankCodeForPension: '',
+        bankAccountForTax: '',
+        bankCodeForTax: '',
+        employerCodeForPension: '',
+        remitaUserAccount: '',
+        salaryPayDay: 0,
         submitted: false,
         loading: false,
         error: '',
-        isCreateCompany: false
+        isCreateCompany: 0,
+        banks: [],
+        isCompanySetting: false
     }
   },
   validations: {
@@ -193,13 +314,47 @@ export default {
       address: { required },
       gender: { required },
       phone: { required },
-      email: { required }
+      email: { required },
+      bankAccountForSalary: { required },
+        bankCodeForSalary: { required },
+        bankAccountForPension: { required },
+        bankCodeForPension: { required },
+        bankAccountForTax: { required },
+        bankCodeForTax: { required },
+        employerCodeForPension: { required },
+        remitaUserAccount: { required },
+        salaryPayDay: { required },
     },
-  mounted() {},
+  mounted() {
+    this.getBanks()
+  },
   methods: {
-      handleCreateCompany() {
-      this.isCreateCompany = !this.isCreateCompany;
+    getBanks() {
+      organizationService.getBanks()
+        .then(
+          o => this.banks = o
+        )
     },
+    handleCreateCompany() {
+      this.isCreateCompany = this.isCreateCompany + 1;
+    },
+    prev() {
+      this.isCreateCompany = this.isCreateCompany - 1;
+    },
+
+    handleCompanySetting() {
+      this.id = 0;
+      this.isCompanySetting = this.isCreateCompany && this.id;
+    },
+
+    applySameAccount(e) {
+      this.bankAccountForPension = this.bankAccountForSalary;
+      this.bankAccountForTax = this.bankAccountForSalary;
+
+      this.bankCodeForPension = this.bankCodeForSalary;
+      this.bankCodeForTax = this.bankCodeForSalary;
+    },
+
     onSubmit () {
             this.submitted = true;
 
@@ -210,12 +365,17 @@ export default {
             }
 
             this.loading = true;
-            organizationService.addCompany(this.name, this.companyaddress, this.contactPerson, this.contactphone, this.contactemail)
+            organizationService.addCompany(this.name, this.abbrv, this.companyaddress, this.contactPerson, this.contactphone, this.contactemail)
                 .then(
                     id => {
-                      organizationService.registerAsHR(id, this.firstName, this.lastName, this.address, this.gender, this.phone, this.email)
+                      organizationService.addAccountSetting(id, this.bankAccountForSalary, this.bankCodeForSalary, this.bankAccountForPension,
+                          this.bankCodeForPension, this.bankAccountForTax, this.bankCodeForTax, this.employerCodeForPension, this.remitaUserAccount, parseInt(this.salaryPayDay))
                         .then(
-                          o => this.$router.push('/companies')
+                          r => organizationService.registerAsHR(id, this.firstName, this.lastName, this.address, this.gender, this.phone, this.email)
+                          .then(
+                            o => this.$router.push('/companies')
+                          )
+                          
                         )
 					},
                     error => {

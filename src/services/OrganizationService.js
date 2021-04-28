@@ -11,11 +11,14 @@ export const organizationService = {
     addLeaveType,
     removeLeaveType,
     addCompany,
+    addAccountSetting,
     getCompanies,
     getCompany,
+    getAccountSetting,
     addRank,
     getRanks,
     updateCompany,
+    updateAccountSetting,
     removeCompany,
     registerAsHR,
     addDepartment,
@@ -27,6 +30,7 @@ export const organizationService = {
     updateDepartment,
     removeDepartment,
     removeRank,
+    getBanks,
     updateRank
 };
 
@@ -41,6 +45,28 @@ function addOrganization(name, rcnumber, address, contact, contactnumber, contac
         registrationNumber: rcnumber
     }
     return fetch(`${config.apiurl}/organization`, requestOptions.post(req))
+        .then(handleResponse)
+        .then(id => {
+
+            return id;
+        });
+}
+
+function addAccountSetting(companyId, bankAccountForSalary, bankCodeForSalary, bankAccountForPension,
+    bankCodeForPension, bankAccountForTax, bankCodeForTax, employerCodeForPension, remitaUserAccount, salaryPayDay) {
+    var req = {
+        companyId: companyId,
+        bankAccountForSalary,
+        bankCodeForSalary,
+        bankAccountForPension,
+        bankCodeForPension,
+        bankAccountForTax,
+        bankCodeForTax,
+        employerCodeForPension,
+        remitaUserAccount,
+        salaryPayDay
+    }
+    return fetch(`${config.apiurl}/company/PostAccount`, requestOptions.post(req))
         .then(handleResponse)
         .then(id => {
 
@@ -176,6 +202,16 @@ function getLeaveTypes() {
         });
 }
 
+function getAccountSetting(id) {
+
+    return fetch(`${config.apiurl}/company/GetAccount?id=${id}`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+
+            return model
+        });
+}
+
 function removeLeaveType(id) {
     return fetch(`${config.apiurl}/Organization/DeleteLeaveType?id=${id}`, requestOptions.delete())
         .then(handleResponse)
@@ -184,9 +220,9 @@ function removeLeaveType(id) {
         });
 }
 
-function addCompany(name, address, contactPerson, phone, email) {
+function addCompany(name, abbrv, address, contactPerson, phone, email) {
     var req = {
-        name, address, contactPerson, phone, email
+        name, abbrv, address, contactPerson, phone, email
     }
     return fetch(`${config.apiurl}/company`, requestOptions.post(req))
         .then(handleResponse)
@@ -212,6 +248,15 @@ function addDesignation(name, department) {
 
 function getDesignations() {
     return fetch(`${config.apiurl}/Miscellaneous/getDesignations`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+
+            return model;
+        });
+}
+
+function getBanks() {
+    return fetch(`${config.apiurl}/Miscellaneous/getLookup?type=Banks`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
 
@@ -286,11 +331,33 @@ function removeDepartment(id) {
 }
 
 
-function updateCompany(id, name, address, contactPerson, phone, email) {
+function updateCompany(id, name, abbrv, address, contactPerson, phone, email) {
     var req = {
-        name, address, contactPerson, phone, email
+        name, abbrv, address, contactPerson, phone, email
     }
     return fetch(`${config.apiurl}/company?id=${id}`, requestOptions.put(req))
+        .then(handleResponse)
+        .then(id => {
+
+            return id;
+        });
+}
+
+function updateAccountSetting(id, companyId, bankAccountForSalary, bankCodeForSalary, bankAccountForPension,
+    bankCodeForPension, bankAccountForTax, bankCodeForTax, employerCodeForPension, remitaUserAccount, salaryPayDay) {
+        var req = {
+            companyId: companyId,
+            bankAccountForSalary,
+            bankCodeForSalary,
+            bankAccountForPension,
+            bankCodeForPension,
+            bankAccountForTax,
+            bankCodeForTax,
+            employerCodeForPension,
+            remitaUserAccount,
+            salaryPayDay
+        }
+    return fetch(`${config.apiurl}/company/putaccount?id=${id}`, requestOptions.put(req))
         .then(handleResponse)
         .then(id => {
 

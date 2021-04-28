@@ -89,7 +89,7 @@
                                                     </router-link>
                                                 </h2>
                                             </td>
-                                            <td>{{'EMP-' + model.id}}</td>
+                                            <td>{{company.abbrv +'-' + model.id}}</td>
                                             <td>{{model.email}}</td>
                                             <td>{{model.phone}}</td>
                                             <td>{{model.createdAt}}</td>

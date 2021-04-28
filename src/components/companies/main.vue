@@ -132,6 +132,14 @@
                     </div>
                     <div class="col-sm-12">
                       <div class="form-group">
+                        <label class="col-form-label">Employee Abbrevation Code</label>
+                        <input type="text" v-model.trim="$v.company.abbrv.$model" id="abbrv" name="abbrv" class="form-control" :class="{ 'is-invalid': submitted && $v.company.abbrv.$error }" />
+                                <div v-if="submitted && !$v.company.abbrv.required" class="invalid-feedback">Abbrevation Code is required</div>
+                                <div class="invalid-feedback">Code use with employee number for their physical identification code. example: EMP</div>
+                      </div>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="form-group">
                         <label class="col-form-label">Address</label>
                         <input type="text" v-model.trim="$v.company.address.$model" id="address" name="address" class="form-control" :class="{ 'is-invalid': submitted && $v.company.address.$error }" />
                                 <div v-if="submitted && !$v.company.address.required" class="invalid-feedback">Address is required</div>
@@ -247,6 +255,7 @@ export default {
     validations: {
         company: {
             name: { required },
+            abbrv: { required },
             contactPerson: { required },
             address: { required },
             phone: { required },
@@ -313,7 +322,7 @@ export default {
             }
 
             this.loading = true;
-            organizationService.updateCompany(this.company.id, this.company.name, this.company.address, this.company.contactPerson, this.company.phone, this.company.email)
+            organizationService.updateCompany(this.company.id, this.company.name, this.company.abbrv, this.company.address, this.company.contactPerson, this.company.phone, this.company.email)
                 .then(
                     id => {
                       organizationService.getCompanies()

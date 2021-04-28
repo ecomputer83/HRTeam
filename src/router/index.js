@@ -48,7 +48,8 @@ import joblist from '@/components/joblist'
 import applicantLogin from '@/components/applicantLogin'
 import termination from '@/components/termination';
 import resignation from '@/components/resignation';
-import salary from '@/components/payroll/salary'
+import salary from '@/components/payroll/salary';
+import accountsettings from '@/components/settings/account';
 import salaryview from '@/components/payroll/salaryview'
 import payrollitems from '@/components/payroll/payrollitems'
 import expensereports from '@/components/reports/expensereports'
@@ -99,6 +100,12 @@ const router = new Router({
       path: '/job-profile',
       name: 'jobprofile',
       component: JobProfile,
+      meta: { authorize: [Role.HRAdmin] }
+    },
+    {
+      path: '/accountsettings',
+      name: 'accountsettings',
+      component: accountsettings,
       meta: { authorize: [Role.HRAdmin] }
     },
     {
@@ -288,7 +295,7 @@ const router = new Router({
       path: '/ranks',
       name: 'ranks',
       component: ranks,
-      meta: { authorize: [Role.Admin] }
+      meta: { authorize: [Role.HRAdmin] }
     },
     {
       path: '/leave-type-org-admin',

@@ -12,9 +12,7 @@
       <li class="policies">
         <router-link to="/companies"><i class="la la la-search"></i> <span>Companies</span></router-link>
       </li>
-      <li class="policies">
-        <router-link to="/ranks"><i class="la la la-user"></i> <span>Ranks</span></router-link>
-      </li>
+      
       <li class="policies">
         <router-link to="/leave-type-org-admin"><i class="la la la-user"></i> <span>Leave Types</span></router-link>
       </li>

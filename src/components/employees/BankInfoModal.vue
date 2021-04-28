@@ -44,7 +44,10 @@
 														<div class="form-group">
 															<label>Bank Name <span
 																	class="text-danger">*</span></label>
-															<input class="form-control"  v-model.trim="$v.bankName.$model" type="text">
+															<select class="form-control"  v-model.trim="$v.bankName.$model" :class="{ 'is-invalid': submitted && $v.bankName.$error }">
+                          <option>Select Bank</option>
+                          <option v-for="item in banks" :key="item.lookupValue" :value="item.lookupValue">{{item.lookupDescription}}</option>
+                        </select>
 														</div>
                                                         <div v-if="submitted && !$v.bankName.required" class="invalid-feedback">Bank is required</div>
 													</div>
@@ -66,6 +69,7 @@
 <script>
 import { required, sameAs } from 'vuelidate/lib/validators';
 import { employeeService } from '@/services/employeeService';
+import {organizationService} from '@/services/organizationService';
   export default {
     props: {
         model: {},
@@ -82,6 +86,7 @@ import { employeeService } from '@/services/employeeService';
           bankName: (this.model) ? this.model.bankName : '',
           error: '',
           message: '',
+		  banks: [],
           submitted: false
       }
     },
@@ -90,10 +95,17 @@ import { employeeService } from '@/services/employeeService';
         bankName: { required }
     },
     mounted() {
+		this.getBanks();
 		this.$emit('update:employee', this.employee);
 		this.$emit('update:bankInfoDialog', this.dialog);
     },
     methods: {
+		getBanks() {
+      organizationService.getBanks()
+        .then(
+          o => this.banks = o
+        )
+    },
         postBank() {
             this.submitted = true;
             console.log(this.Id)

@@ -42,7 +42,7 @@
 														<h3 class="user-name m-t-0 mb-0">{{employee.firstName + ' ' + employee.lastName}}</h3>
 														<h6 class="text-muted">UI/UX Design Team</h6>
 														<small class="text-muted">Web Designer</small>
-														<div class="staff-id">Employee ID : {{'EMP-'+employee.id}}</div>
+														<div class="staff-id">Employee ID : {{company.abbrv +'-' +employee.id}}</div>
 														<div class="small doj text-muted">Date of Join : 1st Jan 2013
 														</div>
 														<div class="staff-msg">
@@ -369,7 +369,7 @@
 		},
 		data(){
 			return {
-				
+				company: authenticationService.currentOfficeValue,
 				currentUser: authenticationService.currentUserValue,
 				myAccount: true,
 				employee: {

@@ -80,6 +80,9 @@
                 >
               </li>
               <li class="policies">
+        <router-link to="/ranks"><i class="la la la-user"></i> <span>Ranks</span></router-link>
+      </li>
+              <li class="policies">
                 <router-link to="/companydepartments"
                   ><i class="la la la-user"></i>
                   <span>Departments</span></router-link
@@ -242,6 +245,12 @@
 
               <li class="menu-title">
                 <span>Settings</span>
+              </li>
+              <li class="promotion">
+                <router-link to="/accountsettings"
+                  ><i class="la la-bullhorn"></i>
+                  <span>Account Settings</span></router-link
+                >
               </li>
               <li class="promotion">
                 <router-link to="/skill"
