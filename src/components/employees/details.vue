@@ -45,7 +45,7 @@
                             <h6 class="text-muted">UI/UX Design Team</h6>
                             <small class="text-muted">Web Designer</small>
                             <div class="staff-id">
-                              Employee ID : {{ "EMP-" + employee.id }}
+                              Employee ID : {{ company.abbrv +'-' + employee.id }}
                             </div>
                             <div class="small doj text-muted">
                               Date of Join : 1st Jan 2013
@@ -653,7 +653,7 @@ export default {
       bankInfoDialog: false,
       educationDialog: false,
       emergencyContactDialog: false,
-
+      company: authenticationService.currentOfficeValue,
       currentUser: authenticationService.currentUserValue,
       myAccount: false,
       hrAccount: false,
@@ -819,7 +819,7 @@ export default {
       );
     },
     onPostStatutory() {
-      if (this.employee.employeeStatutory.id == 0) {
+      if (!this.employee.employeeStatutory.id) {
         this.employee.employeeStatutory.salaryAmount = parseInt(
           this.employee.employeeStatutory.salaryAmount
         );

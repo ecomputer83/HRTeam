@@ -11,7 +11,7 @@
           <div class="page-header">
             <div class="row">
               <div class="col-sm-12">
-                <h3 class="page-title">Welcome Admin!</h3>
+                <h3 class="page-title">Ranks</h3>
                 <ul class="breadcrumb">
                   <li class="breadcrumb-item">
                     <router-link to="/index">Dashboard</router-link>
@@ -532,7 +532,7 @@
 </template>
 <script>
 import LayoutHeader from "@/components/layouts/Header.vue";
-import LayoutSidebar from "@/components/layouts/orgAdminSidebar.vue";
+import LayoutSidebar from "@/components/layouts/Sidebar.vue";
 import { organizationService } from "@/services/organizationService";
 import { required } from "vuelidate/lib/validators";
 import Vue from "vue";
@@ -600,18 +600,18 @@ export default {
     
     clearModel() {
       this.rankName = "";
-          this.readHoliday = "";
-          this.readLeave = "";
-          this.readAssets = "";
-          this.readTimesheet = "";
-          this.writeHolidays = "";
-          this.writeLeave = "";
-          this.writeAssets = "";
-          this.writeTimesheet = "";
-          this.deleteHolidays = "";
-          this.deleteLeave = "";
-          this.deleteAssets = "";
-          this.deleteTimesheet = "";
+          this.readHoliday = false;
+          this.readLeave = false;
+          this.readAssets = false;
+          this.readTimesheet = false;
+          this.writeHolidays = false;
+          this.writeLeave = false;
+          this.writeAssets = false;
+          this.writeTimesheet = false;
+          this.deleteHolidays = false;
+          this.deleteLeave = false;
+          this.deleteAssets = false;
+          this.deleteTimesheet = false;
     },
 
     close() {
