@@ -49,6 +49,7 @@ import applicantLogin from '@/components/applicantLogin'
 import termination from '@/components/termination';
 import resignation from '@/components/resignation';
 import salary from '@/components/payroll/salary';
+import salaryhistory from '@/components/payroll/salaryhistory';
 import accountsettings from '@/components/settings/account';
 import salaryview from '@/components/payroll/salaryview'
 import payrollitems from '@/components/payroll/payrollitems'
@@ -367,6 +368,12 @@ const router = new Router({
       path: '/salary',
       name: 'salary',
       component: salary,
+      meta: { authorize: [Role.HRAdmin] },
+    },
+    {
+      path: '/salaryhistory',
+      name: 'salaryhistory',
+      component: salaryhistory,
       meta: { authorize: [Role.HRAdmin] },
     },
     {

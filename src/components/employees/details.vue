@@ -515,12 +515,13 @@
                       <div class="col-sm-4">
                         <div class="form-group">
                           <label class="col-form-label">PF Manager</label>
-                          <input
-                            type="text"
+                          <select
                             class="form-control"
                             v-model="employee.employeePension.pensionManager"
-                            placeholder="Type your pension manager"
-                          />
+                          >
+                            <option>Select Pension Manager</option>
+                            <option v-for="item in pensionManagers" :key="item.pfaCode" :value="item">{{item.description}}</option>
+                          </select>
                         </div>
                       </div>
                       <div class="col-sm-4">
@@ -545,6 +546,39 @@
                             <option value="8">8%</option>
                             <option value="9">9%</option>
                             <option value="10">10%</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                     <hr />
+                    <h3 class="card-title">Tax Information</h3>
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="col-form-label"
+                            >Tax Identification No. <span class="text-danger">*</span></label
+                          >
+                          <input
+                            type="text"
+                            class="form-control"
+                            v-model="employee.employeeTax.tin"
+                            placeholder="Type your tax identification number"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="col-form-label"
+                            >Tax State
+                            <span class="text-danger">*</span></label
+                          >
+                          <select
+                            class="form-control"
+                            v-model="employee.employeeTax.tax"
+                          >
+                            <option>Select Tax State</option>
+                            <option v-for="item in taxOffices" :key="item.taxOffice" :value="item">{{item.description}}</option>
                           </select>
                         </div>
                       </div>
@@ -631,6 +665,7 @@ import { required, sameAs } from "vuelidate/lib/validators";
 import { employeeService } from "@/services/employeeService.js";
 import { authenticationService } from "@/services/authenticationService";
 import { organizationService } from "@/services/organizationService";
+import { paymentService } from "@/services/paymentService";
 export default {
   components: {
     LayoutHeader,
@@ -657,6 +692,8 @@ export default {
       currentUser: authenticationService.currentUserValue,
       myAccount: false,
       hrAccount: false,
+      pensionManagers: [],
+      taxOffices: [],
       employee: {
         firstName: null,
         gender: "",
@@ -684,6 +721,13 @@ export default {
           salaryBasis: "",
           salaryAmount: 0.0,
         },
+        employeeTax: {
+          id: 0,
+          tin: "",
+          taxCode: "",
+          taxOffice: "",
+          tax: {}
+        },
       },
       employeePF: 0,
     };
@@ -691,6 +735,8 @@ export default {
   mounted() {
     if (this.$route.params.id) {
       this.GetEmployee();
+      this.GetPensionManager();
+      this.GetTaxOffice();
       console.log(this.currentUser);
       this.myAccount =
         this.currentUser.employee.id == this.employee.id ||
@@ -791,6 +837,16 @@ export default {
       if (employee) this.employee = employee;
       this.familyInfoDialog = false;
     },
+    GetPensionManager() {
+      paymentService.getPensionManager(this.company.id).then(
+        (model) => this.pensionManagers = model
+      )
+    },
+    GetTaxOffice() {
+      paymentService.getTaxOffice(this.company.id).then(
+        (model) => this.taxOffices = model
+      )
+    },
     GetEmployee() {
       employeeService.getEmployeeDetail(this.$route.params.id).then(
         (model) => {
@@ -812,6 +868,17 @@ export default {
               salaryAmount: 0.0,
             };
           }
+          if (!this.employee.employeeTax) {
+                    this.employee.employeeTax = {
+                      id: 0,
+                      tin: "",
+                      taxCode: "",
+                      taxOffice: "",
+                      tax: {}
+                    }
+                  }else{
+                    this.employee.employeeTax.tax = { taxOffice: this.employee.employeeTax.taxCode, description: this.employee.employeeTax.taxOffice}
+                  }
         },
         (error) => {
           this.error = error;
@@ -830,7 +897,8 @@ export default {
           .addEmployeeStatutory(
             this.employee.id,
             this.employee.employeeStatutory,
-            this.employee.employeePension
+            this.employee.employeePension,
+            this.employee.employeeTax
           )
           .then(
             (model) => {
@@ -853,6 +921,14 @@ export default {
                       salaryBasis: "",
                       salaryAmount: 0.0,
                     };
+                  }
+                  if (!this.employee.employeeTax) {
+                    this.employee.employeeTax = {
+                      id: 0,
+                      tin: "",
+                      taxCode: "",
+                      taxOffice: ""
+                    }
                   }
                 },
                 (error) => {
@@ -875,7 +951,8 @@ export default {
           .updateEmployeeStatutory(
             this.employee.id,
             this.employee.employeeStatutory,
-            this.employee.employeePension
+            this.employee.employeePension,
+            this.employee.employeeTax
           )
           .then(
             (model) => {
@@ -898,6 +975,14 @@ export default {
                       salaryBasis: "",
                       salaryAmount: 0.0,
                     };
+                  }
+                  if (!this.employee.employeeTax) {
+                    this.employee.employeeTax = {
+                      id: 0,
+                      tin: "",
+                      taxCode: "",
+                      taxOffice: ""
+                    }
                   }
                 },
                 (error) => {

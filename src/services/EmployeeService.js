@@ -56,7 +56,8 @@ export const employeeService = {
     getDisciplinaryMeasure,
     getDisciplinaryMeasures,
     updateDisciplinaryMeasure,
-    removeDisciplinaryMeasure
+    removeDisciplinaryMeasure,
+    getallEmployeeSalaries
 }
 
 
@@ -187,9 +188,11 @@ function addEmployeeFamily(employeeId, name, relationship, phoneNo) {
         });
 }
 
-function addEmployeeStatutory(employeeId, salary, pf) {
+function addEmployeeStatutory(employeeId, salary, pf, tax) {
     salary.employeeId = employeeId
     pf.employeeId = employeeId
+    tax.employeeId = employeeId
+    fetch(`${config.apiurl}/employee/PostEmployeeTax`, requestOptions.post(tax))
     return fetch(`${config.apiurl}/employee/PostEmployeeStatutory`, requestOptions.post(salary))
         .then(handleResponse)
         .then(id => {
@@ -236,9 +239,11 @@ function updateEmployeePersonalInfo(id, passportIdentificationNumber, nationalit
             return model;
         })
 }
-function updateEmployeeStatutory(employeeId, salary, pf) {
+function updateEmployeeStatutory(employeeId, salary, pf, tax) {
     salary.employeeId = employeeId
     pf.employeeId = employeeId
+    tax.employeeId = employeeId
+    fetch(`${config.apiurl}/employee/UpdateEmployeeTax/${tax.id}`, requestOptions.put(tax))
     return fetch(`${config.apiurl}/employee/UpdateEmployeeStatutory/${salary.id}`, requestOptions.put(salary))
         .then(handleResponse)
         .then(id => {
@@ -715,6 +720,15 @@ function getEmployeeSalary(id) {
 
 function getEmployeeSalaries(id) {
     return fetch(`${config.apiurl}/Employee/GetallEmployeeSalaries/${id}`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+            console.log(model)
+            return model
+        });
+
+}
+function getallEmployeeSalaries(id, month, year) {
+    return fetch(`${config.apiurl}/Employee/GetallPrevEmployeeSalaries/${id}?month=${month}&year=${year}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
             console.log(model)

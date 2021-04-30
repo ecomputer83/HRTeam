@@ -69,9 +69,16 @@
                 </div>
                 <div class="col-sm-12">
                       <div class="form-group">
-                        <label class="col-form-label">Remita UserName</label>
+                        <label class="col-form-label">Remita Public Key</label>
                         <input type="text" v-model.trim="$v.remitaUserAccount.$model" id="remitaUserAccount" name="remitaUserAccount" class="form-control" :class="{ 'is-invalid': submitted && $v.remitaUserAccount.$error }" />
-                                <div v-if="submitted && !$v.remitaUserAccount.required" class="invalid-feedback">Remita UserName is required</div>
+                                <div v-if="submitted && !$v.remitaUserAccount.required" class="invalid-feedback">Remita Public Key is required</div>
+                      </div>
+                    </div>
+                <div class="col-sm-12">
+                      <div class="form-group">
+                        <label class="col-form-label">Remita Secret Key</label>
+                        <input type="text" v-model.trim="$v.remitaSecret.$model" id="remitaSecret" name="remitaSecret" class="form-control" :class="{ 'is-invalid': submitted && $v.remitaSecret.$error }" />
+                                <div v-if="submitted && !$v.remitaSecret.required" class="invalid-feedback">Remita Secret Key is required</div>
                       </div>
                     </div>
                 <div class="col-sm-12">
@@ -199,6 +206,7 @@ export default {
         bankCodeForTax: '',
         employerCodeForPension: '',
         remitaUserAccount: '',
+        remitaSecret: '',
         salaryPayDay: 0,
         submitted: false,
         loading: false,
@@ -217,6 +225,7 @@ export default {
         bankCodeForTax: { required },
         employerCodeForPension: { required },
         remitaUserAccount: { required },
+        remitaSecret: { required },
         salaryPayDay: { required },
     },
   mounted() {
@@ -243,6 +252,7 @@ export default {
             this.bankCodeForTax = o.bankCodeForTax;
             this.employerCodeForPension = o.employerCodeForPension;
             this.remitaUserAccount = o.remitaUserAccount;
+            this.remitaSecret = o.remitaSecret;
             this.salaryPayDay = o.salaryPayDay
           }
         )
@@ -267,9 +277,10 @@ export default {
             this.loading = true;
                 if(this.id){
                     organizationService.updateAccountSetting(this.id, this.company.id, this.bankAccountForSalary, this.bankCodeForSalary, this.bankAccountForPension,
-                        this.bankCodeForPension, this.bankAccountForTax, this.bankCodeForTax, this.employerCodeForPension, this.remitaUserAccount, parseInt(this.salaryPayDay))
+                        this.bankCodeForPension, this.bankAccountForTax, this.bankCodeForTax, this.employerCodeForPension,
+                         this.remitaUserAccount, this.remitaSecret, parseInt(this.salaryPayDay))
                         .then(
-                        o => { this.message = "Account Settings updated successfully";
+                        o => { this.message = "Account Settings updated successfully"; this.loading = false;
 				    	},
                         error => {
                             this.error = error;
@@ -278,9 +289,10 @@ export default {
                     );
                 }else{
                     organizationService.addAccountSetting(this.company.id, this.bankAccountForSalary, this.bankCodeForSalary, this.bankAccountForPension,
-                        this.bankCodeForPension, this.bankAccountForTax, this.bankCodeForTax, this.employerCodeForPension, this.remitaUserAccount, parseInt(this.salaryPayDay))
+                        this.bankCodeForPension, this.bankAccountForTax, this.bankCodeForTax, this.employerCodeForPension,
+                         this.remitaUserAccount, this.remitaSecret, parseInt(this.salaryPayDay))
                         .then(
-                        o => { this.message = "Account Settings created successfully";
+                        o => { this.message = "Account Settings created successfully"; this.loading = false;
 				    	},
                         error => {
                             this.error = error;

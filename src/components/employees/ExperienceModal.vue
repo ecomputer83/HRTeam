@@ -266,6 +266,17 @@ export default {
                       salaryAmount: 0.0,
                     };
                   }
+                  if (!this.employee.employeeTax) {
+                    this.employee.employeeTax = {
+                      id: 0,
+                      tin: "",
+                      taxCode: "",
+                      taxOffice: "",
+                    tax: {}
+                    }
+                  }else{
+                    this.employee.employeeTax.tax = { taxOffice: this.employee.employeeTax.taxCode, description: this.employee.employeeTax.taxOffice}
+                  }
                 },
                 (error) => {
                   this.error = error;
@@ -305,6 +316,17 @@ export default {
                       salaryBasis: "",
                       salaryAmount: 0.0,
                     };
+                  }
+                  if (!this.employee.employeeTax) {
+                    this.employee.employeeTax = {
+                      id: 0,
+                      tin: "",
+                      taxCode: "",
+                      taxOffice: "",
+                    tax: {}
+                    }
+                  }else{
+                    this.employee.employeeTax.tax = { taxOffice: this.employee.employeeTax.taxCode, description: this.employee.employeeTax.taxOffice}
                   }
                 },
                 (error) => {
@@ -346,6 +368,17 @@ export default {
                     salaryAmount: 0.0,
                   };
                 }
+                if (!this.employee.employeeTax) {
+                    this.employee.employeeTax = {
+                      id: 0,
+                      tin: "",
+                      taxCode: "",
+                      taxOffice: "",
+                    tax: {}
+                    }
+                  }else{
+                    this.employee.employeeTax.tax = { taxOffice: this.employee.employeeTax.taxCode, description: this.employee.employeeTax.taxOffice}
+                  }
               },
               (error) => {
                 this.error = error;

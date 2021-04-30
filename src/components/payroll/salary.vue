@@ -19,8 +19,17 @@
                   <li class="breadcrumb-item active">Salary</li>
                 </ul>
               </div>
-              <div class="col-auto float-right ml-auto">
-                <a @click="openDialog" class="btn add-btn"
+              <div class="col-md-3 float-right ml-auto">
+                
+  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-if="paymentButton">
+    Make Payment
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" @click="openSalaryDialog">Pay Salary</a>
+    <a class="dropdown-item" @click="openPensionDialog">Pay Pension</a>
+    <a class="dropdown-item" @click="openTaxDialog">Pay Tax</a>
+  </div>
+                <a @click="openDialog" class="btn btn-primary"
                   ><i class="fa fa-plus"></i> Add Salary</a
                 >
               </div>
@@ -44,7 +53,7 @@
                         class="action-icon dropdown-toggle"
                         data-toggle="dropdown"
                         aria-expanded="false"
-                        ><i class="material-icons">more_vert</i></a
+                        ><i class="material-icons"></i></a
                       >
                       <div class="dropdown-menu dropdown-menu-right">
                         <a class="dropdown-item" @click="setEditSalary(item)"
@@ -65,6 +74,20 @@
                         `${item.employee.firstName} ${item.employee.lastName}`
                       }}</router-link>
                     </h2>
+                  </template>
+                  <template v-slot:[`item.gross`]="{ item }">
+                    ₦{{item.basic.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}}
+                  </template>
+                  <template v-slot:[`item.net`]="{ item }">
+                    ₦{{item.netSalary.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}}
+                  </template>
+                  <template v-slot:[`item.employeeId`]="{ item }">
+                    {{company.abbrv + '-'+item.employeeId}}
+                  </template>
+                  <template v-slot:[`item.paySlip`]="{ item }">
+                    <router-link class="btn btn-sm btn-primary" to="/salaryview" v-if="item.status == 1">Generate
+                                                    Slip
+                                                </router-link>
                   </template>
                 </v-data-table>
               </div>
@@ -487,79 +510,228 @@
           </div>
         </v-dialog>
         <!-- /Edit Salary Modal -->
-
-        <!-- Edit Resignation Modal -->
-        <!-- <v-dialog v-model="dialogEdit" max-width="725px">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Edit Resignation</h5>
-              <button type="button" class="close" @click="closeEdit">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form @submit.prevent="updateEmployeeResignation">
-                <div class="form-group">
-                  <label
-                    >Resigning Employee
-                    <span class="text-danger">*</span></label
-                  >
-                  <select class="form-control" v-model="employeeId">
-                    <option>Select Resigning Employee</option>
-                    <option
-                      v-for="item in employees"
-                      :key="item.id"
-                      :value="item.id"
+        <!-- Confirm Salary Payment -->
+        <div class="text-center">
+    <v-dialog
+      v-model="salarypaymentdialog"
+      width="500"
+    >
+      <v-card>
+        <v-card-title class="headline grey lighten-2">
+          Payment Confirmation
+        </v-card-title>
+        
+        <div style="margin: 10px">
+          <div class="col-md-12">
+                    <div
+                      class="alert alert-danger alert-dismissible fade show"
+                      role="alert"
+                      v-if="paymentError"
                     >
-                      {{ item.firstName }}
-                    </option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label>Notice Date <span class="text-danger">*</span></label>
-                  <div class="cal-icon">
-                    <datepicker
-                      v-model="resignation.noticeDate"
-                      calendar-class
-                      input-class
-                      bootstrap-styling
-                      class="form-control datetimepicker"
-                      type="text"
-                    />
+                      <strong>Error!</strong> {{ paymentError }}
+                      <button
+                        type="button"
+                        class="close"
+                        data-dismiss="alert"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
                   </div>
-                </div>
-                <div class="form-group">
-                  <label
-                    >Resignation Date <span class="text-danger">*</span></label
-                  >
-                  <div class="cal-icon">
-                    <datepicker
-                      v-model="resignation.resignationDate"
-                      calendar-class
-                      input-class
-                      bootstrap-styling
-                      class="form-control datetimepicker"
-                      type="text"
-                    />
+                  <div class="col-md-12">
+                    <div
+                      class="alert alert-success alert-dismissible fade show"
+                      role="alert"
+                      v-if="paymentMessage"
+                    >
+                      <strong>Success!</strong> {{ paymentMessage }}
+                      <button
+                        type="button"
+                        class="close"
+                        data-dismiss="alert"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
                   </div>
-                </div>
-                <div class="form-group">
-                  <label>Reason <span class="text-danger">*</span></label>
-                  <textarea
-                    class="form-control"
-                    v-model="resignation.reason"
-                    rows="4"
-                  ></textarea>
-                </div>
+          <p>You are about to make salary payment of total amount <b>₦{{TotalSalary.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}}</b> to <b>{{salaries.length}}</b> staffs</p>
+         <p>Kindly confirm your password details to continue.</p>
+        
+          <div class="form-group">
+							<label>Password</label>
+							<input type="password" v-model="password" name="password" class="form-control" />
+					</div>
+        </div>
+        <v-divider></v-divider>
 
-                <div class="submit-section">
-                  <button class="btn btn-primary submit-btn">Submit</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </v-dialog> -->
-        <!-- /Edit Resignation Modal -->
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn class="btn btn-secondary"
+            color="white"
+            text
+            @click="closeSalaryDialog"
+          >
+            Reject
+          </v-btn>
+          <v-btn class="btn btn-secondary"
+            color="white"
+            text
+            @click="makeSalaryPayment"
+          >
+            Confirm
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog
+      v-model="pensionpaymentdialog"
+      width="500"
+    >
+      <v-card>
+        <v-card-title class="headline grey lighten-2">
+          Payment Confirmation
+        </v-card-title>
+        
+        <div style="margin: 10px">
+          <div class="col-md-12">
+                    <div
+                      class="alert alert-danger alert-dismissible fade show"
+                      role="alert"
+                      v-if="paymentError"
+                    >
+                      <strong>Error!</strong> {{ paymentError }}
+                      <button
+                        type="button"
+                        class="close"
+                        data-dismiss="alert"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div
+                      class="alert alert-success alert-dismissible fade show"
+                      role="alert"
+                      v-if="paymentMessage"
+                    >
+                      <strong>Success!</strong> {{ paymentMessage }}
+                      <button
+                        type="button"
+                        class="close"
+                        data-dismiss="alert"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  </div>
+          <p>You are about to make pension payment of total amount <b>₦{{TotalSalary.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}}</b> to <b>{{salaries.length}}</b> staffs</p>
+         <p>Kindly confirm your password details to continue.</p>
+        
+          <div class="form-group">
+							<label>Password</label>
+							<input type="password" v-model="password" name="password" class="form-control" />
+					</div>
+        </div>
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn class="btn btn-secondary"
+            color="white"
+            text
+            @click="closePensionDialog"
+          >
+            Reject
+          </v-btn>
+          <v-btn class="btn btn-secondary"
+            color="white"
+            text
+            @click="makePensionPayment"
+          >
+            Confirm
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog
+      v-model="taxpaymentdialog"
+      width="500"
+    >
+      <v-card>
+        <v-card-title class="headline grey lighten-2">
+          Payment Confirmation
+        </v-card-title>
+        
+        <div style="margin: 10px">
+          <div class="col-md-12">
+                    <div
+                      class="alert alert-danger alert-dismissible fade show"
+                      role="alert"
+                      v-if="paymentError"
+                    >
+                      <strong>Error!</strong> {{ paymentError }}
+                      <button
+                        type="button"
+                        class="close"
+                        data-dismiss="alert"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div
+                      class="alert alert-success alert-dismissible fade show"
+                      role="alert"
+                      v-if="paymentMessage"
+                    >
+                      <strong>Success!</strong> {{ paymentMessage }}
+                      <button
+                        type="button"
+                        class="close"
+                        data-dismiss="alert"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  </div>
+          <p>You are about to make tax payment of total amount <b>₦{{TotalSalary.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}}</b> to <b>{{salaries.length}}</b> staffs</p>
+         <p>Kindly confirm your password details to continue.</p>
+        
+          <div class="form-group">
+							<label>Password</label>
+							<input type="password" v-model="password" name="password" class="form-control" />
+					</div>
+        </div>
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn class="btn btn-secondary"
+            color="white"
+            text
+            @click="closeTaxDialog"
+          >
+            Reject
+          </v-btn>
+          <v-btn class="btn btn-secondary"
+            color="white"
+            text
+            @click="makeTaxPayment"
+          >
+            Confirm
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </div>
 
         <!-- Delete Salary Modal -->
         <v-dialog v-model="dialogDelete" max-width="725px">
@@ -605,6 +777,8 @@ import { required, sameAs } from "vuelidate/lib/validators";
 import { employeeService } from "@/services/employeeService.js";
 import Datepicker from "vuejs-datepicker";
 import { authenticationService } from "@/services/authenticationService";
+import { organizationService } from "@/services/organizationService";
+import { paymentService } from "@/services/paymentService";
 
 export default {
   components: {
@@ -618,6 +792,12 @@ export default {
       dialog: false,
       dialogEdit: false,
       dialogDelete: false,
+      salarypaymentdialog: false,
+      pensionpaymentdialog: false,
+      taxpaymentdialog: false,
+      password: '',
+      salaryPayDay: null,
+      today: new Date().getDate(),
       headers: [
         {
           text: "Employee",
@@ -627,8 +807,8 @@ export default {
         { text: "Employee ID", value: "employeeId" },
         { text: "Email", value: "employee.email" },
         { text: "Role", value: "employee.designation.name" },
-        { text: "Salary", value: "basic" },
-        { text: "Receive Salary", value: "netSalary" },
+        { text: "Salary", value: "gross" },
+        { text: "Receive Salary", value: "net" },
         { text: "Payslip", value: "paySlip", sortable: false },
         { text: "Actions", value: "actions", sortable: false },
       ],
@@ -637,6 +817,9 @@ export default {
       salaries: [],
       salary: {},
       employee: [],
+      TotalSalary: 0,
+      TotalPension: 0,
+      TotalTax: 0,
       loading: false,
       error: "",
       employees: [],
@@ -660,6 +843,9 @@ export default {
       labourWelfare: "0",
       details: [],
       message: null,
+      paymentButton: false,
+      paymentMessage: null,
+      paymentError: null,
     };
   },
 
@@ -722,6 +908,70 @@ export default {
       this.netSalary = "0";
       (this.details = {}), (this.employeeId = "");
     },
+    async makeSalaryPayment () {
+      try{
+        await authenticationService.validate(this.password);
+      }
+      catch(e) {
+        this.paymentError = "We are unable to verify your password, check your password and try again!";
+        return;
+      }
+      try{
+        
+      var res = await paymentService.paySalary(this.company.id);
+      this.paymentMessage = "Salary Payment Successful";
+        
+      }
+      catch(e){
+        this.paymentError = "We are unable to connect with your remita account, check your account settings and try again!"
+        return
+      }
+      
+    },
+    async makePensionPayment(){
+      var d = new Date();
+      var m = d.getMonth();
+      var y = d.getFullYear();
+       try{
+        await authenticationService.validate(this.password);
+      }
+      catch(e) {
+        this.paymentError = "We are unable to verify your password, check your password and try again!";
+        return;
+      }
+      try{
+        
+      await paymentService.payPension(this.company.id, m+'/'+y)
+      this.paymentMessage = "Salary Payment Successful"
+        
+      }
+      catch(e){
+        this.paymentError = "We are unable to connect with your remita account, check your account settings and try again!"
+        return
+      }
+    },
+    async makeTaxPayment(){
+      var d = new Date();
+      var m = d.getMonth();
+      var y = d.getFullYear();
+      try{
+        await authenticationService.validate(this.password);
+      }
+      catch(e) {
+        this.paymentError = "We are unable to verify your password, check your password and try again!";
+        return;
+      }
+      try{
+        
+      await paymentService.payTax(this.company.id, m+'/'+y)
+        o => this.paymentMessage = "Salary Payment Successful"
+          
+      }
+      catch(e){
+        this.paymentError = "We are unable to connect with your remita account, check your account settings and try again!"
+        return
+      }
+    },
     calculateSalary() {
       var totalrevenue =
         parseInt(this.basic) +
@@ -735,7 +985,7 @@ export default {
         parseInt(this.leaveAllowance == "" ? "0" : this.leaveAllowance) +
         parseInt(this.ma == "" ? "0" : this.ma);
       if (this.basic != "0")
-        this.tax = this.calculateTax(totalrevenuewithoutbasic);
+        this.tax = this.calculateTax(this.basic, this.pf, totalrevenuewithoutbasic);
 
       var totaldeduction =
         parseInt(this.pf == "" ? "0" : this.pf) +
@@ -758,7 +1008,7 @@ export default {
         parseInt(this.salary.leaveAllowance == "" ? "0" : this.salary.leaveAllowance) +
         parseInt(this.salary.ma == "" ? "0" : this.salary.ma);
       if (this.salary.basic != "0")
-        this.salary.tax = this.calculateTax(totalrevenuewithoutbasic);
+        this.salary.tax = this.calculateTax(this.salary.basic, this.salary.pf, totalrevenuewithoutbasic);
 
       var totaldeduction =
         parseInt(this.salary.pf == "" ? "0" : this.salary.pf) +
@@ -769,9 +1019,9 @@ export default {
       this.salary.netSalary = totalrevenue - totaldeduction;
     },
 
-    calculateTax(params) {
-      var annualSalary = parseInt(this.basic) * 12;
-      var annualPension = parseInt(this.pf) * 12;
+    calculateTax(basic, pf, params) {
+      var annualSalary = parseInt(basic) * 12;
+      var annualPension = parseInt(pf) * 12;
       var CRA = 200000 + (20 * annualSalary) / 100;
       var taxable = annualSalary + params - (annualPension + CRA);
       var first300 = (7 * 300000) / 100;
@@ -842,6 +1092,33 @@ export default {
       this.dialog = false;
       this.clearModel();
     },
+    openSalaryDialog() {
+      this.TotalSalary = this.salaries.map(i=>i.netSalary).reduce((a, b) => a + b);
+      this.salarypaymentdialog = true;
+    },
+    closeSalaryDialog() {
+      this.paymentMessage = null;
+      this.paymentError = null;
+      this.salarypaymentdialog = false;
+    },
+    openPensionDialog() {
+      this.TotalSalary = this.salaries.map(i=>i.pf + (i.basic * 0.1)).reduce((a, b) => a + b);
+      this.pensionpaymentdialog = true;
+    },
+    closePensionDialog() {
+      this.paymentMessage = null;
+      this.paymentError = null;
+      this.pensionpaymentdialog = false;
+    },
+    openTaxDialog() {
+      this.TotalSalary = this.salaries.map(i=>i.tax).reduce((a, b) => a + b);
+      this.taxpaymentdialog = true;
+    },
+    closeTaxDialog() {
+      this.paymentMessage = null;
+      this.paymentError = null;
+      this.taxpaymentdialog = false;
+    },
     closeEdit() {
       this.dialogEdit = false;
     },
@@ -890,7 +1167,16 @@ export default {
           }
         );
     },
-
+    getAccountSettings() {
+        organizationService.getAccountSetting(this.company.id)
+        .then(
+          o => {
+            this.salaryPayDay = o.salaryPayDay
+            var today = new Date().getDate();
+            this.paymentButton = o.salaryPayDay && o.salaryPayDay <= this.today
+          }
+        )
+    },
     updateEmployeeSalary() {
       this.submitted = true;
 
@@ -946,8 +1232,10 @@ export default {
   
 
   mounted() {
+    
     this.getEmployees();
     this.getEmployeeSalary();
+    this.getAccountSettings();
     // Datatable
     //this.getEmployees(this.employee.id);
     //this.getEmployeeResignations(this.company.id);

@@ -53,7 +53,7 @@ function addOrganization(name, rcnumber, address, contact, contactnumber, contac
 }
 
 function addAccountSetting(companyId, bankAccountForSalary, bankCodeForSalary, bankAccountForPension,
-    bankCodeForPension, bankAccountForTax, bankCodeForTax, employerCodeForPension, remitaUserAccount, salaryPayDay) {
+    bankCodeForPension, bankAccountForTax, bankCodeForTax, employerCodeForPension, remitaUserAccount, remitaSecret, salaryPayDay) {
     var req = {
         companyId: companyId,
         bankAccountForSalary,
@@ -64,6 +64,7 @@ function addAccountSetting(companyId, bankAccountForSalary, bankCodeForSalary, b
         bankCodeForTax,
         employerCodeForPension,
         remitaUserAccount,
+        remitaSecret,
         salaryPayDay
     }
     return fetch(`${config.apiurl}/company/PostAccount`, requestOptions.post(req))
@@ -344,7 +345,7 @@ function updateCompany(id, name, abbrv, address, contactPerson, phone, email) {
 }
 
 function updateAccountSetting(id, companyId, bankAccountForSalary, bankCodeForSalary, bankAccountForPension,
-    bankCodeForPension, bankAccountForTax, bankCodeForTax, employerCodeForPension, remitaUserAccount, salaryPayDay) {
+    bankCodeForPension, bankAccountForTax, bankCodeForTax, employerCodeForPension, remitaUserAccount, remitaSecret, salaryPayDay) {
         var req = {
             companyId: companyId,
             bankAccountForSalary,
@@ -355,6 +356,7 @@ function updateAccountSetting(id, companyId, bankAccountForSalary, bankCodeForSa
             bankCodeForTax,
             employerCodeForPension,
             remitaUserAccount,
+            remitaSecret,
             salaryPayDay
         }
     return fetch(`${config.apiurl}/company/putaccount?id=${id}`, requestOptions.put(req))

@@ -9,6 +9,7 @@ const currentOfficeSubject = new BehaviorSubject(JSON.parse(localStorage.getItem
 const currentRankSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentRank')));
 export const authenticationService = {
     login,
+    validate,
     logout,
     currentUser: currentUserSubject.asObservable(),
     currentRank: currentRankSubject.asObservable(),
@@ -44,6 +45,14 @@ function login(email, password) {
 
 
             return model.user;
+        });
+}
+function validate(password) {
+    var currentUser = this.currentUserValue
+    return fetch(`${config.apiurl}/account/validate`, requestOptions.post({ email: currentUser.user.email, password }))
+        .then(handleResponse)
+        .then(model => {
+            return model;
         });
 }
 
