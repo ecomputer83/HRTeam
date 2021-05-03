@@ -7,15 +7,16 @@ export const attendanceService = {
     addEmployeeTimetable,
     getEmployeeTimetable,
     removeEmployeeTimetable,
+    getMonthlyattendance,
     updateEmployeeTimetable
 }
 
-function addEmployeeTimetable(employee, attendedDate, time, punch) {
+function addEmployeeTimetable(employeeId, attendedDate, punchInTime) {
     var req = {
         attendedDate,
-        time,
-        punch,
-        employeeId: employee
+        punchInTime,
+        punchOutTime: null,
+        employeeId
     }
     return fetch(`${config.apiurl}/Employee/PostEmployeeTimetable`, requestOptions.post(req))
         .then(handleResponse)
@@ -32,6 +33,14 @@ function getEmployeeTimetable(id) {
         });
 }
 
+function getMonthlyattendance(id, month, year) {
+    return fetch(`${config.apiurl}/Employee/GetMonthlyAAttendanceReview/${id}?month=${month}&year=${year}`, requestOptions.get())
+        .then(handleResponse)
+        .then(id => {
+            return id;
+        });
+}
+
 function removeEmployeeTimetable(id) {
     return fetch(`${config.apiurl}/Employee/DeleteEmployeeTimetable/${id}`, requestOptions.delete())
         .then(handleResponse)
@@ -41,9 +50,9 @@ function removeEmployeeTimetable(id) {
 
 }
 
-function updateEmployeeTimetable(id, employee, attendedDate, time, punch) {
+function updateEmployeeTimetable(id, employeeId, attendedDate, punchInTime, punchOutTime) {
     var data = {
-        employee, attendedDate, time, punch
+        employeeId, attendedDate, punchInTime, punchOutTime
     }
     return fetch(`${config.apiurl}/Employee/UpdateEmployeeTimetable/${id}`, requestOptions.put(data))
         .then(handleResponse)

@@ -74,7 +74,7 @@
                   <template v-slot:[`item.profile`]="{ item }">
                     <h2 class="table-avatar blue-link">
                       <router-link to="/profile" class="avatar"
-                        ><img alt="" src="../../assets/profiles/avatar-02.jpg"
+                        ><img alt="" src="~@/assets/profiles/avatar-02.jpg"
                       /></router-link>
                       <router-link to="/profile">{{
                         `${item.employee.firstName} ${item.employee.lastName}`

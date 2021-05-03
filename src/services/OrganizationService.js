@@ -14,6 +14,7 @@ export const organizationService = {
     addAccountSetting,
     getCompanies,
     getCompany,
+    checkUser,
     getAccountSetting,
     addRank,
     getRanks,
@@ -101,6 +102,15 @@ function addRank(rank, readHoliday, readLeave, readAssets, readTimesheet,
 
 function getRanks() {
     return fetch(`${config.apiurl}/Organization/ranks`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+
+            return model
+        });
+}
+
+function checkUser(email) {
+    return fetch(`${config.apiurl}/Account/checkuser?email=${email}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
 
