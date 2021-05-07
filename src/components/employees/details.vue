@@ -520,7 +520,7 @@
                             v-model="employee.employeePension.pensionManager"
                           >
                             <option>Select Pension Manager</option>
-                            <option v-for="item in pensionManagers" :key="item.pfaCode" :value="item">{{item.description}}</option>
+                            <option v-for="item in pensionManagers" :key="item.pfaCode" :value="item.pfaCode">{{item.description}}</option>
                           </select>
                         </div>
                       </div>
@@ -575,10 +575,10 @@
                           >
                           <select
                             class="form-control"
-                            v-model="employee.employeeTax.tax"
+                            v-model="employee.employeeTax.taxCode" @change="changeTax($event)"
                           >
                             <option>Select Tax State</option>
-                            <option v-for="item in taxOffices" :key="item.taxOffice" :value="item">{{item.description}}</option>
+                            <option v-for="item in taxOffices" :key="item.taxOffice" :value="item.taxOffice">{{item.description}}</option>
                           </select>
                         </div>
                       </div>
@@ -734,9 +734,10 @@ export default {
   },
   mounted() {
     if (this.$route.params.id) {
-      this.GetEmployee();
+      
       this.GetPensionManager();
       this.GetTaxOffice();
+      this.GetEmployee();
       console.log(this.currentUser);
       this.myAccount =
         this.currentUser.employee.id == this.employee.id ||
@@ -837,14 +838,36 @@ export default {
       if (employee) this.employee = employee;
       this.familyInfoDialog = false;
     },
+    changeTax(event) {
+      var v = event.target.value;
+      var tax = this.taxOffices.find(c => c.taxOffice == v);
+      this.employee.employeeTax.taxCode = tax.taxOffice
+      this.employee.employeeTax.taxOffice = tax.description
+    },
     GetPensionManager() {
       paymentService.getPensionManager(this.company.id).then(
-        (model) => this.pensionManagers = model
+        (model) => this.pensionManagers = model,
+        (err) => {
+          this.pensionManagers = [
+            { pfaCode:"0021", description: "DEMO INSTANCE: IBTC INVESTMENT LIMITED" },
+            { pfaCode:"0022", description: "DEMO INSTANCE: PREMIUM PENSIONS LIMITED"},
+            { pfaCode:"0023", description: "DEMO INSTANCE: PENSURE PFA LIMITED"},
+            { pfaCode:"0024", description: "DEMO INSTANCE: SIGMA VAUGHN STERLING PENSION LTD"}
+          ]
+        }
       )
     },
     GetTaxOffice() {
       paymentService.getTaxOffice(this.company.id).then(
-        (model) => this.taxOffices = model
+        (model) => this.taxOffices = model,
+        (err) => {
+          this.taxOffices = [
+            { taxOffice: "ABIA", description: "ABIA" },
+            { taxOffice: "ABUJA", description: "ABUJA" },
+            { taxOffice: "ADAMA", description: "ADAMAWA"},
+            { taxOffice: "AKWAI", description: "AKWAIBO"}
+          ]
+        }
       )
     },
     GetEmployee() {
@@ -886,6 +909,7 @@ export default {
       );
     },
     onPostStatutory() {
+      
       if (!this.employee.employeeStatutory.id) {
         this.employee.employeeStatutory.salaryAmount = parseInt(
           this.employee.employeeStatutory.salaryAmount
@@ -929,6 +953,8 @@ export default {
                       taxCode: "",
                       taxOffice: ""
                     }
+                  }else{
+                    this.employee.employeeTax.tax = { taxOffice: this.employee.employeeTax.taxCode, description: this.employee.employeeTax.taxOffice}
                   }
                 },
                 (error) => {

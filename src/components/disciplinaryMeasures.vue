@@ -101,7 +101,7 @@
                     <label>Employee <span class="text-danger">*</span></label>
                     <select class="form-control" v-model="employeeId">
                       <option>Employee</option>
-                      <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName}}</option>
+                      <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName + ' ' + item.lastName}}</option>
                     </select>
                   </div>
                   <div class="form-group">
@@ -396,7 +396,7 @@ export default {
         )
         .then(
           (id) => {
-            employeeService.getDisciplinaryMeasures(this.employeeId).then((w) => {
+            employeeService.getDisciplinaryMeasures(this.company.id).then((w) => {
               this.disciplinaryMeasures = w; console.log(w); this.close()
             });
           },

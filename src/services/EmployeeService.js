@@ -57,7 +57,8 @@ export const employeeService = {
     getDisciplinaryMeasures,
     updateDisciplinaryMeasure,
     removeDisciplinaryMeasure,
-    getallEmployeeSalaries
+    getallEmployeeSalaries,
+    getDesignation
 }
 
 
@@ -243,11 +244,19 @@ function updateEmployeeStatutory(employeeId, salary, pf, tax) {
     salary.employeeId = employeeId
     pf.employeeId = employeeId
     tax.employeeId = employeeId
-    fetch(`${config.apiurl}/employee/UpdateEmployeeTax/${tax.id}`, requestOptions.put(tax))
+    if(tax.id){
+        fetch(`${config.apiurl}/employee/UpdateEmployeeTax/${tax.id}`, requestOptions.put(tax))
+    }else{
+        fetch(`${config.apiurl}/employee/PostEmployeeTax`, requestOptions.post(tax))
+    }
     return fetch(`${config.apiurl}/employee/UpdateEmployeeStatutory/${salary.id}`, requestOptions.put(salary))
         .then(handleResponse)
         .then(id => {
-            fetch(`${config.apiurl}/employee/UpdateEmployeePension/${pf.id}`, requestOptions.put(pf))
+            if(pf.id){
+                fetch(`${config.apiurl}/employee/UpdateEmployeePension/${pf.id}`, requestOptions.put(pf))
+            }else{
+                fetch(`${config.apiurl}/employee/PostEmployeePension/${pf.id}`, requestOptions.post(pf))
+            }
             return id;
         });
 }
@@ -710,6 +719,16 @@ function addEmployeeSalary(basic, hra, ma, pf, leave, allowance, leaveAllowance,
 
 function getEmployeeSalary(id) {
     return fetch(`${config.apiurl}/Employee/GetEmployeeSalary/${id}`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+            console.log(model)
+            return model
+        });
+
+}
+
+function getDesignation(id) {
+    return fetch(`${config.apiurl}/Designation/GetDesignationByEmployee?id=${id}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
             console.log(model)

@@ -42,7 +42,7 @@
                                                     <option>Select Month</option>
                                                     <option v-for="item in months" :key="item.value" :value="item.value">{{item.label}}</option>
                                                 </select>
-                                <label class="focus-label">Month</label>
+                                <label class="focus-label">Select Month</label>
                             </div>
                         </div>
                         
@@ -52,7 +52,7 @@
                                                     <option>Select Year</option>
                                                     <option v-for="item in years" :key="item.value" :value="parseInt(item.value)">{{item.label}}</option>
                                                 </select>
-                                <label class="focus-label">Year</label>
+                                <label class="focus-label">Select Year</label>
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-3">
