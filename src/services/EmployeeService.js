@@ -61,7 +61,10 @@ export const employeeService = {
     removeQuery,
     updateQuery,
     getQuery,
-    getQueries
+    getQueries,
+    getallEmployeeSalaries,
+    getDesignation
+
 }
 
 
@@ -192,9 +195,11 @@ function addEmployeeFamily(employeeId, name, relationship, phoneNo) {
         });
 }
 
-function addEmployeeStatutory(employeeId, salary, pf) {
+function addEmployeeStatutory(employeeId, salary, pf, tax) {
     salary.employeeId = employeeId
     pf.employeeId = employeeId
+    tax.employeeId = employeeId
+    fetch(`${config.apiurl}/employee/PostEmployeeTax`, requestOptions.post(tax))
     return fetch(`${config.apiurl}/employee/PostEmployeeStatutory`, requestOptions.post(salary))
         .then(handleResponse)
         .then(id => {
@@ -241,13 +246,23 @@ function updateEmployeePersonalInfo(id, passportIdentificationNumber, nationalit
             return model;
         })
 }
-function updateEmployeeStatutory(employeeId, salary, pf) {
+function updateEmployeeStatutory(employeeId, salary, pf, tax) {
     salary.employeeId = employeeId
     pf.employeeId = employeeId
+    tax.employeeId = employeeId
+    if(tax.id){
+        fetch(`${config.apiurl}/employee/UpdateEmployeeTax/${tax.id}`, requestOptions.put(tax))
+    }else{
+        fetch(`${config.apiurl}/employee/PostEmployeeTax`, requestOptions.post(tax))
+    }
     return fetch(`${config.apiurl}/employee/UpdateEmployeeStatutory/${salary.id}`, requestOptions.put(salary))
         .then(handleResponse)
         .then(id => {
-            fetch(`${config.apiurl}/employee/UpdateEmployeePension/${pf.id}`, requestOptions.put(pf))
+            if(pf.id){
+                fetch(`${config.apiurl}/employee/UpdateEmployeePension/${pf.id}`, requestOptions.put(pf))
+            }else{
+                fetch(`${config.apiurl}/employee/PostEmployeePension/${pf.id}`, requestOptions.post(pf))
+            }
             return id;
         });
 }
@@ -718,8 +733,27 @@ function getEmployeeSalary(id) {
 
 }
 
+function getDesignation(id) {
+    return fetch(`${config.apiurl}/Designation/GetDesignationByEmployee?id=${id}`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+            console.log(model)
+            return model
+        });
+
+}
+
 function getEmployeeSalaries(id) {
     return fetch(`${config.apiurl}/Employee/GetallEmployeeSalaries/${id}`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+            console.log(model)
+            return model
+        });
+
+}
+function getallEmployeeSalaries(id, month, year) {
+    return fetch(`${config.apiurl}/Employee/GetallPrevEmployeeSalaries/${id}?month=${month}&year=${year}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
             console.log(model)

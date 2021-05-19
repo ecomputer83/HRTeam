@@ -115,42 +115,7 @@
               <li class="menu-title">
                 <span>HR</span>
               </li>
-              <li class="submenu">
-                <a href="#"
-                  ><i class="la la-files-o"></i> <span> Accounts </span>
-                  <span class="menu-arrow"></span
-                ></a>
-                <ul style="display: none">
-                  <li>
-                    <router-link to="/estimates" class="estimates"
-                      >Estimates</router-link
-                    >
-                  </li>
-                  <li>
-                    <router-link to="/invoices" class="invoices"
-                      >Invoices</router-link
-                    >
-                  </li>
-                  <li>
-                    <router-link to="/payments" class="payments"
-                      >Payments</router-link
-                    >
-                  </li>
-                  <li>
-                    <router-link to="/expenses" class="expenses"
-                      >Expenses</router-link
-                    >
-                  </li>
-                  <li>
-                    <router-link to="/providentfund" class="providentfund"
-                      >Provident Fund</router-link
-                    >
-                  </li>
-                  <li>
-                    <router-link to="/taxes" class="taxes">Taxes</router-link>
-                  </li>
-                </ul>
-              </li>
+              
               <li class="submenu">
                 <a href="#"
                   ><i class="la la-money"></i> <span> Payroll </span>
@@ -162,14 +127,12 @@
                       Employee Salary
                     </router-link>
                   </li>
-                  <!-- ` <li>
-            <router-link to="/salaryview" class="salaryview"> Payslip </router-link>
-          </li>` -->
                   <li>
-                    <router-link to="/payrollitems" class="payrollitems">
-                      Payroll Items
+                    <router-link to="/salaryhistory" class="payrollitems">
+                      Salary History
                     </router-link>
                   </li>
+                  
                 </ul>
               </li>
               <li class="policies">

@@ -11,6 +11,7 @@ export const performanceService = {
     removeDesignationPerformance,
     addPerformanceAppraisal,
     getPerformanceAppraisals,
+    getPerformanceIndicator,
     updatePerformanceAppraisal,
     removePerformanceAppraisal,
     AddProfessionalExcellenceSettings,
@@ -35,7 +36,8 @@ function addDesignationPerformance(
     org_Attendance,
     org_ATMD,
     designationId,
-    addedBy
+    addedBy,
+    status
     ) {
     var req = {
         tech_CE,
@@ -53,7 +55,8 @@ function addDesignationPerformance(
         org_Attendance,
         org_ATMD,
         designationId,
-        addedBy
+        addedBy,
+        status
     }
     return fetch(`${config.apiurl}/Designation/PostDesignationPerformance`, requestOptions.post(req))
         .then(handleResponse)
@@ -83,6 +86,16 @@ function getDesignationPerformance(id) {
 
 }
 
+function getPerformanceIndicator(id) {
+    return fetch(`${config.apiurl}/Designation/GetDesignationPerformanceByDesignationId/${id}`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+            console.log(model)
+            return model
+        });
+
+}
+
 function updateDesignationPerformance(
         id,
         tech_CE, 
@@ -100,7 +113,8 @@ function updateDesignationPerformance(
         org_Attendance,
         org_ATMD,
         designationId,
-        addedBy
+        addedBy,
+        status
     ) {
     var req = {
         id,
@@ -119,7 +133,8 @@ function updateDesignationPerformance(
         org_Attendance,
         org_ATMD,
         designationId,
-        addedBy
+        addedBy,
+        status
     }
     return fetch(`${config.apiurl}/Designation/PutDesignationPerformance/${id}`, requestOptions.put(req))
         .then(handleResponse)
@@ -151,8 +166,10 @@ function addPerformanceAppraisal(
     org_Conflict,
     org_Attendance,
     org_ATMD,
-    designationId,
-    addedBy
+    employeeId,
+    appraisalDate,
+    designationPerformanceId,
+    status
     ) {
     var req = {
         tech_CE,
@@ -169,10 +186,12 @@ function addPerformanceAppraisal(
         org_Conflict,
         org_Attendance,
         org_ATMD,
-        designationId,
-        addedBy
+        employeeId,
+        appraisalDate,
+        designationPerformanceId,
+        status
     }
-    return fetch(`${config.apiurl}/Designation/PostPerformanceIndicator`, requestOptions.post(req))
+    return fetch(`${config.apiurl}/PerformanceReview/AddEmployeePerfomanceAppraisal`, requestOptions.post(req))
         .then(handleResponse)
         .then(id => {
 
@@ -180,8 +199,8 @@ function addPerformanceAppraisal(
         });
 }
 
-function getPerformanceAppraisals () {
-    return fetch(`${config.apiurl}/Designation/GetPerformanceAppraisals`, requestOptions.get())
+function getPerformanceAppraisals (id) {
+    return fetch(`${config.apiurl}/PerformanceReview/GetAllEmployeePerfomanceAppraisal/${id}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
             console.log(model)
@@ -206,8 +225,10 @@ function updatePerformanceAppraisal(
     org_Conflict,
     org_Attendance,
     org_ATMD,
-    designationId,
-    addedBy
+    employeeId,
+    appraisalDate,
+    designationPerformanceId,
+    status
 ) {
 var req = {
     tech_CE,
@@ -224,10 +245,12 @@ var req = {
     org_Conflict,
     org_Attendance,
     org_ATMD,
-    designationId,
-    addedBy
+    employeeId,
+    appraisalDate,
+    designationPerformanceId,
+    status: parseInt(status)
 }
-return fetch(`${config.apiurl}/Designation/PutPerformanceIndicator/${id}`, requestOptions.put(req))
+return fetch(`${config.apiurl}/PerformanceReview/UpdateEmployeePerfomanceAppraisal/${id}`, requestOptions.put(req))
     .then(handleResponse)
     .then(id => {
         return id;

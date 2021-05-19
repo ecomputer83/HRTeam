@@ -74,6 +74,12 @@
                       }}</router-link>
                     </h2>
                   </template>
+                  <template v-slot:[`item.createdAt`]="{ item }">
+                    {{ item.createdAt ? new Date(item.createdAt).toLocaleDateString() : ""}}
+                  </template>
+                  <template v-slot:[`item.status`]="{ item }">
+                    {{item.status == 1 ? 'Active': 'Inactive'}}
+                  </template>
                 </v-data-table>
               </div>
             </div>
@@ -110,9 +116,9 @@
                     <div class="col-sm-12">
                       <div class="form-group">
                         <label>Added By <span class="text-danger">*</span></label>
-                        <select class="form-control" v-model="employeeId">
+                        <select class="form-control" v-model="addedBy">
                           <option>Select Employee</option>
-                          <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName}}</option>
+                          <option v-for="item in employees" :key="item.id" :value="item.firstName + ' ' + item.lastName">{{item.firstName + ' ' + item.lastName}}</option>
                         </select>
                       </div>
                     </div>
@@ -275,8 +281,8 @@
                       <div class="form-group">
                         <label class="col-form-label">Status</label>
                         <select class="select form-control" v-model="status">
-                          <option>Active</option>
-                          <option>Inactive</option>
+                          <option value="1">Active</option>
+                          <option value="0">Inactive</option>
                         </select>
                       </div>
                     </div>
@@ -315,9 +321,9 @@
                   <div class="col-sm-12">
                       <div class="form-group">
                         <label>Added By <span class="text-danger">*</span></label>
-                        <select class="form-control" v-model="performanceIndicator.employeeId">
+                        <select class="form-control" v-model="performanceIndicator.addedBy">
                           <option>Select Employee</option>
-                          <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName}}</option>
+                          <option v-for="item in employees" :key="item.id" :value="item.firstName + ' ' + item.lastName">{{item.firstName + ' ' + item.lastName}}</option>
                         </select>
                       </div>
                     </div>
@@ -471,8 +477,8 @@
                     <div class="form-group">
                       <label class="col-form-label">Status</label>
                       <select class="select form-control" v-model="performanceIndicator.status">
-                        <option>Active</option>
-                        <option>Inactive</option>
+                        <option value="1">Active</option>
+                        <option value="0">Inactive</option>
                       </select>
                     </div>
                   </div>
@@ -539,10 +545,10 @@
           dialogDelete: false,
           headers: [
             { text: 'Designation', value: 'designation.name' },
-            { text: 'Department', value: 'destination.department.name' },
-            { text: 'Added By', value: 'payslip', sortable: false },
-            { text: 'Created At', value: 'netSalary' },
-            { text: 'Status', value: 'payslip', sortable: false },
+            { text: 'Department', value: 'designation.department.name' },
+            { text: 'Added By', value: 'addedBy', sortable: false },
+            { text: 'Created At', value: 'createdAt' },
+            { text: 'Status', value: 'status', sortable: false },
             { text: 'Actions', value: 'actions', sortable: false },
           ],
           designations: [],
@@ -664,7 +670,8 @@
           this.org_Attendance,
           this.org_ATMD,
           this.designationId,
-          this.addedBy
+          this.addedBy,
+          parseInt(this.status)
         )
         .then(
           (id) => {
@@ -702,7 +709,8 @@
           this.performanceIndicator.org_Attendance,
           this.performanceIndicator.org_ATMD,
           this.performanceIndicator.designationId,
-          this.performanceIndicator.addedBy
+          this.performanceIndicator.addedBy,
+          this.performanceIndicator.status
         )
         .then(
           (id) => {

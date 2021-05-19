@@ -14,7 +14,7 @@ import Onboarding from '@/components/Onboarding'
 import employees from '@/components/employees/main'
 import leaves from '@/components/leaves'
 import leavesettings from '@/components/leavesettings'
-import attendance from '@/components/attendance'
+import attendance from '@/components/attendance/attendance'
 import departments from '@/components/departments'
 import companydesignations from '@/components/companydesignations'
 import companydepartments from '@/components/companydepartments'
@@ -32,7 +32,7 @@ import profile from '@/components/employees/profile'
 import details from '@/components/employees/details'
 import paidsalary from '@/components/employees/paidsalary'
 import login from '@/components/login'
-import attendanceEmployee from '@/components/attendanceEmployee'
+import attendanceEmployee from '@/components/attendance/attendanceEmployee'
 import timesheetEmployee from '@/components/timesheetEmployee'
 import colleagues from '@/components/colleagues'
 import leaveRequest from '@/components/leaveRequest'
@@ -50,6 +50,7 @@ import applicantLogin from '@/components/applicantLogin'
 import termination from '@/components/termination';
 import resignation from '@/components/resignation';
 import salary from '@/components/payroll/salary';
+import salaryhistory from '@/components/payroll/salaryhistory';
 import accountsettings from '@/components/settings/account';
 import salaryview from '@/components/payroll/salaryview'
 import payrollitems from '@/components/payroll/payrollitems'
@@ -370,6 +371,12 @@ const router = new Router({
       path: '/salary',
       name: 'salary',
       component: salary,
+      meta: { authorize: [Role.HRAdmin] },
+    },
+    {
+      path: '/salaryhistory',
+      name: 'salaryhistory',
+      component: salaryhistory,
       meta: { authorize: [Role.HRAdmin] },
     },
     {

@@ -16,7 +16,7 @@
                   <li class="breadcrumb-item">
                     <router-link to="/index">Dashboard</router-link>
                   </li>
-                  <li class="breadcrumb-item active">Timesheet</li>
+                  <li class="breadcrumb-item active">Add Company</li>
                 </ul>
               </div>
             </div>
@@ -84,6 +84,23 @@
                 </div>
                                 
                 <div class="card-body">
+                  <div class="col-md-12">
+                    <div
+                      class="alert alert-danger alert-dismissible fade show"
+                      role="alert"
+                      v-if="error"
+                    >
+                      <strong>Error!</strong> {{ error }}
+                      <button
+                        type="button"
+                        class="close"
+                        data-dismiss="alert"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  </div>
                   <div class="col-sm-12">
                       <div class="form-group">
                         <label class="col-form-label">First Name</label>
@@ -143,6 +160,7 @@
                   <div class="card-header">
                   <h4 class="card-title text-center my-auto">Company Account Setting</h4>
                 </div>
+                
                 <div class="col-sm-12">
                       <div class="form-group">
                         <label class="col-form-label">Employee Abbrevation Code</label>
@@ -153,9 +171,16 @@
                     </div>
                 <div class="col-sm-12">
                       <div class="form-group">
-                        <label class="col-form-label">Remita UserName</label>
+                        <label class="col-form-label">Remita Public Key</label>
                         <input type="text" v-model.trim="$v.remitaUserAccount.$model" id="remitaUserAccount" name="remitaUserAccount" class="form-control" :class="{ 'is-invalid': submitted && $v.remitaUserAccount.$error }" />
-                                <div v-if="submitted && !$v.remitaUserAccount.required" class="invalid-feedback">Remita UserName is required</div>
+                                <div v-if="submitted && !$v.remitaUserAccount.required" class="invalid-feedback">Remita Public Key is required</div>
+                      </div>
+                    </div>
+                <div class="col-sm-12">
+                      <div class="form-group">
+                        <label class="col-form-label">Remita Secret Key</label>
+                        <input type="text" v-model.trim="$v.remitaSecret.$model" id="remitaSecret" name="remitaSecret" class="form-control" :class="{ 'is-invalid': submitted && $v.remitaSecret.$error }" />
+                                <div v-if="submitted && !$v.remitaSecret.required" class="invalid-feedback">Remita Secret Key is required</div>
                       </div>
                     </div>
                 <div class="col-sm-12">
@@ -294,10 +319,11 @@ export default {
         bankCodeForTax: '',
         employerCodeForPension: '',
         remitaUserAccount: '',
+        remitaSecret: '',
         salaryPayDay: 0,
         submitted: false,
         loading: false,
-        error: '',
+        error: null,
         isCreateCompany: 0,
         banks: [],
         isCompanySetting: false
@@ -305,6 +331,7 @@ export default {
   },
   validations: {
       name: { required },
+      abbrv: { required },
         contactPerson: { required },
         companyaddress: { required },
         contactphone: { required },
@@ -323,6 +350,7 @@ export default {
         bankCodeForTax: { required },
         employerCodeForPension: { required },
         remitaUserAccount: { required },
+        remitaSecret: { required },
         salaryPayDay: { required },
     },
   mounted() {
@@ -335,8 +363,24 @@ export default {
           o => this.banks = o
         )
     },
-    handleCreateCompany() {
-      this.isCreateCompany = this.isCreateCompany + 1;
+    async handleCreateCompany() {
+      if(this.isCreateCompany == 1){
+        try {
+          var existUser = await organizationService.checkUser(this.email);
+          if(existUser){
+            this.error = "Email Address have already exist, please use another email address";
+            return;
+          }else{
+            this.isCreateCompany = this.isCreateCompany + 1;
+          }
+        }
+        catch(err){
+          this.error = err
+        }
+      }else{
+        this.isCreateCompany = this.isCreateCompany + 1;
+      }
+      
     },
     prev() {
       this.isCreateCompany = this.isCreateCompany - 1;
@@ -369,7 +413,8 @@ export default {
                 .then(
                     id => {
                       organizationService.addAccountSetting(id, this.bankAccountForSalary, this.bankCodeForSalary, this.bankAccountForPension,
-                          this.bankCodeForPension, this.bankAccountForTax, this.bankCodeForTax, this.employerCodeForPension, this.remitaUserAccount, parseInt(this.salaryPayDay))
+                          this.bankCodeForPension, this.bankAccountForTax, this.bankCodeForTax, this.employerCodeForPension, this.remitaUserAccount,
+                          this.remitaSecret, parseInt(this.salaryPayDay))
                         .then(
                           r => organizationService.registerAsHR(id, this.firstName, this.lastName, this.address, this.gender, this.phone, this.email)
                           .then(
@@ -379,7 +424,7 @@ export default {
                         )
 					},
                     error => {
-                        this.error = error;
+                        this.error = error.title;
                         this.loading = false;
                     }
                 );

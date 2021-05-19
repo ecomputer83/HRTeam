@@ -127,6 +127,17 @@ import { employeeService } from '@/services/employeeService';
 					if(!this.employee.employeeStatutory){
 						this.employee.employeeStatutory = {id: 0, salaryBasis: "", salaryAmount: 0.00 }
 					}
+                    if (!this.employee.employeeTax) {
+                    this.employee.employeeTax = {
+                      id: 0,
+                      tin: "",
+                      taxCode: "",
+                      taxOffice: "",
+                    tax: {}
+                    }
+                  }else{
+                    this.employee.employeeTax.tax = { taxOffice: this.employee.employeeTax.taxCode, description: this.employee.employeeTax.taxOffice}
+                  }
 				},
                 error => { this.error = error })
                 },
@@ -145,6 +156,17 @@ import { employeeService } from '@/services/employeeService';
 					if(!this.employee.employeeStatutory){
 						this.employee.employeeStatutory = {id: 0, salaryBasis: "", salaryAmount: 0.00 }
 					}
+                    if (!this.employee.employeeTax) {
+                    this.employee.employeeTax = {
+                      id: 0,
+                      tin: "",
+                      taxCode: "",
+                      taxOffice: "",
+                    tax: {}
+                    }
+                  }else{
+                    this.employee.employeeTax.tax = { taxOffice: this.employee.employeeTax.taxCode, description: this.employee.employeeTax.taxOffice}
+                  }
 				},
                 error => { this.error = error })
                 },
@@ -171,6 +193,17 @@ import { employeeService } from '@/services/employeeService';
 					if(!this.employee.employeeStatutory){
 						this.employee.employeeStatutory = {id: 0, salaryBasis: "", salaryAmount: 0.00 }
 					}
+                    if (!this.employee.employeeTax) {
+                    this.employee.employeeTax = {
+                      id: 0,
+                      tin: "",
+                      taxCode: "",
+                      taxOffice: "",
+                    tax: {}
+                    }
+                  }else{
+                    this.employee.employeeTax.tax = { taxOffice: this.employee.employeeTax.taxCode, description: this.employee.employeeTax.taxOffice}
+                  }
 				},
                 error => { this.error = error })
 					},
