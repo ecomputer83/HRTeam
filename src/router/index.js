@@ -19,6 +19,7 @@ import departments from '@/components/departments'
 import companydesignations from '@/components/companydesignations'
 import companydepartments from '@/components/companydepartments'
 import designations from '@/components/designations'
+import query from '@/components/query'
 import timesheet from '@/components/timesheet'
 import employeeslist from '@/components/employeeslist'
 import disciplinaryMeasures from '@/components/disciplinaryMeasures'
@@ -428,6 +429,12 @@ const router = new Router({
       path: '/personal-excellence-settings',
       name: 'personalexcellencesettings',
       component: personalExcellenceSettings,
+      // meta: { authorize: [Role.HRAdmin] },
+    },
+    {
+      path: '/query',
+      name: 'query',
+      component: query,
       // meta: { authorize: [Role.HRAdmin] },
     }
 

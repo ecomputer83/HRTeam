@@ -56,7 +56,12 @@ export const employeeService = {
     getDisciplinaryMeasure,
     getDisciplinaryMeasures,
     updateDisciplinaryMeasure,
-    removeDisciplinaryMeasure
+    removeDisciplinaryMeasure,
+    addQuery,
+    removeQuery,
+    updateQuery,
+    getQuery,
+    getQueries
 }
 
 
@@ -821,6 +826,66 @@ function updateDisciplinaryMeasure(id, date, hrManager, form, reason, remark, em
 function removeDisciplinaryMeasure(id) {
 
     return fetch(`${config.apiurl}/Employee/DeleteDisciplinaryMeasure/${id}`, requestOptions.delete())
+        .then(handleResponse)
+        .then(model => {
+            return model
+        });
+
+}
+
+function addQuery(date, hrManager, form, accusation, remark, employeeId) {
+    var req = {
+        date,
+        form,
+        accusation,
+        remark,
+        employeeId
+    }
+    return fetch(`${config.apiurl}/Employee/PostQuery`, requestOptions.post(req))
+        .then(handleResponse)
+        .then(id => {
+
+            return id;
+        });
+}
+
+function getQuery() {
+    return fetch(`${config.apiurl}/Employee/GetQuery/${this.employeeId}`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+            console.log(model)
+            return model
+        });
+}
+
+function getQueries(companyId) {
+    return fetch(`${config.apiurl}/Employee/GetQueries/${companyId}`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+            console.log(model)
+            return model
+        });
+}
+
+function updateQuery(id, date, form, reason, remark, employeeId) {
+    var req = {
+        id,
+        date,
+        form,
+        accusation,
+        remark,
+        employeeId
+    }
+    return fetch(`${config.apiurl}/Employee/UpdateQuery/${id}`, requestOptions.put(req))
+        .then(handleResponse)
+        .then(id => {
+            return id;
+        });
+}
+
+function removeQuery(id) {
+
+    return fetch(`${config.apiurl}/Employee/DeleteQuery/${id}`, requestOptions.delete())
         .then(handleResponse)
         .then(model => {
             return model

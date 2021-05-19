@@ -106,7 +106,12 @@
                   <span>Disciplinary Measures</span></router-link
                 >
               </li>
-
+              <li class="policies">
+                <router-link to="/query"
+                  ><i class="la la la-user"></i>
+                  <span>Query</span></router-link
+                >
+              </li>
               <li class="menu-title">
                 <span>HR</span>
               </li>

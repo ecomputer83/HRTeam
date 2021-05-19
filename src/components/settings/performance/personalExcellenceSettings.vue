@@ -139,7 +139,7 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">
+              <div class="modal-body">npm 
                 <form @submit.prevent="updatePersonalExcellenceSettings">
                   <div class="form-group">
                     <label>Key Result <span class="text-danger">*</span></label>
@@ -159,7 +159,6 @@
                 </form>
               </div>
             </div>
-          
         </v-dialog>
         <!-- /Edit Personal Excellence Settings Modal -->
 
