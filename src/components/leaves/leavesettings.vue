@@ -152,7 +152,7 @@
                                                         <td>5</td>
                                                         <td>
                                                             <a href="#" class="avatar"><img alt=""
-                                                                    src="../assets/profiles/avatar-02.jpg"></a>
+                                                                    src="~@/assets/profiles/avatar-02.jpg"></a>
                                                             <a href="#">John Doe</a>
                                                         </td>
                                                         <td class="text-right">
@@ -280,7 +280,7 @@
                                                         <td>5</td>
                                                         <td>
                                                             <a href="#" class="avatar"><img alt=""
-                                                                    src="../assets/profiles/avatar-02.jpg"></a>
+                                                                    src="~@/assets/profiles/avatar-02.jpg"></a>
                                                             <a href="#">John Doe</a>
                                                         </td>
                                                         <td class="text-right">
@@ -505,7 +505,7 @@
                                                         <td>5</td>
                                                         <td>
                                                             <a href="#" class="avatar"><img alt=""
-                                                                    src="../assets/profiles/avatar-02.jpg"></a>
+                                                                    src="~@/assets/profiles/avatar-02.jpg"></a>
                                                             <a href="#">John Doe</a>
                                                         </td>
                                                         <td class="text-right">

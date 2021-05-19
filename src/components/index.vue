@@ -13,7 +13,7 @@
           <div class="page-header">
             <div class="row">
               <div class="col-sm-12">
-                <h3 class="page-title">Welcome Admin!</h3>
+                <h3 class="page-title">Welcome {{currentUser.user.fullName}}</h3>
                 <ul class="breadcrumb">
                   <li class="breadcrumb-item active">Dashboard</li>
                 </ul>
@@ -876,11 +876,17 @@
 <script>
   import LayoutHeader from '@/components/layouts/Header.vue'
   import LayoutSidebar from '@/components/layouts/Sidebar.vue'
+  import { authenticationService } from "@/services/authenticationService";
   import Vue from 'vue'
   export default {
     components: {
       LayoutHeader,
       LayoutSidebar,
+    },
+    data() {
+      return {
+      currentUser: authenticationService.currentUserValue
+      }
     },
     mounted() {
       $(document).ready(function () {

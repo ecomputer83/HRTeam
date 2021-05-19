@@ -32,7 +32,11 @@
 									<div class="profile-view">
 										<div class="profile-img-wrap">
 											<div class="profile-img">
-												<a href="#"><img alt="" src="~@/assets/profiles/avatar-02.jpg"></a>
+												<a @click="openChangePhoto"
+                          ><img alt="" :src="media + employee.passportPhoto" v-if="employee.passportPhoto"
+                        />
+                        <img alt="" src="~@/assets/profiles/avatar-02.jpg" v-if="!employee.passportPhoto"
+                        /></a>
 											</div>
 										</div>
 										<div class="profile-basic">
@@ -118,7 +122,7 @@
 									<div class="card profile-box flex-fill">
 										<div class="card-body">
 											<h3 class="card-title">Personal Informations <a href="#" class="edit-icon" v-if="myAccount"
-													data-toggle="modal" data-target="#personal_info_modal"><i
+													@click="openPersonalInfo"><i
 														class="fa fa-pencil"></i></a></h3>
 											<ul class="personal-info">
 												<li>
@@ -153,8 +157,9 @@
 									<div class="card profile-box flex-fill">
 										<div class="card-body">
 											<h3 class="card-title">Emergency Contact <a href="#" class="edit-icon" v-if="myAccount"
-													data-toggle="modal" data-target="#emergency_contact_modal"><i
+													@click="openEmergencyContact"><i
 														class="fa fa-pencil"></i></a></h3>
+											<div v-if="employee.employeeEmergencies">
 											<div  v-if="employee.employeeEmergencies.length > 0">
 											<h5 class="section-title">Primary</h5>
 											<ul class="personal-info">
@@ -188,6 +193,7 @@
 												</li>
 											</ul>
 											</div>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -197,7 +203,7 @@
 									<div class="card profile-box flex-fill">
 										<div class="card-body">
 											<h3 class="card-title">Bank information <a href="#" class="edit-icon" v-if="myAccount"
-													data-toggle="modal" data-target="#bank_info_modal"><i
+													@click="openBankInfo"><i
 														class="fa fa-pencil"></i></a></h3>
 											<ul class="personal-info" v-if="employee.employeeBank">
 												<li>
@@ -216,7 +222,7 @@
 									<div class="card profile-box flex-fill">
 										<div class="card-body">
 											<h3 class="card-title">Family Informations <a href="#" class="edit-icon" v-if="myAccount"
-													data-toggle="modal" data-target="#family_info_modal"><i
+													@click="openFamilyInfo"><i
 														class="fa fa-pencil"></i></a></h3>
 											<div class="table-responsive">
 												<table class="table table-nowrap">
@@ -260,7 +266,7 @@
 									<div class="card profile-box flex-fill">
 										<div class="card-body">
 											<h3 class="card-title">Education Informations <a href="#" class="edit-icon" v-if="myAccount"
-													data-toggle="modal" data-target="#education_info"><i
+													@click="openEducation"><i
 														class="fa fa-pencil"></i></a></h3>
 											<div class="experience-box">
 												<ul class="experience-list">
@@ -286,7 +292,7 @@
 									<div class="card profile-box flex-fill">
 										<div class="card-body">
 											<h3 class="card-title">Experience <a href="#" class="edit-icon" v-if="myAccount"
-													data-toggle="modal" data-target="#experience_info"><i
+													@click="openExperience"><i
 														class="fa fa-pencil"></i></a></h3>
 											<div class="experience-box">
 												<ul class="experience-list">
@@ -316,15 +322,74 @@
 					</div>
 				</div>
 				<!-- /Page Content -->
-				<emergency-contact-modal :model="employee.employeeEmergencies" :id="this.currentUser.employee.id" v-if="employee.employeeEmergencies.length > 0"></emergency-contact-modal>
-				<personal-info-modal :model="employee" v-if="employee.firstName"></personal-info-modal>
-				<profile-modal :model="employee" v-if="employee.firstName"></profile-modal>
-				<bank-info-modal :model="employee.employeeBank" :id="this.currentUser.employee.id" v-if="this.currentUser.employee.id"></bank-info-modal>
-				<family-info-modal :model="employee.employeeFamilies" :id="this.currentUser.employee.id" v-if="this.currentUser.employee.id"></family-info-modal>
-				<experience-modal :model="employee.employeeExperiences" :id="this.currentUser.employee.id" v-if="this.currentUser.employee.id"></experience-modal>
-				<education-modal :model="employee.employeeEducations" :id="this.currentUser.employee.id" v-if="this.currentUser.employee.id"></education-modal>
-				
-
+				<!-- /Page Content -->
+        <emergency-contact-modal
+          :model="employee.employeeEmergencies"
+          :id="currentUser.employee.id"
+          :dialog="emergencyContactDialog"
+          v-if="emergencyContactDialog"
+          :method="closeEmergencyContact"
+        ></emergency-contact-modal>
+        <personal-info-modal
+          :model="employee"
+          :dialog="personalInfoDialog"
+          v-if="personalInfoDialog"
+          :method="closePersonalInfo"
+        ></personal-info-modal>
+        <profile-modal
+          :model="employee"
+          :dialog="profileDialog"
+          v-if="profileDialog"
+          :method="closeProfile"
+        ></profile-modal>
+        <bank-info-modal
+          :model="employee.employeeBank"
+          :id="currentUser.employee.id"
+          :dialog="bankInfoDialog"
+          v-if="bankInfoDialog"
+          :method="closeBankInfo"
+        ></bank-info-modal>
+        <family-info-modal
+          :model="employee.employeeFamilies"
+          :id="currentUser.employee.id"
+          :dialog="familyInfoDialog"
+          v-if="familyInfoDialog"
+          :method="closeFamilyInfo"
+        ></family-info-modal>
+        <experience-modal
+          :model="employee.employeeExperiences"
+          :id="currentUser.employee.id"
+          :dialog="experienceDialog"
+          v-if="experienceDialog"
+          :method="closeEmergencyContact"
+        ></experience-modal>
+        <education-modal
+          :model="employee.employeeEducations"
+          :id="currentUser.employee.id"
+          :dialog="educationDialog"
+          v-if="educationDialog"
+          :method="closeEducation"
+        ></education-modal>
+        <v-dialog v-model="changePhotodialog" max-width="230px">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Change Photo</h5>
+              <button type="button" class="close" @click="closeChangePhoto">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="col-md-12">
+                <img alt="" :src="file" width="200"
+                        />
+              </div>
+              <div class="col-md-12">
+                <button class="btn btn-info" @click="handleFileUpload">Change Photo </button>
+                <input type="file" style="display: none" ref="file" accept="image/*" @change="onFilePicked" />
+              </div>
+            </div>
+          </div>
+        </v-dialog>
 				
 
 				
@@ -369,8 +434,18 @@
 		},
 		data(){
 			return {
+				changePhotodialog: false,
+      			experienceDialog: false,
+      			profileDialog: false,
+      			personalInfoDialog: false,
+      			familyInfoDialog: false,
+      			bankInfoDialog: false,
+      			educationDialog: false,
+      			emergencyContactDialog: false,
 				company: authenticationService.currentOfficeValue,
 				currentUser: authenticationService.currentUserValue,
+				file: null,
+      			media: 'data:image/jpeg;base64,',
 				myAccount: true,
 				employee: {
 				firstName: null,
@@ -436,6 +511,80 @@
 			}
 		},
 		methods: {
+			
+			openProfile() {
+      this.profileDialog = true;
+    },
+    openPersonalInfo() {
+      this.personalInfoDialog = true;
+    },
+    openBankInfo() {
+      this.bankInfoDialog = true;
+    },
+    openEducation() {
+      this.educationDialog = true;
+    },
+    openEmergencyContact() {
+      this.emergencyContactDialog = true;
+    },
+    openExperience() {
+      this.experienceDialog = true;
+    },
+    openFamilyInfo() {
+      this.familyInfoDialog = true;
+    },
+    openChangePhoto() {
+      this.changePhotodialog = true;
+    },
+
+    closeProfile(employee) {
+      if (employee) this.employee = employee;
+      this.profileDialog = false;
+    },
+    closePersonalInfo(employee) {
+      if (employee) this.employee = employee;
+      this.personalInfoDialog = false;
+    },
+    closeBankInfo(employee) {
+      if (employee) this.employee = employee;
+      this.bankInfoDialog = false;
+    },
+    closeEducation(employee) {
+      if (employee) this.employee = employee;
+      this.educationDialog = false;
+    },
+    closeEmergencyContact(employee) {
+      if (employee) this.employee = employee;
+      this.emergencyContactDialog = false;
+    },
+    closeExperience(employee) {
+      if (employee) this.employee = employee;
+      this.experienceDialog = false;
+    },
+    closeFamilyInfo(employee) {
+      if (employee) this.employee = employee;
+      this.familyInfoDialog = false;
+    },
+    closeChangePhoto() {
+      this.changePhotodialog = false;
+    },
+    handleFileUpload() {
+      this.$refs.file.click()
+    },
+    onFilePicked(event) {
+      const files = event.target.files
+      let filename = files[0].name
+      const fileReader = new FileReader()
+      fileReader.addEventListener('load', () => {
+        this.file = fileReader.result
+      })
+      fileReader.readAsDataURL(files[0])
+      this.file = files[0];
+      employeeService.changeEmployeePhoto(files[0], this.employee.id).then(
+        m => { this.employee = m; this.closeChangePhoto() },
+        e => this.imageError = e.title
+      )
+    },
 			GetEmployee () {
           employeeService.getEmployeeDetail(this.currentUser.employee.id)
             .then(

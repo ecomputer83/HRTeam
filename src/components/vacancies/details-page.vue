@@ -11,7 +11,7 @@
           <div class="page-header">
             <div class="row">
               <div class="col-sm-12">
-                <h3>Account Manager - Job Title</h3>
+                <h3>{{profile}}</h3>
                 <ul class="breadcrumb">
                   <li class="breadcrumb-item active">Vacancy</li>
                 </ul>
@@ -67,6 +67,11 @@
                         >Job Requisition</a
                       >
                     </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#bottom-tab3" data-toggle="tab"
+                        >Application Settings</a
+                      >
+                    </li>
                   </ul>
 
                   <div class="tab-content">
@@ -75,6 +80,9 @@
                     </div>
                     <div class="tab-pane" id="bottom-tab2">
                       <requisition-card :requisition="requisition" @update="requisition = $event;" v-if="loaddependency"></requisition-card>
+                    </div>
+                    <div class="tab-pane" id="bottom-tab3">
+                      <setting-card :settings="settings" @update="settings = $event;" v-if="loaddependency"></setting-card>
                     </div>
                   </div>
                 </div>
@@ -96,6 +104,7 @@ import Vue from "vue";
 import Timeline from "@/components/reusables/timeline.vue";
 import DetailCard from "@/components/vacancies/vacancy-info.vue";
 import RequisitionCard from "@/components/vacancies/job-requisition.vue";
+import SettingCard from "@/components/vacancies/vacancy-settings.vue";
 import { authenticationService } from '@/services/authenticationService';
   import { required, sameAs } from 'vuelidate/lib/validators';
   import { jobService } from '@/services/jobService';
@@ -105,7 +114,8 @@ export default {
     LayoutSidebar,
     Timeline,
     DetailCard,
-    RequisitionCard
+    RequisitionCard,
+    SettingCard
   },
   data() {
     return {
@@ -113,25 +123,44 @@ export default {
       message: '',
       loading: false,
       requisitionId: 0,
+      vacancysettingId: 0,
+      profile: '',
       vacancy: {
         id: 0,
-      companyId: 0,
-      jobProfileId: 0,
-      designationId: 0,
-      quantity: 0,
-      description: "",
-      scores: "",
-      type: "",
-      requestedBy: 0,
-      requestedOn: "",
-      periodFrom: "",
-      periodTo: "",
-      periodFromTime: '12:00:00.000',
-      periodToTime: '12:00:00.000'
+        companyId: 0,
+        jobProfileId: 0,
+        designationId: 0,
+        quantity: 0,
+        description: "",
+        scores: "",
+        type: "",
+        requestedBy: 0,
+        requestedOn: "",
+        periodFrom: "",
+        periodTo: "",
+        periodFromTime: '12:00:00.000',
+        periodToTime: '12:00:00.000'
       },
       requisition: {
         id: 0,
         duties: "<p>Description</p>"
+      },
+      settings: {
+        id: 0,
+        welcomeMessage: "<p>Description</p>",
+        rejectMessage: "<p>Description</p>",
+        phoneInterviewChecked: false,
+        welcomeMessageToPhoneInterview: "<p>Description</p>",
+        careerTestingChecked: false,
+        welcomeMessageToCareerTesting: "<p>Description</p>",
+        googleFormsForCareerTesting: "",
+        responseSpreadsheetForGoogleForms: "",
+        setAutomaticScoring: false,
+        scorePerQuestion: 0,
+        passAverageScore: 0,
+        questionsAndPossibleAnswerXML: "",
+        faceToFaceInterviewChecked: false,
+        welcomeMessageToFaceToFaceInterview: "<p>Description</p>"
       },
       profiles: [],
       designations: [],
@@ -156,6 +185,11 @@ export default {
       duties:  { required }
       },
   },
+  watch: {
+    vacancy: function(val) {
+      this.profile = this.profiles.find(c => c.id == val.jobProfileId).name;
+    }
+  },
   mounted() {
     
     this.getVacancy()
@@ -177,7 +211,9 @@ export default {
             this.vacancy.periodFromTime = FromTime[1]
             this.vacancy.periodToTime = ToTime[1]
             this.requisition = a.jobRequisition;
+            this.vacancysettings = a.vacancysettings
             this.requisitionId = a.jobRequisition.id
+            this.vacancysettingId = a.vacancysettings.id
             this.loaddependency = (this.$route.params.id && this.vacancy.id != 0)
             console.log(this.vacancy.id)
           },
@@ -191,19 +227,29 @@ export default {
 
     },
     postVacancy() {
+      if(this.vacancy.jobProfileId == 0 || this.vacancy.designationId == 0 || this.vacancy.periodFrom == "" || this.vacancy.periodTo){
+        this.error = "Please fill all inputs";
+        return 
+      }
       if(this.requisition.duties == "<p>Description</p>"){
         this.error = "Job Description is required, Please click on Job Requisition tab";
+        return 
+      }
+      if(!this.settings.phoneInterviewChecked || !this.settings.faceToFaceInterviewChecked || !this.settings.careerTestingChecked){
+        this.error = "One of the interview must be checked, Please click on Application settings tab";
         return 
       }
 
       
         this.vacancy.companyId = this.currentOffice.id
         this.vacancy.jobRequisition = this.requisition
+        this.vacancy.vacancysettings = this.vacancysettings
         this.vacancy.quantity = parseInt(this.vacancy.quantity)
         this.vacancy.periodFrom = new Date(this.vacancy.periodFrom +" " + this.vacancy.periodFromTime)
         this.vacancy.periodTo = new Date(this.vacancy.periodTo +" " + this.vacancy.periodToTime)
         console.log(this.vacancy)
         this.vacancy.jobRequisition.id = this.requisitionId
+        this.vacancy.vacancysettings.id = this.vacancysettingId
         if(!this.$route.params.id){
         jobService.addVacancy(this.vacancy)
           .then(a=> {

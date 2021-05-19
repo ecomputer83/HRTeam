@@ -30,8 +30,10 @@
                   <div class="profile-view">
                     <div class="profile-img-wrap">
                       <div class="profile-img">
-                        <a href="#"
-                          ><img alt="" src="~@/assets/profiles/avatar-02.jpg"
+                        <a @click="openChangePhoto"
+                          ><img alt="" :src="media + employee.passportPhoto" v-if="employee.passportPhoto"
+                        />
+                        <img alt="" src="~@/assets/profiles/avatar-02.jpg" v-if="!employee.passportPhoto"
                         /></a>
                       </div>
                     </div>
@@ -207,6 +209,7 @@
                           ><i class="fa fa-pencil"></i
                         ></a>
                       </h3>
+                      <div v-if="employee.employeeEmergencies">
                       <div v-if="employee.employeeEmergencies.length > 0">
                         <h5 class="section-title">Primary</h5>
                         <ul class="personal-info">
@@ -267,6 +270,7 @@
                             </div>
                           </li>
                         </ul>
+                      </div>
                       </div>
                     </div>
                   </div>
@@ -483,7 +487,7 @@
                           >
                           <div class="input-group">
                             <div class="input-group-prepend">
-                              <span class="input-group-text">$</span>
+                              <span class="input-group-text">₦</span>
                             </div>
                             <input
                               type="text"
@@ -644,6 +648,26 @@
           v-if="educationDialog"
           :method="closeEducation"
         ></education-modal>
+        <v-dialog v-model="changePhotodialog" max-width="230px">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Change Photo</h5>
+              <button type="button" class="close" @click="closeChangePhoto">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="col-md-12">
+                <img alt="" :src="file" width="200"
+                        />
+              </div>
+              <div class="col-md-12">
+                <button class="btn btn-info" @click="handleFileUpload">Change Photo </button>
+                <input type="file" style="display: none" ref="file" accept="image/*" @change="onFilePicked" />
+              </div>
+            </div>
+          </div>
+        </v-dialog>
       </div>
       <!-- /Page Wrapper -->
     </div>
@@ -681,6 +705,7 @@ export default {
   },
   data() {
     return {
+      changePhotodialog: false,
       experienceDialog: false,
       profileDialog: false,
       personalInfoDialog: false,
@@ -690,6 +715,8 @@ export default {
       emergencyContactDialog: false,
       company: authenticationService.currentOfficeValue,
       currentUser: authenticationService.currentUserValue,
+      file: null,
+      media: 'data:image/jpeg;base64,',
       myAccount: false,
       hrAccount: false,
       pensionManagers: [],
@@ -809,6 +836,9 @@ export default {
     openFamilyInfo() {
       this.familyInfoDialog = true;
     },
+    openChangePhoto() {
+      this.changePhotodialog = true;
+    },
 
     closeProfile(employee) {
       if (employee) this.employee = employee;
@@ -837,6 +867,58 @@ export default {
     closeFamilyInfo(employee) {
       if (employee) this.employee = employee;
       this.familyInfoDialog = false;
+    },
+    closeChangePhoto() {
+      this.changePhotodialog = false;
+    },
+    handleFileUpload() {
+      this.$refs.file.click()
+    },
+    onFilePicked(event) {
+      const files = event.target.files
+      let filename = files[0].name
+      const fileReader = new FileReader()
+      fileReader.addEventListener('load', () => {
+        this.file = fileReader.result
+      })
+      fileReader.readAsDataURL(files[0])
+      this.file = files[0];
+      employeeService.changeEmployeePhoto(files[0], this.employee.id).then(
+        model => { 
+          this.employee = model; 
+          if (!this.employee.employeePension) {
+            this.employee.employeePension = {
+              id: 0,
+              pensionNo: "",
+              employeeRate: "0",
+              pensionManager: "",
+            };
+          } else {
+            this.employee.employeePension.employeeRate = model.employeePension.employeeRate.toString();
+          }
+          if (!this.employee.employeeStatutory) {
+            this.employee.employeeStatutory = {
+              id: 0,
+              salaryBasis: "",
+              salaryAmount: 0.0,
+            };
+          }
+          if (!this.employee.employeeTax) {
+                    this.employee.employeeTax = {
+                      id: 0,
+                      tin: "",
+                      taxCode: "",
+                      taxOffice: "",
+                      tax: {}
+                    }
+                  }else{
+                    this.employee.employeeTax.tax = { taxOffice: this.employee.employeeTax.taxCode, description: this.employee.employeeTax.taxOffice}
+                  }
+
+          this.closeChangePhoto()
+           },
+        e => this.imageError = e.title
+      )
     },
     changeTax(event) {
       var v = event.target.value;
@@ -874,6 +956,7 @@ export default {
       employeeService.getEmployeeDetail(this.$route.params.id).then(
         (model) => {
           this.employee = model;
+          
           if (!this.employee.employeePension) {
             this.employee.employeePension = {
               id: 0,
@@ -926,41 +1009,7 @@ export default {
           )
           .then(
             (model) => {
-              employeeService.getEmployeeDetail(this.$route.params.id).then(
-                (model) => {
-                  this.employee = model;
-                  if (!this.employee.employeePension) {
-                    this.employee.employeePension = {
-                      id: 0,
-                      pensionNo: "",
-                      employeeRate: 0,
-                      pensionManager: "",
-                    };
-                  } else {
-                    this.employee.employeePension.employeeRate = model.employeePension.employeeRate.toString();
-                  }
-                  if (!this.employee.employeeStatutory) {
-                    this.employee.employeeStatutory = {
-                      id: 0,
-                      salaryBasis: "",
-                      salaryAmount: 0.0,
-                    };
-                  }
-                  if (!this.employee.employeeTax) {
-                    this.employee.employeeTax = {
-                      id: 0,
-                      tin: "",
-                      taxCode: "",
-                      taxOffice: ""
-                    }
-                  }else{
-                    this.employee.employeeTax.tax = { taxOffice: this.employee.employeeTax.taxCode, description: this.employee.employeeTax.taxOffice}
-                  }
-                },
-                (error) => {
-                  this.error = error;
-                }
-              );
+              getEmployeeDetail()
             },
             (error) => {
               this.error = error;
@@ -982,39 +1031,7 @@ export default {
           )
           .then(
             (model) => {
-              employeeService.getEmployeeDetail(this.$route.params.id).then(
-                (model) => {
-                  this.employee = model;
-                  if (!this.employee.employeePension) {
-                    this.employee.employeePension = {
-                      id: 0,
-                      pensionNo: "",
-                      employeeRate: 0,
-                      pensionManager: "",
-                    };
-                  } else {
-                    this.employee.employeePension.employeeRate = model.employeePension.employeeRate.toString();
-                  }
-                  if (!this.employee.employeeStatutory) {
-                    this.employee.employeeStatutory = {
-                      id: 0,
-                      salaryBasis: "",
-                      salaryAmount: 0.0,
-                    };
-                  }
-                  if (!this.employee.employeeTax) {
-                    this.employee.employeeTax = {
-                      id: 0,
-                      tin: "",
-                      taxCode: "",
-                      taxOffice: ""
-                    }
-                  }
-                },
-                (error) => {
-                  this.error = error;
-                }
-              );
+              getEmployeeDetail()
             },
             (error) => {
               this.error = error;

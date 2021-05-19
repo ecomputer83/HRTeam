@@ -14,6 +14,13 @@ const requestOptions = {
             body: JSON.stringify(body)
         };
     },
+    postForm(formData) {
+        return {
+            method: 'POST',
+            ...headers(true),
+            body: formData
+        };
+    },
     patch(body) {
         return {
             method: 'PATCH',
@@ -36,13 +43,16 @@ const requestOptions = {
     }
 }
 
-function headers() {
+function headers(form) {
     const currentUser = authenticationService.currentUserValue || {};
     const hostname = document.location.host;
     console.log(hostname);
     const authHeader = currentUser.token ? { 'Authorization': 'Bearer ' + currentUser.token } : {}
     return {
-        headers: {
+        headers: (form) ?  {
+            ...authHeader,
+            'Holder': hostname
+        } : {
             ...authHeader,
             'Content-Type': 'application/json',
             'Holder': hostname

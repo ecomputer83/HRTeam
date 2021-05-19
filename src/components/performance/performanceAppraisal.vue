@@ -549,7 +549,7 @@
                                                 <datepicker
                                                     v-model="appraisal.appraisalDate"
                                                     bootstrap-styling
-                                                    class="form-control datetimepicker"
+                                                    class="datetimepicker"
                                                     type="date"
                                                 />
                                             </div>

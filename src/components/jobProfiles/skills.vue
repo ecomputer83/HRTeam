@@ -33,7 +33,7 @@
           <div class="row">
             <div class="col-md-12">
               <div>
-                <table class="table table-striped custom-table mb-0 datatable">
+                <table class="table table-striped custom-table mb-0">
                   <thead>
                     <tr>
                       <th>Skill Name</th>
@@ -345,6 +345,8 @@ export default {
       this.name = "";
       this.type = "";
       this.description = "";
+      this.error = "";
+      this.message = "";
     },
 
     close() {

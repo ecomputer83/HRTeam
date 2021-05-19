@@ -215,6 +215,12 @@
                   <span>Account Settings</span></router-link
                 >
               </li>
+              <li class="leavesettings">
+                <router-link to="/leavesettings"
+                  ><i class="la la-bullhorn"></i>
+                  <span>Leave Settings</span></router-link
+                >
+              </li>
               <li class="promotion">
                 <router-link to="/skill"
                   ><i class="la la-bullhorn"></i>

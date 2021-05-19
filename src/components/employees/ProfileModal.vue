@@ -31,25 +31,28 @@
 									<div class="row">
 										<div class="col-md-12">
 											<div class="profile-img-wrap edit-img">
-												<img class="inline-block" src="~@/assets/profiles/avatar-02.jpg"
-													alt="user">
+												
+												<img class="inline-block" alt="user" :src="media + passportPhoto" v-if="passportPhoto"
+                        						/>
+                        						<img class="inline-block" alt="user" src="~@/assets/profiles/avatar-02.jpg" v-if="!passportPhoto"
+                        						/>
 												<div class="fileupload btn">
 													<span class="btn-text">edit</span>
-													<input class="upload" type="file">
+													<input class="upload" type="file" ref="file" accept="image/*" @change="onFilePicked">
 												</div>
 											</div>
 											<div class="row">
 												<div class="col-md-6">
 													<div class="form-group">
 														<label>First Name</label>
-														<input type="text" class="form-control"  v-model.trim="$v.firstName.$model">
+														<input type="text" class="form-control"  v-model.trim="$v.firstName.$model"  :class="{ 'is-invalid': submitted && $v.firstName.$error }">
 													</div>
                                                     <div v-if="submitted && !$v.firstName.required" class="invalid-feedback">First Name is required</div>
 												</div>
 												<div class="col-md-6">
 													<div class="form-group">
 														<label>Last Name</label>
-														<input type="text" class="form-control"  v-model.trim="$v.lastName.$model">
+														<input type="text" class="form-control"  v-model.trim="$v.lastName.$model" :class="{ 'is-invalid': submitted && $v.lastName.$error }">
 													</div>
                                                     <div v-if="submitted && !$v.lastName.required" class="invalid-feedback">Last Name is required</div>
 												</div>
@@ -57,8 +60,14 @@
 													<div class="form-group">
 														<label>Birth Date</label>
 														<div class="cal-icon">
-															<input class="form-control datetimepicker" type="text"
-																 v-model.trim="$v.birthday.$model">
+															<datepicker
+                                                    			v-model.trim="$v.birthday.$model"
+                                                    			bootstrap-styling
+                                                    			class="datetimepicker"
+                                                    			type="date"
+																 :class="{ 'is-invalid': submitted && $v.birthday.$error }"
+                                                			/>
+															
 														</div>
                                                         <div v-if="submitted && !$v.birthday.required" class="invalid-feedback">Birth Date is required</div>
 													</div>
@@ -66,7 +75,7 @@
 												<div class="col-md-6">
 													<div class="form-group">
 														<label>Gender</label>
-														<select class="select form-control" v-model.trim="$v.gender.$model">
+														<select class="select form-control" v-model.trim="$v.gender.$model" :class="{ 'is-invalid': submitted && $v.gender.$error }">
 															<option value="male">Male</option>
 															<option value="female">Female</option>
 														</select>
@@ -80,17 +89,17 @@
 										<div class="col-md-12">
 											<div class="form-group">
 												<label>Address</label>
-												<input type="text" class="form-control"  v-model.trim="$v.address.$model">
+												<input type="text" class="form-control"  v-model.trim="$v.address.$model" :class="{ 'is-invalid': submitted && $v.address.$error }">
 											</div>
-                                            <div v-if="submitted && !$v.address.required" class="invalid-feedback">Gender is required</div>
+                                            <div v-if="submitted && !$v.address.required" class="invalid-feedback">Address is required</div>
 										</div>
 										
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Phone Number</label>
-												<input type="text" class="form-control"  v-model.trim="$v.phone.$model">
+												<input type="text" class="form-control"  v-model.trim="$v.phone.$model" :class="{ 'is-invalid': submitted && $v.phone.$error }">
 											</div>
-                                            <div v-if="submitted && !$v.phone.required" class="invalid-feedback">Gender is required</div>
+                                            <div v-if="submitted && !$v.phone.required" class="invalid-feedback">Phone is required</div>
 										</div>
 									</div>
 									<div class="submit-section">
@@ -105,16 +114,22 @@
 
 
 <script>
-import { required, sameAs } from 'vuelidate/lib/validators';
+import { required, sameAs } from 'vuelidate/lib/validators';    
+import Datepicker from "vuejs-datepicker"
 import { employeeService } from '@/services/employeeService';
   export default {
-     props: {
+	components: {
+		Datepicker
+	},
+    props: {
         model: {},
 		dialog: Boolean,
 		method: { type: Function }
     },
     data() {
       return {
+		  passportPhoto: this.model.passportPhoto,
+      	  media: 'data:image/jpeg;base64,',
 		  modalDialog: this.dialog,
 		  employee: null,
           firstName: this.model.firstName,
@@ -125,6 +140,7 @@ import { employeeService } from '@/services/employeeService';
           phone: this.model.phone,
           message: '',
           error: '',
+		  file: null,
           submitted: false
       }
     },
@@ -153,7 +169,20 @@ import { employeeService } from '@/services/employeeService';
 			}
     },
     methods: {
-
+		onFilePicked(event) {
+      const files = event.target.files
+      let filename = files[0].name
+      const fileReader = new FileReader()
+      fileReader.addEventListener('load', () => {
+        this.file = fileReader.result
+      })
+      fileReader.readAsDataURL(files[0])
+      this.file = files[0];
+      employeeService.changeEmployeePhoto(files[0], this.model.id).then(
+        m => { this.passportPhoto = m.passportPhoto; },
+        e => this.error = e.title
+      )
+    },
 		putProfileInfo() {
 			this.submitted = true;
             // stop here if form is invalid
@@ -167,6 +196,9 @@ import { employeeService } from '@/services/employeeService';
             	.then(
                 model => { 
 					this.employee = model;
+					if(!this.employee.passportPhoto){
+              this.employee.passportPhoto = "../../assets/profiles/avatar-02.jpg"
+          }
 					if(!this.employee.employeePension){
 						this.employee.employeePension = {id: 0, pensionNo: "", employeeRate: 0, pensionManager: ""}
 					}

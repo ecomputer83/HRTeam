@@ -88,7 +88,7 @@
                       <td>
                         <h2 class="table-avatar">
                           <router-link to="/profile" class="avatar avatar-xs"><img
-                              src="../assets/profiles/avatar-09.jpg" alt=""></router-link>
+                              src="~@/assets/profiles/avatar-09.jpg" alt=""></router-link>
                           <a href="#">{{item.approvedBy}}</a>
                         </h2>
                       </td>
@@ -121,7 +121,7 @@
                       <td>
                         <h2 class="table-avatar">
                           <router-link to="/profile" class="avatar avatar-xs"><img
-                              src="../assets/profiles/avatar-09.jpg" alt=""></router-link>
+                              src="~@/assets/profiles/avatar-09.jpg" alt=""></router-link>
                           <a href="#">Richard Miles</a>
                         </h2>
                       </td>
@@ -154,7 +154,7 @@
                       <td>
                         <h2 class="table-avatar">
                           <router-link to="/profile" class="avatar avatar-xs"><img
-                              src="../assets/profiles/avatar-09.jpg" alt=""></router-link>
+                              src="~@/assets/profiles/avatar-09.jpg" alt=""></router-link>
                           <a href="#">Richard Miles</a>
                         </h2>
                       </td>
@@ -187,7 +187,7 @@
                       <td>
                         <h2 class="table-avatar">
                           <router-link to="/profile" class="avatar avatar-xs"><img
-                              src="../assets/profiles/avatar-09.jpg" alt=""></router-link>
+                              src="~@/assets/profiles/avatar-09.jpg" alt=""></router-link>
                           <a href="#">Richard Miles</a>
                         </h2>
                       </td>
@@ -220,7 +220,7 @@
                       <td>
                         <h2 class="table-avatar">
                           <router-link to="/profile" class="avatar avatar-xs"><img
-                              src="../assets/profiles/avatar-09.jpg" alt=""></router-link>
+                              src="~@/assets/profiles/avatar-09.jpg" alt=""></router-link>
                           <a href="#">Richard Miles</a>
                         </h2>
                       </td>
@@ -253,7 +253,7 @@
                       <td>
                         <h2 class="table-avatar">
                           <router-link to="/profile" class="avatar avatar-xs"><img
-                              src="../assets/profiles/avatar-09.jpg" alt=""></router-link>
+                              src="~@/assets/profiles/avatar-09.jpg" alt=""></router-link>
                           <a href="#">Richard Miles</a>
                         </h2>
                       </td>
@@ -286,7 +286,7 @@
                       <td>
                         <h2 class="table-avatar">
                           <router-link to="/profile" class="avatar avatar-xs"><img
-                              src="../assets/profiles/avatar-09.jpg" alt=""></router-link>
+                              src="~@/assets/profiles/avatar-09.jpg" alt=""></router-link>
                           <a href="#">Richard Miles</a>
                         </h2>
                       </td>
@@ -319,7 +319,7 @@
                       <td>
                         <h2 class="table-avatar">
                           <router-link to="/profile" class="avatar avatar-xs"><img
-                              src="../assets/profiles/avatar-09.jpg" alt=""></router-link>
+                              src="~@/assets/profiles/avatar-09.jpg" alt=""></router-link>
                           <a href="#">Richard Miles</a>
                         </h2>
                       </td>
@@ -384,7 +384,7 @@
                     </div>
                     <div class="form-group">
                       <label>Remaining Leaves <span class="text-danger">*</span></label>
-                      <input :value="this.getRemainingDays()" class="form-control" readonly value="12" type="text">
+                      <input :value="this.getRemainingDays()" class="form-control" readonly type="text">
                     </div>
                     <div class="form-group">
                       <label>Leave Reason <span class="text-danger">*</span></label>

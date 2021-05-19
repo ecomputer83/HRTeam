@@ -239,6 +239,9 @@ export default {
               employeeService.getEmployeeDetail(this.employeeId).then(
                 (model) => {
                   this.employee = model;
+                  if(!this.employee.passportPhoto){
+              this.employee.passportPhoto = "../../assets/profiles/avatar-02.jpg"
+          }
                   if (!this.employee.employeePension) {
                     this.employee.employeePension = {
                       id: 0,
@@ -279,6 +282,9 @@ export default {
               employeeService.getEmployeeDetail(this.employeeId).then(
                 (model) => {
                   this.employee = model;
+                  if(!this.employee.passportPhoto){
+              this.employee.passportPhoto = "../../assets/profiles/avatar-02.jpg"
+          }
                   if (!this.employee.employeePension) {
                     this.employee.employeePension = {
                       id: 0,
@@ -319,6 +325,9 @@ export default {
             employeeService.getEmployeeDetail(this.employeeId).then(
               (model) => {
                 this.employee = model;
+                if(!this.employee.passportPhoto){
+              this.employee.passportPhoto = "../../assets/profiles/avatar-02.jpg"
+          }
                 if (!this.employee.employeePension) {
                   this.employee.employeePension = {
                     id: 0,

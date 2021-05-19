@@ -84,7 +84,9 @@
                                             <td>
                                                 <h2 class="table-avatar">
                                                     <router-link :to="{name: 'employeedetail', params: {id: model.id}}" class="avatar"><img alt=""
-                                                            src="~@/assets/profiles/avatar-02.jpg"></router-link>
+                                                            src="~@/assets/profiles/avatar-02.jpg" v-if="!model.passportPhoto">
+                                                            <img alt="" :src="media + model.passportPhoto" width="38" v-if="model.passportPhoto"
+                        /></router-link>
                                                     <router-link :to="{name: 'employeedetail', params: {id: model.id}}">{{model.firstName + ' ' + model.lastName}} <span>{{model.designation.name}}</span>
                                                     </router-link>
                                                 </h2>
@@ -409,6 +411,7 @@
         phone: '',
         email: '',
         designationId: null,
+        media: 'data:image/jpeg;base64,',
       employees: [],
       employee: {},
       designations: null,

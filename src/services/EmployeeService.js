@@ -4,6 +4,7 @@ import handleResponse from '@/helpers/HandleResponses';
 
 export const employeeService = {
     addEmployee,
+    changeEmployeePhoto,
     addEmployeeExperience,
     addEmployeeEducation,
     addEmployeeEmergency,
@@ -96,6 +97,17 @@ function addEmployee(companyId, rankId, firstName, lastName, email, phone, desig
         designationId,
     }
     return fetch(`${config.apiurl}/employee/PostEmployee`, requestOptions.post(req))
+        .then(handleResponse)
+        .then(id => {
+
+            return id;
+        });
+}
+
+function changeEmployeePhoto(file, id) {
+    let formData = new FormData();
+    formData.append('file', file);
+    return fetch(`${config.apiurl}/employee/PostEmployeePhoto/${id}`, requestOptions.postForm(formData))
         .then(handleResponse)
         .then(id => {
 
@@ -244,7 +256,7 @@ function updateEmployeeStatutory(employeeId, salary, pf, tax) {
     salary.employeeId = employeeId
     pf.employeeId = employeeId
     tax.employeeId = employeeId
-    if(tax.id){
+    if(tax.id != 0){
         fetch(`${config.apiurl}/employee/UpdateEmployeeTax/${tax.id}`, requestOptions.put(tax))
     }else{
         fetch(`${config.apiurl}/employee/PostEmployeeTax`, requestOptions.post(tax))
@@ -252,10 +264,10 @@ function updateEmployeeStatutory(employeeId, salary, pf, tax) {
     return fetch(`${config.apiurl}/employee/UpdateEmployeeStatutory/${salary.id}`, requestOptions.put(salary))
         .then(handleResponse)
         .then(id => {
-            if(pf.id){
+            if(pf.id != 0){
                 fetch(`${config.apiurl}/employee/UpdateEmployeePension/${pf.id}`, requestOptions.put(pf))
             }else{
-                fetch(`${config.apiurl}/employee/PostEmployeePension/${pf.id}`, requestOptions.post(pf))
+                fetch(`${config.apiurl}/employee/PostEmployeePension`, requestOptions.post(pf))
             }
             return id;
         });

@@ -30,8 +30,17 @@
         <ul class="nav user-menu" v-if="currentUser">
           
           <li class="nav-item dropdown has-arrow main-drop">
-            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-              <span class="user-img"><img src="../../assets/profiles/avatar-21.jpg" alt="">
+            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" v-if="currentUser.employee">
+              <span class="user-img"><img alt="" :src="media + currentUser.employee.passportPhoto" v-if="currentUser.employee.passportPhoto"
+                        />
+                        <img alt="" src="~@/assets/profiles/avatar-02.jpg" v-if="!currentUser.employee.passportPhoto"
+                        />
+                <span class="status online"></span></span>
+              <span>{{currentUser.user.fullName}}</span>
+            </a>
+            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" v-if="!currentUser.employee">
+              <span class="user-img">
+                        <img alt="" src="~@/assets/profiles/avatar-02.jpg" />
                 <span class="status online"></span></span>
               <span>{{currentUser.user.fullName}}</span>
             </a>
@@ -63,7 +72,8 @@ import { authenticationService } from '@/services/authenticationService';
     data() {
       return {
         currentUser: authenticationService.currentUserValue,
-        currentOffice: authenticationService.currentOfficeValue
+        currentOffice: authenticationService.currentOfficeValue,
+        media: 'data:image/jpeg;base64,',
       }
     },
     mounted() {

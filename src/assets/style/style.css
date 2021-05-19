@@ -1236,6 +1236,7 @@ table.dataTable thead > tr > td.sorting {
 .main-drop .user-img img {
 	border-radius: 50%;
     width: 30px;
+	height: 30px;
 }
 .user-img .status {
 	border: 2px solid #fff;
@@ -2465,6 +2466,7 @@ table.dataTable thead > tr > td.sorting {
     display: block;
     overflow: hidden;
     width: 100%;
+	height: 38px
 }
 .chat.chat-left .chat-bubble:first-child .chat-content {
 	border-top-left-radius: 20px;

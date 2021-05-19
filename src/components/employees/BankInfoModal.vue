@@ -122,6 +122,9 @@ import {organizationService} from '@/services/organizationService';
             	.then(
                 model => { 
 					this.employee = model;
+          if(!this.employee.passportPhoto){
+              this.employee.passportPhoto = "../../assets/profiles/avatar-02.jpg"
+          }
 					if(!this.employee.employeePension){
 						this.employee.employeePension = {id: 0, pensionNo: "", employeeRate: 0, pensionManager: ""}
 					}
@@ -150,6 +153,9 @@ import {organizationService} from '@/services/organizationService';
             	.then(
                 model => { 
 					this.employee = model;
+          if(!this.employee.passportPhoto){
+              this.employee.passportPhoto = "../../assets/profiles/avatar-02.jpg"
+          }
 					if(!this.employee.employeePension){
 						this.employee.employeePension = {id: 0, pensionNo: "", employeeRate: 0, pensionManager: ""}
 					}

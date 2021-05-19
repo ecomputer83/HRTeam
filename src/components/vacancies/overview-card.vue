@@ -5,11 +5,6 @@
         <table class="datatable table mb-0">
           <tbody>
             <tr>
-              <td>Vacancy Id</td>
-              <td><p class="ml-3 mb-0">vid</p></td>
-            </tr>
-            
-            <tr>
               <td>Job Profile</td>
               <td>
                 <select
@@ -48,9 +43,8 @@
               </td>
             </tr>
             <tr>
-              <td>Designation</td>
+              <td>Type</td>
               <td>
-                <select name="designation" id="designation" class="form-control" v-model="vacancy.designationId">
                    <select
                       v-model="vacancy.type"
                       class="select form-control"
@@ -59,7 +53,7 @@
                       <option value="Full Time">Full Time</option>
                       <option value="Part Time">Part Time</option>
                       <option value="Intern">Intern</option>
-                    </select>
+                    
                 </select>
               </td>
             </tr>
