@@ -106,7 +106,12 @@
                   <span>Disciplinary Measures</span></router-link
                 >
               </li>
-
+              <li class="policies">
+                <router-link to="/query"
+                  ><i class="la la la-user"></i>
+                  <span>Query</span></router-link
+                >
+              </li>
               <li class="menu-title">
                 <span>HR</span>
               </li>
@@ -244,6 +249,27 @@
                   ><i class="la la-times-circle"></i>
                   <span>Termination Type</span></router-link
                 >
+              </li>
+              <li class="submenu">
+                <a href="#"
+                  ><i class="la la-graduation-cap"></i>
+                  <span> Performance Settings </span> <span class="menu-arrow"></span
+                ></a>
+                <ul style="display: none">
+                  <li>
+                    <router-link
+                      to="/professional-excellence-settings"
+                      class="performanceindicator"
+                    >
+                      Professional Excellence
+                    </router-link>
+                  </li>
+                  <li>
+                    <router-link to="/personal-excellence-settings" class="performance">
+                      Personal Excellence
+                    </router-link>
+                  </li>
+                </ul>
               </li>
             </ul>
           </div>

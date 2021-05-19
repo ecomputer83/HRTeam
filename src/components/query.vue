@@ -1,5 +1,5 @@
 <template>
-  <div class="disciplinaryMeasure">
+  <div class="query">
     <div class="main-wrapper">
       <layout-header></layout-header>
       <layout-sidebar></layout-sidebar>
@@ -11,19 +11,19 @@
           <div class="page-header">
             <div class="row align-items-center">
               <div class="col">
-                <h3 class="page-title">Disciplinary Measures</h3>
+                <h3 class="page-title">Query</h3>
                 <ul class="breadcrumb">
                   <li class="breadcrumb-item">
                     <router-link to="/index">Dashboard</router-link>
                   </li>
-                  <li class="breadcrumb-item active">Disciplinary Measures</li>
+                  <li class="breadcrumb-item active">Query</li>
                 </ul>
               </div>
               <div class="col-auto float-right ml-auto">
                 <a
                   @click="openDialog"
                   class="btn add-btn"
-                  ><i class="fa fa-plus"></i> Add Disciplinary Measures</a
+                  ><i class="fa fa-plus"></i> Add Query</a
                 >
               </div>
             </div>
@@ -35,7 +35,7 @@
               <div class="table-responsive">
                 <v-data-table
                   :headers="headers"
-                  :items="disciplinaryMeasures"
+                  :items="queries"
                   sort-by=""
                   class="elevation-1"
                 >
@@ -51,18 +51,18 @@
                         <div class="dropdown-menu dropdown-menu-right">
                           <a
                             class="dropdown-item"
-                            @click="setEditDisciplinaryMeasure(item)"
+                            @click="setEditquery(item)"
                             ><i class="fa fa-pencil m-r-5"></i> Edit</a
                           >
                           <a
                             class="dropdown-item"
-                            @click="setDeleteDisciplinaryMeasure(item)"
+                            @click="setDeletequery(item)"
                             ><i class="fa fa-trash-o m-r-5"></i> Delete</a
                           >
                           <a
                             class="dropdown-item"
-                            @click="setQuery(item)"
-                            ><i class="fa fa-trash-o m-r-5"></i> Query</a
+                            @click="setSubmitResponse(item)"
+                            ><i class="fa fa-trash-o m-r-5"></i> Response</a
                           >
                         </div>
                     </div>
@@ -86,12 +86,12 @@
         </div>
         <!-- /Page Content -->
 
-        <!-- Add disciplinaryMeasure Modal -->
+        <!-- Add query Modal -->
         <v-dialog v-model="dialog" max-width="725px"
           >
             <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Add Disciplinary Measures</h5>
+              <div class="modal-header mt-5">
+                <h5 class="modal-title">Add Query</h5>
                 <button
                   type="button"
                   class="close"
@@ -106,7 +106,7 @@
                     <label>Employee <span class="text-danger">*</span></label>
                     <select class="form-control" v-model="employeeId">
                       <option>Employee</option>
-                      <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName + ' ' + item.lastName}}</option>
+                      <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName}}</option>
                     </select>
                   </div>
                   <div class="form-group">
@@ -115,23 +115,32 @@
                         <datepicker v-model="date" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
                       </div>
                   </div>
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                       <label>HR Manager <span class="text-danger">*</span></label>
                       <input class="form-control" v-model="hrManager" />
-                  </div>
-                   <!-- <div class="form-group">
+                  </div> -->
+                   <div class="form-group">
                       <label>Form <span class="text-danger">*</span></label>
                       <select class="select form-control" v-model="form">
                         <option>-- Select --</option>
                         <option value="Verbal">Verbal</option>
                         <option value="Written">Written</option>
                         <option value="Terminated">Terminated</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                      <label>Query Type <span class="text-danger">*</span></label>
+                      <select class="form-control" v-model="queryTypeId">
+                        <option disabled>-- Select Query Type --</option>
+                        <option value="1st query">1st Query</option>
+                        <option value="2nd query">2nd Query</option>
+                        <option value="3rd query">3rd Query</option>
                       </select>
-                  </div> -->
+                  </div>
                   
                   <div class="form-group">
-                      <label>Reason <span class="text-danger">*</span></label>
-                      <textarea class="form-control" v-model="reason" rows="4"></textarea>
+                      <label>Accusation <span class="text-danger">*</span></label>
+                      <textarea class="form-control" v-model="accusation" rows="4"></textarea>
                   </div>
                   <div class="form-group">
                       <label>Remark <span class="text-danger">*</span></label>
@@ -150,14 +159,46 @@
               </div>
             </div>
         </v-dialog>
-        <!-- /Add disciplinaryMeasure Modal -->
+        <!-- /Add query Modal -->
 
-        <!-- Edit disciplinaryMeasure Modal -->
+        <!-- Response Modal -->
+
+        <v-dialog v-model="dialogResponse" max-width="725px"
+          >
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Response</h5>
+                <button
+                  type="button"
+                  class="close"
+                  @click="closeResponse"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form @submit.prevent="submitResponse">                  
+                  <div class="form-group">
+                      <label>Response <span class="text-danger">*</span></label>
+                      <textarea class="form-control" v-model="response" rows="4"></textarea>
+                  </div>
+                  <div class="submit-section">
+                    <button @click.prevent="submitResponse" class="btn btn-primary submit-btn">Submit</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          
+        </v-dialog>
+
+        <!-- /Add Response Modal -->
+
+        <!-- Edit query Modal -->
         <v-dialog v-model="dialogEdit" max-width="725px"
           >
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Edit Disciplinary Measure</h5>
+                <h5 class="modal-title">Edit Query</h5>
                 <button
                   type="button"
                   class="close"
@@ -167,10 +208,10 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form @submit.prevent="updateDisciplinaryMeasure">
+                <form @submit.prevent="updateQuery">
                   <div class="form-group">
                     <label>Employee <span class="text-danger">*</span></label>
-                    <select class="form-control" v-model="disciplinaryMeasure.employeeId">
+                    <select class="form-control" v-model="query.employeeId">
                       <option>Select Employee</option>
                       <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName}}</option>
                     </select>
@@ -178,58 +219,58 @@
                   <div class="form-group">
                       <label>Date <span class="text-danger">*</span></label>
                       <div class="cal-icon">
-                        <datepicker v-model="disciplinaryMeasure.date" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
+                        <datepicker v-model="query.date" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
                       </div>
                   </div>
-                   <div class="form-group">
+                   <!-- <div class="form-group">
                       <label>HR Manager <span class="text-danger">*</span></label>
-                      <input class="form-control" v-model="disciplinaryMeasure.hrManager" />
-                  </div>
+                      <input class="form-control" v-model="query.hrManager" />
+                  </div> -->
                    <!-- <div class="form-group">
                       <label>Form <span class="text-danger">*</span></label>
                       <input class="form-control" v-model="disciplinary.form" />
                   </div> -->
-                  <!-- <div class="form-group">
+                  <div class="form-group">
                       <label>Form <span class="text-danger">*</span></label>
-                      <select class="select form-control" v-model="disciplinaryMeasure.form">
+                      <select class="select form-control" v-model="query.form">
                         <option>-- Select --</option>
                         <option value="Verbal">Verbal</option>
                         <option value="Written">Written</option>
                         <option value="Terminated">Terminated</option>
                       </select>
-                  </div> -->
+                  </div>
                   <div class="form-group">
-                      <label>Reason <span class="text-danger">*</span></label>
-                      <textarea class="form-control" v-model="disciplinaryMeasure.reason" rows="4"></textarea>
+                      <label>accusation <span class="text-danger">*</span></label>
+                      <textarea class="form-control" v-model="query.accusation" rows="4"></textarea>
                   </div>
                   <div class="form-group">
                       <label>Remark <span class="text-danger">*</span></label>
-                      <input class="form-control" v-model="disciplinaryMeasure.remark" />
+                      <input class="form-control" v-model="query.remark" />
                   </div>
                   <div class="submit-section">
-                    <button @click.prevent="updateDisciplinaryMeasure" class="btn btn-primary submit-btn">Submit</button>
+                    <button @click.prevent="updateQuery" class="btn btn-primary submit-btn">Submit</button>
                   </div>
                 </form>
               </div>
             </div>
           
         </v-dialog>
-        <!-- /Edit disciplinaryMeasure Modal -->
+        <!-- /Edit query Modal -->
 
-        <!-- Delete disciplinaryMeasure Modal -->
+        <!-- Delete query Modal -->
         <v-dialog v-model="dialogDelete" max-width="725px"
           >
             <div class="modal-content">
               <div class="modal-body">
                 <div class="form-header">
-                  <h3>Delete disciplinaryMeasure</h3>
+                  <h3>Delete query</h3>
                   <p>Are you sure want to delete?</p>
                 </div>
                 <div class="modal-btn delete-action">
                   <div class="row">
                     <div class="col-6">
                       <a
-                        @click.prevent="deleteDisciplinaryMeasure"
+                        @click.prevent="deletequery"
                         class="btn btn-primary continue-btn"
                         data-dismiss="modal"
                         >Delete</a
@@ -249,7 +290,7 @@
             </div>
           
         </v-dialog>
-        <!-- /Delete disciplinaryMeasure Modal -->
+        <!-- /Delete query Modal -->
       </div>
       <!-- /Page Wrapper -->
     </div>
@@ -274,6 +315,7 @@ export default {
     return {
       dialog: false,
       dialogEdit: false,
+      dialogResponse: false,
       dialogDelete: false,
       headers: [
       // {
@@ -281,22 +323,24 @@ export default {
       //   align: 'start',
       //   value: 'profile',
       // },
-      // { text: 'Form', value: 'form' },
-      { text: 'Reason', value: 'reason' },
-      { text: 'Employee', value: 'profile' },
-      // { text: 'Status Reason', value: 'reason' },
+      { text: 'Form', value: 'form' },
       { text: 'Designation(Employee)', value: 'employee.designation.name' },
+      { text: 'Employee', value: 'profile' },
+      { text: 'Accusation', value: 'accusation' },
+
+      // { text: 'Status accusation', value: 'accusation' },
       { text: 'Actions', value: 'actions', sortable: false },
     ],
       name: "",
-      // form: "",
+      form: "",
       employeeId: "",
-      hrManager: "",
-      reason: "",
+      response: "",
+      accusation: "",
       remark: "",
       date: "",
-      disciplinaryMeasure: {},
-      disciplinaryMeasures: [],
+      query: {},
+      queries : [],
+      queryTypeId: "",
       employee: {},
       loading: false,
       error: "",
@@ -310,10 +354,10 @@ export default {
 
   validations: {
     name: { required },
-    reason: { required },
+    accusation: { required },
     form: { required },
     date: { required },
-    //disciplinaryMeasureDate: { required },
+    //queryDate: { required },
   },
   watch: {
     dialog (val) {
@@ -361,24 +405,27 @@ export default {
     closeDelete() {
       this.dialogDelete = false
     },
+    closeResponse() {
+      this.dialogEdit = false
+    },
     clearList() {
       this.employeeId = ""
 
     },
-    setEditDisciplinaryMeasure(model) {
-      this.disciplinaryMeasure = model;
+    setEditquery(model) {
+      this.query = model;
       this.dialogEdit = true
     },
-    setDeleteDisciplinaryMeasure(model) {
-      this.disciplinaryMeasure = model;
+    setDeletequery(model) {
+      this.query = model;
       this.dialogDelete = true;
     },
-    getDisciplinaryMeasures() {
+    getquery() {
       //const user = this.user;
        console.log(`company`, this.company.id)
-      employeeService.getDisciplinaryMeasures(this.company.id).then(
+      employeeService.getquery(this.company.id).then(
         (model) => {
-          this.disciplinaryMeasures = model;
+          this.query = model;
           // console.log(`model`, model)
         },
         (error) => {
@@ -391,18 +438,18 @@ export default {
       
       this.loading = true;
       employeeService
-        .addDisciplinaryMeasure(
+        .addQuery(
           this.date,
-          this.hrManager,
-          // this.form,
-          this.reason,
+          this.form,
+          this.queryType,
+          this.accusation,
           this.remark,
           this.employeeId
         )
         .then(
           (id) => {
-            employeeService.getDisciplinaryMeasures(this.company.id).then((w) => {
-              this.disciplinaryMeasures = w; console.log(w); this.close()
+            employeeService.getQuery(this.employeeId).then((w) => {
+              this.query = w; console.log(w); this.close()
             });
           },
           (error) => {
@@ -411,25 +458,25 @@ export default {
           }
         );
     },
-    updateDisciplinaryMeasure () {
+    updateQuery () {
         this.submitted = true;
 
         this.loading = true;
-        console.log(this.disciplinaryMeasure)
+        console.log(this.query)
         employeeService
-          .updateDisciplinaryMeasure(
-            this.disciplinaryMeasure.id, 
-            this.disciplinaryMeasure.date, 
-            this.disciplinaryMeasure.hrManager, 
-            // this.disciplinaryMeasure.form, 
-            this.disciplinaryMeasure.reason, 
-            this.disciplinaryMeasure.remark, 
-            this.disciplinaryMeasure.employeeId
+          .updateQuery(
+            this.query.id, 
+            this.query.date, 
+            this.query.hrManager, 
+            this.query.form, 
+            this.query.accusation, 
+            this.query.remark, 
+            this.query.employeeId
           )
             .then(id => {
-                  employeeService.getDisciplinaryMeasures(this.company.id)
+                  employeeService.getquery(this.company.id)
                     .then(
-                      o => {this.disciplinaryMeasures = o, console.log(o), this.closeEdit()}
+                      o => {this.query = o, console.log(o), this.closeEdit()}
                     )
               },
               error => {
@@ -439,14 +486,17 @@ export default {
             );
             
     },
-    deleteDisciplinaryMeasure () {
-      const id = this.disciplinaryMeasure.id;
-      // console.log(this.disciplinaryMeasure)
-        employeeService.removeDisciplinaryMeasure(id)
+    submitResponse() {
+        console.log(`submit response`)
+    },
+    deletequery () {
+      const id = this.query.id;
+      // console.log(this.query)
+        employeeService.removequery(id)
           .then(id => {
-            employeeService.getDisciplinaryMeasures(this.company.id)
+            employeeService.getquery(this.company.id)
               .then(
-                model => { this.disciplinaryMeasures = model
+                model => { this.query = model
                 // console.log(model)
                   this.closeDelete() },
                   error => { error = error }
@@ -458,10 +508,10 @@ export default {
   mounted() {
 
      this.getEmployees()
-     this.getDisciplinaryMeasures()
+     this.getquery()
     // Datatable
     //this.getEmployees(this.employee.id);
-    //this.getEmployeedisciplinaryMeasures(this.company.id);
+    //this.getEmployeequery(this.company.id);
 
     if ($(".datatable").length > 0) {
       $(".datatable").DataTable({
@@ -495,6 +545,6 @@ export default {
         .trigger("blur");
     }
   },
-  name: "disciplinarymeasures",
+  name: "query",
 };
 </script>
