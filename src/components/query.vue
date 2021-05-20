@@ -326,7 +326,7 @@ export default {
       { text: 'Form', value: 'form' },
       { text: 'Designation(Employee)', value: 'employee.designation.name' },
       { text: 'Employee', value: 'profile' },
-      { text: 'Accusation', value: 'accusation' },
+      //{ text: 'Accusation', value: 'accusation' },
 
       // { text: 'Status accusation', value: 'accusation' },
       { text: 'Actions', value: 'actions', sortable: false },
