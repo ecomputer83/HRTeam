@@ -314,7 +314,7 @@ export default {
   data() {
     return {
       dialog: false,
-      dialogEdit: false,
+      dialogEdit: false, 
       dialogResponse: false,
       dialogDelete: false,
       headers: [
@@ -323,12 +323,9 @@ export default {
       //   align: 'start',
       //   value: 'profile',
       // },
-      { text: 'Form', value: 'form' },
       { text: 'Designation(Employee)', value: 'employee.designation.name' },
-      { text: 'Employee', value: 'profile' },
-      //{ text: 'Accusation', value: 'accusation' },
-
-      // { text: 'Status accusation', value: 'accusation' },
+       { text: 'Employee', value: `${firstName} ${lastName}` },
+      { text: 'Form', value: 'form' },
       { text: 'Actions', value: 'actions', sortable: false },
     ],
       name: "",
@@ -420,12 +417,12 @@ export default {
       this.query = model;
       this.dialogDelete = true;
     },
-    getquery() {
+    getQueries() {
       //const user = this.user;
        console.log(`company`, this.company.id)
-      employeeService.getquery(this.company.id).then(
+      employeeService.getQueries(this.company.id).then(
         (model) => {
-          this.query = model;
+          this.queries = model;
           // console.log(`model`, model)
         },
         (error) => {
@@ -448,7 +445,7 @@ export default {
         )
         .then(
           (id) => {
-            employeeService.getQuery(this.employeeId).then((w) => {
+            employeeService.getQueries(this.company.id).then((w) => {
               this.query = w; console.log(w); this.close()
             });
           },
@@ -467,16 +464,16 @@ export default {
           .updateQuery(
             this.query.id, 
             this.query.date, 
-            this.query.hrManager, 
             this.query.form, 
+            this.query.queryType,
             this.query.accusation, 
             this.query.remark, 
             this.query.employeeId
           )
             .then(id => {
-                  employeeService.getquery(this.company.id)
+                  employeeService.getQueries(this.company.id)
                     .then(
-                      o => {this.query = o, console.log(o), this.closeEdit()}
+                      o => {this.queries = o, console.log(o), this.closeEdit()}
                     )
               },
               error => {
@@ -492,11 +489,11 @@ export default {
     deletequery () {
       const id = this.query.id;
       // console.log(this.query)
-        employeeService.removequery(id)
+        employeeService.removeQuery(id)
           .then(id => {
-            employeeService.getquery(this.company.id)
+            employeeService.getQueries(this.company.id)
               .then(
-                model => { this.query = model
+                model => { this.queries = model
                 // console.log(model)
                   this.closeDelete() },
                   error => { error = error }
@@ -508,7 +505,7 @@ export default {
   mounted() {
 
      this.getEmployees()
-     this.getquery()
+     this.getQueries()
     // Datatable
     //this.getEmployees(this.employee.id);
     //this.getEmployeequery(this.company.id);

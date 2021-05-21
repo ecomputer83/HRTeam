@@ -879,10 +879,11 @@ function removeDisciplinaryMeasure(id) {
 
 }
 
-function addQuery(date, hrManager, form, accusation, remark, employeeId) {
+function addQuery(date, form, queryType, accusation, remark, employeeId) {
     var req = {
         date,
         form,
+        queryType,
         accusation,
         remark,
         employeeId
@@ -913,11 +914,12 @@ function getQueries(companyId) {
         });
 }
 
-function updateQuery(id, date, form, reason, remark, employeeId) {
+function updateQuery(id, date, form, queryType, accusation, remark, employeeId) {
     var req = {
         id,
         date,
         form,
+        queryType,
         accusation,
         remark,
         employeeId
