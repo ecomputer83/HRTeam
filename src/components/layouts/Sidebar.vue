@@ -100,22 +100,27 @@
                   <span>Timesheets</span></router-link
                 >
               </li>
-              <li class="policies">
-                <router-link to="/disciplinary-measures"
-                  ><i class="la la la-user"></i>
-                  <span>Disciplinary Measures</span></router-link
-                >
-              </li>
-              <li class="policies">
-                <router-link to="/query"
-                  ><i class="la la la-user"></i>
-                  <span>Query</span></router-link
-                >
+              <li class="submenu">
+                <a href="#"
+                  ><i class="la la-money"></i> <span> Discipline </span>
+                  <span class="menu-arrow"></span
+                ></a>
+                <ul style="display: none">
+                  <li class="policies">
+                    <router-link to="/query" class="salary">
+                      Query
+                    </router-link>
+                  </li>
+                  <li class="policies">
+                    <router-link to="/disciplinary-measures" class="payrollitems">
+                      <span>Disciplinary Measure</span>
+                    </router-link>
+                  </li>
+                </ul>
               </li>
               <li class="menu-title">
                 <span>HR</span>
               </li>
-              
               <li class="submenu">
                 <a href="#"
                   ><i class="la la-money"></i> <span> Payroll </span>

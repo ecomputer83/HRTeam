@@ -61,20 +61,29 @@
                           >
                           <a
                             class="dropdown-item"
-                            @click="setSubmitResponse(item)"
+                            @click="setQueryResponse(item)"
                             ><i class="fa fa-trash-o m-r-5"></i> Response</a
                           >
                         </div>
                     </div>
                   </template>
+                  
+                    <template v-slot:[`item.stat`]="{ item }">
+                    
+                      
+                        {{item.response ? 'Responded' : 'Pending'}}
+                    
+                  </template>
+
+
                   <template v-slot:[`item.profile`]="{ item }">
                     <h2 class="table-avatar blue-link">
-                      <router-link to="/profile/" class="avatar"
+                      <a @="setQueryDetail" class="avatar"
                         ><img alt="" src="../assets/profiles/avatar-02.jpg"
-                      /></router-link>
-                      <router-link to="/profile">{{
+                      /></a>
+                      <a @click="setQueryDetail(item)">{{
                         `${item.employee.firstName} ${item.employee.lastName}`
-                      }}</router-link>
+                      }}</a>
                     </h2>
                   </template>
                   
@@ -125,12 +134,11 @@
                         <option>-- Select --</option>
                         <option value="Verbal">Verbal</option>
                         <option value="Written">Written</option>
-                        <option value="Terminated">Terminated</option>
                     </select>
                   </div>
                   <div class="form-group">
                       <label>Query Type <span class="text-danger">*</span></label>
-                      <select class="form-control" v-model="queryTypeId">
+                      <select class="form-control" v-model="queryType">
                         <option disabled>-- Select Query Type --</option>
                         <option value="1st query">1st Query</option>
                         <option value="2nd query">2nd Query</option>
@@ -182,6 +190,10 @@
                       <label>Response <span class="text-danger">*</span></label>
                       <textarea class="form-control" v-model="response" rows="4"></textarea>
                   </div>
+                  <div class="form-group">
+                      <label>Remark <span class="text-danger">*</span></label>
+                      <input class="form-control" v-model="remark" />
+                  </div>
                   <div class="submit-section">
                     <button @click.prevent="submitResponse" class="btn btn-primary submit-btn">Submit</button>
                   </div>
@@ -192,6 +204,60 @@
         </v-dialog>
 
         <!-- /Add Response Modal -->
+
+        <!-- Query Details Modal -->
+
+        <v-dialog v-model="dialogDetail" max-width="725px"
+          >
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Detail</h5>
+                <button
+                  type="button"
+                  class="close"
+                  @click="closeDetail"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form @submit.prevent="submitDetail"> 
+                  <div class="form-group">
+                      <label>Name <span class="text-danger">*</span></label>
+                      <input class="form-control" readonly  v-model="query.employee.firstName"/>
+                  </div>            
+                  <div class="form-group">
+                      <label>Date <span class="text-danger">*</span></label>
+                      <div class="cal-icon">
+                        <datepicker 
+                          v-model="query.date" 
+                          calendar-class 
+                          input-class bootstrap-styling class="form-control datetimepicker" type="text" 
+                          readonly />
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label>Accusation <span class="text-danger">*</span></label>
+                      <textarea class="form-control" v-model="query.accusation" rows="4" readonly></textarea>
+                  </div>
+                  <div class="form-group">
+                      <label>Response <span class="text-danger">*</span></label>
+                      <textarea class="form-control" v-model="query.response" rows="4" readonly></textarea>
+                  </div>
+                  <div class="form-group">
+                      <label>Response By <span class="text-danger">*</span></label>
+                      <input class="form-control" v-model="query.responseBy" readonly />
+                  </div>
+                  <div class="submit-section">
+                    <button @click.prevent="submitDetail" class="btn btn-primary submit-btn">Submit</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          
+        </v-dialog>
+
+        <!-- /Query Details Modal -->
 
         <!-- Edit query Modal -->
         <v-dialog v-model="dialogEdit" max-width="725px"
@@ -236,7 +302,15 @@
                         <option>-- Select --</option>
                         <option value="Verbal">Verbal</option>
                         <option value="Written">Written</option>
-                        <option value="Terminated">Terminated</option>
+                      </select>
+                  </div>
+                  <div class="form-group">
+                      <label>Query Type <span class="text-danger">*</span></label>
+                      <select class="form-control" v-model="query.queryType">
+                        <option disabled>-- Select Query Type --</option>
+                        <option value="1st query">1st Query</option>
+                        <option value="2nd query">2nd Query</option>
+                        <option value="3rd query">3rd Query</option>
                       </select>
                   </div>
                   <div class="form-group">
@@ -317,15 +391,18 @@ export default {
       dialogEdit: false, 
       dialogResponse: false,
       dialogDelete: false,
+      dialogDetail: false,
       headers: [
       // {
       //   text: 'Form',
       //   align: 'start',
       //   value: 'profile',
       // },
+      { text: 'Employee', value: 'profile' },
       { text: 'Designation(Employee)', value: 'employee.designation.name' },
-       { text: 'Employee', value: `${firstName} ${lastName}` },
       { text: 'Form', value: 'form' },
+      { text: 'Query Type', value: 'queryType' },
+      { text: 'Status', value: 'stat' },
       { text: 'Actions', value: 'actions', sortable: false },
     ],
       name: "",
@@ -337,7 +414,7 @@ export default {
       date: "",
       query: {},
       queries : [],
-      queryTypeId: "",
+      queryType: "",
       employee: {},
       loading: false,
       error: "",
@@ -366,6 +443,12 @@ export default {
     dialogEdit (val) {
       val || this.closeEdit()
     },
+    dialogResponse (val) {
+      val || this.closeResonse()
+    },
+    dialogDetail (val) {
+      val || this.closeDetail()
+    },
   },
   methods: {
     // getEmployees(id) {
@@ -390,6 +473,9 @@ export default {
             error => { error = error }
           )
      },
+    getFullName() {
+      return `${this.user.employee.firstName} ${this.user.employee.lastName}`
+    },
     openDialog(){
       this.dialog = true
     },
@@ -403,7 +489,10 @@ export default {
       this.dialogDelete = false
     },
     closeResponse() {
-      this.dialogEdit = false
+      this.dialogResponse = false
+    },
+    closeDetail() {
+      this.dialogDetail = false
     },
     clearList() {
       this.employeeId = ""
@@ -416,6 +505,14 @@ export default {
     setDeletequery(model) {
       this.query = model;
       this.dialogDelete = true;
+    },
+    setQueryResponse(model) {
+      this.query = model;
+      this.dialogResponse = true
+    },
+    setQueryDetail(model) {
+      this.query = model;
+      this.dialogDetail = true
     },
     getQueries() {
       //const user = this.user;
@@ -460,10 +557,11 @@ export default {
 
         this.loading = true;
         console.log(this.query)
+
         employeeService
           .updateQuery(
             this.query.id, 
-            this.query.date, 
+            this.query.date,
             this.query.form, 
             this.query.queryType,
             this.query.accusation, 
@@ -484,7 +582,30 @@ export default {
             
     },
     submitResponse() {
-        console.log(`submit response`)
+      this.submitted = true;
+
+        this.loading = true;
+        //console.log(this.query)
+        //console.log(`this.user`, this.user)
+        this.query.response = this.response;
+        this.query.remark = this.remark;
+        this.query.responseBy = `${this.user.employee.firstName} ${this.user.employee.lastName}`;
+        employeeService
+          .queryResponse(
+            this.query.id, 
+            this.query
+          )
+            .then(id => {
+                  employeeService.getQueries(this.company.id)
+                    .then(
+                      o => {this.queries = o, console.log(o), this.closeResponse()}
+                    )
+              },
+              error => {
+                  this.error = error;
+                  this.loading = false;
+              }
+            );
     },
     deletequery () {
       const id = this.query.id;
@@ -503,7 +624,6 @@ export default {
   },
 
   mounted() {
-
      this.getEmployees()
      this.getQueries()
     // Datatable

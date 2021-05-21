@@ -64,8 +64,8 @@ export const employeeService = {
     getQuery,
     getQueries,
     getallEmployeeSalaries,
-    getDesignation
-
+    getDesignation,
+    queryResponse
 }
 
 
@@ -939,4 +939,13 @@ function removeQuery(id) {
             return model
         });
 
+}
+
+function queryResponse(id, query) {
+    
+    return fetch(`${config.apiurl}/Employee/UpdateQuery/${id}`, requestOptions.put(query))
+        .then(handleResponse)
+        .then(id => {
+            return id;
+        });
 }
