@@ -62,6 +62,11 @@
                     >
                     <a
                       class="dropdown-item"
+                      @click="setDetailResignation(item)"
+                      ><i class="fa fa-pencil-o m-r-5"></i> View Detail</a
+                    >
+                    <a
+                      class="dropdown-item"
                       @click="setDeleteResignation(item)"
                       ><i class="fa fa-trash-o m-r-5"></i> Delete</a
                     >
@@ -70,29 +75,29 @@
               </template>
       <template v-slot:[`item.profile`]="{ item }">
         <h2 class="table-avatar blue-link">
-                          <router-link to="/profile" class="avatar"
+                          <a @click="setDetailResignation(item)" class="avatar"
                             ><img alt=""
                                                             src="~@/assets/profiles/avatar-02.jpg" v-if="!item.employee.passportPhoto">
-                                                            <img alt="" :src="media + item.employee.passportPhoto" width="38" v-if="item.employee.passportPhoto"></router-link>
-                          <router-link to="/profile">{{
+                                                            <img alt="" :src="media + item.employee.passportPhoto" width="38" v-if="item.employee.passportPhoto"></a>
+                          <a @click="setDetailResignation(item)">{{
                             `${item.employee.firstName} ${item.employee.lastName}`
-                          }}</router-link>
+                          }}</a>
                         </h2>
       </template>
       <template v-slot:[`item.stat`]="{ item }">
-                    <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" v-if="item.status == 0 && !item.exitInterview"
+                    <a class="btn btn-white btn-sm btn-rounded" v-if="item.status == 0 && !item.exitInterview"
                             aria-expanded="false">
                             <i class="fa fa-dot-circle-o text-purple"></i> New
                           </a>
-                    <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" v-if="item.status == 0 && item.exitInterview"
+                    <a class="btn btn-white btn-sm btn-rounded" v-if="item.status == 0 && item.exitInterview"
                             aria-expanded="false">
-                            <i class="fa fa-dot-circle-o text-purple"></i> Pending Interview
+                            <i class="fa fa-dot-circle-o text-info"></i> Pending Interview
                           </a>
-                    <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" v-if="item.status == 1"
+                    <a class="btn btn-white btn-sm btn-rounded" v-if="item.status == 1"
                             aria-expanded="false">
                             <i class="fa fa-dot-circle-o text-success"></i> Approved
                           </a>
-                    <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" v-if="item.status == 2"
+                    <a class="btn btn-white btn-sm btn-rounded" v-if="item.status == 2"
                             aria-expanded="false">
                             <i class="fa fa-dot-circle-o text-danger"></i> Declined
                           </a>
@@ -143,7 +148,58 @@
             </div>
         </v-dialog>
         <!-- /Add Resignation Modal -->
+        <!-- Query Details Modal -->
 
+           <v-dialog v-model="dialogDetail" max-width="725px"
+          >
+            <div class="modal-content mt-5">
+              <div class="modal-header">
+                <h5 class="modal-title">Detail</h5>
+                <button
+                  type="button"
+                  class="close"
+                  @click="closeDetail"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form> 
+                  <div class="form-group">
+                      <label>Employee <span class="text-danger">*</span></label>
+                      <input class="form-control" readonly  :value="resignation.employee.firstName +' '+resignation.employee.lastName"/>
+                  </div>            
+                  <div class="form-group">
+                      <label>Notice Date <span class="text-danger">*</span></label>
+                      <div class="cal-icon">
+                        <input class="form-control" readonly  :value="new Date(resignation.noticeDate).toLocaleDateString()"/>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label>Employee Reason <span class="text-danger">*</span></label>
+                      <textarea class="form-control" v-model="resignation.reason" rows="4" readonly></textarea>
+                  </div>
+                  <div class="form-group">
+                      <label>Interview Date <span class="text-danger">*</span></label>
+                      <div class="cal-icon">
+                        <input class="form-control" readonly  :value="new Date(resignation.exitInterview.interviewDate).toLocaleDateString()"/>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label>HR Observations<span class="text-danger">*</span></label>
+                      <textarea class="form-control" v-model="resignation.exitInterview.observation" rows="4" readonly></textarea>
+                  </div>
+                  <div class="form-group">
+                      <label>HR Remark<span class="text-danger">*</span></label>
+                      <textarea class="form-control" v-model="resignation.exitInterview.remark" rows="4" readonly></textarea>
+                  </div>
+                </form>
+              </div>
+            </div>
+          
+        </v-dialog>
+
+        <!-- /Query Details Modal -->
         <!-- Edit Resignation Modal -->
         <v-dialog v-model="dialogEdit" max-width="725px"
           >
@@ -247,6 +303,7 @@ export default {
       dialog: false,
       dialogEdit: false,
       dialogDelete: false,
+      dialogDetail: false,
       media: 'data:image/jpeg;base64,',
       headers: [
       {
@@ -267,7 +324,10 @@ export default {
       noticeDate: "",
       interviewDate: "",
       resignationDate: "",
-      resignation: {},
+      resignation: {
+        employee: {},
+        exitInterview: {}
+      },
       resignations: [],
       employee: [],
       loading: false,
@@ -350,9 +410,16 @@ export default {
     closeDelete() {
       this.dialogDelete = false
     },
+    closeDetail() {
+      this.dialogDetail = false
+    },
     setEditResignation(model) {
       this.resignation = model;
       this.dialogEdit = true
+    },
+    setDetailResignation(model) {
+      this.resignation = model;
+      this.dialogDetail = true
     },
     setInviteResignation(model) {
       this.resignation = model;

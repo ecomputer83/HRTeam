@@ -70,19 +70,19 @@
                 </div>
               </template>
               <template v-slot:[`item.stat`]="{ item }">
-                    <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" v-if="item.status == 0 && !item.exitInterview"
+                    <a class="btn btn-white btn-sm btn-rounded" v-if="item.status == 0 && !item.exitInterview"
                             aria-expanded="false">
                             <i class="fa fa-dot-circle-o text-purple"></i> New
                           </a>
-                    <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" v-if="item.status == 0 && item.exitInterview"
+                    <a class="btn btn-white btn-sm btn-rounded" v-if="item.status == 0 && item.exitInterview"
                             aria-expanded="false">
-                            <i class="fa fa-dot-circle-o text-purple"></i> Pending Interview
+                            <i class="fa fa-dot-circle-o text-info"></i> Pending Interview
                           </a>
-                    <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" v-if="item.status == 1"
+                    <a class="btn btn-white btn-sm btn-rounded" v-if="item.status == 1"
                             aria-expanded="false">
                             <i class="fa fa-dot-circle-o text-success"></i> Approved
                           </a>
-                    <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" v-if="item.status == 2"
+                    <a class="btn btn-white btn-sm btn-rounded" v-if="item.status == 2"
                             aria-expanded="false">
                             <i class="fa fa-dot-circle-o text-danger"></i> Declined
                           </a>

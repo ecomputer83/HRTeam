@@ -73,6 +73,10 @@ export const employeeService = {
     addExitInterview,
     UpdateExitInterview,
     getHRLeaveSummary,
+    getDashboardCountSummary,
+    getTodayAbsence,
+    getUpcomingLeaves,
+    getUpcomingResignations,
     queryResponse
 }
 
@@ -434,6 +438,44 @@ function getEmployeeLeaveSummary(employeeId) {
 
 function getHRLeaveSummary(companyId) {
     return fetch(`${config.apiurl}/Summary/GetLeaveCountSummary/${companyId}`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+            console.log(model)
+            return model
+        });
+
+}
+
+function getDashboardCountSummary(companyId) {
+    return fetch(`${config.apiurl}/Summary/GetDashboardCountSummary/${companyId}`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+            console.log(model)
+            return model
+        });
+
+}
+
+function getTodayAbsence(companyId) {
+    return fetch(`${config.apiurl}/Summary/GetTodayAbsence/${companyId}`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+            console.log(model)
+            return model
+        });
+
+}
+function getUpcomingLeaves(companyId) {
+    return fetch(`${config.apiurl}/Summary/getUpcomingLeaves/${companyId}`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+            console.log(model)
+            return model
+        });
+
+}
+function getUpcomingResignations(companyId) {
+    return fetch(`${config.apiurl}/Summary/getUpcomingResignations/${companyId}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
             console.log(model)
