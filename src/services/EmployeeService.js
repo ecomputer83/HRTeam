@@ -77,6 +77,7 @@ export const employeeService = {
     getTodayAbsence,
     getUpcomingLeaves,
     getUpcomingResignations,
+    getLastSalaryPayment,
     queryResponse
 }
 
@@ -467,6 +468,15 @@ function getTodayAbsence(companyId) {
 }
 function getUpcomingLeaves(companyId) {
     return fetch(`${config.apiurl}/Summary/getUpcomingLeaves/${companyId}`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+            console.log(model)
+            return model
+        });
+
+}
+function getLastSalaryPayment(companyId) {
+    return fetch(`${config.apiurl}/Summary/GetLastSalaryPayment/${companyId}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
             console.log(model)

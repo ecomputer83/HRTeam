@@ -69,7 +69,7 @@
             <div class="col-md-12 col-lg-6 col-xl-6 d-flex">
               <div class="card flex-fill">
                 <div class="card-body">
-                  <h4 class="card-title">Today Absent <span class="badge bg-inverse-danger ml-2">5</span></h4>
+                  <h4 class="card-title">Today Absent </h4>
                   <div class="leave-info-box" v-for="item in todayAbsence" :key="item.id">
                     <div class="media align-items-center">
                       <router-link to="/profile" class="avatar"><img alt=""
@@ -90,7 +90,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="load-more text-center">
+                  <div class="load-more text-center" v-if="todayAbsence.length > 0">
                     <a class="text-dark" href="javascript:void(0);">Load More</a>
                   </div>
                 </div>
@@ -99,7 +99,7 @@
             <div class="col-md-12 col-lg-6 col-xl-6 d-flex">
               <div class="card flex-fill">
                 <div class="card-body">
-                  <h4 class="card-title">Upcoming Resignation <span class="badge bg-inverse-danger ml-2">5</span></h4>
+                  <h4 class="card-title">Upcoming Resignation </h4>
                   <div class="leave-info-box" v-for="item in upcomingResignations" :key="item.id">
                     <div class="media align-items-center">
                       <router-link to="/profile" class="avatar"><img alt=""
@@ -123,7 +123,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="load-more text-center">
+                  <div class="load-more text-center" v-if="upcomingResignations.length > 0">
                     <a class="text-dark" href="javascript:void(0);">Load More</a>
                   </div>
                 </div>
@@ -136,7 +136,7 @@
             <div class="col-md-12 col-lg-6 col-xl-6 d-flex">
               <div class="card flex-fill">
                 <div class="card-body">
-                  <h4 class="card-title">Pending Leaves<span class="badge bg-inverse-danger ml-2">5</span></h4>
+                  <h4 class="card-title">Pending Leaves</h4>
                   <div class="leave-info-box" v-for="item in upcomingLeaves" :key="item.id">
                     <div class="media align-items-center">
                       <router-link to="/profile" class="avatar"><img alt=""
@@ -159,7 +159,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="load-more text-center">
+                  <div class="load-more text-center" v-if="upcomingLeaves.length > 0">
                     <a class="text-dark" href="javascript:void(0);">Load More</a>
                   </div>
                 </div>
@@ -172,56 +172,34 @@
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
-                    <table class="table custom-table table-nowrap mb-0">
+                    <table class="table custom-table table-nowrap mb-0" v-if="lastSalaryPayment.length > 0">
                       <thead>
                         <tr>
                           <th>Invoice ID</th>
-                          <th>Client</th>
-                          <th>Payment Type</th>
+                          <th>Employee</th>
+                          <th>Designation</th>
                           <th>Paid Date</th>
                           <th>Paid Amount</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
+                        <tr v-for="item in lastSalaryPayment" :key="item.id">
                           <td>
 
-                            <router-link to="/invoiceview">#INV-0001</router-link>
+                            {{item.reference}}
                           </td>
                           <td>
-                            <h2><a href="#">Global Technologies</a></h2>
+                            <h2><a href="#">{{item.employee.firstName + ' ' + item.employee.lastName}}</a></h2>
                           </td>
-                          <td>Paypal</td>
-                          <td>11 Mar 2019</td>
-                          <td>#380</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <router-link to="/invoiceview">#INV-0002</router-link>
-                          </td>
-                          <td>
-                            <h2><a href="#">Delta Infotech</a></h2>
-                          </td>
-                          <td>Paypal</td>
-                          <td>8 Feb 2019</td>
-                          <td>#500</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <router-link to="/invoiceview">#INV-0003</router-link>
-                          </td>
-                          <td>
-                            <h2><a href="#">Cream Inc</a></h2>
-                          </td>
-                          <td>Paypal</td>
-                          <td>23 Jan 2019</td>
-                          <td>#60</td>
+                          <td>{{item.employee.destination.name}}</td>
+                          <td>{{new Date(item.salaryPayment.createdAt).toLocaleDateString()}}</td>
+                          <td>₦{{item.netSalary.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}}</td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
                 </div>
-                <div class="card-footer">
+                <div class="card-footer" v-if="lastSalaryPayment.length > 0">
                   <router-link to="/payments">View all payments</router-link>
                 </div>
               </div>
@@ -257,6 +235,7 @@
       todayAbsence: [],
       upcomingLeaves: [],
       upcomingResignations: [],
+      lastSalaryPayment: [],
       media: 'data:image/jpeg;base64,'
       }
     },
@@ -282,6 +261,11 @@
       getUpcomingResignations() {
         employeeService.getUpcomingResignations(this.company.id).then((o) => {
             this.upcomingResignations = o;
+          });
+      },
+      getPaidSalaries() {
+        employeeService.getLastSalaryPayment(this.company.id).then((o) => {
+            this.lastSalaryPayment = o;
           });
       },
     },

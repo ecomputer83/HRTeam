@@ -406,7 +406,9 @@ export default {
       remark: "",
       date: "",
       query: {
-        employee: {}
+        employee: {
+          firstName: ''
+        }
       },
       queries : [],
       queryType: "",

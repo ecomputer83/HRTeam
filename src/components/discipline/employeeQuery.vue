@@ -64,7 +64,7 @@
                   <template v-slot:[`item.profile`]="{ item }">
                     <h2 class="table-avatar blue-link">
                       <a class="avatar"
-                        ><img alt="" src="../assets/profiles/avatar-02.jpg"
+                        ><img alt="" src="~@/assets/profiles/avatar-02.jpg"
                       /></a>
                       <a @click="setQueryDetail(item)">{{
                         `${item.employee.firstName} ${item.employee.lastName}`
