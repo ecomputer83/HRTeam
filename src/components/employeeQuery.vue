@@ -298,7 +298,6 @@ export default {
     },
     clearList() {
       this.employeeId = ""
-
     },
     setEditquery(model) {
       this.query = model;
