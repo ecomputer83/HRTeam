@@ -23,7 +23,7 @@ import query from '@/components/query'
 import employeeQuery from '@/components/employeeQuery'
 import timesheet from '@/components/timesheet'
 import employeeslist from '@/components/employeeslist'
-import disciplinaryMeasures from '@/components/disciplinaryMeasures'
+import disciplinaryMeasures from '@/components/discipline/disciplinaryMeasures'
 import JobProfileInfo from '@/components/JobProfiles/detail'
 import editApplicant from '@/components/editApplicant'
 import createOrganization from '@/components/createOrganization'
@@ -49,7 +49,8 @@ import jobview from '@/components/jobview'
 import joblist from '@/components/joblist'
 import applicantLogin from '@/components/applicantLogin'
 import termination from '@/components/termination';
-import resignation from '@/components/resignation';
+import resignation from '@/components/resignation/resignation';
+import resignationEmployee from '@/components/resignation/resignationEmployee';
 import salary from '@/components/payroll/salary';
 import salaryhistory from '@/components/payroll/salaryhistory';
 import accountsettings from '@/components/settings/account';
@@ -359,14 +360,22 @@ const router = new Router({
       component: resignation
     },
     {
+      path: '/resignationEmployee',
+      name: 'resignationEmployee',
+      component: resignationEmployee,
+      meta: { authorize: [Role.Employee] },
+    },
+    {
       path: '/termination',
       name: 'termination',
-      component: termination
+      component: termination,
+      meta: { authorize: [Role.HRAdmin] },
     },
     {
       path: '/termination-type',
       name: 'terminationtype',
-      component: terminationType
+      component: terminationType,
+      meta: { authorize: [Role.HRAdmin] },
     },
     {
       path: '/salary',
@@ -413,31 +422,31 @@ const router = new Router({
       path: '/performance-indicator',
       name: 'performanceindicator',
       component: performanceIndicator,
-      // meta: { authorize: [Role.HRAdmin] },
+      meta: { authorize: [Role.HRAdmin] },
     },
     {
       path: '/performance-review',
       name: 'performancereview',
       component: performanceReview,
-      // meta: { authorize: [Role.HRAdmin] },
+      meta: { authorize: [Role.HRAdmin] },
     },
     {
       path: '/performance-appraisal',
       name: 'performanceappraisal',
       component: performanceAppraisal,
-      // meta: { authorize: [Role.HRAdmin] },
+      meta: { authorize: [Role.HRAdmin] },
     },
     {
       path: '/professional-excellence-settings',
       name: 'professionalexcellencesettings',
       component: professionalExcellenceSettings,
-      // meta: { authorize: [Role.HRAdmin] },
+      meta: { authorize: [Role.HRAdmin] },
     },
     {
       path: '/personal-excellence-settings',
       name: 'personalexcellencesettings',
       component: personalExcellenceSettings,
-      // meta: { authorize: [Role.HRAdmin] },
+      meta: { authorize: [Role.HRAdmin] },
     },
     {
       path: '/query',

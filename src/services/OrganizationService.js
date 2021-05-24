@@ -9,7 +9,13 @@ export const organizationService = {
     registerAsAdmin,
     getLeaveTypes,
     addLeaveType,
+    getLeaveSettings,
+    initiateLeaveSettings,
+    updateLeaveSettings,
     removeLeaveType,
+    addPolicy,
+    //updatePolicy,
+    //removePolicy,
     addCompany,
     addAccountSetting,
     getCompanies,
@@ -203,6 +209,24 @@ function addLeaveType(name) {
         });
 }
 
+function addPolicy(policy) {
+    return fetch(`${config.apiurl}/Company/PostLeavePolicy`, requestOptions.post(policy))
+        .then(handleResponse)
+        .then(id => {
+
+            return id;
+        });
+}
+
+function initiateLeaveSettings(id) {
+    return fetch(`${config.apiurl}/Company/initiateLeaveSetting?id=${id}`, requestOptions.post(null))
+        .then(handleResponse)
+        .then(id => {
+
+            return id;
+        });
+}
+
 function getLeaveTypes() {
 
     return fetch(`${config.apiurl}/Organization/leavetypes`, requestOptions.get())
@@ -220,6 +244,24 @@ function getAccountSetting(id) {
         .then(model => {
 
             return model
+        });
+}
+
+function getLeaveSettings(id) {
+
+    return fetch(`${config.apiurl}/company/GetLeaveSettings?id=${id}`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+
+            return model
+        });
+}
+
+function removeLeaveType(id) {
+    return fetch(`${config.apiurl}/Organization/DeleteLeaveType?id=${id}`, requestOptions.delete())
+        .then(handleResponse)
+        .then(id => {
+            return id;
         });
 }
 
@@ -347,6 +389,16 @@ function updateCompany(id, name, abbrv, address, contactPerson, phone, email) {
         name, abbrv, address, contactPerson, phone, email
     }
     return fetch(`${config.apiurl}/company?id=${id}`, requestOptions.put(req))
+        .then(handleResponse)
+        .then(id => {
+
+            return id;
+        });
+}
+
+function updateLeaveSettings(leavesettings) {
+    
+    return fetch(`${config.apiurl}/company/putleavesetting?id=${leavesettings.id}`, requestOptions.put(leavesettings))
         .then(handleResponse)
         .then(id => {
 
