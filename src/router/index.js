@@ -458,7 +458,7 @@ const router = new Router({
       path: '/employee-query',
       name: 'employeequery',
       component: employeeQuery,
-      //meta: { authorize: [Role.Employee] }
+      meta: { authorize: [Role.Employee] }
     }
 
   ],
