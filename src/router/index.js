@@ -20,6 +20,7 @@ import companydesignations from '@/components/companydesignations'
 import companydepartments from '@/components/companydepartments'
 import designations from '@/components/designations'
 import query from '@/components/query'
+import employeeQuery from '@/components/employeeQuery'
 import timesheet from '@/components/timesheet'
 import employeeslist from '@/components/employeeslist'
 import disciplinaryMeasures from '@/components/disciplinaryMeasures'
@@ -442,7 +443,13 @@ const router = new Router({
       path: '/query',
       name: 'query',
       component: query,
-      // meta: { authorize: [Role.HRAdmin] },
+      meta: { authorize: [Role.HRAdmin] },
+    },
+    {
+      path: '/employee-query',
+      name: 'employeequery',
+      component: employeeQuery,
+      //meta: { authorize: [Role.Employee] }
     }
 
   ],

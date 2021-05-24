@@ -55,6 +55,12 @@
                   <span>Paid Salary</span></router-link
                 >
               </li>
+              <li class="policies">
+                <router-link to="/employee-query">
+                  <i class="la la-user"></i>
+                  <span>Query</span></router-link
+                >
+              </li>
             </ul>
           </div>
         </vue-custom-scrollbar>
