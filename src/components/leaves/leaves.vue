@@ -32,86 +32,17 @@ m<template>
             <div class="col-md-3">
               <div class="stats-info">
                 <h6>Today Presents</h6>
-                <h4>12 / 60</h4>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="stats-info">
-                <h6>Planned Leaves</h6>
-                <h4>8 <span>Today</span></h4>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="stats-info">
-                <h6>Unplanned Leaves</h6>
-                <h4>0 <span>Today</span></h4>
+                <h4>{{totalEmployees - totalAbsence}} / {{totalEmployees}}</h4>
               </div>
             </div>
             <div class="col-md-3">
               <div class="stats-info">
                 <h6>Pending Requests</h6>
-                <h4>12</h4>
+                <h4>{{totalPendingLeave}}</h4>
               </div>
             </div>
           </div>
           <!-- /Leave Statistics -->
-          <!-- Search Filter -->
-          <div class="row filter-row">
-            <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
-              <div class="form-group form-focus">
-                <input type="text" class="form-control floating" />
-                <label class="focus-label">Employee Name</label>
-              </div>
-            </div>
-            <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
-              <div class="form-group form-focus select-focus">
-                <select class="select floating" style="height: 55px !important">
-                  <option>-- Select --</option>
-                  <option>Casual Leave</option>
-                  <option>Medical Leave</option>
-                  <option>Loss of Pay</option>
-                </select>
-                <label class="focus-label">Leave Type</label>
-              </div>
-            </div>
-            <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
-              <div class="form-group form-focus select-focus">
-                <select class="select floating" style="height: 55px !important">
-                  <option>-- Select --</option>
-                  <option>Pending</option>
-                  <option>Approved</option>
-                  <option>Rejected</option>
-                </select>
-                <label class="focus-label">Leave Status</label>
-              </div>
-            </div>
-            <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
-              <div class="form-group form-focus">
-                <div class="cal-icon">
-                  <input
-                    class="form-control floating datetimepicker"
-                    type="text"
-                  />
-                </div>
-                <label class="focus-label">From</label>
-              </div>
-            </div>
-            <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
-              <div class="form-group form-focus">
-                <div class="cal-icon">
-                  <input
-                    class="form-control floating datetimepicker"
-                    type="text"
-                  />
-                </div>
-                <label class="focus-label">To</label>
-              </div>
-            </div>
-            <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
-              <a href="#" class="btn btn-success btn-block"> Search </a>
-            </div>
-          </div>
-          <!-- /Search Filter -->
           <!----Datatable-->
           <div class="row">
             <div class="col-md-12">
@@ -137,6 +68,12 @@ m<template>
                   sort-by=""
                   class="elevation-1"
                 >
+                  <template v-slot:[`item.fromDate`]="{ item }">
+                      {{ item.fromDate ? new Date(item.fromDate).toLocaleDateString() : ""}}
+                  </template>
+                  <template v-slot:[`item.toDate`]="{ item }">
+                      {{ item.toDate ? new Date(item.toDate).toLocaleDateString() : ""}}
+                  </template>
                   <template v-slot:[`item.actions`]="{ item }">
                     <div class="dropdown dropdown-action">
                       <a
@@ -149,6 +86,11 @@ m<template>
                       <div class="dropdown-menu dropdown-menu-right">
                         <a
                           class="dropdown-item"
+                          @click="setLeaveStatus(item)" v-if="item.status == 0"
+                          ><i class="fa fa-pencil m-r-5"></i> Approve or Reject</a
+                        >
+                        <a
+                          class="dropdown-item" 
                           @click="setEditLeave(item)"
                           ><i class="fa fa-pencil m-r-5"></i> Edit</a
                         >
@@ -171,6 +113,20 @@ m<template>
                       }}</router-link>
                     </h2>
                   </template>
+                  <template v-slot:[`item.stat`]="{ item }">
+                    <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" v-if="item.status == 0"
+                            aria-expanded="false">
+                            <i class="fa fa-dot-circle-o text-purple"></i> New
+                          </a>
+                    <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" v-if="item.status == 1"
+                            aria-expanded="false">
+                            <i class="fa fa-dot-circle-o text-success"></i> Approved
+                          </a>
+                    <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" v-if="item.status == 2"
+                            aria-expanded="false">
+                            <i class="fa fa-dot-circle-o text-danger"></i> Declined
+                          </a>
+                  </template>
                 </v-data-table>
                
               </div>
@@ -179,7 +135,7 @@ m<template>
           <!---/Datatable-->
           <!-- /Page Content -->
           <!-- Add Leave Modal -->
-          <v-dialog v-model="dialog" max-width="725px">
+          <v-dialog v-model="dialog" max-width="500px">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">Add Leave</h5>
@@ -240,7 +196,7 @@ m<template>
                   </div>
                   <div class="form-group">
                     <label>Leave Type <span class="text-danger">*</span></label>
-                    <select class="form-control" v-model="leaveType">
+                    <select class="form-control" v-model="leaveTypeId" @change="getRemainingLeaveDays">
                       <option>Select Leave Type</option>
                       <option
                         v-for="item in leaveTypes"
@@ -251,7 +207,7 @@ m<template>
                       </option>
                     </select>
                   </div>
-                  <div class="form-group wrapper-class">
+                  <div class="form-group wrapper-class" v-if="eligibileDays > 0">
                     <label>From <span class="text-danger">*</span></label>
                     <div class="cal-icon">
                       <datepicker
@@ -265,24 +221,25 @@ m<template>
                       <!-- <input class="form-control datetimepicker" type="text"> -->
                     </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" v-if="eligibileDays > 0">
                     <label>To <span class="text-danger">*</span></label>
                     <div class="cal-icon">
                       <datepicker
                         v-model="toDate"
                         bootstrap-styling
                         class="form-control datetimepicker"
+                        @change="this.getNoOfDaysInterval()"
                         type="date"
                       />
                       <!-- <input class="form-control datetimepicker" type="text"> -->
                     </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" v-if="eligibileDays > 0">
                     <label
                       >Number of days <span class="text-danger">*</span></label
                     >
                     <input
-                      :value="this.getNoOfDaysInterval()"
+                      v-model="days"
                       class="form-control"
                       readonly
                       type="text"
@@ -300,7 +257,7 @@ m<template>
                       type="text"
                     />
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" v-if="eligibileDays > 0">
                     <label
                       >Leave Reason <span class="text-danger">*</span></label
                     >
@@ -310,7 +267,7 @@ m<template>
                       class="form-control"
                     ></textarea>
                   </div>
-                  <div class="submit-section">
+                  <div class="submit-section" v-if="eligibileDays > 0">
                     <button class="btn btn-primary submit-btn">Submit</button>
                   </div>
                 </form>
@@ -318,8 +275,9 @@ m<template>
             </div>
           </v-dialog>
           <!-- /Add Leave Modal -->
+
           <!-- Edit Leave Modal -->
-         <v-dialog v-model="dialogEdit" max-width="725px">
+         <v-dialog v-model="dialogEdit" max-width="500px">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">Edit Leave</h5>
@@ -459,8 +417,7 @@ m<template>
           </v-dialog>
           <!-- /Edit Leave Modal -->
           <!-- Approve Leave Modal -->
-          <div class="modal custom-modal fade" id="approve_leave" role="dialog">
-            <div class="modal-dialog modal-dialog-centered">
+          <v-dialog v-model="dialogStatus" max-width="500px">
               <div class="modal-content">
                 <div class="modal-body">
                   <div class="form-header">
@@ -471,14 +428,14 @@ m<template>
                     <div class="row">
                       <div class="col-6">
                         <a
-                          href="javascript:void(0);"
+                          @click="changeLeaveStatus(1)"
                           class="btn btn-primary continue-btn"
                           >Approve</a
                         >
                       </div>
                       <div class="col-6">
                         <a
-                          href="javascript:void(0);"
+                          @click="changeLeaveStatus(2)"
                           data-dismiss="modal"
                           class="btn btn-primary cancel-btn"
                           >Decline</a
@@ -488,16 +445,10 @@ m<template>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+          </v-dialog>
           <!-- /Approve Leave Modal -->
           <!-- Delete Leave Modal -->
-          <div
-            class="modal custom-modal fade"
-            id="delete_approve"
-            role="dialog"
-          >
-            <div class="modal-dialog modal-dialog-centered">
+          <v-dialog v-model="dialogDelete" max-width="500px">
               <div class="modal-content">
                 <div class="modal-body">
                   <div class="form-header">
@@ -526,8 +477,7 @@ m<template>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+          </v-dialog>
           <!-- /Delete Leave Modal -->
         </div>
         <!-- /Page Wrapper -->
@@ -553,6 +503,7 @@ export default {
     return {
       dialog: false,
       dialogEdit: false,
+      dialogStatus: false,
       dialogDelete: false,
       media: 'data:image/jpeg;base64,',
       headers: [
@@ -564,12 +515,13 @@ export default {
         { text: 'LeaveType', value: 'leaveType.name' },
         { text: 'From', value: 'fromDate' },
         { text: 'To', value: 'toDate' },
-        { text: 'No of Days', value: '' },
+        { text: 'No of Days', value: 'days' },
         { text: 'Reason', value: 'reason' },
-        { text: 'Status', value: '' },
+        { text: 'Status', value: 'stat' },
         { text: 'Action', value: 'actions', sortable: false },
       ],
-      leaveType: {},
+      leaveTypeId: 0,
+      days: 0,
       leave: {},
       employeeLeaves: [],
       employeeLeave: {},
@@ -577,11 +529,16 @@ export default {
       leaveTypes: [],
       fromDate: "",
       toDate: "",
+      eligibileDays: 0,
       reason: "",
       employeeId: 0,
       employees: [],
       employee: {},
+      totalEmployees: 0,
+      totalAbsence: 0,
+      totalPendingLeave: 0,
       company: authenticationService.currentOfficeValue,
+      user: authenticationService.currentUserValue,
       error: "",
       message: "",
       daysInterval: "",
@@ -599,6 +556,9 @@ export default {
     dialogEdit(val) {
       val || this.closeEdit();
     },
+    dialogStatus(val) {
+      val || this.closeEdit();
+    },
   },
 
   methods: {
@@ -608,7 +568,7 @@ export default {
       this.daysInterval = "";
       this.toDate = "";
       this.fromDate = "";
-      this.leaveTypes = "";
+      this.leaveTypeId = 0;
     },
 
     close() {
@@ -624,6 +584,10 @@ export default {
       this.dialogEdit = false;
     },
 
+    closeStatus() {
+      this.dialogStatus = false;
+    },
+
     closeDelete() {
       this.dialogDelete = false;
     },
@@ -634,11 +598,29 @@ export default {
       console.log(`item`, item)
     },
 
+    setLeaveStatus(item) {
+      this.leave = item;
+      this.dialogStatus = true;
+      console.log(`item`, item)
+    },
+
     setDeleteLeave(item) {
       this.leave = item;
       this.dialogDelete = true;
     },
+    getRemainingLeaveDays() {
+      employeeService.getEmployeeLeaveEligibility(this.employeeId, this.leaveTypeId).then((o) => {
+            this.eligibileDays = o;
+          });
+    },
 
+    getSummary() {
+      employeeService.getHRLeaveSummary(this.company.id).then((o) => {
+            this.totalEmployees = o.totalEmployees;
+            this.totalAbsence = o.totalAbsence;
+            this.totalPendingLeave = o.totalPendingLeave
+          });
+    },
     deleteLeave() {
       const id = this.employeeLeave.id;
       employeeService.removeEmployeeLeave(id).then(
@@ -663,18 +645,37 @@ export default {
       employeeService
         .updateEmployeeLeave(
           id,
-          this.company.id,
-          this.leave.employeeId,
-          this.leave.fromDate,
-          this.leave.toDate,
-          this.leave.reason,
-          this.leave.leaveTypeId
+          this.leave
         )
         .then(
           (id) => {
             employeeService.getEmployeeLeaves(this.company.id).then((o) => {
               this.employeeLeaves = o;
               this.closeEdit();
+            });
+          },
+          (error) => {
+            this.error = error;
+            this.loading = false;
+          }
+        );
+    },
+    changeLeaveStatus(status) {
+      this.submitted = true;
+      const id = this.leave.id;
+      this.leave.status = status
+      this.leave.approvedBy = this.user.employee.id
+      this.loading = true;
+      employeeService
+        .updateEmployeeLeave(
+          id,
+          this.leave
+        )
+        .then(
+          (id) => {
+            employeeService.getEmployeeLeaves(this.company.id).then((o) => {
+              this.employeeLeaves = o;
+              this.closeStatus();
             });
           },
           (error) => {
@@ -717,10 +718,13 @@ export default {
       );
     },
     getNoOfDaysInterval() {
+      if(this.toDate == "" || this.fromDate == ""){
+        this.days = 0
+      }
       const a =
         new Date(this.toDate).getTime() - new Date(this.fromDate).getTime();
       const b = a / (1000 * 60 * 60 * 24);
-      return b + 1;
+      this.days = b + 1;
     },
     getNoOfDaysIntervalEdit() {
       const a =
@@ -729,19 +733,22 @@ export default {
       return b + 1;
     },
     getRemainingDays() {
-      const a = new Date(this.toDate).getTime() - new Date().getTime();
+      if(this.toDate == "" || this.fromDate == ""){
+        return this.eligibileDays
+      }
+      const a = new Date(this.toDate).getTime() - new Date(this.fromDate).getTime();
       const b = a / (1000 * 60 * 60 * 24);
-      return Math.floor(b + 1);
+      return this.eligibileDays - Math.floor(b + 1);
     },
     getRemainingDaysEdit() {
       const a = new Date(this.leave.toDate).getTime() - new Date().getTime();
       const b = a / (1000 * 60 * 60 * 24);
       return Math.floor(b + 1);
     },
-    setLeaveType() {
-      this.leaveType = this.leaveTypes.map((a) => a);
-      //console.log(this.leaveType)
-    },
+    // setLeaveType() {
+    //   this.leaveType = this.leaveTypes.map((a) => a);
+    //   //console.log(this.leaveType)
+    // },
     onSubmit() {
       this.submitted = true;
       // stop here if form is invalid
@@ -756,8 +763,11 @@ export default {
           this.employeeId,
           this.fromDate,
           this.toDate,
+          this.days,
           this.reason,
-          this.leaveType
+          this.leaveTypeId,
+          this.user.employee.id,
+          1
         )
         .then(
           (id) => {
@@ -781,7 +791,7 @@ export default {
   },
   mounted() {
     this.getLeaveTypes();
-    this.setLeaveType();
+    this.getSummary();
     this.getEmployees();
     this.getEmployeeLeaves();
     //this.setDaysInterval()

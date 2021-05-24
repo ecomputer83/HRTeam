@@ -267,10 +267,12 @@ export default {
 
     onSubmit() {
       if (this.lastPunch.punchInTime) {
+        if(confirm("Are you sure you want to sign out?")){
         this.putTimeTable(
           this.lastPunch,
           new Date().toString().split(" ")[4]
         );
+        }
       } else {
         this.postTimeTable(!this.punch, new Date().toString().split(" ")[4]);
       }
