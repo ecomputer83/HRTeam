@@ -72,8 +72,8 @@ export const employeeService = {
     getDesignation,
     addExitInterview,
     UpdateExitInterview,
-    getHRLeaveSummary
-
+    getHRLeaveSummary,
+    queryResponse
 }
 
 
@@ -963,10 +963,11 @@ function removeDisciplinaryMeasure(id) {
 
 }
 
-function addQuery(date, hrManager, form, accusation, remark, employeeId) {
+function addQuery(date, form, queryType, accusation, remark, employeeId) {
     var req = {
         date,
         form,
+        queryType,
         accusation,
         remark,
         employeeId
@@ -997,11 +998,12 @@ function getQueries(companyId) {
         });
 }
 
-function updateQuery(id, date, form, reason, remark, employeeId) {
+function updateQuery(id, date, form, queryType, accusation, remark, employeeId) {
     var req = {
         id,
         date,
         form,
+        queryType,
         accusation,
         remark,
         employeeId
@@ -1021,4 +1023,13 @@ function removeQuery(id) {
             return model
         });
 
+}
+
+function queryResponse(id, query) {
+    
+    return fetch(`${config.apiurl}/Employee/UpdateQuery/${id}`, requestOptions.put(query))
+        .then(handleResponse)
+        .then(id => {
+            return id;
+        });
 }
