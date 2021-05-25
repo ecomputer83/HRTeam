@@ -207,7 +207,7 @@
 
         <!-- Query Details Modal -->
 
-           <!-- <v-dialog v-model="dialogDetail" max-width="725px"
+           <v-dialog v-model="dialogDetail" max-width="725px"
           >
             <div class="modal-content mt-5">
               <div class="modal-header">
@@ -248,7 +248,7 @@
               </div>
             </div>
           
-        </v-dialog> -->
+        </v-dialog>
 
         <!-- /Query Details Modal -->
 
