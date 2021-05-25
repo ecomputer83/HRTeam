@@ -88,7 +88,7 @@ export default {
     },
     mounted() {
       this.getEmployees()
-      this.$emit('update:vacancy', this.vacancy);
+      this.$emit('update', this.vacancy);
     },
     name: 'vancancy-details-card'
 }

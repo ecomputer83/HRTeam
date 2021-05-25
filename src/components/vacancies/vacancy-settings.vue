@@ -45,7 +45,7 @@
       </div>
       
       <div class="job-card" v-if="settings.careerTestingChecked">
-        <div class="form-group">
+        <!-- <div class="form-group">
             <input v-model="settings.googleFormsForCareerTesting" placeholder="Add the Google forms url for the Test" type="text" class="form-control" name="settings_googleforms" id="settings_googleforms" />
         </div>
         <div class="form-group">
@@ -53,8 +53,8 @@
         </div>
         <div class="form-group">
             <input type="checkbox" v-model="settings.setAutomaticScoring"  /> &nbsp;&nbsp;&nbsp;<label class="col-form-label">  Set Automatic scoring of the response</label>
-        </div>
-        <div class="d-flex" v-if="settings.setAutomaticScoring">
+        </div> -->
+        <!-- <div class="d-flex" v-if="settings.setAutomaticScoring">
             <div class="col-xs-6 col-md-6 p-0 pl-sm-2">
                 <label class="col-form-label">  Score for each question</label>
             <input v-model="settings.scorePerQuestion" placeholder="Score for each question" type="number" class="form-control" name="settings_scoreperquest" id="settings_scoreperquest" />
@@ -63,7 +63,7 @@
                 <label class="col-form-label">  What is the average score an application must have</label>
             <input v-model="settings.passAverageScore" placeholder="What is the average score an application must have" type="number" class="form-control" name="settings_passscore" id="settings_passscore" />
             </div>
-        </div>
+        </div> -->
         <p>Welcome message when application proceed to Career / Aptitude Test stage</p>
         <quill-editor
           v-model="settings.welcomeMessageToCareerTesting"

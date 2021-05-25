@@ -211,7 +211,7 @@ export default {
             this.vacancy.periodFromTime = FromTime[1]
             this.vacancy.periodToTime = ToTime[1]
             this.requisition = a.jobRequisition;
-            this.vacancysettings = a.vacancysettings
+            this.settings = a.vacancysettings
             this.requisitionId = a.jobRequisition.id
             this.vacancysettingId = a.vacancysettings.id
             this.loaddependency = (this.$route.params.id && this.vacancy.id != 0)
@@ -227,7 +227,8 @@ export default {
 
     },
     postVacancy() {
-      if(this.vacancy.jobProfileId == 0 || this.vacancy.designationId == 0 || this.vacancy.periodFrom == "" || this.vacancy.periodTo){
+      console.log(this.vacancy)
+      if(this.vacancy.jobProfileId == 0 || this.vacancy.designationId == 0 || this.vacancy.periodFrom == "" || this.vacancy.periodTo == ""){
         this.error = "Please fill all inputs";
         return 
       }
@@ -243,14 +244,14 @@ export default {
       
         this.vacancy.companyId = this.currentOffice.id
         this.vacancy.jobRequisition = this.requisition
-        this.vacancy.vacancysettings = this.vacancysettings
+        this.vacancy.vacancysettings = this.settings
         this.vacancy.quantity = parseInt(this.vacancy.quantity)
         this.vacancy.periodFrom = new Date(this.vacancy.periodFrom +" " + this.vacancy.periodFromTime)
         this.vacancy.periodTo = new Date(this.vacancy.periodTo +" " + this.vacancy.periodToTime)
         console.log(this.vacancy)
         this.vacancy.jobRequisition.id = this.requisitionId
         this.vacancy.vacancysettings.id = this.vacancysettingId
-        if(!this.$route.params.id){
+        if(!this.$route.params){
         jobService.addVacancy(this.vacancy)
           .then(a=> {
             return this.$router.push('/vacancies');

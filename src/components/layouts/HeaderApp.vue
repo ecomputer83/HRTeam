@@ -7,14 +7,14 @@
                 <!-- Logo -->
                 <div class="header-left">
                     <router-link to="/index" class="logo">
-                        <img src="../../assets/logo.png" width="40" height="40" alt="">
+                        <img src="../../assets/logo2.png" width="40" height="40" alt="">
                     </router-link>
                 </div>
                 <!-- /Logo -->
 
                 <!-- Header Title -->
                 <div class="page-title-box float-left">
-                    <h3>Dreamguy's Technologies</h3>
+                    <h3>Sapphire Career</h3>
                 </div>
                 <!-- /Header Title -->
 
@@ -35,9 +35,9 @@
                     </li>
                     <!-- /Search -->
 
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <router-link class="nav-link" to="/applicant-login">Applicant Login</router-link>
-                    </li>
+                    </li> -->
                 </ul>
                 <!-- /Header Menu -->
 

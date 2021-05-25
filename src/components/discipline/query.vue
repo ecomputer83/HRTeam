@@ -407,7 +407,6 @@ export default {
       date: "",
       query: {
         employee: {
-          firstName: ''
         }
       },
       queries : [],

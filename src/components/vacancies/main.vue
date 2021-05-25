@@ -50,9 +50,9 @@
                     ><i class="material-icons">more_vert</i></a
                   >
                   <div class="dropdown-menu dropdown-menu-right">
-                    <a
+                    <router-link :to="{name: 'vacancydetail', params: {id: item.id}}"
                       class="dropdown-item"
-                      ><i class="fa fa-pencil m-r-5"></i> Edit</a
+                      ><i class="fa fa-pencil m-r-5"></i> Edit</router-link
                     >
                     <a
                       class="dropdown-item"
@@ -124,10 +124,9 @@ export default {
               align: 'start',
               value: 'title',
             },
-            { text: 'Received', value: '0' },
-            { text: 'Employed Applicants', value: 'acceptedApplicationCount' },
-            { text: 'Rejected Applicants', value: 'rejectedApplicationCount' },
-            { text: 'New', value: 'newApplicationCount' },
+            { text: 'Employed Application', value: 'acceptedApplicationCount' },
+            { text: 'Rejected Application', value: 'rejectedApplicationCount' },
+            { text: 'New Application', value: 'newApplicationCount' },
             { text: 'HR Interview', value: 'hrInterviewCount' },
             { text: 'Supervisor Interview', value: 'supervisorInterviewCount' },
             { text: 'Action', value: 'actions', sortable: false },
