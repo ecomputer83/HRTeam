@@ -2,7 +2,7 @@
   <div class="query">
     <div class="main-wrapper">
       <layout-header></layout-header>
-      <layout-sidebar></layout-sidebar>
+      <Layout-sidebar-employee></Layout-sidebar-employee>
       <!-- Page Wrapper -->
       <div class="page-wrapper">
         <!-- Page Content -->
@@ -19,13 +19,7 @@
                   <li class="breadcrumb-item active">Query</li>
                 </ul>
               </div>
-              <div class="col-auto float-right ml-auto">
-                <a
-                  @click="openDialog"
-                  class="btn add-btn"
-                  ><i class="fa fa-plus"></i> Add Query</a
-                >
-              </div>
+              
             </div>
           </div>
           <!-- /Page Header -->
@@ -49,16 +43,7 @@
                         ><i class="material-icons">more_vert</i></a
                       >
                         <div class="dropdown-menu dropdown-menu-right">
-                          <a
-                            class="dropdown-item"
-                            @click="setEditquery(item)"
-                            ><i class="fa fa-pencil m-r-5"></i> Edit</a
-                          >
-                          <a
-                            class="dropdown-item"
-                            @click="setDeletequery(item)"
-                            ><i class="fa fa-trash-o m-r-5"></i> Delete</a
-                          >
+                          
                           <a
                             class="dropdown-item"
                             @click="setQueryResponse(item)"
@@ -79,7 +64,7 @@
                   <template v-slot:[`item.profile`]="{ item }">
                     <h2 class="table-avatar blue-link">
                       <a class="avatar"
-                        ><img alt="" src="~@/assets/profiles/avatar-02.jpg"
+                        ><img alt="" src="../assets/profiles/avatar-02.jpg"
                       /></a>
                       <a @click="setQueryDetail(item)">{{
                         `${item.employee.firstName} ${item.employee.lastName}`
@@ -94,80 +79,6 @@
           <!---/Datatable-->
         </div>
         <!-- /Page Content -->
-
-        <!-- Add query Modal -->
-        <v-dialog v-model="dialog" max-width="725px"
-          >
-            <div class="modal-content">
-              <div class="modal-header mt-5">
-                <h5 class="modal-title">Add Query</h5>
-                <button
-                  type="button"
-                  class="close"
-                  @click="close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <form @submit.prevent="onSubmit">
-                  <div class="form-group">
-                    <label>Employee <span class="text-danger">*</span></label>
-                    <select class="form-control" v-model="employeeId">
-                      <option>Employee</option>
-                      <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName}}</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                      <label>Date <span class="text-danger">*</span></label>
-                      <div class="cal-icon">
-                        <datepicker v-model="date" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
-                      </div>
-                  </div>
-                  <!-- <div class="form-group">
-                      <label>HR Manager <span class="text-danger">*</span></label>
-                      <input class="form-control" v-model="hrManager" />
-                  </div> -->
-                   <div class="form-group">
-                      <label>Form <span class="text-danger">*</span></label>
-                      <select class="select form-control" v-model="form">
-                        <option>-- Select --</option>
-                        <option value="Verbal">Verbal</option>
-                        <option value="Written">Written</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                      <label>Query Type <span class="text-danger">*</span></label>
-                      <select class="form-control" v-model="queryType">
-                        <option disabled>-- Select Query Type --</option>
-                        <option value="1st query">1st Query</option>
-                        <option value="2nd query">2nd Query</option>
-                        <option value="3rd query">3rd Query</option>
-                      </select>
-                  </div>
-                  
-                  <div class="form-group">
-                      <label>Accusation <span class="text-danger">*</span></label>
-                      <textarea class="form-control" v-model="accusation" rows="4"></textarea>
-                  </div>
-                  <div class="form-group">
-                      <label>Remark <span class="text-danger">*</span></label>
-                      <input class="form-control" v-model="remark" />
-                  </div>
-                  <div class="submit-section">
-                    <button
-                      @click.prevent="onSubmit"
-                      data-dismiss="modal"
-                      class="btn btn-primary submit-btn"
-                    >
-                      Submit
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-        </v-dialog>
-        <!-- /Add query Modal -->
 
         <!-- Response Modal -->
 
@@ -207,7 +118,7 @@
 
         <!-- Query Details Modal -->
 
-           <v-dialog v-model="dialogDetail" max-width="725px"
+           <!-- <v-dialog v-model="dialogDetail" max-width="725px"
           >
             <div class="modal-content mt-5">
               <div class="modal-header">
@@ -224,12 +135,16 @@
                 <form> 
                   <div class="form-group">
                       <label>Name <span class="text-danger">*</span></label>
-                      <input class="form-control" readonly  :value="query.employee.firstName +' '+query.employee.lastName"/>
+                      <input class="form-control" readonly  v-model="query.employee.firstName"/>
                   </div>            
                   <div class="form-group">
                       <label>Date <span class="text-danger">*</span></label>
                       <div class="cal-icon">
-                        <input class="form-control" readonly  :value="new Date(query.date).toLocaleDateString()"/>
+                        <datepicker 
+                          v-model="query.date" 
+                          calendar-class 
+                          input-class bootstrap-styling class="form-control datetimepicker" type="text" 
+                          readonly />
                       </div>
                   </div>
                   <div class="form-group">
@@ -248,116 +163,10 @@
               </div>
             </div>
           
-        </v-dialog>
+        </v-dialog> -->
 
         <!-- /Query Details Modal -->
 
-        <!-- Edit query Modal -->
-        <v-dialog v-model="dialogEdit" max-width="725px"
-          >
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Edit Query</h5>
-                <button
-                  type="button"
-                  class="close"
-                  @click="closeEdit"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <form @submit.prevent="updateQuery">
-                  <div class="form-group">
-                    <label>Employee <span class="text-danger">*</span></label>
-                    <select class="form-control" v-model="query.employeeId">
-                      <option>Select Employee</option>
-                      <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName}}</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                      <label>Date <span class="text-danger">*</span></label>
-                      <div class="cal-icon">
-                        <datepicker v-model="query.date" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
-                      </div>
-                  </div>
-                   <!-- <div class="form-group">
-                      <label>HR Manager <span class="text-danger">*</span></label>
-                      <input class="form-control" v-model="query.hrManager" />
-                  </div> -->
-                   <!-- <div class="form-group">
-                      <label>Form <span class="text-danger">*</span></label>
-                      <input class="form-control" v-model="disciplinary.form" />
-                  </div> -->
-                  <div class="form-group">
-                      <label>Form <span class="text-danger">*</span></label>
-                      <select class="select form-control" v-model="query.form">
-                        <option>-- Select --</option>
-                        <option value="Verbal">Verbal</option>
-                        <option value="Written">Written</option>
-                      </select>
-                  </div>
-                  <div class="form-group">
-                      <label>Query Type <span class="text-danger">*</span></label>
-                      <select class="form-control" v-model="query.queryType">
-                        <option disabled>-- Select Query Type --</option>
-                        <option value="1st query">1st Query</option>
-                        <option value="2nd query">2nd Query</option>
-                        <option value="3rd query">3rd Query</option>
-                      </select>
-                  </div>
-                  <div class="form-group">
-                      <label>accusation <span class="text-danger">*</span></label>
-                      <textarea class="form-control" v-model="query.accusation" rows="4"></textarea>
-                  </div>
-                  <div class="form-group">
-                      <label>Remark <span class="text-danger">*</span></label>
-                      <input class="form-control" v-model="query.remark" />
-                  </div>
-                  <div class="submit-section">
-                    <button @click.prevent="updateQuery" class="btn btn-primary submit-btn">Submit</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          
-        </v-dialog>
-        <!-- /Edit query Modal -->
-
-        <!-- Delete query Modal -->
-        <v-dialog v-model="dialogDelete" max-width="725px"
-          >
-            <div class="modal-content">
-              <div class="modal-body">
-                <div class="form-header">
-                  <h3>Delete query</h3>
-                  <p>Are you sure want to delete?</p>
-                </div>
-                <div class="modal-btn delete-action">
-                  <div class="row">
-                    <div class="col-6">
-                      <a
-                        @click.prevent="deletequery"
-                        class="btn btn-primary continue-btn"
-                        data-dismiss="modal"
-                        >Delete</a
-                      >
-                    </div>
-                    <div class="col-6">
-                      <a
-                        href="javascript:void(0);"
-                        data-dismiss="modal"
-                        class="btn btn-primary cancel-btn"
-                        >Cancel</a
-                      >
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          
-        </v-dialog>
-        <!-- /Delete query Modal -->
       </div>
       <!-- /Page Wrapper -->
     </div>
@@ -365,7 +174,7 @@
 </template>
 <script>
 import LayoutHeader from "@/components/layouts/Header.vue";
-import LayoutSidebar from "@/components/layouts/Sidebar.vue";
+import LayoutSidebarEmployee from "@/components/layouts/employeeSidebar.vue";
 import { required, sameAs } from "vuelidate/lib/validators";
 import { employeeService } from "@/services/employeeService.js";
 import Datepicker from 'vuejs-datepicker'
@@ -374,7 +183,7 @@ import { authenticationService } from "@/services/authenticationService";
 export default {
   components: {
     LayoutHeader,
-    LayoutSidebar,
+    LayoutSidebarEmployee,
     Datepicker
   },
 
@@ -405,10 +214,7 @@ export default {
       accusation: "",
       remark: "",
       date: "",
-      query: {
-        employee: {
-        }
-      },
+      query: {},
       queries : [],
       queryType: "",
       employee: {},
@@ -492,7 +298,6 @@ export default {
     },
     clearList() {
       this.employeeId = ""
-
     },
     setEditquery(model) {
       this.query = model;
@@ -659,6 +464,6 @@ export default {
         .trigger("blur");
     }
   },
-  name: "query",
+  name: "employeequery",
 };
 </script>
