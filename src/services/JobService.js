@@ -18,7 +18,8 @@ export const jobService = {
     getVancanciesByOrg,
     getVancancyById,
     getVacancySummaries,
-    removeJobProfiles
+    removeJobProfiles,
+    applyJob
 }
 
 function addJobProfile(companyId, rankId, departmentId, title, experience, description, salaryMin, salaryMax, averageSalary, educationRequirement, educationDegree) {
@@ -59,6 +60,25 @@ function addJobSkillLevel(profileId, skillLevel) {
 function addVacancy(vacancy) {
 
     return fetch(`${config.apiurl}/Job/createVacancy`, requestOptions.post(vacancy))
+        .then(handleResponse)
+        .then(id => {
+            return id
+        });
+}
+
+function applyJob(id, companyId, firstName, lastName, salutation, gender, phone1, phone2, email, address, cv) {
+    let formData = new FormData();
+    formData.append('CompanyId', companyId);
+    formData.append('FirstName', firstName);
+    formData.append('LastName', lastName);
+    formData.append('Salutation', salutation);
+    formData.append('Gender', gender);
+    formData.append('Phone1', phone1);
+    formData.append('Phone2', phone2);
+    formData.append('Email', email);
+    formData.append('Address', address);
+    formData.append('Uploadfile', cv);
+    return fetch(`${config.apiurl}/application/applyJob/${id}`, requestOptions.postForm(formData))
         .then(handleResponse)
         .then(id => {
             return id

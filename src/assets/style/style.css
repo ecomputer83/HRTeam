@@ -5427,6 +5427,12 @@ table.table-inbox tbody tr.checked {
 	align-items: center;
 	padding: 20px;
 }
+.job-list .job-list-summary {
+	margin: 10px 20px
+}
+.job-list .job-list-summary span {
+	color: #777;
+}
 .job-list .job-list-desc {
 	flex: 1 1 0;
 }

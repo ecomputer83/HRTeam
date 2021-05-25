@@ -87,7 +87,7 @@
                                             <td>
                                                 <h2 class="table-avatar">
                                                     <router-link to="/profile" class="avatar"><img alt=""
-                                                            src="../assets/profiles/avatar-02.jpg"></router-link>
+                                                            src="~@/assets/profiles/avatar-02.jpg"></router-link>
                                                     <router-link to="/profile">John Doe <span>Web Designer</span>
                                                     </router-link>
                                                 </h2>
@@ -129,7 +129,7 @@
                                             <td>
                                                 <h2 class="table-avatar">
                                                     <router-link to="/profile" class="avatar"><img alt=""
-                                                            src="../assets/profiles/avatar-09.jpg"></router-link>
+                                                            src="~@/assets/profiles/avatar-09.jpg"></router-link>
                                                     <router-link to="/profile">Richard Miles <span>Web Developer</span>
                                                     </router-link>
                                                 </h2>
@@ -171,7 +171,7 @@
                                             <td>
                                                 <h2 class="table-avatar">
                                                     <router-link to="/profile" class="avatar"><img alt=""
-                                                            src="../assets/profiles/avatar-10.jpg"></router-link>
+                                                            src="~@/assets/profiles/avatar-10.jpg"></router-link>
                                                     <router-link to="/profile">John Smith <span>Android Developer</span>
                                                     </router-link>
                                                 </h2>
@@ -213,7 +213,7 @@
                                             <td>
                                                 <h2 class="table-avatar">
                                                     <router-link to="/profile" class="avatar"><img alt=""
-                                                            src="../assets/profiles/avatar-05.jpg"></router-link>
+                                                            src="~@/assets/profiles/avatar-05.jpg"></router-link>
                                                     <router-link to="/profile">Mike Litorus <span>IOS Developer</span>
                                                     </router-link>
                                                 </h2>
@@ -255,7 +255,7 @@
                                             <td>
                                                 <h2 class="table-avatar">
                                                     <router-link to="/profile" class="avatar"><img alt=""
-                                                            src="../assets/profiles/avatar-11.jpg"></router-link>
+                                                            src="~@/assets/profiles/avatar-11.jpg"></router-link>
                                                     <router-link to="/profile">Wilmer Deluna <span>Team Leader</span>
                                                     </router-link>
                                                 </h2>
@@ -297,7 +297,7 @@
                                             <td>
                                                 <h2 class="table-avatar">
                                                     <router-link to="/profile" class="avatar"><img alt=""
-                                                            src="../assets/profiles/avatar-12.jpg"></router-link>
+                                                            src="~@/assets/profiles/avatar-12.jpg"></router-link>
                                                     <router-link to="/profile">Jeffrey Warden <span>Web Developer</span>
                                                     </router-link>
                                                 </h2>
@@ -339,7 +339,7 @@
                                             <td>
                                                 <h2 class="table-avatar">
                                                     <router-link to="/profile" class="avatar"><img alt=""
-                                                            src="../assets/profiles/avatar-13.jpg"></router-link>
+                                                            src="~@/assets/profiles/avatar-13.jpg"></router-link>
                                                     <router-link to="/profile">Bernardo Galaviz <span>Web
                                                             Developer</span>
                                                     </router-link>
