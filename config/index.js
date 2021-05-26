@@ -35,7 +35,7 @@ module.exports = {
 
     cssSourceMap: true
   },
-  apiurl: 'https://localhost:44363/api',
+  apiurl: 'http://51.11.139.178:83/api',
   build: {
     // Template for index.html
     index: path.resolve(__dirname, '../dist/index.html'),
