@@ -43,47 +43,14 @@
                   </select>
                 </td>
               </tr>
-              <tr>
-                <td>Initiative Application</td>
-                <td>
-                  <div class="custom-control custom-switch">
-                    <input
-                      type="checkbox"
-                      class="custom-control-input"
-                      id="initiativeApplicationSwitch"
-                    />
-                    <label
-                      class="custom-control-label"
-                      for="initiativeApplicationSwitch"
-                    ></label>
-                  </div>
-                </td>
-              </tr>
+              
             </tbody>
           </table>
         </div>
         <div class="datatable table mb-0 col-xs-12 col-md-6 p-0 pl-sm-3">
           <table class="w-100">
             <tbody>
-              <tr>
-                <td>Manager</td>
-                <td>
-                  <select name="manager" id="manager" class="form-control">
-                    <option value="manager 1">
-                      manager 1
-                    </option>
-                    <option value="manager 2">
-                      manager 2
-                    </option>
-                    <option value="manager 3">
-                      manager 3
-                    </option>
-                    <option value="manager 4">
-                      manager 4
-                    </option>
-                  </select>
-                </td>
-              </tr>
+              
               <tr>
                 <td>Earliest Start Date</td>
                 <td>

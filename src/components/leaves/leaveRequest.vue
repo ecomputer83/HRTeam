@@ -64,13 +64,8 @@
                       >
                       <div class="dropdown-menu dropdown-menu-right">
                         <a
-                          class="dropdown-item"
-                          @click="setLeaveStatus(item)" v-if="item.status == 0"
-                          ><i class="fa fa-pencil m-r-5"></i> Approve or Reject</a
-                        >
-                        <a
                           class="dropdown-item" 
-                          @click="setEditLeave(item)"
+                          @click="setEditLeave(item)" v-if="item.status == 0"
                           ><i class="fa fa-pencil m-r-5"></i> Edit</a
                         >
                         <a

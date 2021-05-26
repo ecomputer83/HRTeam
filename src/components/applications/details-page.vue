@@ -21,7 +21,7 @@
           <!-- /Page Header -->
 
           <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-12">
               <div class="card">
                 <div class="card-body">
                   <timeline
@@ -30,34 +30,11 @@
                     :active_timeline="activeTimeline"
                     :selected_timeline="selectedTimeline"
                   ></timeline>
-                  <ul class="nav nav-tabs nav-tabs-bottom">
-                    <li class="nav-item">
-                      <a
-                        class="nav-link active"
-                        href="#bottom-tab1"
-                        data-toggle="tab"
-                        >General</a
-                      >
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#bottom-tab2" data-toggle="tab"
-                        >Evaluation</a
-                      >
-                    </li>
-                  </ul>
-
-                  <div class="tab-content">
-                    <div class="tab-pane show active" id="bottom-tab1">
+                  <div class="row">
+                      <div class="col-md-8">
                       <application-general></application-general>
-                    </div>
-                    <div class="tab-pane" id="bottom-tab2">
-                      <application-evaluation></application-evaluation>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3">
+                      </div>
+                      <div class="col-md-4">
               <div class="card">
                 <div class="card-body">
                   <div v-if="selectedTimeline == 0">
@@ -67,10 +44,10 @@
                     <applications-tl-two></applications-tl-two>
                   </div>
                   <div v-if="selectedTimeline == 2">
-                    <applications-tl-three></applications-tl-three>
+                    <applications-tl-four></applications-tl-four>
                   </div>
                   <div v-if="selectedTimeline == 3">
-                    <applications-tl-four></applications-tl-four>
+                    <applications-tl-three></applications-tl-three>
                   </div>
                   <div v-if="selectedTimeline == 4">
                     <applications-tl-five></applications-tl-five>
@@ -82,14 +59,20 @@
               <button v-if="(selectedTimeline >= timeline_data.length-1 && activeTimeline >= selectedTimeline)" type="button" class="btn btn-success btn-lg btn-block mt-5" style="border-radius: 0">Finish<i class="la la-check ml-2"></i></button>
                 </div>
               </div>
+                      </div>
+                  </div>
+                  </div>
+                    
+                  </div>
+                </div>
             </div>
+            
           </div>
           <!-- /Page Content -->
         </div>
       </div>
       <!-- /Page Wrapper -->
     </div>
-  </div>
 </template>
 <script>
 import LayoutHeader from "@/components/layouts/Header.vue";
@@ -134,7 +117,7 @@ export default {
           status: "inactive"
         },
         {
-          name: "Line Manager Feedback",
+          name: "Aptitude Interview",
           value: "",
           status: "inactive"
         },

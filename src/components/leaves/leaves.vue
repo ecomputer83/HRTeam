@@ -91,7 +91,7 @@ m<template>
                         >
                         <a
                           class="dropdown-item" 
-                          @click="setEditLeave(item)"
+                          @click="setEditLeave(item)" v-if="item.status == 0"
                           ><i class="fa fa-pencil m-r-5"></i> Edit</a
                         >
                         <a
@@ -144,8 +144,7 @@ m<template>
                 </button>
               </div>
               <div class="modal-body">
-                <form @submit.prevent="onSubmit">
-                  <div class="row">
+                <div class="row">
                     <div class="col-md-12">
                       <div
                         class="alert alert-danger alert-dismissible fade show"
@@ -181,6 +180,8 @@ m<template>
                       </div>
                     </div>
                   </div>
+                <form @submit.prevent="onSubmit">
+                  
                   <div class="form-group">
                     <label>Employee <span class="text-danger">*</span></label>
                     <select class="form-control" v-model="employeeId">
@@ -338,7 +339,7 @@ m<template>
                   </div>
                   <div class="form-group">
                     <label>Leave Type <span class="text-danger">*</span></label>
-                    <select class="form-control" v-model="leave.leaveTypeId">
+                    <select class="form-control" v-model="leave.leaveTypeId" @change="getRemainingLeaveDays">
                       <option>Select Leave Type</option>
                       <option
                         v-for="item in leaveTypes"
@@ -370,6 +371,7 @@ m<template>
                         v-model="leave.toDate"
                         bootstrap-styling
                         class="form-control datetimepicker"
+                        @change="this.getNoOfDaysInterval()"
                         type="date"
                       />
                       <!-- <input class="form-control datetimepicker" type="text"> -->
@@ -380,7 +382,7 @@ m<template>
                       >Number of days <span class="text-danger">*</span></label
                     >
                     <input
-                      :value="this.getNoOfDaysIntervalEdit()"
+                      v-model="leave.days"
                       class="form-control"
                       readonly
                       type="text"
@@ -392,7 +394,7 @@ m<template>
                       <span class="text-danger">*</span></label
                     >
                     <input
-                      :value="this.getRemainingDaysEdit()"
+                      :value="this.getRemainingDays()"
                       class="form-control"
                       readonly
                       type="text"

@@ -11,24 +11,13 @@
               </tr>
               <tr>
                 <td class="d-flex align-items-center p-0 mb-2" style=";border: none !important;">
-                  <p class="mb-0 col-md-7 pl-0 pr-2 text-nowrap" style="color: #fc6075;" title="Set Search Criteria Stage">3: Line Manager Feedback</p>
+                  <p class="mb-0 col-md-7 pl-0 pr-2 text-nowrap" style="color: #fc6075;" title="Set Search Criteria Stage">4: Aptitude Interview</p>
                   <strong class="col-md-7 pr-0 pl-2">Active for 5 days</strong>
                 </td>
               </tr>
               <tr>
                 <td class="d-flex align-items-center p-0 mb-2">
-                  <div class="d-flex mb-0 col-md-7 pl-0 pr-2"><i class="la la-check"></i><p class="mb-0">Feedback by</p></div>
-                  
-                    <select name="feedbackBy" id="feedbackBy" class="form-control pl-0">
-                    <option value="John Doe">
-                      John Doe
-                    </option>
-                  </select>
-                </td>
-              </tr>
-              <tr>
-                <td class="d-flex align-items-center p-0 mb-2">
-                  <p class="mb-0 col-md-7 pl-0 pr-2"><i class="la la-check"></i>Line Manager Feedback</p>
+                  <p class="mb-0 col-md-7 pl-0 pr-2"><i class="la la-check"></i>Score</p>
                   <div class="col-md-5 pr-0 pl-2 custom-control">
                   <input
                     type="text"

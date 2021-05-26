@@ -204,11 +204,11 @@
                         <div class="col-sm-12">
                           <div class="form-group">
                           <label>Upload your CV</label>
-                          <div class="custom-file" v-if="!fileName">
+                          <div class="custom-file" v-if="!file">
                             <input type="file" class="custom-file-input" id="cv_upload" @change="onFilePicked">
                             <label class="custom-file-label" for="cv_upload">Choose file</label>
                           </div>
-						  <div class="row" v-if="fileName">
+						  <div class="row" v-if="file">
 							  <div class="col-md-6"><span>{{fileName}}</span></div>
 							  <div class="col-md-6"><a class="btn btn-primary" @click="changeFile">Change File</a></div>
 						  </div>
@@ -256,7 +256,7 @@
 				phone2: '',
 				email: '',
 				address: '',
-				file: {},
+				file: null,
 				fileName: null,
 				message: '',
 				error: ''
@@ -265,8 +265,8 @@
 		methods: {
 			onFilePicked(event) {
       			const files = event.target.files
-      			this.filename = files[0].name
-				  console.log(this.filename)
+      			this.fileName = files[0].name
+				  console.log(this.fileName)
       			const fileReader = new FileReader()
       			fileReader.addEventListener('load', () => {
         			this.file = fileReader.result
@@ -294,8 +294,11 @@
 				 this.salutation, this.gender, this.phone1, this.phone2, this.email, this.address, this.file)
         			.then(
           				p => {
-            			//this.vacancy = p
-          				}
+							  this.message = "Your application has been submitted successfully"
+          				},
+						error => {
+							this.error = error
+						}
         			)
 			},
 			getDays(end) {

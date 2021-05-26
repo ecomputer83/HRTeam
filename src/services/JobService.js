@@ -19,6 +19,7 @@ export const jobService = {
     getVancancyById,
     getVacancySummaries,
     removeJobProfiles,
+    getApplications,
     applyJob
 }
 
@@ -96,6 +97,12 @@ function updateVacancy(vacancy) {
 
 function getVancancies(id) {
     return fetch(`${config.apiurl}/Job/getVacancies?Id=${id}`, requestOptions.get())
+                .then(handleResponse)
+                .then( model => { return model })
+}
+
+function getApplications(id) {
+    return fetch(`${config.apiurl}/Application/GetAllApplication/${id}`, requestOptions.get())
                 .then(handleResponse)
                 .then( model => { return model })
 }

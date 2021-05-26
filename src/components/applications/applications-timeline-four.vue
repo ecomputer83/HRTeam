@@ -32,7 +32,7 @@
                 style="color: #fc6075;"
                 title="Set Search Criteria Stage"
               >
-                4: Phone Interview
+                3: Phone Interview
               </p>
               <strong class="col-md-7 pr-0 pl-2">Inactive</strong>
             </td>
