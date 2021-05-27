@@ -14,7 +14,7 @@
 
                 <!-- Header Title -->
                 <div class="page-title-box float-left">
-                    <h3>Sapphire Career</h3>
+                    <h3>{{org.name}} Career</h3>
                 </div>
                 <!-- /Header Title -->
 
@@ -57,9 +57,25 @@
     </div>
 </template>
 <script>
+import { organizationService } from '@/services/organizationService';
     export default {
+        data() {
+      return {
+          org: {
+              name: 'Sapphire'
+          }
+      }
+    },
+    methods: {
+        getOrganization () {
+            organizationService.getOrganization()
+            .then (
+                m => this.org = m
+            )
+        }
+    },
         mounted() {
-
+    this.getOrganization()
  // Variables declarations
  var $wrapper = $('.main-wrapper');
  

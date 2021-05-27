@@ -236,10 +236,12 @@ export default {
         this.error = "Job Description is required, Please click on Job Requisition tab";
         return 
       }
-      if(!this.settings.phoneInterviewChecked || !this.settings.faceToFaceInterviewChecked || !this.settings.careerTestingChecked){
+      var checked = !this.settings.phoneInterviewChecked ? !this.settings.faceToFaceInterviewChecked ? this.settings.careerTestingChecked : true : true;
+      if(!checked){
         this.error = "One of the interview must be checked, Please click on Application settings tab";
         return 
       }
+
 
       
         this.vacancy.companyId = this.currentOffice.id
@@ -251,7 +253,7 @@ export default {
         console.log(this.vacancy)
         this.vacancy.jobRequisition.id = this.requisitionId
         this.vacancy.vacancysettings.id = this.vacancysettingId
-        if(!this.$route.params){
+        if(!this.$route.params.id){
         jobService.addVacancy(this.vacancy)
           .then(a=> {
             return this.$router.push('/vacancies');

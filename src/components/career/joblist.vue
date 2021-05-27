@@ -43,7 +43,7 @@
                                             <span class="job-types">Full Time</span>
                                         </div>
                                     </div>
-                                    <div class="job-list-summary"><span>{{model.description}}</span></div>
+                                    <div class="job-list-summary"><span>{{model.description | truncate(250, '...')}}</span></div>
                                     <div class="job-list-footer">
                                         <ul>
                                             <li><i class="fa fa-map-signs"></i> {{model.jobProfile.company.name}}</li>

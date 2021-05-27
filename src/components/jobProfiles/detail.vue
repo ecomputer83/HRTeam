@@ -212,7 +212,7 @@
                               
                                   <div class="form-group">
                                     <label>Education Requirement:</label>
-                                    <select class="select form-controlz" v-model.trim="$v.profile.educationRequirement.$model" :class="{ 'is-invalid': submitted && $v.profile.educationRequirement.$error }">
+                                    <select class="select form-control" v-model.trim="$v.profile.educationRequirement.$model" :class="{ 'is-invalid': submitted && $v.profile.educationRequirement.$error }">
                                       <option>-- Select --</option>
                                       <option value="Applicant must possess exactly this degree">Applicant must possess exactly this degree</option>
                                       <option value="Applicant must possess at least this degree">Applicant must possess at least this degree</option>
@@ -220,7 +220,7 @@
                                   </div>
                                   <div class="form-group">
                                     <label>Education Degree:</label>
-                                    <select class="select form-controlz" v-model.trim="$v.profile.educationDegree.$model" :class="{ 'is-invalid': submitted && $v.profile.educationDegree.$error }">
+                                    <select class="select form-control" v-model.trim="$v.profile.educationDegree.$model" :class="{ 'is-invalid': submitted && $v.profile.educationDegree.$error }">
                                       <option>-- Select --</option>
                                       <option value="Basic Education">Basic Education</option>
                                       <option value="High Education">High School</option>
@@ -502,7 +502,7 @@
             // stop here if form is invalid
             
 
-            if(this.$route.params){
+            if(this.$route.params.id){
 
               jobService.updateJobProfile(this.profile.id, this.professionId, this.profile.rankId, this.profile.departmentId, this.profile.title, this.profile.experience,
                 this.profile.description, parseInt(this.profile.salaryMin), parseInt(this.profile.salaryMax), parseInt(this.profile.averageSalary), this.profile.educationRequirement, this.profile.educationDegree, this.profile.status)
