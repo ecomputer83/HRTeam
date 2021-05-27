@@ -6,6 +6,7 @@ import handleResponse from '@/helpers/HandleResponses';
 
 export const organizationService = {
     addOrganization,
+    getOrganization,
     registerAsAdmin,
     getLeaveTypes,
     addLeaveType,
@@ -224,6 +225,16 @@ function initiateLeaveSettings(id) {
         .then(id => {
 
             return id;
+        });
+}
+
+function getOrganization() {
+
+    return fetch(`${config.apiurl}/Organization`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+
+            return model
         });
 }
 

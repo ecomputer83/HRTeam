@@ -78,7 +78,12 @@
 										<h5>Vacancy</h5>
 										<p>{{vacancy.quantity}}</p>
 									</div>
-									
+									<div class="info-list">
+										<span><i class="fa fa-map-signs"></i></span>
+										<h5>Location</h5>
+										<p> {{vacancy.jobProfile.company.name}}
+											<br> {{vacancy.jobProfile.company.address}}</p>
+									</div>
 									<div class="info-list text-center">
 										<a class="app-ends" href="#">Application ends in {{getDays(vacancy.periodTo)}}</a>
 									</div>

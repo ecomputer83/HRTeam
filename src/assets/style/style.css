@@ -5432,6 +5432,7 @@ table.table-inbox tbody tr.checked {
 }
 .job-list .job-list-summary span {
 	color: #777;
+	word-wrap: break-word;
 }
 .job-list .job-list-desc {
 	flex: 1 1 0;
