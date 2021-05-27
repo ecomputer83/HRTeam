@@ -62,10 +62,9 @@
               <td>
                 <textarea
                   style="height: auto !important"
-                  class="form-control"
+                  class="form-control" rows="10" 
                   type="text" v-model="vacancy.description"
-                >
-Manager for all accounts in his area</textarea
+                ></textarea
                 >
               </td>
             </tr>

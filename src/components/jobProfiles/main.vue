@@ -165,66 +165,42 @@
                     </div>
                     <div class="tab-pane" id="solid-rounded-justified-tab2">
                       <div class="table-responsive">
-                        <table class="datatable table table-stripped mb-0">
-                          <thead>
-                            <tr>
-                              <th>Name</th>
-                              <th>Job Level</th>
-                              <th>Department</th>
-                              <th></th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr
-                              v-for="model in activeprofiles"
-                              v-bind:key="model.id"
-                            >
-                              <td>
-                                <router-link
-                                  :to="{
-                                    name: 'job-profile-info',
-                                    params: { id: model.id },
-                                  }"
-                                >
-                                  {{ model.title }}
-                                </router-link>
-                              </td>
-                              <td>{{ model.rank.rankName }}</td>
-                              <td>{{ model.department.name }}</td>
-                              <td class="text-right">
-                                <div class="dropdown dropdown-action">
-                                  <a
-                                    href="#"
-                                    class="action-icon dropdown-toggle"
-                                    data-toggle="dropdown"
-                                    aria-expanded="false"
-                                    ><i class="material-icons">more_vert</i></a
-                                  >
-                                  <div
-                                    class="dropdown-menu dropdown-menu-right"
-                                  >
-                                    <router-link
-                                      :to="{
-                                        name: 'job-profile-info',
-                                        params: { id: model.id },
-                                      }"
-                                      class="dropdown-item"
-                                      ><i class="fa fa-pencil m-r-5"></i>
-                                      Edit</router-link
-                                    >
-                                    <a
-                                      class="dropdown-item"
-                                      href="#"
-                                      @click="setDeleteProfile(item)"
-                                      ><i class="fa fa-trash-o m-r-5"></i>
-                                      Delete</a
-                                    >
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
+                        <v-data-table
+                    :headers="headers"
+                    :items="inactiveprofiles"
+                    sort-by="firstName"
+                    class="elevation-1"
+                  >
+                    <template v-slot:[`item.actions`]="{ item }">
+                      <div class="dropdown dropdown-action">
+                        <a
+                          href="#"
+                          class="action-icon dropdown-toggle"
+                          data-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <i class="material-icons"
+                          >more_vert</i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <router-link
+                            :to="{
+                              name: 'jobprofileinfo',
+                              params: { id: item.id },
+                            }"
+                            class="dropdown-item"
+                            ><i class="fa fa-pencil m-r-5"></i> Edit</router-link
+                          >
+                          <a
+                            class="dropdown-item"
+                            @click="setDeleteProfile(item)"
+                            ><i class="fa fa-trash-o m-r-5"></i> Delete</a
+                          >
+                        </div>
+                        </div>
+                    </template>
+                    
+                  </v-data-table>
                       </div>
                     </div>
                   </div>
