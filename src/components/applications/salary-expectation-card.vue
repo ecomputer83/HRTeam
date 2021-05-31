@@ -13,8 +13,8 @@
                     type="text"
                     class="form-control"
                     name=""
-                    id=""
-                    value="---"
+                    v-model="app.vacancy.jobProfile.salaryMin"
+                    readonly
                   />
                 </td>
               </tr>
@@ -30,9 +30,8 @@
                   <input
                     type="text"
                     class="form-control"
-                    name=""
-                    id=""
-                    value="---"
+                    v-model="app.vacancy.jobProfile.salaryMax"
+                    readonly
                   />
                 </td>
               </tr>
@@ -46,6 +45,10 @@
 
 <script>
 export default {
-  name: "salary-expectation-card"
+  name: "salary-expectation-card",
+  props: {
+    app: {},
+    currentOffice: {}
+  },
 };
 </script>

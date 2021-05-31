@@ -8,39 +8,13 @@
               <tr>
                 <td>Applicant</td>
                 <td>
-                  <select name="applicant" id="applicant" class="form-control">
-                    <option value="applicant 1">
-                      applicant 1
-                    </option>
-                    <option value="applicant 2">
-                      applicant 2
-                    </option>
-                    <option value="applicant 3">
-                      applicant 3
-                    </option>
-                    <option value="applicant 4">
-                      applicant 4
-                    </option>
-                  </select>
+                  <input type="text" :value="app.applicant.firstName + ' ' + app.applicant.lastName" class="form-control" readonly />
                 </td>
               </tr>
               <tr>
                 <td>Vacancy</td>
                 <td>
-                  <select name="vacancy" id="vacancy" class="form-control">
-                    <option value="vacancy 1">
-                      vacancy 1
-                    </option>
-                    <option value="vacancy 2">
-                      vacancy 2
-                    </option>
-                    <option value="vacancy 3">
-                      vacancy 3
-                    </option>
-                    <option value="vacancy 4">
-                      vacancy 4
-                    </option>
-                  </select>
+                  <input type="text" :value="app.vacancy.jobProfile.title" class="form-control" readonly />
                 </td>
               </tr>
               
@@ -54,7 +28,7 @@
               <tr>
                 <td>Earliest Start Date</td>
                 <td>
-                  <input type="date" class="form-control" name="" id="" />
+                  <input type="text" class="form-control" :value="new Date(app.startDate).toLocaleDateString()" readonly />
                 </td>
               </tr>
               <tr>
@@ -64,8 +38,8 @@
                     type="text"
                     class="form-control"
                     name=""
-                    id=""
-                    value="---"
+                    v-model="app.noticePeriod"
+                    readonly
                   />
                 </td>
               </tr>
@@ -79,6 +53,10 @@
 
 <script>
 export default {
-  name: "application-info-card"
+  name: "application-info-card",
+  props: {
+    app: {},
+    currentOffice: {}
+  },
 };
 </script>

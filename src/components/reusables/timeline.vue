@@ -1,6 +1,6 @@
 <template>
   <ul class="timeline">
-    <li @click="$emit('selectTimeline', i), activeBg = i" :class="{'passed-tl': i < active_timeline,'active-tl': (i == active_timeline && i != timeline_data.length-1), 'final-tl': (i == active_timeline && i == timeline_data.length-1), 'active': i == selected_timeline}" v-for="(tl, i) in timeline_data" :key="i">{{i+1}}:{{tl.name}}</li>
+    <li @click="$emit('selectTimeline', tl.id), activeBg = tl.id" :class="{'passed-tl': tl.id < active_timeline,'active-tl': (tl.id == active_timeline && tl.id != timeline_data.length-1), 'final-tl': (tl.id == active_timeline && tl.id == timeline_data.length-1), 'active': tl.id == selected_timeline}" v-for="(tl, i) in timeline_data" :key="i">{{i+1}}:{{tl.name}}</li>
   </ul>
 </template>
 <script>

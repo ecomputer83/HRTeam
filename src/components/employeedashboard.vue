@@ -12,11 +12,13 @@
       <div class="col-md-12">
         <div class="welcome-box">
           <div class="welcome-img">
-            <img alt="" src="../assets/profiles/avatar-02.jpg">
+            <img alt=""
+                                                            src="~@/assets/profiles/avatar-02.jpg" v-if="!currentUser.employee.passportPhoto">
+                                                            <img alt="" :src="media + currentUser.employee.passportPhoto" width="38" v-if="currentUser.employee.passportPhoto"
+                        />
           </div>
           <div class="welcome-det">
-            <h3>Welcome, John Doe</h3>
-            <p>Monday, 20 May 2019</p>
+            <h3>Welcome, {{currentUser.user.fullName}}</h3>
           </div>
         </div>
       </div>
@@ -26,194 +28,48 @@
         <section class="dash-section">
           <h1 class="dash-sec-title">Today</h1>
           <div class="dash-sec-content">
-            <div class="dash-info-list">
+            <div class="dash-info-list" v-for="item in todayAbsence" :key="item.id">
               <a href="#" class="dash-card text-danger">
                 <div class="dash-card-container">
                   <div class="dash-card-icon">
                     <i class="fa fa-hourglass-o"></i>
                   </div>
                   <div class="dash-card-content">
-                    <p>Richard Miles is off sick today</p>
+                    <p>{{item.employee.firstName + ' ' + item.employee.lastName}} is off {{item.leaveType.name}} today</p>
                   </div>
                   <div class="dash-card-avatars">
-                    <div class="e-avatar"><img src="../assets/profiles/avatar-09.jpg" alt=""></div>
-                  </div>
-                </div>
-              </a>
-            </div>
-
-            <div class="dash-info-list">
-              <a href="#" class="dash-card">
-                <div class="dash-card-container">
-                  <div class="dash-card-icon">
-                    <i class="fa fa-suitcase"></i>
-                  </div>
-                  <div class="dash-card-content">
-                    <p>You are away today</p>
-                  </div>
-                  <div class="dash-card-avatars">
-                    <div class="e-avatar"><img src="../assets/profiles/avatar-02.jpg" alt=""></div>
-                  </div>
-                </div>
-              </a>
-            </div>
-            <div class="dash-info-list">
-              <a href="#" class="dash-card">
-                <div class="dash-card-container">
-                  <div class="dash-card-icon">
-                    <i class="fa fa-building-o"></i>
-                  </div>
-                  <div class="dash-card-content">
-                    <p>You are working from home today</p>
-                  </div>
-                  <div class="dash-card-avatars">
-                    <div class="e-avatar"><img src="../assets/profiles/avatar-02.jpg" alt=""></div>
+                    <div class="e-avatar"><img alt=""
+                                                            src="~@/assets/profiles/avatar-02.jpg" v-if="!currentUser.employee.passportPhoto">
+                                                            <img alt="" :src="media + currentUser.employee.passportPhoto" width="38" v-if="currentUser.employee.passportPhoto"
+                        /></div>
                   </div>
                 </div>
               </a>
             </div>
           </div>
         </section>
-        <section class="dash-section">
-          <h1 class="dash-sec-title">Tomorrow</h1>
-          <div class="dash-sec-content">
-            <div class="dash-info-list">
-              <div class="dash-card">
-                <div class="dash-card-container">
-                  <div class="dash-card-icon">
-                    <i class="fa fa-suitcase"></i>
-                  </div>
-                  <div class="dash-card-content">
-                    <p>2 people will be away tomorrow</p>
-                  </div>
-                  <div class="dash-card-avatars">
-                    <a href="#" class="e-avatar"><img src="../assets/profiles/avatar-04.jpg" alt=""></a>
-                    <a href="#" class="e-avatar"><img src="../assets/profiles/avatar-08.jpg" alt=""></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <section class="dash-section">
-          <h1 class="dash-sec-title">Next seven days</h1>
-          <div class="dash-sec-content">
-            <div class="dash-info-list">
-              <div class="dash-card">
-                <div class="dash-card-container">
-                  <div class="dash-card-icon">
-                    <i class="fa fa-suitcase"></i>
-                  </div>
-                  <div class="dash-card-content">
-                    <p>2 people are going to be away</p>
-                  </div>
-                  <div class="dash-card-avatars">
-                    <a href="#" class="e-avatar"><img src="../assets/profiles/avatar-05.jpg" alt=""></a>
-                    <a href="#" class="e-avatar"><img src="../assets/profiles/avatar-07.jpg" alt=""></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="dash-info-list">
-              <div class="dash-card">
-                <div class="dash-card-container">
-                  <div class="dash-card-icon">
-                    <i class="fa fa-user-plus"></i>
-                  </div>
-                  <div class="dash-card-content">
-                    <p>Your first day is going to be  on Thursday</p>
-                  </div>
-                  <div class="dash-card-avatars">
-                    <div class="e-avatar"><img src="../assets/profiles/avatar-02.jpg" alt=""></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="dash-info-list">
-              <a href="" class="dash-card">
-                <div class="dash-card-container">
-                  <div class="dash-card-icon">
-                    <i class="fa fa-calendar"></i>
-                  </div>
-                  <div class="dash-card-content">
-                    <p>It's Spring Bank Holiday  on Monday</p>
-                  </div>
-                </div>
-              </a>
-            </div>
-          </div>
-        </section>
+        
       </div>
       <div class="col-lg-4 col-md-4">
         <div class="dash-sidebar">
-          <section>
-            <h5 class="dash-title">Projects</h5>
+          
+          <section v-for="item in leaveEgb" :key="item.id">
+            <h5 class="dash-title">Your {{item.leaveTypeName}} Leave</h5>
             <div class="card">
               <div class="card-body">
                 <div class="time-list">
                   <div class="dash-stats-list">
-                    <h4>71</h4>
-                    <p>Total Tasks</p>
-                  </div>
-                  <div class="dash-stats-list">
-                    <h4>14</h4>
-                    <p>Pending Tasks</p>
-                  </div>
-                </div>
-                <div class="request-btn">
-                  <div class="dash-stats-list">
-                    <h4>2</h4>
-                    <p>Total Projects</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-          <section>
-            <h5 class="dash-title">Your Leave</h5>
-            <div class="card">
-              <div class="card-body">
-                <div class="time-list">
-                  <div class="dash-stats-list">
-                    <h4>4.5</h4>
+                    <h4>{{item.used}}</h4>
                     <p>Leave Taken</p>
                   </div>
                   <div class="dash-stats-list">
-                    <h4>12</h4>
+                    <h4>{{item.eligible}}</h4>
                     <p>Remaining</p>
                   </div>
                 </div>
                 <div class="request-btn">
                   <a class="btn btn-primary" href="#">Apply Leave</a>
                 </div>
-              </div>
-            </div>
-          </section>
-          <section>
-            <h5 class="dash-title">Your time off allowance</h5>
-            <div class="card">
-              <div class="card-body">
-                <div class="time-list">
-                  <div class="dash-stats-list">
-                    <h4>5.0 Hours</h4>
-                    <p>Approved</p>
-                  </div>
-                  <div class="dash-stats-list">
-                    <h4>15 Hours</h4>
-                    <p>Remaining</p>
-                  </div>
-                </div>
-                <div class="request-btn">
-                  <a class="btn btn-primary" href="#">Apply Time Off</a>
-                </div>
-              </div>
-            </div>
-          </section>
-          <section>
-            <h5 class="dash-title">Upcoming Holiday</h5>
-            <div class="card">
-              <div class="card-body text-center">
-                <h4 class="holiday-title mb-0">Mon 20 May 2019 - Ramzan</h4>
               </div>
             </div>
           </section>
@@ -230,12 +86,41 @@
 <script>
   import LayoutHeader from '@/components/layouts/Header.vue'
   import LayoutSidebar from '@/components/layouts/employeeSidebar.vue'
+  import { authenticationService } from "@/services/authenticationService";
+  import { employeeService } from "@/services/employeeService.js";
 export default {
   components: {
     LayoutHeader,
     LayoutSidebar,
   },
+  data(){
+    return {
+      currentUser: authenticationService.currentUserValue,
+      company: authenticationService.currentOfficeValue,
+      media: 'data:image/jpeg;base64,',
+      todayAbsence: [],
+      leaveEgb: []
+    }
+  },
+  methods: {
+    getTodayAbsence() {
+        employeeService.getTodayAbsence(this.company.id).then((o) => {
+            this.todayAbsence = o;
+          });
+      },
+    getEmployeeLeaveSummary() {
+        employeeService.getEmployeeLeaveSummary(this.currentUser.employee.id)
+          .then(
+            model => { this.leaveEgb = model
+              //console.log('leaves:', model[0]) 
+            },
+            error => { error = error }
+          )
+      },
+  },
   mounted() {
+    this.getTodayAbsence()
+    this.getEmployeeLeaveSummary()
     if($('.floating').length > 0 ){
     $('.floating').on('focus blur', function (e) {
     $(this).parents('.form-focus').toggleClass('focused', (e.type === 'focus' || this.value.length > 0));

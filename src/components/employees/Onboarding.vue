@@ -12,7 +12,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <ul class="breadcrumb">
-                  <li class="breadcrumb-item active">Active Applications</li>
+                  <li class="breadcrumb-item active">Accepted Applications</li>
                 </ul>
               </div>
             </div>
@@ -42,44 +42,20 @@
                               ></router-link
                             >
                   </template>
-                  <template v-slot:[`item.apt`]="{ item }">
-                        {{(!item.applicationScore) ? 'Not yet' : (item.applicationScore.score) ? 'Passed' : 'Failed'}}
+                  <template v-slot:[`item.start`]="{ item }">
+                        {{new Date(item.applicationInterview.startDate).toLocaleDateString()}}
                   </template>
                   <template v-slot:[`item.expected`]="{ item }">
-                        ₦{{item.expectedSalary.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}}
+                        ₦{{item.applicationInterview.expectedSalary.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}}
                   </template>
                   <template v-slot:[`item.created`]="{ item }">
                         {{ item.createdAt ? new Date(item.createdAt).toLocaleDateString() : ""}}
                   </template>
-                  <template v-slot:[`item.stat`]="{ item }">
-                    <a class="btn btn-white btn-sm btn-rounded" v-if="item.status == 0"
-                            aria-expanded="false">
-                            <i class="fa fa-dot-circle-o text-purple"></i> New
+                  <template v-slot:[`item.actions`]="{ item }">
+                    <a class="btn btn-primary" aria-expanded="false">
+                             Onboard
                           </a>
-                    <a class="btn btn-white btn-sm btn-rounded" v-if="item.status == 1"
-                            aria-expanded="false">
-                            <i class="fa fa-dot-circle-o text-success"></i> Accepted
-                          </a>
-                    <a class="btn btn-white btn-sm btn-rounded" v-if="item.status == 2"
-                            aria-expanded="false">
-                            <i class="fa fa-dot-circle-o text-info"></i> Phone Interview 
-                          </a>
-                    <a class="btn btn-white btn-sm btn-rounded" v-if="item.status == 3"
-                            aria-expanded="false">
-                            <i class="fa fa-dot-circle-o text-info"></i> Aptitude Interview 
-                          </a>
-                    <a class="btn btn-white btn-sm btn-rounded" v-if="item.status == 4"
-                            aria-expanded="false">
-                            <i class="fa fa-dot-circle-o text-info"></i> Face-Face Interview 
-                          </a>
-                    <a class="btn btn-white btn-sm btn-rounded" v-if="item.status == 5"
-                            aria-expanded="false">
-                            <i class="fa fa-dot-circle-o text-info"></i> Negotiation
-                          </a>
-                    <a class="btn btn-white btn-sm btn-rounded" v-if="item.status == 8"
-                            aria-expanded="false">
-                            <i class="fa fa-dot-circle-o text-danger"></i> Rejected 
-                          </a>
+                    
                   </template>
                 </v-data-table>
                   </div>
@@ -112,11 +88,10 @@ export default {
           align: 'start',
           value: 'profile',
         },
-        { text: 'Vacancy', value: 'vacant' },
-        { text: 'Status Reason', value: 'stat' },
-        { text: 'Aptitude', value: 'apt' },
-        { text: 'Expected Salary', value: 'expected' },
-        { text: 'Received On', value: 'created' },
+        { text: 'Designation', value: 'vacancy.designation.name' },
+        { text: 'Start Date', value: 'start' },
+        { text: 'Negotiated Salary', value: 'expected' },
+        { text: 'Action', value: 'actions', sortable: false },
       ],
       applications: [],
       company: authenticationService.currentOfficeValue,
@@ -132,7 +107,7 @@ export default {
   },
   methods: {
     getApplications() {
-        jobService.getApplications(this.company.id)
+        jobService.getAcceptedApplications(this.company.id)
         .then(
           p => {
             this.applications = p

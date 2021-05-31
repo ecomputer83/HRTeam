@@ -1,9 +1,9 @@
 <template>
     <div class="col-xs-12">
-      <application-info-card></application-info-card>
+      <application-info-card :app="app" :currentOffice="currentOffice" @update="app = $event;"></application-info-card>
 
-      <salary-expectation-card></salary-expectation-card>
-      <documents-card></documents-card>
+      <salary-expectation-card :app="app" :currentOffice="currentOffice" @update="app = $event;"></salary-expectation-card>
+      <documents-card :app="app" :currentOffice="currentOffice" @update="app = $event;"></documents-card>
     </div>
 </template>
 
@@ -14,6 +14,10 @@ import FeedbackCard from "@/components/applications/feedback-card.vue";
 import DocumentsCard from "@/components/applications/documents-card.vue";
 export default {
   name: "applications-general",
+  props: {
+         app: {},
+         currentOffice: {}
+      },
   components: {
     ApplicationInfoCard,
     SalaryExpectationCard,

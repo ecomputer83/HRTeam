@@ -18,7 +18,7 @@
               <strong
                 class="col-md-5 pr-0 pl-2 text-nowrap"
                 title="Completed in 3 Years"
-                >Active for 3 Years</strong
+                >Active</strong
               >
             </td>
           </tr>
@@ -32,9 +32,9 @@
                 style="color: #fc6075;"
                 title="Set Search Criteria Stage"
               >
-                5: Face-To-Face Interview
+                4: Face-To-Face Interview
               </p>
-              <strong class="col-md-7 pr-0 pl-2">Inactive</strong>
+              <strong class="col-md-7 pr-0 pl-2">{{app.status > 4 ? 'Completed' : (app.status == 4) ?'Active' : 'Inactive'}}</strong>
             </td>
           </tr>
               <tr>
@@ -42,11 +42,9 @@
                   <p class="mb-0 col-md-7 pl-0 pr-2"><i class="la la-check"></i>Applicant Rank</p>
                   <div class="col-md-5 pr-0 pl-2 custom-control">
                   <input
-                    type="text"
+                    type="number"
                     class="form-control"
-                    name=""
-                    id=""
-                    value="5"
+                    v-model="app.applicationFaceToView.rank"
                   /></div>
                 </td>
               </tr>
@@ -57,21 +55,25 @@
                   <input
                     type="text"
                     class="form-control"
-                    name=""
-                    id=""
-                    value="---"
+                    v-model="app.applicationFaceToView.remark"
                   /></div>
                 </td>
               </tr>
         </tbody>
       </table>
     </div>
+    <button v-if="(app.status == 4)" type="button" class="btn btn-primary btn-lg btn-block mt-5" style="border-radius: 0" @click="action">Next Stage <i class="la la-angle-right ml-2"></i></button>
   </div>
 </template>
 
 <script>
 export default {
   name: "applications-timeline-two",
+  props: {
+    action: { type: Function },
+         app: {},
+         currentOffice: {}
+      },
   data() {
     return {
       coverLetterAvailable: true,

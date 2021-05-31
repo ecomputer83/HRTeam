@@ -23,6 +23,10 @@
     max-width: 100%;
     position: relative;
 }
+.v-application >>> a {
+  color: #212529;
+}
+
 </style>
   <script>
     export default {

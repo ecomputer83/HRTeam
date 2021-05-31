@@ -26,7 +26,7 @@
     </div>
     <div class="col-xs-12 col-md-12 job-card">
       <div class="d-flex align-items-center">
-        <input type="checkbox" v-model="settings.phoneInterviewChecked"  /> &nbsp;&nbsp;&nbsp;<label class="col-form-label">  Phone Interview for this vacancy</label>
+        <input type="checkbox" v-model="settings.phoneInterviewChecked" readonly /> &nbsp;&nbsp;&nbsp;<label class="col-form-label">  Phone Interview for this vacancy</label>
       </div>
       
       <div class="job-card" v-if="settings.phoneInterviewChecked">

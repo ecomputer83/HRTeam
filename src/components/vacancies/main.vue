@@ -62,37 +62,6 @@
                 </div>
                   </template>
                 </v-data-table>
-
-                    <!-- <table class="datatable table table-stripped mb-0">
-                      <thead>
-                        <tr>
-                          <th>Name</th>
-                          <th>Received</th>
-                          <th>Employed Applicants</th>
-                          <th>Rejected Applicants</th>
-                          <th>New</th>
-                          <th>HR Interview</th>
-                          <th>Supervisor Interview</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr v-for="model in vacancies" v-bind:key="model.id">
-                          <td style="max-width: unset">
-                            <router-link :to="{name: 'vacancydetail', params: {id: model.id}}">
-                              <span
-                                >{{model.title}}</span
-                              ></router-link
-                            >
-                          </td>
-                          <td>0</td>
-                          <td>{{model.acceptedApplicationCount}}</td>
-                          <td>{{model.rejectedApplicationCount}}</td>
-                          <td>{{model.newApplicationCount}}</td>
-                          <td>{{model.hrInterviewCount}}</td>
-                          <td>{{model.supervisorInterviewCount}}</td>
-                        </tr>
-                      </tbody>
-                    </table> -->
                   </div>
                 </div>
               </div>

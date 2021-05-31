@@ -168,6 +168,9 @@ h5, .h5 {
 h6, .h6 {
 	font-size: 0.75rem;
 }
+.padTop53{
+	padding-top: 53px !important;
+}
 a:hover,
 a:active,
 a:focus {

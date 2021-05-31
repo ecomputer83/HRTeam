@@ -1,4 +1,4 @@
-m<template>
+<template>
   <div class="leaves">
     <div class="main-wrapper">
       <layout-header></layout-header>
@@ -29,18 +29,13 @@ m<template>
           <!-- /Page Header -->
           <!-- Leave Statistics -->
           <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-3" v-for="item in leaveEgb" :key="item.typeId">
               <div class="stats-info">
-                <h6>Today Presents</h6>
-                <h4>{{totalEmployees - totalAbsence}} / {{totalEmployees}}</h4>
+                <h6>{{item.leaveTypeName}} Leave</h6>
+                <h4>{{item.eligible - item.used}}</h4>
               </div>
             </div>
-            <div class="col-md-3">
-              <div class="stats-info">
-                <h6>Pending Requests</h6>
-                <h4>{{totalPendingLeave}}</h4>
-              </div>
-            </div>
+            
           </div>
           <!-- /Leave Statistics -->
           <!----Datatable-->
@@ -74,8 +69,8 @@ m<template>
                   <template v-slot:[`item.toDate`]="{ item }">
                       {{ item.toDate ? new Date(item.toDate).toLocaleDateString() : ""}}
                   </template>
-                  <template v-slot:[`item.actions`]="{ item }">
-                    <div class="dropdown dropdown-action">
+                <template v-slot:[`item.actions`]="{ item }">
+                    <div class="dropdown dropdown-action" v-if="item.status == 0">
                       <a
                         href="#"
                         class="action-icon dropdown-toggle"
@@ -84,11 +79,6 @@ m<template>
                         ><i class="material-icons">more_vert</i></a
                       >
                       <div class="dropdown-menu dropdown-menu-right">
-                        <a
-                          class="dropdown-item"
-                          @click="setLeaveStatus(item)" v-if="item.status == 0"
-                          ><i class="fa fa-pencil m-r-5"></i> Approve or Reject</a
-                        >
                         <a
                           class="dropdown-item" 
                           @click="setEditLeave(item)" v-if="item.status == 0"
@@ -102,18 +92,7 @@ m<template>
                       </div>
                     </div>
                   </template>
-                  <template v-slot:[`item.profile`]="{ item }">
-                    <h2 class="table-avatar blue-link">
-                      <router-link :to="{name: 'employeedetail', params: {id: item.employee.id}}" class="avatar"><img alt=""
-                                                            src="~@/assets/profiles/avatar-02.jpg" v-if="!item.employee.passportPhoto">
-                                                            <img alt="" :src="media + item.employee.passportPhoto" width="38" v-if="item.employee.passportPhoto"
-                        /></router-link>
-                      <router-link :to="{name: 'employeedetail', params: {id: item.employee.id}}">{{
-                        `${item.employee.firstName} ${item.employee.lastName}`
-                      }}</router-link>
-                    </h2>
-                  </template>
-                  <template v-slot:[`item.stat`]="{ item }">
+                <template v-slot:[`item.stat`]="{ item }">
                     <a class="btn btn-white btn-sm btn-rounded" v-if="item.status == 0"
                             aria-expanded="false">
                             <i class="fa fa-dot-circle-o text-purple"></i> New
@@ -126,7 +105,7 @@ m<template>
                             aria-expanded="false">
                             <i class="fa fa-dot-circle-o text-danger"></i> Declined
                           </a>
-                  </template>
+                </template>
                 </v-data-table>
                
               </div>
@@ -182,19 +161,7 @@ m<template>
                   </div>
                 <form @submit.prevent="onSubmit">
                   
-                  <div class="form-group">
-                    <label>Employee <span class="text-danger">*</span></label>
-                    <select class="form-control" v-model="employeeId">
-                      <option>Select Staff</option>
-                      <option
-                        v-for="member in employees"
-                        :key="member.id"
-                        :value="member.id"
-                      >
-                        {{ member.lastName + " " + member.firstName }}
-                      </option>
-                    </select>
-                  </div>
+                  
                   <div class="form-group">
                     <label>Leave Type <span class="text-danger">*</span></label>
                     <select class="form-control" v-model="leaveTypeId" @change="getRemainingLeaveDays">
@@ -235,7 +202,7 @@ m<template>
                       <!-- <input class="form-control datetimepicker" type="text"> -->
                     </div>
                   </div>
-                  <div class="form-group" v-if="eligibileDays > 0">
+                  <!-- <div class="form-group" v-if="eligibileDays > 0">
                     <label
                       >Number of days <span class="text-danger">*</span></label
                     >
@@ -245,7 +212,7 @@ m<template>
                       readonly
                       type="text"
                     />
-                  </div>
+                  </div> -->
                   <div class="form-group">
                     <label
                       >Remaining Leaves
@@ -325,19 +292,6 @@ m<template>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label>Employee <span class="text-danger">*</span></label>
-                    <select class="form-control" v-model="leave.employeeId">
-                      <option>Select Staff</option>
-                      <option
-                        v-for="member in employees"
-                        :key="member.id"
-                        :value="member.id"
-                      >
-                        {{ member.lastName + " " + member.firstName }}
-                      </option>
-                    </select>
-                  </div>
-                  <div class="form-group">
                     <label>Leave Type <span class="text-danger">*</span></label>
                     <select class="form-control" v-model="leave.leaveTypeId" @change="getRemainingLeaveDays">
                       <option>Select Leave Type</option>
@@ -371,13 +325,13 @@ m<template>
                         v-model="leave.toDate"
                         bootstrap-styling
                         class="form-control datetimepicker"
-                        @change="this.getNoOfDaysInterval()"
+                        @change="this.getNoOfDaysIntervalEdit()"
                         type="date"
                       />
                       <!-- <input class="form-control datetimepicker" type="text"> -->
                     </div>
                   </div>
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <label
                       >Number of days <span class="text-danger">*</span></label
                     >
@@ -387,14 +341,14 @@ m<template>
                       readonly
                       type="text"
                     />
-                  </div>
+                  </div> -->
                   <div class="form-group">
                     <label
                       >Remaining Leaves
                       <span class="text-danger">*</span></label
                     >
                     <input
-                      :value="this.getRemainingDays()"
+                      :value="this.getRemainingDaysEdit()"
                       class="form-control"
                       readonly
                       type="text"
@@ -418,37 +372,6 @@ m<template>
             </div>
           </v-dialog>
           <!-- /Edit Leave Modal -->
-          <!-- Approve Leave Modal -->
-          <v-dialog v-model="dialogStatus" max-width="500px">
-              <div class="modal-content">
-                <div class="modal-body">
-                  <div class="form-header">
-                    <h3>Leave Approve</h3>
-                    <p>Are you sure want to approve for this leave?</p>
-                  </div>
-                  <div class="modal-btn delete-action">
-                    <div class="row">
-                      <div class="col-6">
-                        <a
-                          @click="changeLeaveStatus(1)"
-                          class="btn btn-primary continue-btn"
-                          >Approve</a
-                        >
-                      </div>
-                      <div class="col-6">
-                        <a
-                          @click="changeLeaveStatus(2)"
-                          data-dismiss="modal"
-                          class="btn btn-primary cancel-btn"
-                          >Decline</a
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-          </v-dialog>
-          <!-- /Approve Leave Modal -->
           <!-- Delete Leave Modal -->
           <v-dialog v-model="dialogDelete" max-width="500px">
               <div class="modal-content">
@@ -489,7 +412,7 @@ m<template>
 </template>
 <script>
 import LayoutHeader from "@/components/layouts/Header.vue";
-import LayoutSidebar from "@/components/layouts/Sidebar.vue";
+import LayoutSidebar from "@/components/layouts/employeeSidebar.vue";
 import Datepicker from "vuejs-datepicker";
 import { organizationService } from "@/services/organizationService";
 import { employeeService } from "@/services/employeeService";
@@ -509,11 +432,6 @@ export default {
       dialogDelete: false,
       media: 'data:image/jpeg;base64,',
       headers: [
-        {
-          text: 'Employee',
-          align: 'start',
-          value: 'profile',
-        },
         { text: 'LeaveType', value: 'leaveType.name' },
         { text: 'From', value: 'fromDate' },
         { text: 'To', value: 'toDate' },
@@ -536,9 +454,7 @@ export default {
       employeeId: 0,
       employees: [],
       employee: {},
-      totalEmployees: 0,
-      totalAbsence: 0,
-      totalPendingLeave: 0,
+      leaveEgb: [],
       company: authenticationService.currentOfficeValue,
       user: authenticationService.currentUserValue,
       error: "",
@@ -596,6 +512,7 @@ export default {
 
     setEditLeave(item) {
       this.leave = item;
+      this.getRemainingLeaveDaysByType(this.leave.leaveTypeId)
       this.dialogEdit = true;
       console.log(`item`, item)
     },
@@ -611,17 +528,24 @@ export default {
       this.dialogDelete = true;
     },
     getRemainingLeaveDays() {
-      employeeService.getEmployeeLeaveEligibility(this.employeeId, this.leaveTypeId).then((o) => {
+      employeeService.getEmployeeLeaveEligibility(this.user.employee.id, this.leaveTypeId).then((o) => {
+            this.eligibileDays = o;
+          });
+    },
+    getRemainingLeaveDaysByType(leaveTypeId) {
+      employeeService.getEmployeeLeaveEligibility(this.user.employee.id, leaveTypeId).then((o) => {
             this.eligibileDays = o;
           });
     },
 
     getSummary() {
-      employeeService.getHRLeaveSummary(this.company.id).then((o) => {
-            this.totalEmployees = o.totalEmployees;
-            this.totalAbsence = o.totalAbsence;
-            this.totalPendingLeave = o.totalPendingLeave
-          });
+       employeeService.getEmployeeLeaveSummary(this.user.employee.id)
+          .then(
+            model => { this.leaveEgb = model
+              //console.log('leaves:', model[0]) 
+            },
+            error => { error = error }
+          )
     },
     deleteLeave() {
       const id = this.employeeLeave.id;
@@ -651,7 +575,7 @@ export default {
         )
         .then(
           (id) => {
-            employeeService.getEmployeeLeaves(this.company.id).then((o) => {
+            employeeService.getEmployeeLeavesByEmployee(this.user.employee.id).then((o) => {
               this.employeeLeaves = o;
               this.closeEdit();
             });
@@ -687,7 +611,7 @@ export default {
         );
     },
     getEmployeeLeaves() {
-      employeeService.getEmployeeLeaves(this.company.id).then(
+      employeeService.getEmployeeLeavesByEmployee(this.user.employee.id).then(
         (model) => {
           this.employeeLeaves = model;
           console.log("leaves:", model[0]);
@@ -732,7 +656,7 @@ export default {
       const a =
         new Date(this.leave.toDate).getTime() - new Date(this.leave.fromDate).getTime();
       const b = a / (1000 * 60 * 60 * 24);
-      return b + 1;
+      this.leave.days = b + 1;
     },
     getRemainingDays() {
       if(this.toDate == "" || this.fromDate == ""){
@@ -743,9 +667,9 @@ export default {
       return this.eligibileDays - Math.floor(b + 1);
     },
     getRemainingDaysEdit() {
-      const a = new Date(this.leave.toDate).getTime() - new Date().getTime();
+      const a = new Date(this.leave.toDate).getTime() - new Date(this.leave.fromDate).getTime();
       const b = a / (1000 * 60 * 60 * 24);
-      return Math.floor(b + 1);
+      return this.eligibileDays - Math.floor(b + 1);
     },
     // setLeaveType() {
     //   this.leaveType = this.leaveTypes.map((a) => a);
@@ -762,19 +686,19 @@ export default {
       employeeService
         .addEmployeeLeave(
           this.company.id,
-          this.employeeId,
+          this.user.employee.id,
           this.fromDate,
           this.toDate,
           this.days,
           this.reason,
           this.leaveTypeId,
-          this.user.employee.id,
-          1
+          0,
+          0
         )
         .then(
           (id) => {
             this.message = "New Leave Added successfully";
-            employeeService.getEmployeeLeaves(this.company.id).then(
+            employeeService.getEmployeeLeavesByEmployee(this.user.employee.id).then(
               (model) => {
                 this.employeeLeaves = model;
                 //console.log(model[0])

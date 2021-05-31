@@ -20,6 +20,17 @@ export const jobService = {
     getVacancySummaries,
     removeJobProfiles,
     getApplications,
+    getAcceptedApplications,
+    getApplication,
+    createApplicationInterview,
+    createApplicationScore,
+    createApplicationFaceInterview,
+    createApplicationNegotiation,
+    updateApplication,
+    updateApplicationInterview,
+    updateApplicationScore,
+    updateApplicationFaceInterview,
+    updateApplicationNegotiation,
     applyJob
 }
 
@@ -95,6 +106,87 @@ function updateVacancy(vacancy) {
         });
 }
 
+function updateApplication(application) {
+
+    return fetch(`${config.apiurl}/Application/PutApplication/${application.id}`, requestOptions.put(application))
+        .then(handleResponse)
+        .then(id => {
+            return id
+        });
+}
+
+function updateApplicationInterview(interview) {
+
+    return fetch(`${config.apiurl}/Application/PutApplicationInterview/${interview.id}`, requestOptions.put(interview))
+        .then(handleResponse)
+        .then(id => {
+            return id
+        });
+}
+
+function updateApplicationFaceInterview(interview) {
+
+    return fetch(`${config.apiurl}/Application/PutApplicationFaceToView/${interview.id}`, requestOptions.put(interview))
+        .then(handleResponse)
+        .then(id => {
+            return id
+        });
+}
+
+function updateApplicationScore(interview) {
+
+    return fetch(`${config.apiurl}/Application/PutApplicationScore/${interview.id}`, requestOptions.put(interview))
+        .then(handleResponse)
+        .then(id => {
+            return id
+        });
+}
+
+function updateApplicationNegotiation(negotiation) {
+
+    return fetch(`${config.apiurl}/Application/PutApplicationNegotiation/${negotiation.id}`, requestOptions.put(negotiation))
+        .then(handleResponse)
+        .then(id => {
+            return id
+        });
+}
+
+function createApplicationInterview(applicationId, interview) {
+    interview.applicationId = applicationId
+    return fetch(`${config.apiurl}/application/postApplicationInterview`, requestOptions.post(interview))
+        .then(handleResponse)
+        .then(id => {
+            return id
+        });
+}
+
+function createApplicationFaceInterview(applicationId, interview) {
+    interview.applicationId = applicationId
+    return fetch(`${config.apiurl}/application/postApplicationFaceToView`, requestOptions.post(interview))
+        .then(handleResponse)
+        .then(id => {
+            return id
+        });
+}
+
+function createApplicationScore(applicationId, interview) {
+    interview.applicationId = applicationId
+    return fetch(`${config.apiurl}/application/postApplicationScore`, requestOptions.post(interview))
+        .then(handleResponse)
+        .then(id => {
+            return id
+        });
+}
+
+function createApplicationNegotiation(applicationId, interview) {
+    interview.applicationId = applicationId
+    return fetch(`${config.apiurl}/application/postApplicationNegotiation`, requestOptions.post(interview))
+        .then(handleResponse)
+        .then(id => {
+            return id
+        });
+}
+
 function getVancancies(id) {
     return fetch(`${config.apiurl}/Job/getVacancies?Id=${id}`, requestOptions.get())
                 .then(handleResponse)
@@ -106,6 +198,20 @@ function getApplications(id) {
                 .then(handleResponse)
                 .then( model => { return model })
 }
+
+
+function getAcceptedApplications(id) {
+    return fetch(`${config.apiurl}/Application/GetAcceptedApplication/${id}`, requestOptions.get())
+                .then(handleResponse)
+                .then( model => { return model })
+}
+
+function getApplication(id) {
+    return fetch(`${config.apiurl}/Application/GetApplicationbById/${id}`, requestOptions.get())
+                .then(handleResponse)
+                .then( model => { return model })
+}
+
 
 function getVacancySummaries(id) {
     return fetch(`${config.apiurl}/Job/getVacancySummaries?Id=${id}`, requestOptions.get())

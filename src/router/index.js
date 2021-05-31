@@ -10,7 +10,7 @@ import Vacancies from '@/components/vacancies/main'
 import VacancyDetail from '@/components/vacancies/details-page'
 import TalentSearch from '@/components/talentSearch/main'
 import TalentSearchDetail from '@/components/talentSearch/details-page'
-import Onboarding from '@/components/Onboarding'
+import Onboarding from '@/components/employees/Onboarding'
 import employees from '@/components/employees/main'
 import leaves from '@/components/leaves/leaves'
 import leavesettings from '@/components/leaves/leavesettings'
@@ -38,6 +38,7 @@ import attendanceEmployee from '@/components/attendance/attendanceEmployee'
 import timesheetEmployee from '@/components/timesheetEmployee'
 import colleagues from '@/components/employees/colleagues'
 import leaveRequest from '@/components/leaves/leaveRequest'
+import leavesTest from '@/components/leaves/leavesTest'
 import companies from '@/components/companies/main'
 import companyform from '@/components/companies/form'
 import ranks from '@/components/miscs/ranks'
@@ -296,6 +297,12 @@ const router = new Router({
       path: '/leave-request',
       name: 'leaverequest',
       component: leaveRequest,
+      meta: { authorize: [Role.Employee] }
+    },
+    {
+      path: '/leave-test',
+      name: 'leavestest',
+      component: leavesTest,
       meta: { authorize: [Role.Employee] }
     },
     {
