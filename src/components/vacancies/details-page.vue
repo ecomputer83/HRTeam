@@ -149,7 +149,7 @@ export default {
         id: 0,
         welcomeMessage: "<p>Description</p>",
         rejectMessage: "<p>Description</p>",
-        phoneInterviewChecked: false,
+        phoneInterviewChecked: true,
         welcomeMessageToPhoneInterview: "<p>Description</p>",
         careerTestingChecked: false,
         welcomeMessageToCareerTesting: "<p>Description</p>",

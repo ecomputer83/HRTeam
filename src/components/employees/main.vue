@@ -39,19 +39,19 @@
                     <div class="row filter-row">
                         <div class="col-sm-6 col-md-3">
                             <div class="form-group form-focus">
-                                <input type="text" class="form-control floating" style="height: 55px !important;">
+                                <input type="text" class="form-control floating" v-model="filterEmpId" style="height: 55px !important;">
                                 <label class="focus-label">Employee ID</label>
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-3">
                             <div class="form-group form-focus">
-                                <input type="text" class="form-control floating" style="height: 55px !important;">
+                                <input type="text" class="form-control floating" v-model="filterEmpName" style="height: 55px !important;">
                                 <label class="focus-label">Employee Name</label>
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-3">
                             <div class="form-group form-focus select-focus">
-                                 <select class="form-control" style="height: 55px !important;" v-model="designationId">
+                                 <select class="form-control" style="height: 55px !important;" v-model="filterDesignationId">
                                                     <option>Select Designation</option>
                                                     <option v-for="item in designations" :key="item.id" :value="parseInt(item.id)">{{item.name}}</option>
                                                 </select>
@@ -59,7 +59,7 @@
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-3">
-                            <a href="#" class="btn btn-success btn-block"> Search </a>
+                            <a @click="filterEmployees" class="btn btn-success btn-block"> Search </a>
                         </div>
                     </div>
                     <!-- /Search Filter -->
@@ -422,7 +422,11 @@
       message: '',
       dialog: false,
       dialogEdit: false,
-      dialogDelete: false
+      dialogDelete: false,
+      filterEmpId: '',
+      filterEmpName: '',
+      filterDesignationId: '',
+      nofilterEmployees: []
     }
   },
     validations: {
@@ -457,6 +461,22 @@
           )
     },
     
+    filterEmployees(){
+
+        var employee = []
+        if(this.filterEmpId) {
+            var id = (this.filterEmpId.split('-').length > 1) ? parseInt(this.filterEmpId.split('-')[1]) : parseInt(this.filterEmpId)
+            employee = this.employees.filter(c=> c.id == id);
+        }else if(this.filterEmpName && this.filterDesignationId){
+            employee = this.employees.filter(c=>(this.filterEmpName.contains(c.firstName) || this.filterEmpName.contains(c.lastName)) && c.designationId == parseInt(this.filterDesignationId) )
+        }else if(this.filterEmpName && !this.filterDesignationId){
+            employee = this.employees.filter(c=>this.filterEmpName.contains(c.firstName) || this.filterEmpName.contains(c.lastName))
+        }else if(!this.filterEmpName && this.filterDesignationId){
+            employee = this.employees.filter(c=>c.designationId == parseInt(this.filterDesignationId) )
+        }
+
+        this.employees = employee;
+    },
     GetRanks(){
           organizationService.getRanks()
           .then(
@@ -468,7 +488,7 @@
     GetEmployees () {
           employeeService.getEmployees(this.company.id)
             .then(
-                model => { this.employees = model},
+                model => { this.employees = model, this.filterEmployees = model},
                 error => { this.error = error }
             )
     
@@ -485,7 +505,7 @@
                   id => {
                       employeeService.GetEmployees()
                         .then(
-                          model => {employees = model}
+                          model => {employees = model, this.filterEmployees = model}
                         )
 					},
                     error => {
@@ -521,7 +541,7 @@
                         this.message = 'New Employee Added successfully';
                       employeeService.getEmployees(this.company.id)
                         .then(
-                          model => { this.employees = model;
+                          model => { this.employees = model, this.filterEmployees = model
                           //this.message = '';
                           this.dialog = false;
                           }

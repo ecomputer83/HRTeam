@@ -18,7 +18,7 @@
               <strong
                 class="col-md-5 pr-0 pl-2 text-nowrap"
                 title="Completed in 3 Years"
-                >Active for 3 Years</strong
+                >Active</strong
               >
             </td>
           </tr>
@@ -32,9 +32,9 @@
                 style="color: #fc6075;"
                 title="Set Search Criteria Stage"
               >
-                3: Phone Interview
+                2: Phone Interview
               </p>
-              <strong class="col-md-7 pr-0 pl-2">Inactive</strong>
+              <strong class="col-md-7 pr-0 pl-2">{{app.status > 2 ? 'Completed' : (app.status == 2) ?'Active' : 'Inactive'}}</strong>
             </td>
           </tr><tr>
                 <td class="d-flex align-items-center p-0 mb-2 mt-3">
@@ -43,9 +43,7 @@
                   <input
                     type="date"
                     class="form-control"
-                    name=""
-                    id=""
-                    value="11/12/2021"
+                    v-model="app.applicationInterview.startDate"
                   />
                   </div>
                 </td>
@@ -54,12 +52,11 @@
                 <td class="d-flex align-items-center p-0 mb-2">
                   <p class="mb-0 col-md-7 pl-0 pr-2"><i class="pr-3"></i>Notice Period</p>
                   <div class="col-md-5 pr-0 pl-2 custom-control">
+                    
                   <input
                     type="text"
                     class="form-control"
-                    name=""
-                    id=""
-                    value="---"
+                    v-model="app.applicationInterview.noticePeriod"
                   /></div>
                 </td>
               </tr>
@@ -70,60 +67,36 @@
                   <input
                     type="text"
                     class="form-control"
-                    name=""
-                    id=""
-                    value="---"
+                    v-model="app.applicationInterview.remark"
                   /></div>
                 </td>
               </tr>
               <tr>
                 <td class="d-flex align-items-center p-0 mb-2">
-                  <p class="mb-0 col-md-7 pl-0 pr-2"><i class="pr-3"></i>Expected Salary Min.</p>
+                  <p class="mb-0 col-md-7 pl-0 pr-2"><i class="pr-3"></i>Expected Salary</p>
                   <div class="col-md-5 pr-0 pl-2 custom-control">
                   <input
                     type="text"
                     class="form-control"
-                    name=""
-                    id=""
-                    value="---"
+                    v-model="app.applicationInterview.expectedSalary"
                   /></div>
-                </td>
-              </tr>
-              <tr>
-                <td class="d-flex align-items-center p-0 mb-2">
-                  <p class="mb-0 col-md-7 pl-0 pr-2"><i class="la la-check"></i>Expected Salary Max.</p>
-                  <div class="col-md-5 pr-0 pl-2 custom-control">
-                  <input
-                    type="text"
-                    class="form-control"
-                    name=""
-                    id=""
-                    value="---"
-                  /></div>
-                </td>
-              </tr>
-              <tr>
-                <td class="d-flex align-items-center p-0 mb-2">
-                  <div class="d-flex mb-0 col-md-7 pl-0 pr-2"><i class="la la-check"></i><p class="mb-0">Salary</p></div>
-                  
-                    <select name="Salary" id="Salary" class="form-control pl-0">
-                    <option value="Salary Range">
-                      Salary Range
-                    </option>
-                    <option value="Specific Salary">
-                      Specific Salary</option>
-                  </select>
                 </td>
               </tr>
         </tbody>
       </table>
     </div>
+    <button v-if="(app.status == 2)" type="button" class="btn btn-primary btn-lg btn-block mt-5" style="border-radius: 0" @click="action">Next Stage <i class="la la-angle-right ml-2"></i></button>
   </div>
 </template>
 
 <script>
 export default {
   name: "applications-timeline-four",
+  props: {
+    action: { type: Function },
+         app: {},
+         currentOffice: {}
+      },
   data() {
     return {
       coverLetterAvailable: true,
