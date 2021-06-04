@@ -126,7 +126,7 @@
                       <div class="row">
                         <div class="col-sm-12">
                           <div class="form-group">
-                            <label>Job Title <span class="text-danger">*</span></label>
+                            <label>Job <span class="text-danger">*</span></label>
                             <select class="form-control" v-model="vacancyId">
                               <option>Select Job Vacancy</option>
                               <option v-for="item in vacancies" :key="item.id"  :value="item.id">{{item.jobProfile.title}}</option>
