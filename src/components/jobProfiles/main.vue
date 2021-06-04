@@ -279,6 +279,7 @@ export default {
   },
   mounted() {
     this.getProfiles();
+    
     if ($(".datatable").length > 0) {
       $(".datatable").DataTable({
         bFilter: false,

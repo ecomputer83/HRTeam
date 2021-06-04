@@ -3,4 +3,4 @@ module.exports = {
     devServer: {
           proxy: 'https://sapphirehr.azurewebsites.net',
       }
-  }
+    }
