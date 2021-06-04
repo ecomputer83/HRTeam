@@ -129,7 +129,7 @@
                             <label>Job Title <span class="text-danger">*</span></label>
                             <select class="form-control" v-model="vacancyId">
                               <option>Select Job Vacancy</option>
-                              <option v-for="item in vacancies" :key="item.id"  :value="item.id">{{item.name}}</option>
+                              <option v-for="item in vacancies" :key="item.id"  :value="item.id">{{item.jobProfile.title}}</option>
                               <!-- <option>Casual Leave 12 Days</option> -->
                             </select>
                           </div>
@@ -234,7 +234,10 @@ import LayoutHeader from "@/components/layouts/Header.vue";
 import LayoutSidebar from "@/components/layouts/Sidebar.vue";
 import { applicantService } from "@/services/applicantService";
 import { jobService } from '@/services/jobService';
+import { authenticationService } from "@/services/authenticationService";
 import Vue from "vue";
+
+
 export default {
   components: {
     LayoutHeader,
@@ -261,6 +264,7 @@ export default {
       vacancy: {
         jobProfile: {}
       },
+      company: authenticationService.currentOfficeValue,
       message: '',
       loading: false,
       error: "",
@@ -274,6 +278,7 @@ export default {
 
   mounted() {
     this.getAllApplicants();
+    this.getVacancies()
 
     if (this.applicants.length > 0) {
       if ($(".datatable").length > 0) {
@@ -313,7 +318,16 @@ export default {
       );
     },
     getVacancies() {
-      
+      const companyId = this.company.id;
+      jobService.getVancancies(companyId).then(
+        (model) => {
+          console.log(`model`, model)
+          this.vacancies = model;
+        },
+        (error) => {
+          error = error
+        }
+      )
     },
     onFilePicked(event) {
       			const files = event.target.files
