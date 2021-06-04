@@ -23,7 +23,7 @@
               </td>
             </tr>
             <tr>
-              <td>Quantity of Position</td>
+              <td>Number of Occupancy</td>
               <td>
                 <input class="form-control" type="number" v-model="vacancy.quantity" />
               </td>
@@ -58,7 +58,7 @@
               </td>
             </tr>
             <tr>
-              <td>Description</td>
+              <td>Summary</td>
               <td>
                 <textarea
                   style="height: auto !important"

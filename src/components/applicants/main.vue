@@ -73,6 +73,7 @@
 import LayoutHeader from "@/components/layouts/Header.vue";
 import LayoutSidebar from "@/components/layouts/Sidebar.vue";
 import { applicantService } from "@/services/applicantService";
+import { authenticationService } from '@/services/authenticationService';
 import Vue from "vue";
 export default {
   components: {
@@ -85,6 +86,7 @@ export default {
       applicants: [],
       applicant: null,
       loading: false,
+      company: authenticationService.currentOfficeValue,
       error: "",
     };
   },
@@ -114,7 +116,7 @@ export default {
   },
   methods: {
     getAllApplicants() {
-      applicantService.getAllApplicant().then(
+      applicantService.getAllApplicant(this.company.id).then(
         (model) => {
           this.applicants = model;
         },

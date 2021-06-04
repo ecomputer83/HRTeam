@@ -326,7 +326,8 @@ export default {
         error: null,
         isCreateCompany: 0,
         banks: [],
-        isCompanySetting: false
+        isCompanySetting: false,
+        dataunsaved: false
     }
   },
   validations: {
@@ -355,6 +356,15 @@ export default {
     },
   mounted() {
     this.getBanks()
+  },
+  watch: {
+    'name': {
+      handler: function(after, before) {
+        if(after != before)
+        this.dataunsaved = true
+      },
+      deep: true
+    }
   },
   methods: {
     getBanks() {
@@ -428,7 +438,18 @@ export default {
                         this.loading = false;
                     }
                 );
+          this.dataunsaved = false
         }
+  },
+  beforeRouteLeave (to, from, next) {
+    if(this.dataunsaved){
+      const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
+      if(answer){
+        next()
+      }else{
+        next(false)
+      }
+    }
   },
   name: "companies"
 };

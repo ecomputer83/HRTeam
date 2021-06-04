@@ -361,6 +361,7 @@
         profileId: (this.$route.params.id) ? this.$route.params.id: 0,
         company: authenticationService.currentOfficeValue,
         title: (this.$route.params.id) ? '' : 'New Job Profile',
+        dataunsaved: false,
         profile: {
           id: 0,
           rankId: 0,
@@ -409,7 +410,16 @@
             educationDegree: { required }
         }
     },
-    mounted() {
+    watch: {
+    'profile': {
+      handler: function(after, before) {
+        if(after != before)
+        this.dataunsaved = true
+      },
+      deep: true
+    }
+  },
+  mounted() {
       this.getProfile()
       this.getDepartments()
       this.getRanks()
@@ -435,8 +445,8 @@
                     $(this).parents('.form-focus').toggleClass('focused', (e.type === 'focus' || this.value.length > 0));
                 }).trigger('blur');
             }
-    },
-    methods: {
+  },
+  methods: {
       clearModel () {
         this.skillLevel = {
           skillsId: 0,
@@ -500,8 +510,8 @@
               return 
             }
             // stop here if form is invalid
-            
 
+            this.dataunsaved = false;
             if(this.$route.params.id){
 
               jobService.updateJobProfile(this.profile.id, this.professionId, this.profile.rankId, this.profile.departmentId, this.profile.title, this.profile.experience,
@@ -571,7 +581,17 @@
         }
       }
       
-    },
+  },
+  beforeRouteLeave (to, from, next) {
+    if(this.dataunsaved){
+      const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
+      if(answer){
+        next()
+      }else{
+        next(false)
+      }
+    }
+  },
     name: 'JobProfileInfo'
   }
 </Script>

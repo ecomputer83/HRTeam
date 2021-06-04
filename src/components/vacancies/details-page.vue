@@ -167,6 +167,7 @@ export default {
       staffs: [],
       currentOffice: authenticationService.currentOfficeValue,
       loaddependency: false,
+      dataunsaved: false
     };
   },
   validations: {
@@ -186,8 +187,12 @@ export default {
       },
   },
   watch: {
-    vacancy: function(val) {
-      this.profile = this.profiles.find(c => c.id == val.jobProfileId).name;
+    'vacancy': {
+      handler: function(after, before) {
+        if(after != before)
+        this.dataunsaved = true
+      },
+      deep: true
     }
   },
   mounted() {
@@ -265,6 +270,17 @@ export default {
             this.message = "Vacancy updated successfully";
           },
           error => { this.error = error})
+      }
+      this.dataunsaved = false;
+    }
+  },
+  beforeRouteLeave (to, from, next) {
+    if(this.dataunsaved){
+      const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
+      if(answer){
+        next()
+      }else{
+        next(false)
       }
     }
   },

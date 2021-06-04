@@ -21,6 +21,7 @@
     -ms-flex-direction: column;
     flex-direction: column;
     max-width: 100%;
+    min-height: 100%;
     position: relative;
 }
 .v-application >>> a {

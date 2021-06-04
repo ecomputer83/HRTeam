@@ -7,8 +7,8 @@ export const applicantService = {
     getAllApplicant
 }
 
-function getAllApplicant() {
-    return fetch(`${config.apiurl}/Miscellaneous/getAllApplicant`, requestOptions.get())
+function getAllApplicant(id) {
+    return fetch(`${config.apiurl}/Miscellaneous/getAllApplicant?Id=${id}`, requestOptions.get())
     .then(handleResponse)
     .then(model => {
         return model

@@ -152,8 +152,18 @@ export default {
       activeTimeline: 0,
       selectedTimeline: 0,
       currentOffice: authenticationService.currentOfficeValue,
+      dataunsaved: false,
       app: {}
     };
+  },
+  watch: {
+    'app': {
+      handler: function(after, before) {
+        if(after != before)
+        this.dataunsaved = true
+      },
+      deep: true
+    }
   },
   created() {
     this.selectedTimeline = this.activeTimeline;
@@ -212,10 +222,11 @@ export default {
             this.timeline_data.sort((a, b) => (a.id > b.id) ? 1 : -1)
             this.activeTimeline = this.getTimeline(m.status)
             this.selectedTimeline = this.activeTimeline;
-          }
+              }
               )
           }
         )
+      this.dataunsaved = false;
     },
 
     async NextToFaceInterview(){
@@ -237,6 +248,7 @@ export default {
               )
           }
         )
+      this.dataunsaved = false;
     },
 
     async NextToApptitude(){
@@ -258,6 +270,7 @@ export default {
               )
           }
         )
+      this.dataunsaved = false;
     },
 
     async NextToNegotiation(){
@@ -279,6 +292,7 @@ export default {
               )
           }
         )
+      this.dataunsaved = false;
     },
 
     async updateStage(application){
@@ -311,6 +325,7 @@ export default {
               )
           }
         )
+      this.dataunsaved = false;
     },
 
     rejectApplication() {
@@ -329,11 +344,22 @@ export default {
               )
           }
         )
+      this.dataunsaved = false;
     }
 
   },
   mounted() {
     this.getApplication()
+  },
+  beforeRouteLeave (to, from, next) {
+    if(this.dataunsaved){
+      const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
+      if(answer){
+        next()
+      }else{
+        next(false)
+      }
+    }
   },
   name: "application-detail"
 };
