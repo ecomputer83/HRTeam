@@ -51,6 +51,13 @@
 														</div>
                                                         <div v-if="submitted && !$v.bankName.required" class="invalid-feedback">Bank is required</div>
 													</div>
+                          <div class="col-md-12">
+														<div class="form-group">
+															<label>Bank Verification Number <span class="text-danger">*</span></label>
+															<input class="form-control"  v-model.trim="$v.bvnNumber.$model" type="text">
+														</div>
+                                                        <div v-if="submitted && !$v.bvnNumber.required" class="invalid-feedback">Bank Verification Number is required</div>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -84,6 +91,7 @@ import {organizationService} from '@/services/organizationService';
           employeeId: this.id,
           bankAccountNumber: (this.model) ? this.model.bankAccountNumber : '',
           bankName: (this.model) ? this.model.bankName : '',
+          bvnNumber: (this.model) ? this.model.bvnNumber : '',
           error: '',
           message: '',
 		  banks: [],
@@ -92,7 +100,8 @@ import {organizationService} from '@/services/organizationService';
     },
     validations: {
         bankAccountNumber: { required },
-        bankName: { required }
+        bankName: { required },
+        bvnNumber: { required }
     },
     mounted() {
 		this.getBanks();
@@ -116,7 +125,7 @@ import {organizationService} from '@/services/organizationService';
             }
             if(this.model){
 
-                employeeService.updateEmployeeBank(this.model.id, this.employeeId, this.bankAccountNumber, this.bankName)
+                employeeService.updateEmployeeBank(this.model.id, this.employeeId, this.bankAccountNumber, this.bankName, this.bvnNumber)
                 .then(model => { this.message = 'Bank Info update successfully!'
 					employeeService.getEmployeeDetail(this.employeeId)
             	.then(
@@ -147,7 +156,7 @@ import {organizationService} from '@/services/organizationService';
 				},
                     error => { this.error = error})
             }else{
-                employeeService.addEmployeeBank(this.employeeId, this.bankAccountNumber, this.bankName)
+                employeeService.addEmployeeBank(this.employeeId, this.bankAccountNumber, this.bankName, this.bvnNumber)
                 .then(model => { this.message = 'Bank Info create successfully!'
 					employeeService.getEmployeeDetail(this.employeeId)
             	.then(

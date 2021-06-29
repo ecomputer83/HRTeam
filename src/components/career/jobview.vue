@@ -85,7 +85,7 @@
 											<br> {{vacancy.jobProfile.company.address}}</p>
 									</div>
 									<div class="info-list text-center">
-										<a class="app-ends" href="#">Application ends in {{getDays(vacancy.periodTo)}}</a>
+										<a class="app-ends" href="#">Application ends in {{getDays(vacancy.periodTo)}} days</a>
 									</div>
 								</div>
 							</div>
@@ -99,7 +99,7 @@
 							<div class="modal-content">
 								<div class="modal-header">
 									<h5 class="modal-title">Add Your Details</h5>
-									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<button type="button" class="close" id="close" data-dismiss="modal" aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
 								</div>
@@ -281,7 +281,7 @@
 			},
 
 			changeFile(){
-				this.file = {}
+				this.file = null
 				this.fileName = ''
 			},
 
@@ -300,6 +300,8 @@
         			.then(
           				p => {
 							  this.message = "Your application has been submitted successfully"
+
+							  $('#close').click();
           				},
 						error => {
 							this.error = error

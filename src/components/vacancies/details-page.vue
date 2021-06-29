@@ -229,7 +229,12 @@ export default {
       }
     },
     publishVacancy() {
-
+      this.vacancy.status = 1
+      jobService.updateVacancy(this.vacancy)
+          .then(a=> {
+            this.message = "Vacancy published successfully";
+          },
+          error => { this.error = error})
     },
     postVacancy() {
       console.log(this.vacancy)

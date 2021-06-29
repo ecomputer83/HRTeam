@@ -59,6 +59,30 @@
             </div>
             <div class="col-md-6">
               <div class="form-group">
+                <label>Passport Exp Date.</label>
+                <div class="cal-icon">
+									<datepicker
+                    v-model="passportExpiryDate"
+                    bootstrap-styling
+                    class="datetimepicker"
+                    type="date"
+                  />
+															
+								</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>National Identity No</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="nationalIdentityNumber"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
                 <label>Tel</label>
                 <input
                   class="form-control"
@@ -123,6 +147,30 @@
               >
                 Marital Status is required
               </div>
+              </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Employment of spouse <span class="text-danger">*</span></label>
+                <select
+                  class="select form-control"
+                  v-model="employmentOfSpouse"
+                >
+                  <option>-</option>
+                  <option>No</option>
+                  <option>Yes</option>
+                </select>
+              </div>
+              
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>No. of children <span class="text-danger">*</span></label>
+                <input
+                  class="form-control"
+                  type="text"
+                  v-model="noOfChildren"
+                />
+              </div>
             </div>
           </div>
           <div class="submit-section">
@@ -139,8 +187,12 @@
 
 <script>
 import { required, sameAs } from "vuelidate/lib/validators";
+import Datepicker from "vuejs-datepicker"
 import { employeeService } from "@/services/employeeService";
 export default {
+  components: {
+		Datepicker
+	},
   props: {
     model: {},
     dialog: Boolean,
@@ -155,6 +207,10 @@ export default {
       phone: this.model.phone,
       religion: this.model.religion,
       maritalStatus: this.model.maritalStatus,
+      nationalIdentityNumber: this.model.nationalIdentityNumber,
+      passportExpiryDate: this.model.passportExpiryDate,
+      noOfChildren: this.model.noOfChildren,
+      employmentOfSpouse: this.model.employmentOfSpouse,
       message: "",
       error: "",
       submitted: false,
@@ -171,6 +227,17 @@ export default {
     console.log(this.model);
     this.$emit("update:employee", this.employee);
     this.$emit("update:personalInfoDialog", this.dialog);
+    if ($('.datetimepicker').length > 0) {
+				$('.datetimepicker').datetimepicker({
+					format: 'DD/MM/YYYY',
+					icons: {
+						up: "fa fa-angle-up",
+						down: "fa fa-angle-down",
+						next: 'fa fa-angle-right',
+						previous: 'fa fa-angle-left'
+					}
+				});
+			}
   },
   methods: {
     putPersonalInfo() {
@@ -186,7 +253,11 @@ export default {
         this.nationality,
         this.phone,
         this.religion,
-        this.maritalStatus
+        this.maritalStatus,
+        this.nationalIdentityNumber,
+        this.passportExpiryDate,
+        this.employmentOfSpouse,
+        this.noOfChildren
       );
       this.message = "Personal Info update successfully!";
       employeeService.getEmployeeDetail(this.model.id).then(

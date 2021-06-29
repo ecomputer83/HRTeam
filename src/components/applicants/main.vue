@@ -37,7 +37,7 @@
                     <table class="datatable table table-stripped mb-0">
                       <thead>
                         <tr>
-                          <th>Salutation</th>
+                          <th>Title</th>
                           <th>FirstName</th>
                           <th>LastName</th>
                           <th>Mobile Phone</th>
