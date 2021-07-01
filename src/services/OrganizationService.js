@@ -15,8 +15,10 @@ export const organizationService = {
     updateLeaveSettings,
     removeLeaveType,
     addPolicy,
-    //updatePolicy,
-    //removePolicy,
+    addDepartmentPolicy,
+    updateDepartmentPolicy,
+    removeDepartmentPolicy,
+    getDepartmentPolicies,
     addCompany,
     addAccountSetting,
     getCompanies,
@@ -319,6 +321,44 @@ function getDesignations() {
         });
 }
 
+function addDepartmentPolicy(name, description, departmentId, cv, companyId) {
+    let formData = new FormData();
+    formData.append('Name', name);
+    formData.append('Description', description);
+    formData.append('DepartmentId', departmentId);
+    formData.append('Uploadfile', cv);
+    return fetch(`${config.apiurl}/Miscellaneous/createPolicy/${companyId}`, requestOptions.postForm(formData))
+        .then(handleResponse)
+        .then(id => {
+
+            return id;
+        });
+}
+
+function getDepartmentPolicies() {
+    return fetch(`${config.apiurl}/Miscellaneous/getPolicies`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+
+            return model;
+        });
+}
+
+function updateDepartmentPolicy(id, name, description, departmentId, cv, companyId) {
+    let formData = new FormData();
+    formData.append('Id', id);
+    formData.append('Name', name);
+    formData.append('Description', description);
+    formData.append('DepartmentId', departmentId);
+    formData.append('Uploadfile', cv);
+    return fetch(`${config.apiurl}/Miscellaneous/updatePolicy/${companyId}`, requestOptions.putForm(formData))
+        .then(handleResponse)
+        .then(id => {
+
+            return id;
+        });
+}
+
 function getBanks() {
     return fetch(`${config.apiurl}/Miscellaneous/getLookup?type=Banks`, requestOptions.get())
         .then(handleResponse)
@@ -344,6 +384,15 @@ function updateDesignation(id, departmentId, name) {
 
 function removeDesignation(id) {
     return fetch(`${config.apiurl}/Miscellaneous/deleteDesignation?id=${id}`, requestOptions.delete())
+        .then(handleResponse)
+        .then(id => {
+
+            return id;
+        });
+}
+
+function removeDepartmentPolicy(id) {
+    return fetch(`${config.apiurl}/Miscellaneous/deletePolicy?id=${id}`, requestOptions.delete())
         .then(handleResponse)
         .then(id => {
 

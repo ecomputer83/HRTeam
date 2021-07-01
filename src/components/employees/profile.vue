@@ -44,15 +44,16 @@
 												<div class="col-md-5">
 													<div class="profile-info-left">
 														<h3 class="user-name m-t-0 mb-0">{{employee.firstName + ' ' + employee.lastName}}</h3>
-														<h6 class="text-muted">UI/UX Design Team</h6>
-														<small class="text-muted">Web Designer</small>
+														<h6 class="text-muted">{{employee.designation.name}}</h6>
+                            							<small class="text-muted">{{employee.designation.department.name}}</small>
 														<div class="staff-id">Employee ID : {{company.abbrv +'-' +employee.id}}</div>
-														<div class="small doj text-muted">Date of Join : 1st Jan 2013
-														</div>
-														<div class="staff-msg">
+														<div class="small doj text-muted">
+                              								Date of Join : {{ new Date(employee.createdAt).toLocaleDateString() }}
+                            							</div>
+														<!-- <div class="staff-msg">
 															<router-link to="/chat" class="btn btn-custom">Send Message
 															</router-link>
-														</div>
+														</div> -->
 													</div>
 												</div>
 												<div class="col-md-7">

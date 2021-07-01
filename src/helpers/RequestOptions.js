@@ -35,6 +35,13 @@ const requestOptions = {
             body: JSON.stringify(body)
         };
     },
+    putForm(formData) {
+        return {
+            method: 'PUT',
+            ...headers(true),
+            body: formData
+        };
+    },
     delete() {
         return {
             method: 'DELETE',
