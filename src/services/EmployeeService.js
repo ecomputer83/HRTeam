@@ -959,11 +959,10 @@ function getPaidSalaries(id) {
 
 }
 
-function addDisciplinaryMeasure(date, hrManager, form, reason, remark, employeeId) {
+function addDisciplinaryMeasure(date, queryId, reason, remark, employeeId) {
     var req = {
         date,
-        hrManager,
-        form,
+        queryId,
         reason,
         remark,
         employeeId
@@ -994,12 +993,11 @@ function getDisciplinaryMeasures(companyId) {
         });
 }
 
-function updateDisciplinaryMeasure(id, date, hrManager, form, reason, remark, employeeId) {
+function updateDisciplinaryMeasure(id, date, queryId, reason, remark, employeeId) {
     var req = {
         id,
         date,
-        hrManager,
-        form,
+        queryId,
         reason,
         remark,
         employeeId
@@ -1038,8 +1036,8 @@ function addQuery(date, form, queryType, accusation, remark, employeeId) {
         });
 }
 
-function getQuery() {
-    return fetch(`${config.apiurl}/Employee/GetQuery/${this.employeeId}`, requestOptions.get())
+function getQuery(employeeId) {
+    return fetch(`${config.apiurl}/Employee/GetQueriesByEmployee/${employeeId}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
             console.log(model)

@@ -59,11 +59,7 @@
                             @click="setDeleteDisciplinaryMeasure(item)"
                             ><i class="fa fa-trash-o m-r-5"></i> Delete</a
                           >
-                          <a
-                            class="dropdown-item"
-                            @click="setQuery(item)"
-                            ><i class="fa fa-trash-o m-r-5"></i> Query</a
-                          >
+                          
                         </div>
                     </div>
                   </template>
@@ -73,11 +69,14 @@
                         ><img alt="" src="~@/assets/profiles/avatar-02.jpg"
                       /></router-link>
                       <router-link to="/profile">{{
-                        `${item.employee.firstName} ${item.employee.lastName}`
+                        `${item.query.employee.firstName} ${item.query.employee.lastName}`
                       }}</router-link>
                     </h2>
                   </template>
-                  
+                  <template v-slot:[`item.reas`]="{ item }">
+                        {{item.reason | truncate(150, '...')}} 
+                  </template>
+
                 </v-data-table>
               </div>
             </div>
@@ -104,20 +103,23 @@
                 <form @submit.prevent="onSubmit">
                   <div class="form-group">
                     <label>Employee <span class="text-danger">*</span></label>
-                    <select class="form-control" v-model="employeeId">
-                      <option>Employee</option>
+                    <select class="form-control" v-model="employeeId" @change="getEmployeeQueries">
+                      <option>Select Employee</option>
                       <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName + ' ' + item.lastName}}</option>
                     </select>
                   </div>
                   <div class="form-group">
+                    <label>Query <span class="text-danger">*</span></label>
+                    <select class="form-control" v-model="queryId">
+                      <option>Select Employee Query</option>
+                      <option v-for="item in queries" :key="item.id" :value="item.id">{{item.queryType + ' ' + new Date(item.date).toLocaleDateString() + ' (' + item.form + ')'}}</option>
+                    </select>
+                  </div>
+                  <div class="form-group" v-if="queryId > 0">
                       <label>Date <span class="text-danger">*</span></label>
                       <div class="cal-icon">
                         <datepicker v-model="date" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
                       </div>
-                  </div>
-                  <div class="form-group">
-                      <label>HR Manager <span class="text-danger">*</span></label>
-                      <input class="form-control" v-model="hrManager" />
                   </div>
                    <!-- <div class="form-group">
                       <label>Form <span class="text-danger">*</span></label>
@@ -129,15 +131,15 @@
                       </select>
                   </div> -->
                   
-                  <div class="form-group">
+                  <div class="form-group" v-if="queryId > 0">
                       <label>Reason <span class="text-danger">*</span></label>
                       <textarea class="form-control" v-model="reason" rows="4"></textarea>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" v-if="queryId > 0">
                       <label>Remark <span class="text-danger">*</span></label>
                       <input class="form-control" v-model="remark" />
                   </div>
-                  <div class="submit-section">
+                  <div class="submit-section" v-if="queryId > 0">
                     <button
                       @click.prevent="onSubmit"
                       data-dismiss="modal"
@@ -170,9 +172,16 @@
                 <form @submit.prevent="updateDisciplinaryMeasure">
                   <div class="form-group">
                     <label>Employee <span class="text-danger">*</span></label>
-                    <select class="form-control" v-model="disciplinaryMeasure.employeeId">
+                    <select class="form-control" v-model="disciplinaryMeasure.query.employeeId">
                       <option>Select Employee</option>
-                      <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName}}</option>
+                      <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName + ' ' + item.lastName}}</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Query <span class="text-danger">*</span></label>
+                    <select class="form-control" v-model="disciplinaryMeasure.queryId">
+                      <option :value='0'>Select Employee Query</option>
+                      <option v-for="item in queries" :key="item.id" :value="item.id">{{item.queryType + ' ' + new Date(item.date).toLocaleDateString() + ' (' + item.form + ')'}}</option>
                     </select>
                   </div>
                   <div class="form-group">
@@ -181,10 +190,7 @@
                         <datepicker v-model="disciplinaryMeasure.date" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
                       </div>
                   </div>
-                   <div class="form-group">
-                      <label>HR Manager <span class="text-danger">*</span></label>
-                      <input class="form-control" v-model="disciplinaryMeasure.hrManager" />
-                  </div>
+                  
                    <!-- <div class="form-group">
                       <label>Form <span class="text-danger">*</span></label>
                       <input class="form-control" v-model="disciplinary.form" />
@@ -282,26 +288,30 @@ export default {
       //   value: 'profile',
       // },
       // { text: 'Form', value: 'form' },
-      { text: 'Reason', value: 'reason' },
+      { text: 'Reason', value: 'reas' },
       { text: 'Employee', value: 'profile' },
       // { text: 'Status Reason', value: 'reason' },
-      { text: 'Designation(Employee)', value: 'employee.designation.name' },
+      { text: 'Designation(Employee)', value: 'query.employee.designation.name' },
       { text: 'Actions', value: 'actions', sortable: false },
     ],
       name: "",
       // form: "",
       employeeId: "",
+      queryId: 0,
       hrManager: "",
       reason: "",
       remark: "",
       date: "",
-      disciplinaryMeasure: {},
+      disciplinaryMeasure: {
+        query: {}
+      },
       disciplinaryMeasures: [],
       employee: {},
       loading: false,
       error: "",
       employees: [],
       submitted: false,
+      queries:[],
       //employee: authenticationService.currentOfficeValue,
       company: authenticationService.currentOfficeValue,
       user: authenticationService.currentUserValue
@@ -367,7 +377,16 @@ export default {
     },
     setEditDisciplinaryMeasure(model) {
       this.disciplinaryMeasure = model;
-      this.dialogEdit = true
+      this.dialogEdit = true;
+      employeeService.getQuery(model.query.employeeId).then(
+        (model) => {
+          this.queries = model;
+          // console.log(`model`, model)
+        },
+        (error) => {
+          error = error;
+        }
+      );
     },
     setDeleteDisciplinaryMeasure(model) {
       this.disciplinaryMeasure = model;
@@ -386,6 +405,19 @@ export default {
         }
       );
     },
+    getEmployeeQueries() {
+      //const user = this.user;
+       //console.log(`company`, this.company.id)
+      employeeService.getQuery(this.employeeId).then(
+        (model) => {
+          this.queries = model;
+          // console.log(`model`, model)
+        },
+        (error) => {
+          error = error;
+        }
+      );
+    },
     onSubmit() {
       this.submitted = true;
       
@@ -393,8 +425,7 @@ export default {
       employeeService
         .addDisciplinaryMeasure(
           this.date,
-          this.hrManager,
-          // this.form,
+          this.queryId,
           this.reason,
           this.remark,
           this.employeeId
@@ -420,8 +451,7 @@ export default {
           .updateDisciplinaryMeasure(
             this.disciplinaryMeasure.id, 
             this.disciplinaryMeasure.date, 
-            this.disciplinaryMeasure.hrManager, 
-            // this.disciplinaryMeasure.form, 
+            this.disciplinaryMeasure.queryId, 
             this.disciplinaryMeasure.reason, 
             this.disciplinaryMeasure.remark, 
             this.disciplinaryMeasure.employeeId
