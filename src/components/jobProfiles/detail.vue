@@ -135,7 +135,14 @@
                                                       <label for="qualif">Qualification: </label>
                                                     </td>
                                                     <td>
-                                                      <input type="text" class="form-control" id="qualif" v-model.trim="$v.profile.qualification.$model" :class="{ 'is-invalid': submitted && $v.profile.qualification.$error }">
+                                                      <select class="select form-control" v-model.trim="$v.profile.qualification.$model" :class="{ 'is-invalid': submitted && $v.profile.qualification.$error }">
+                                      <option>-- Select --</option>
+                                      <option value="Basic Education">Basic Education</option>
+                                      <option value="High Education">High School</option>
+                                      <option value="B.Sc">B.Sc</option>
+                                      <option value="M.Sc">M.Sc</option>
+                                      <option value="Phd">Phd</option>
+                                    </select>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -518,6 +525,7 @@
                 this.profile.description, parseInt(this.profile.salaryMin), parseInt(this.profile.salaryMax), parseInt(this.profile.averageSalary), this.profile.educationRequirement, this.profile.educationDegree, this.profile.status)
               .then ( m => {
                 this.message = "Profile updated successfully"
+                return this.$router.push('/job-profile');
               },
               error => { this.error = error})
             }else{

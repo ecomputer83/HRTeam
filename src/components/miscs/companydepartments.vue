@@ -330,6 +330,7 @@ export default {
           (id) => {
             organizationService.getDepartments().then((o) => {
               this.departments = o;
+              this.closeEdit();
             });
           },
           (error) => {
@@ -348,10 +349,12 @@ export default {
         (id) => {
           organizationService.getDepartments().then((o) => {
             this.departments = o;
+            this.closeDelete();
           });
         },
         (e) => {
-          this.error = "Designation being used in some information";
+          this.error = "Department being used in some information";
+          this.closeDelete();
         }
       );
     },

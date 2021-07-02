@@ -44,15 +44,16 @@
 												<div class="col-md-5">
 													<div class="profile-info-left">
 														<h3 class="user-name m-t-0 mb-0">{{employee.firstName + ' ' + employee.lastName}}</h3>
-														<h6 class="text-muted">UI/UX Design Team</h6>
-														<small class="text-muted">Web Designer</small>
+														<h6 class="text-muted">{{employee.designation.name}}</h6>
+                            							<small class="text-muted">{{employee.designation.department.name}}</small>
 														<div class="staff-id">Employee ID : {{company.abbrv +'-' +employee.id}}</div>
-														<div class="small doj text-muted">Date of Join : 1st Jan 2013
-														</div>
-														<div class="staff-msg">
+														<div class="small doj text-muted">
+                              								Date of Join : {{ new Date(employee.createdAt).toLocaleDateString() }}
+                            							</div>
+														<!-- <div class="staff-msg">
 															<router-link to="/chat" class="btn btn-custom">Send Message
 															</router-link>
-														</div>
+														</div> -->
 													</div>
 												</div>
 												<div class="col-md-7">
@@ -77,18 +78,18 @@
 															<div class="title-label">Gender:</div>
 															<div class="text">{{employee.gender}}</div>
 														</li>
-														<!-- <li>
+														<li>
 															<div class="title-label">Reports to:</div>
-															<div class="text">
+															<div class="text" v-if="employee.employeeManager">
 																<div class="avatar-box">
 																	<div class="avatar avatar-xs">
-																		<img src="~@/assets/profiles/avatar-16.jpg"
-																			alt="">
+																		<img alt="" :src="media + employee.employeeManager.manager.passportPhoto" v-if="employee.employeeManager.manager.passportPhoto" />
+                                    <img alt="" src="~@/assets/profiles/avatar-02.jpg" v-if="!employee.employeeManager.manager.passportPhoto" />
 																	</div>
 																</div>
-																<router-link to="/profile">Jeffery Lalor</router-link>
+																<router-link :to="{name: 'employeedetail', params: {id: employee.employeeManager.id}}">{{employee.employeeManager.manager.firstName + ' ' + employee.employeeManager.manager.lastName}}</router-link>
 															</div>
-														</li> -->
+														</li>
 													</ul>
 												</div>
 											</div>
@@ -129,10 +130,14 @@
 													<div class="title-label">Passport No.</div>
 													<div class="text">{{employee.passportIdentificationNumber}}</div>
 												</li>
-												<!-- <li>
+												<li>
 													<div class="title-label">Passport Exp Date.</div>
-													<div class="text">9876543210</div>
-												</li> -->
+													<div class="text">{{ employee.passportExpiryDate }}</div>
+												</li>
+												<li>
+													<div class="title-label">NIN </div>
+													<div class="text">{{ employee.nationalIdentityNumber }}</div>
+												</li>
 												<li>
 													<div class="title-label">Tel</div>
 													<div class="text"><a href="">{{employee.phone}}</a></div>
@@ -148,6 +153,14 @@
 												<li>
 													<div class="title-label">Marital status</div>
 													<div class="text">{{employee.maritalStatus}}</div>
+												</li>
+												<li>
+													<div class="title">Employment of spouse</div>
+													<div class="text">{{ employee.employmentOfSpouse }}</div>
+												</li>
+												<li>
+													<div class="title">No. of children</div>
+													<div class="text">{{ employee.noOfChildren }}</div>
 												</li>
 											</ul>
 										</div>
@@ -214,6 +227,12 @@
 													<div class="title-label">Bank account No.</div>
 													<div class="text">{{employee.employeeBank.bankAccountNumber}}</div>
 												</li>
+												<li>
+                          							<div class="title-label">Bank Verification No.</div>
+                          							<div class="text">
+                            							{{ employee.employeeBank.bvnNumber }}
+                          							</div>
+                        						</li>
 											</ul>
 										</div>
 									</div>

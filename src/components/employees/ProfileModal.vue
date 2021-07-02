@@ -101,6 +101,22 @@
 											</div>
                                             <div v-if="submitted && !$v.phone.required" class="invalid-feedback">Phone is required</div>
 										</div>
+
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Manager</label>
+												<select class="form-control" v-model="manager">
+                      								<option>Select Staff</option>
+                      									<option
+                        								v-for="member in employees"
+                        								:key="member.id"
+                        								:value="member.id"
+                      									>
+                        								{{ member.lastName + " " + member.firstName }}
+                      								</option>
+                    							</select>
+											</div>
+										</div>
 									</div>
 									<div class="submit-section">
 										<button class="btn btn-primary submit-btn">Submit</button>
@@ -117,6 +133,7 @@
 import { required, sameAs } from 'vuelidate/lib/validators';    
 import Datepicker from "vuejs-datepicker"
 import { employeeService } from '@/services/employeeService';
+import { authenticationService } from "@/services/authenticationService";
   export default {
 	components: {
 		Datepicker
@@ -128,16 +145,19 @@ import { employeeService } from '@/services/employeeService';
     },
     data() {
       return {
+		  company: authenticationService.currentOfficeValue,
 		  passportPhoto: this.model.passportPhoto,
       	  media: 'data:image/jpeg;base64,',
 		  modalDialog: this.dialog,
 		  employee: null,
+		  employees: [],
           firstName: this.model.firstName,
           lastName: this.model.lastName,
           birthday: this.model.birthday,
           gender: this.model.gender,
           address: this.model.address,
           phone: this.model.phone,
+		  manager: this.model.employeeManager ? this.model.employeeManager.managerId : 0,
           message: '',
           error: '',
 		  file: null,
@@ -154,6 +174,7 @@ import { employeeService } from '@/services/employeeService';
         gender: { required }
     },
     mounted() {
+		this.GetEmployees()
 		this.$emit('update:employee', this.employee);
 		this.$emit('update:profileDialog', this.dialog);
 		if ($('.datetimepicker').length > 0) {
@@ -182,7 +203,7 @@ import { employeeService } from '@/services/employeeService';
         m => { this.passportPhoto = m.passportPhoto; },
         e => this.error = e.title
       )
-    },
+    	},
 		putProfileInfo() {
 			this.submitted = true;
             // stop here if form is invalid
@@ -190,7 +211,7 @@ import { employeeService } from '@/services/employeeService';
             if (this.$v.$invalid) {
                 return;
             }
-			employeeService.updateEmployeeProfileInfo(this.model.id, this.firstName, this.lastName, this.phone, this.birthday, this.gender, this.address)
+			employeeService.updateEmployeeProfileInfo(this.model.id, this.firstName, this.lastName, this.phone, this.birthday, this.gender, this.address, this.manager)
                 this.message = 'Profile Info update successfully!';
 				employeeService.getEmployeeDetail(this.model.id)
             	.then(
@@ -219,7 +240,15 @@ import { employeeService } from '@/services/employeeService';
 				},
                 error => { this.error = error }
             )
-		}
+		},
+		GetEmployees () {
+          employeeService.getEmployees(this.company.id)
+            .then(
+                model => { this.employees = model},
+                error => { this.error = error }
+            )
+    
+    	}
     }
   }
 </script>

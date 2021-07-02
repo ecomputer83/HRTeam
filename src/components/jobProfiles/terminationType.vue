@@ -40,7 +40,7 @@
                   <thead>
                     <tr>
                       <th style="width: 30px;">#</th>
-                      <th>Department Name</th>
+                      <th>Type Name</th>
                       <th class="text-right">Action</th>
                     </tr>
                   </thead>
@@ -53,9 +53,9 @@
                           <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
                             aria-expanded="false"><i class="material-icons">more_vert</i></a>
                           <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item"  data-toggle="modal" data-target="#edit_department"><i
+                            <a class="dropdown-item"  data-toggle="modal" @click="selectTerminationType(item)" data-target="#edit_termination_type"><i
                                 class="fa fa-pencil m-r-5"></i> Edit</a>
-                            <a class="dropdown-item"  data-toggle="modal" data-target="#delete_department"><i
+                            <a class="dropdown-item"  data-toggle="modal" @click="selectTerminationType(item)" data-target="#delete_department"><i
                                 class="fa fa-trash-o m-r-5"></i> Delete</a>
                           </div>
                         </div>
@@ -79,7 +79,7 @@
                 <h5 class="modal-title">Add Termination Type</h5>
                 <button
                   type="button"
-                  class="close"
+                  class="close" id="close"
                   data-dismiss="modal"
                   aria-label="Close"
                 >
@@ -124,10 +124,10 @@
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Edit Skill Type</h5>
+                <h5 class="modal-title">Edit Termination Type</h5>
                 <button
                   type="button"
-                  class="close"
+                  class="close" id="closeEdit"
                   data-dismiss="modal"
                   aria-label="Close"
                 >
@@ -170,14 +170,14 @@
             <div class="modal-content">
               <div class="modal-body">
                 <div class="form-header">
-                  <h3>Delete Skill Type</h3>
+                  <h3>Delete Termination Type</h3>
                   <p>Are you sure want to delete?</p>
                 </div>
                 <div class="modal-btn delete-action">
                   <div class="row">
                     <div class="col-6">
                       <a
-                        href="javascript:void(0);"
+                        @click="onDeleteSubmit"
                         class="btn btn-primary continue-btn"
                         
                         data-dismiss="modal"
@@ -185,7 +185,7 @@
                       >
                     </div>
                     <div class="col-6">
-                      <a data-dismiss="modal" class="btn btn-primary cancel-btn"
+                      <a data-dismiss="modal" id="closeDelete" class="btn btn-primary cancel-btn"
                         >Cancel</a
                       >
                     </div>
@@ -236,6 +236,10 @@ export default {
       handleCreateSkillType = !this.isCreatedSkillType;
     },
 
+    selectTerminationType (item) {
+      this.terminationType = item
+    },
+
     getTerminationTypes () {
       skillsService.getTerminationTypes()
           .then(
@@ -259,6 +263,7 @@ export default {
           skillsService.getTerminationTypes().then((r) => {
             this.terminationTypes = r;
             console.log(r)
+            $('#close').click();
           });
         },
         (error) => {
@@ -272,15 +277,37 @@ export default {
       console.log(this.terminationType);
       this.loading = true;
       skillsService
-        .updateSkillType(
+        .updateTerminationType(
           this.terminationType.id,
-          this.company.id,
+          this.terminationType.organizationId,
           this.terminationType.name
         )
         .then(
           (id) => {
-            skillsService.getSkillTypes(this.company.id).then((r) => {
-              this.skilltypes = r;
+            skillsService.getTerminationTypes().then((r) => {
+              this.terminationTypes = r;
+              $('#closeEdit').click()
+            });
+          },
+          (error) => {
+            this.error = error;
+            this.loading = false;
+          }
+        );
+    },
+
+    onDeleteSubmit() {
+      console.log(this.terminationType);
+      this.loading = true;
+      skillsService
+        .removeTerminationType(
+          this.terminationType.id
+        )
+        .then(
+          (id) => {
+            skillsService.getTerminationTypes().then((r) => {
+              this.terminationTypes = r;
+              $('#closeDelete').click()
             });
           },
           (error) => {

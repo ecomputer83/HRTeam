@@ -191,11 +191,12 @@ function addEmployeeEmergency(employeeId, name, relationship, phone1, phone2, sn
         });
 }
 
-function addEmployeeBank(employeeId, bankAccountNumber, bankName) {
+function addEmployeeBank(employeeId, bankAccountNumber, bankName, bvnNumber) {
     var req = {
         employeeId,
         bankAccountNumber,
-        bankName
+        bankName,
+        bvnNumber
     }
     return fetch(`${config.apiurl}/employee/PostEmployeeBank`, requestOptions.post(req))
         .then(handleResponse)
@@ -262,14 +263,18 @@ function updateEmployee(id, companyId, rankId, firstName, lastName, email, phone
         });
 }
 
-function updateEmployeePersonalInfo(id, passportIdentificationNumber, nationality, phone, religion, maritalStatus) {
+function updateEmployeePersonalInfo(id, passportIdentificationNumber, nationality, phone, religion, maritalStatus, nationalIdentityNumber, passportExpiryDate, employmentOfSpouse, noOfChildren) {
     this.getEmployeeDetail(id)
         .then(model => {
             model.passportIdentificationNumber = passportIdentificationNumber;
             model.nationality = nationality,
                 model.phone = phone,
                 model.religion = religion,
-                model.maritalStatus = maritalStatus
+                model.maritalStatus = maritalStatus,
+                model.nationalIdentityNumber = nationalIdentityNumber,
+                model.passportExpiryDate = passportExpiryDate,
+                model.employmentOfSpouse = employmentOfSpouse,
+                model.noOfChildren = noOfChildren
 
             fetch(`${config.apiurl}/employee/UpdateEmployee/${id}`, requestOptions.put(model))
                 .then(handleResponse)
@@ -301,7 +306,7 @@ function updateEmployeeStatutory(employeeId, salary, pf, tax) {
             return id;
         });
 }
-function updateEmployeeProfileInfo(id, firstName, lastName, phone, birthday, gender, address) {
+function updateEmployeeProfileInfo(id, firstName, lastName, phone, birthday, gender, address, manager) {
     this.getEmployeeDetail(id)
         .then(model => {
             model.firstName = firstName;
@@ -309,8 +314,8 @@ function updateEmployeeProfileInfo(id, firstName, lastName, phone, birthday, gen
                 model.phone = phone,
                 model.birthday = birthday,
                 model.gender = gender,
-                model.address = address
-
+                model.address = address,
+                (model.employeeManager) ? model.employeeManager.managerId = manager : model.employeeManager = { employeeId: model.id, managerId: manager }
             fetch(`${config.apiurl}/employee/UpdateEmployee/${id}`, requestOptions.put(model))
                 .then(handleResponse)
                 .then(id => {
@@ -377,13 +382,14 @@ function updateEmployeeEmergency(id, employeeId, name, relationship, phone1, pho
         });
 }
 
-function updateEmployeeBank(id, employeeId, bankAccountNumber, bankName) {
+function updateEmployeeBank(id, employeeId, bankAccountNumber, bankName, bvnNumber) {
     var req = {
         employeeId,
         bankAccountNumber,
-        bankName
+        bankName,
+        bvnNumber
     }
-    return fetch(`${config.apiurl}/employee/PostEmployeeBank/${id}`, requestOptions.put(req))
+    return fetch(`${config.apiurl}/employee/UpdateEmployeeBank/${id}`, requestOptions.put(req))
         .then(handleResponse)
         .then(id => {
 

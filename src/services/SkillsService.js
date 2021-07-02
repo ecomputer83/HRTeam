@@ -18,7 +18,9 @@ export const skillsService = {
     removeskillGrade,
     updateskillGrade,
     getTerminationTypes,
-    addTerminationType
+    addTerminationType,
+    updateTerminationType,
+    removeTerminationType,
 }
 
 function addSkillType(name, companyId) {
@@ -169,4 +171,24 @@ function addTerminationType(name) {
       .then(id => {
           return id;
       });
+}
+function updateTerminationType(name, id, organizationId) {
+    var req = {
+        id,
+        organizationId,
+      name
+    }
+    return fetch(`${config.apiurl}/Miscellaneous/updateTerminationType`, requestOptions.put(req))
+        .then(handleResponse)
+        .then(id => {
+            return id;
+        });
+  }
+
+  function removeTerminationType(id) {
+    return fetch(`${config.apiurl}/Miscellaneous/deleteTerminationType?id=${id}`, requestOptions.delete())
+        .then(handleResponse)
+        .then(id => {
+            return id;
+        });
 }

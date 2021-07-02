@@ -267,7 +267,7 @@
 </template>
 <script>
 import LayoutHeader from "@/components/layouts/Header.vue";
-import LayoutSidebar from "@/components/layouts/orgAdminSidebar.vue";
+import LayoutSidebar from "@/components/layouts/Sidebar.vue";
 import { required } from "vuelidate/lib/validators";
 import { organizationService } from "@/services/organizationService";
 export default {
@@ -281,16 +281,9 @@ export default {
       dialogEdit: false,
       dialogDelete: false,
       headers: [
-        {
-          text: "3",
-          align: "start",
-          value: "profile",
-        },
         { text: "Designation", value: "name" },
         { text: "Department", value: "department.name" },
-        { text: "Notice Date", value: "noticeDate" },
-        { text: "Resignation Date", value: "resignationDate" },
-        { text: "", value: "actions", sortable: false },
+        { text: "", value: "actions", sortable: false }
       ],
       name: "",
       designations: [],

@@ -168,7 +168,7 @@
                         :key="item.id"
                         :value="item.id"
                       >
-                        {{ item.firstName }}
+                        {{ item.firstName + ' ' + item.lastName }}
                       </option>
                     </select>
                   </div>

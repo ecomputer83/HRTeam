@@ -55,8 +55,8 @@
                       ><i class="fa fa-pencil m-r-5"></i> Edit</router-link
                     >
                     <a
-                      class="dropdown-item"
-                      ><i class="fa fa-trash-o m-r-5"></i> Delete</a
+                      class="dropdown-item" @click="setDeleteVacancy(item)"
+                      ><i class="fa fa-trash-o m-r-5"></i> Close</a
                     >
                   </div>
                 </div>
@@ -69,6 +69,37 @@
           </div>
           <!-- /Page Content -->
         </div>
+        <v-dialog v-model="dialog" max-width="725px"
+          >
+            <div class="modal-content">
+              <div class="modal-body">
+                <div class="form-header">
+                  <h3>Delete Vacancy</h3>
+                  <p>Are you sure want to close this vacancy?</p>
+                </div>
+                <div class="modal-btn delete-action">
+                  <div class="row">
+                    <div class="col-6">
+                      <a
+                        @click.prevent="deleteVacancy"
+                        class="btn btn-primary continue-btn"
+                        data-dismiss="modal"
+                        >Close</a
+                      >
+                    </div>
+                    <div class="col-6">
+                      <a
+                        @click="() => dialog = false"
+                        class="btn btn-primary cancel-btn"
+                        >Cancel</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+        </v-dialog>
       </div>
       <!-- /Page Wrapper -->
     </div>
@@ -87,6 +118,7 @@ export default {
   },
   data() {
       return {
+          dialog: false,
           headers: [
             {
               text: 'Name',
@@ -101,6 +133,7 @@ export default {
             { text: 'Action', value: 'actions', sortable: false },
           ],
           vacancies: [],
+          activevacancy: {},
           currentOffice: authenticationService.currentOfficeValue
       }
    },
@@ -113,6 +146,27 @@ export default {
       }
   },
   methods: {
+    setDeleteVacancy(model) {
+      this.dialog = true,
+      this.activevacancy = model;
+    },
+    closeDelete() {
+      this.dialog = false
+    },
+    deleteVacancy() {
+      this.activevacancy.status = 8
+      jobService.updateVacancy(this.activevacancy)
+          .then(a=> {
+            jobService.getVacancySummaries(this.currentOffice.id)
+        .then(
+          p => {
+            this.vacancies = p
+          }
+        )
+          },
+          error => { this.error = error})
+      
+    },
     getVacancies() {
         jobService.getVacancySummaries(this.currentOffice.id)
         .then(
