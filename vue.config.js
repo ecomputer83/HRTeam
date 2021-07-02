@@ -1,6 +1,6 @@
 // vue.config.js
 module.exports = {
     devServer: {
-          proxy: 'https://sapphirehr.azurewebsites.net',
+          proxy: 'http://51.11.139.178:83/api',
       }
     }

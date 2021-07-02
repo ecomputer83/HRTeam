@@ -129,7 +129,7 @@
                             <label>Job <span class="text-danger">*</span></label>
                             <select class="form-control" v-model="vacancyId">
                               <option>Select Job Vacancy</option>
-                              <option v-for="item in vacancies" :key="item.id"  :value="item.id">{{item.jobProfile.title}}</option>
+                              <option v-for="item in vacancies" :key="item.id" :value="item.id">{{item.jobProfile.title}}</option>
                               <!-- <option>Casual Leave 12 Days</option> -->
                             </select>
                           </div>
@@ -223,6 +223,85 @@
 					
 					<!-- /Apply Job Modal -->
 
+          <!-- Applicant Details Modal -->
+
+           <v-dialog v-model="dialogDetail" max-width="725px"
+          >
+            <div class="modal-content mt-5">
+              <div class="modal-header">
+                <h5 class="modal-title">Applicant's Detail</h5>
+                <button
+                  type="button"
+                  class="close"
+                  @click="closeDetail"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form> 
+                  <div class="form-group">
+                      <label>Firstname <span class="text-danger">*</span></label>
+                      <input class="form-control" readonly  :value="applicant.firstName"/>
+                  </div> 
+                  <div class="form-group">
+                      <label>LastName <span class="text-danger">*</span></label>
+                      <input class="form-control" readonly  :value="applicant.lastName"/>
+                  </div> 
+                  <!-- <div class="form-group">
+                      <label>Vacancy <span class="text-danger">*</span></label>
+                      <input class="form-control" readonly  :value="item.job.title"/>
+                  </div>  -->
+                  <div class="form-group">
+                      <label>Gender <span class="text-danger">*</span></label>
+                      <input class="form-control" readonly  :value="applicant.gender"/>
+                  </div>
+                  <div class="form-group">
+                      <label>Salutation <span class="text-danger">*</span></label>
+                      <input class="form-control" readonly  :value="applicant.salutation"/>
+                  </div> 
+                  <div class="form-group">
+                      <label>Phone 1 <span class="text-danger">*</span></label>
+                      <input class="form-control" readonly  :value="applicant.Phone1"/>
+                  </div>
+                  <div class="form-group">
+                      <label>Phone 2 <span class="text-danger">*</span></label>
+                      <input class="form-control" readonly  :value="applicant.Phone2"/>
+                  </div> 
+                  <div class="form-group">
+                      <label>Email <span class="text-danger">*</span></label>
+                      <input class="form-control" readonly  :value="applicant.email"/>
+                  </div>            
+                  <div class="form-group">
+                      <label>Address <span class="text-danger">*</span></label>
+                      <input class="form-control" readonly  :value="applicant.address"/>
+                  </div> 
+                  <!-- <div class="form-group">
+                      <label>Date <span class="text-danger">*</span></label>
+                      <div class="cal-icon">
+                        <input class="form-control" readonly  :value="new Date(query.date).toLocaleDateString()"/>
+                      </div>
+                  </div> -->
+                  <!-- <div class="form-group">
+                      <label>Accusation <span class="text-danger">*</span></label>
+                      <textarea class="form-control" v-model="query.accusation" rows="4" readonly></textarea>
+                  </div> -->
+                  <!-- <div class="form-group">
+                      <label>Response <span class="text-danger">*</span></label>
+                      <textarea class="form-control" v-model="query.response" rows="4" readonly></textarea>
+                  </div> -->
+                  <!-- <div class="form-group">
+                      <label>Response By <span class="text-danger">*</span></label>
+                      <input class="form-control" v-model="query.responseBy" readonly />
+                  </div> -->
+                </form>
+              </div>
+            </div>
+          
+        </v-dialog>
+
+        <!-- /Query Details Modal -->
+
         </div>
       </div>
       <!-- /Page Wrapper -->
@@ -247,6 +326,7 @@ export default {
   data() {
     return {
       dialog: false,
+      dialogDetail: false,
       vacancies: [],
       vacancyId: '',
       firstName: '',
@@ -260,7 +340,7 @@ export default {
       file: null,
       fileName: null,
       applicants: [],
-      applicant: null,
+      applicant: {},
       vacancy: {
         jobProfile: {}
       },
@@ -274,7 +354,10 @@ export default {
   watch: {
     dialog (val) {
       val || this.close()
-    },        
+    },  
+    dialogDetail (val) {
+      val || this.closeDetail()
+    },      
   },
 
   mounted() {
@@ -307,6 +390,13 @@ export default {
     },
     close() {
       this.dialog = false
+    },
+    closeDetail() {
+      this.dialogDetail = false
+    },
+    setQueryDetail(model) {
+      this.query = model;
+      this.dialogDetail = true
     },
     getAllApplicants() {
       applicantService.getAllApplicant(this.company.id).then(
@@ -346,7 +436,7 @@ export default {
       this.fileName = ''
     },
     applyJob(){
-				jobService.applyJob(this.vacancy.companyId, this.vacancy.jobProfile.companyId, this.firstName, this.lastName,
+				jobService.applyJob(this.vacancy.companyId, this.vacancyId, this.firstName, this.lastName,
 				 this.salutation, this.gender, this.phone1, this.phone2, this.email, this.address, this.file)
         			.then(
           				p => {

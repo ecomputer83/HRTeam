@@ -137,10 +137,10 @@
                         <label class="col-form-label">Customer Experience</label>
                         <select class="select form-control" v-model="tech_CE">
                           <option disabled value="">None</option>
-                          <option value="beginner">Beginner</option>
-                          <option value="intermediate">Intermediate</option>
-                          <option value="advanced">Advanced</option>
-                          <option value="expert">Expert / Leader</option>
+                          <option>Beginner</option>
+                          <option>Intermediate</option>
+                          <option>Advanced</option>
+                          <option>Expert / Leader</option>
                         </select>
                       </div>
                       <div class="form-group">
@@ -311,10 +311,9 @@
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label class="col-form-label">Designation</label>
-                      <select class="select form-control" v-model="performanceIndicator.employeeId">
+                      <select class="select form-control" v-model="performanceIndicator.designationId">
                         <option>Select Designation</option>
-                        <option>Web Designer</option>
-                        <option>IOS Developer</option>
+                        <option v-for="item in designations" :key="item.id" :value="item.id">{{item.name}}</option>
                       </select>
                     </div>
                   </div>
