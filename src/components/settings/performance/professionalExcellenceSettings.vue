@@ -64,16 +64,7 @@
                   </div>
                 </div>
               </template>
-              <template v-slot:[`item.profile`]="{ item }">
-                <h2 class="table-avatar blue-link">
-                  <router-link to="/profile" class="avatar"
-                    ><img alt="" src="~@/assets/profiles/avatar-02.jpg"
-                  /></router-link>
-                  <router-link to="/profile">{{
-                    `${item.employee.firstName} ${item.employee.lastName}`
-                  }}</router-link>
-                </h2>
-              </template>
+              
             </v-data-table>
               </div>
             </div>
@@ -108,7 +99,7 @@
                   </div>
                   <div class="form-group">
                     <label>Weight Age <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" v-model="weightAge">
+                    <input type="number" class="form-control" v-model="weightAge">
                   </div>
                   <div class="submit-section">
                     <button
@@ -151,7 +142,7 @@
                   </div>
                   <div class="form-group">
                     <label>Weight Age <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" v-model="professionalExcellenceSetting.weightAge">
+                    <input type="number" class="form-control" v-model="professionalExcellenceSetting.weightAge">
                   </div>                  
                   <div class="submit-section">
                     <button class="btn btn-primary submit-btn">Submit</button>
@@ -227,10 +218,10 @@ export default {
       {
         text: 'Key Result',
         align: 'start',
-        value: 'profile',
+        value: 'keyResult',
       },
       { text: 'Key Performance Indicator', value: 'keyPerformanceIndicator' },
-      { text: 'Weight Age', value: 'weightAge' },
+      { text: 'Weight Age', value: 'weightage' },
       //{ text: 'Notice Date', value: 'noticeDate' },
       //{ text: 'Professional Excellence Settings Date', value: 'Professional Excellence SettingsDate' },
       { text: 'Action', value: 'actions', sortable: false },
@@ -309,7 +300,7 @@ export default {
       this.dialogDelete = true;
     },
     getProfessionalExcellenceSettings () {
-      performanceService.getProfessionalExcellenceSettings(this.employee.id).then((w) => {
+      performanceService.getProfessionalExcellenceSettings(this.company.id).then((w) => {
               this.professionalExcellenceSettings = w;
               console.log(`w`, w)
             },
@@ -322,14 +313,14 @@ export default {
       this.loading = true;
       performanceService
         .AddProfessionalExcellenceSettings(
-          
+          this.company.id,
           this.keyResult, 
           this.keyPerformanceIndicator, 
           this.weightAge
         )
         .then(
           (id) => {
-            performanceService.getProfessionalExcellenceSettings(this.employee.id).then((w) => {
+            performanceService.getProfessionalExcellenceSettings(this.company.id).then((w) => {
               this.professionalExcellenceSettings = w;
               this.close();
             });
@@ -345,7 +336,8 @@ export default {
         this.loading = true;
         
         performanceService.UpdateprofessionalExcellenceSettings(
-              this.professionalExcellenceSettings.id, 
+              this.professionalExcellenceSettings.id,
+              this.professionalExcellenceSettings.companyId, 
               this.professionalExcellenceSettings.keyResult, 
               this.professionalExcellenceSettings.keyPerformanceIndicator, 
               this.professionalExcellenceSettings.weightAge
