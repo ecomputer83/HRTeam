@@ -54,7 +54,9 @@
                         >
                           <td>{{ applicant.salutation }}</td>
 
-                          <td>{{ applicant.firstName }}</td>
+                          <td
+                            @click="setApplicantDetail(applicant)"
+                          >{{ applicant.firstName }}</td>
                           <td>{{ applicant.lastName }}</td>
                           <td>{{ applicant.phone1 }}</td>
                           <td>{{ applicant.phone2 }}</td>
@@ -72,8 +74,8 @@
           <!-- /Page Content -->
 
           <!-- Apply Job Modal -->
-					<v-dialog v-model="dialog" max-width="725px"
-          >
+					<div id="add_policy" class="modal custom-modal fade" role="dialog">
+              <div class="modal-dialog modal-dialog-centered" role="document">
 							<div class="modal-content mt-5">
 								<div class="modal-header">
 									<h5 class="modal-title">Add Your Details</h5>
@@ -166,6 +168,15 @@
                             <input class="form-control" type="text" v-model="gender">
                           </div>
                         </div>
+                        <!-- <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="col-form-label">Gender</label>
+                              <select class="select form-control" v-model="status">
+                            <option value="1">Male</option>
+                            <option value="0">Male</option>
+                          </select>
+                          </div>
+                        </div> -->
                         <div class="col-sm-6">
                           <div class="form-group">
                             <label class="col-form-label">Phone1
@@ -218,7 +229,8 @@
 									</form>
 								</div>
 							</div>
-          </v-dialog>
+              </div>
+          </div>
 					
 					
 					<!-- /Apply Job Modal -->
@@ -394,7 +406,7 @@ export default {
     closeDetail() {
       this.dialogDetail = false
     },
-    setQueryDetail(model) {
+    setApplicantDetail(model) {
       this.query = model;
       this.dialogDetail = true
     },

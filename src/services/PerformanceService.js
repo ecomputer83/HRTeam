@@ -17,7 +17,11 @@ export const performanceService = {
     AddProfessionalExcellenceSettings,
     getProfessionalExcellenceSettings,
     UpdateProfessionalExcellenceSettings,
-    removeProfessionalExcellenceSettings
+    removeProfessionalExcellenceSettings,
+    AddPersonalExcellenceSettings,
+    getPersonalExcellenceSettings,
+    UpdatePersonalExcellenceSettings,
+    removePersonalExcellenceSettings
 }
 
 function addDesignationPerformance(
@@ -279,7 +283,7 @@ function AddProfessionalExcellenceSettings(keyResult, keyPerformanceIndicator, w
         });
 }
 
-function getProfessionalExcellenceSettings() {
+function getProfessionalExcellenceSettings(id) {
     return fetch(`${config.apiurl}/PerformanceReview/GetProffesionalExcellenceSettings/${id}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
@@ -305,6 +309,52 @@ return fetch(`${config.apiurl}/PerformanceReview/UpdateProffesionalExcellenceSet
 
 function removeProfessionalExcellenceSettings(id) {
     return fetch(`${config.apiurl}/PerformanceReview/DeleteProffesionalExcellenceSettings/${id}`, requestOptions.delete())
+    .then(handleResponse)
+    .then(id => {
+        return id;
+    })
+}
+
+function AddPersonalExcellenceSettings(keyResult, keyPerformanceIndicator, weightAge) {
+    var req = {
+        keyResult, 
+        keyPerformanceIndicator, 
+        weightAge
+    }
+    return fetch(`${config.apiurl}/PerformanceReview/AddPersonalExcellenceSettings`, requestOptions.post(req))
+        .then(handleResponse)
+        .then(id => {
+
+            return id;
+        });
+}
+
+function getPersonalExcellenceSettings(id) {
+    return fetch(`${config.apiurl}/PerformanceReview/GetPersonalExcellenceSettings/${id}`, requestOptions.get())
+        .then(handleResponse)
+        .then(model => {
+            console.log(model)
+            return model
+        });
+
+}
+
+function UpdatePersonalExcellenceSettings(id, keyResult, keyPerformanceIndicator, weightAge) {
+    var req = {
+        id,
+        keyResult, 
+        keyPerformanceIndicator, 
+        weightAge
+    }
+    return fetch(`${config.apiurl}/PerformanceReview/UpdatePersonalExcellenceSettings/${id}`, requestOptions.put(req))
+        .then(handleResponse)
+        .then(id => {
+            return id;
+        });
+    }
+
+function removePersonalExcellenceSettings(id) {
+    return fetch(`${config.apiurl}/PerformanceReview/DeletePersonalExcellenceSettings/${id}`, requestOptions.delete())
     .then(handleResponse)
     .then(id => {
         return id;

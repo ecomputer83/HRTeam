@@ -174,7 +174,7 @@
 </template>
 <script>
 import LayoutHeader from "@/components/layouts/Header.vue";
-import LayoutSidebar from "@/components/layouts/Sidebar.vue";
+import LayoutSidebar from "@/components/layouts/employeeSidebar.vue";
 import { required, sameAs } from "vuelidate/lib/validators";
 import { employeeService } from "@/services/employeeService.js";
 import Datepicker from 'vuejs-datepicker'

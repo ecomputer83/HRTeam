@@ -372,7 +372,7 @@ export default {
 
   mounted() {
 
-     this.getEmployees()
+     //this.getEmployees()
      this.getPersonalExcellenceSettings()
     // Datatable
 
