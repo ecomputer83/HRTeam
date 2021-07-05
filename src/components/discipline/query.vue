@@ -51,7 +51,7 @@
                         <div class="dropdown-menu dropdown-menu-right">
                           <a
                             class="dropdown-item"
-                            @click="setEditquery(item)"
+                            @click="setEditquery(item)" v-if="!item.response"
                             ><i class="fa fa-pencil m-r-5"></i> Edit</a
                           >
                           <a
@@ -72,6 +72,12 @@
                     
                       
                         {{item.response ? 'Responded' : 'Pending'}}
+                    
+                  </template>
+                  <template v-slot:[`item.Date`]="{ item }">
+                    
+                      
+                        {{new Date(item.date).toLocaleDateString()}}
                     
                   </template>
 
@@ -115,7 +121,7 @@
                     <label>Employee <span class="text-danger">*</span></label>
                     <select class="form-control" v-model="employeeId">
                       <option>Employee</option>
-                      <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName}}</option>
+                      <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName + ' ' + item.lastName}}</option>
                     </select>
                   </div>
                   <div class="form-group">
@@ -150,10 +156,10 @@
                       <label>Accusation <span class="text-danger">*</span></label>
                       <textarea class="form-control" v-model="accusation" rows="4"></textarea>
                   </div>
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                       <label>Remark <span class="text-danger">*</span></label>
                       <input class="form-control" v-model="remark" />
-                  </div>
+                  </div> -->
                   <div class="submit-section">
                     <button
                       @click.prevent="onSubmit"
@@ -393,6 +399,7 @@ export default {
       // },
       { text: 'Employee', value: 'profile' },
       { text: 'Designation(Employee)', value: 'employee.designation.name' },
+      { text: 'Date', value: 'Date' },
       { text: 'Form', value: 'form' },
       { text: 'Query Type', value: 'queryType' },
       { text: 'Status', value: 'stat' },
@@ -594,7 +601,11 @@ export default {
             .then(id => {
                   employeeService.getQueries(this.company.id)
                     .then(
-                      o => {this.queries = o, console.log(o), this.closeResponse()}
+                      o => {this.queries = o, console.log(o),
+                       this.closeResponse(),
+                       this.response = "", this.remark = ""
+                      }
+                      
                     )
               },
               error => {

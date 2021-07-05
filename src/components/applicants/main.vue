@@ -448,7 +448,7 @@ export default {
       this.fileName = ''
     },
     applyJob(){
-				jobService.applyJob(this.vacancy.companyId, this.vacancyId, this.firstName, this.lastName,
+				jobService.applyJob(this.vacancyId, this.company.id, this.firstName, this.lastName,
 				 this.salutation, this.gender, this.phone1, this.phone2, this.email, this.address, this.file)
         			.then(
           				p => {

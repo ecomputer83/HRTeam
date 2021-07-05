@@ -318,8 +318,8 @@ export default {
     },
     getQueries() {
       //const user = this.user;
-       console.log(`company`, this.company.id)
-      employeeService.getQueries(this.company.id).then(
+       //console.log(`company`, this.company.id)
+      employeeService.getQuery(this.user.employee.id).then(
         (model) => {
           this.queries = model;
           // console.log(`model`, model)
@@ -344,7 +344,7 @@ export default {
         )
         .then(
           (id) => {
-            employeeService.getQueries(this.company.id).then((w) => {
+            employeeService.getQuery(this.user.employee.id).then((w) => {
               this.query = w; console.log(w); this.close()
             });
           },
@@ -371,7 +371,7 @@ export default {
             this.query.employeeId
           )
             .then(id => {
-                  employeeService.getQueries(this.company.id)
+                  employeeService.getQuery(this.user.employee.id)
                     .then(
                       o => {this.queries = o, console.log(o), this.closeEdit()}
                     )
@@ -398,7 +398,7 @@ export default {
             this.query
           )
             .then(id => {
-                  employeeService.getQueries(this.company.id)
+                  employeeService.getQuery(this.user.employee.id)
                     .then(
                       o => {this.queries = o, console.log(o), this.closeResponse()}
                     )
@@ -414,7 +414,7 @@ export default {
       // console.log(this.query)
         employeeService.removeQuery(id)
           .then(id => {
-            employeeService.getQueries(this.company.id)
+            employeeService.getQuery(this.user.employee.id)
               .then(
                 model => { this.queries = model
                 // console.log(model)

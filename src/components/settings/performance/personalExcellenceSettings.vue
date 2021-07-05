@@ -64,16 +64,6 @@
                   </div>
                 </div>
               </template>
-              <template v-slot:[`item.profile`]="{ item }">
-                <h2 class="table-avatar blue-link">
-                  <router-link to="/profile" class="avatar"
-                    ><img alt="" src="~@/assets/profiles/avatar-02.jpg"
-                  /></router-link>
-                  <router-link to="/profile">{{
-                    `${item.employee.firstName} ${item.employee.lastName}`
-                  }}</router-link>
-                </h2>
-              </template>
             </v-data-table>
               </div>
             </div>
@@ -108,7 +98,7 @@
                   </div>
                   <div class="form-group">
                     <label>Weight Age <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" v-model="weightAge">
+                    <input type="number" class="form-control" v-model="weightAge">
                   </div>
                   <div class="submit-section">
                     <button
@@ -151,7 +141,7 @@
                   </div>
                   <div class="form-group">
                     <label>Weight Age <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" v-model="PersonalExcellenceSetting.weightAge">
+                    <input type="number" class="form-control" v-model="PersonalExcellenceSetting.weightAge">
                   </div>                  
                   <div class="submit-section">
                     <button class="btn btn-primary submit-btn">Submit</button>
@@ -226,10 +216,10 @@ export default {
       {
         text: 'Key Result',
         align: 'start',
-        value: 'profile',
+        value: 'keyResult',
       },
       { text: 'Key Performance Indicator', value: 'keyPerformanceIndicator' },
-      { text: 'Weight Age', value: 'weightAge' },
+      { text: 'Weight Age', value: 'weightage' },
       //{ text: 'Notice Date', value: 'noticeDate' },
       //{ text: 'Personal Excellence Settings Date', value: 'Personal Excellence SettingsDate' },
       { text: 'Action', value: 'actions', sortable: false },
@@ -279,7 +269,13 @@ export default {
         }
       );
     },
-
+    closeEdit() {
+      console.log("close")
+      this.dialogEdit = false
+    },
+    closeDelete() {
+      this.dialogDelete = false
+    },
     clearModel() {
       this.keyResult= "",
       this.keyPerformanceIndicator = "",
@@ -293,12 +289,7 @@ export default {
       this.dialog = false;
       this.clearModel();
     },
-    closeEdit() {
-      this.dialogEdit = false
-    },
-    closeDelete() {
-      this.dialogDelete = false
-    },
+    
     setEditPersonalExcellenceSettings(model) {
       this.keyPersonalExcellenceSettings = model;
       this.dialogEdit = true
@@ -313,14 +304,14 @@ export default {
       this.loading = true;
       performanceService
         .AddPersonalExcellenceSettings(
-          
+          this.company.id,
           this.keyResult, 
           this.keyPerformanceIndicator, 
           this.weightAge
         )
         .then(
           (id) => {
-            performanceService.getPersonalExcellenceSettings(this.employee.id).then((w) => {
+            performanceService.getPersonalExcellenceSettings(this.company.id).then((w) => {
               this.PersonalExcellenceSettings = w;
               this.close();
             });
@@ -337,6 +328,7 @@ export default {
         
         performanceService.UpdatePersonalExcellenceSettings(
               this.PersonalExcellenceSettings.id, 
+              this.PersonalExcellenceSettings.companyId,
               this.PersonalExcellenceSettings.keyResult, 
               this.PersonalExcellenceSettings.keyPerformanceIndicator, 
               this.PersonalExcellenceSettings.weightAge
@@ -372,7 +364,6 @@ export default {
 
   mounted() {
 
-     //this.getEmployees()
      this.getPersonalExcellenceSettings()
     // Datatable
 
