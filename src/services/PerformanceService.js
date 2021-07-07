@@ -262,7 +262,7 @@ return fetch(`${config.apiurl}/PerformanceReview/UpdateEmployeePerfomanceApprais
 }
 
 function removePerformanceAppraisal(id) {
-    return fetch(`${config.apiurl}/Designation/DeletePerformanceIndicator/${id}`, requestOptions.delete())
+    return fetch(`${config.apiurl}/PerformanceReview/DeletePerformanceAppraisal/${id}`, requestOptions.delete())
     .then(handleResponse)
     .then(id => {
         return id;

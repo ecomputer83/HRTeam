@@ -76,9 +76,11 @@
       <template v-slot:[`item.profile`]="{ item }">
         <h2 class="table-avatar blue-link">
                           <a @click="setDetailResignation(item)" class="avatar"
-                            ><img alt=""
-                                                            src="~@/assets/profiles/avatar-02.jpg" v-if="!item.employee.passportPhoto">
-                                                            <img alt="" :src="media + item.employee.passportPhoto" width="38" v-if="item.employee.passportPhoto"></a>
+                            >
+                              <img 
+                                alt=""
+                                src="~@/assets/profiles/avatar-02.jpg" v-if="!item.employee.passportPhoto">
+                              <img alt="" :src="media + item.employee.passportPhoto" width="38" v-if="item.employee.passportPhoto"></a>
                           <a @click="setDetailResignation(item)">{{
                             `${item.employee.firstName} ${item.employee.lastName}`
                           }}</a>
@@ -462,16 +464,16 @@ export default {
         await employeeService.UpdateExitInterview(this.resignation.exitInterview.id, this.resignation.exitInterview)
         employeeService.updateEmployeeResignation(this.resignation.id, this.resignation)
                 .then(id => {
-                      employeeService.getEmployeeResignations(this.company.id)
-                        .then(
-                         o => {this.resignations = o, console.log(o), this.closeEdit()}
-                        )
+                  employeeService.getEmployeeResignations(this.company.id)
+                    .then(
+                      o => {this.resignations = o, console.log(o), this.closeEdit()}
+                    )
           },
-                    error => {
-                        this.error = error;
-                        this.loading = false;
-                    }
-                );
+                error => {
+                    this.error = error;
+                    this.loading = false;
+                }
+            );
             
     },
     deleteEmployeeResignation () {
@@ -480,12 +482,12 @@ export default {
         employeeService.removeEmployeeResignation(id)
           .then(id => {
             employeeService.getEmployeeResignations(this.company.id)
-                      .then(
-                        model => { this.resignations = model
-                        console.log(model)
-                        this.closeDelete() },
-                        error => { error = error }
-                      )
+              .then(
+                model => { this.resignations = model
+                  console.log(model)
+                  this.closeDelete() },
+                error => { error = error }
+              )
           })
     },
   },

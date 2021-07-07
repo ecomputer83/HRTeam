@@ -85,8 +85,7 @@
                                                 <h2 class="table-avatar">
                                                     <router-link :to="{name: 'employeedetail', params: {id: model.id}}" class="avatar"><img alt=""
                                                             src="~@/assets/profiles/avatar-02.jpg" v-if="!model.passportPhoto">
-                                                            <img alt="" :src="media + model.passportPhoto" width="38" v-if="model.passportPhoto"
-                        /></router-link>
+                                                            <img alt="" :src="media + model.passportPhoto" width="38" v-if="model.passportPhoto" /></router-link>
                                                     <router-link :to="{name: 'employeedetail', params: {id: model.id}}">{{model.firstName + ' ' + model.lastName}} <span>{{model.designation.name}}</span>
                                                     </router-link>
                                                 </h2>
@@ -160,79 +159,59 @@
                                                 <div v-if="submitted && !$v.firstName.required" class="invalid-feedback">First Name is required</div>
                                             </div>
                                         </div>
+
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label class="col-form-label">Last Name</label>
                                                 <input type="text" v-model.trim="$v.lastName.$model" id="name" name="name" class="form-control" :class="{ 'is-invalid': submitted && $v.lastName.$error }" />
-                                                <div v-if="submitted && !$v.lastName.required" class="invalid-feedback">First Name is required</div>
+                                                <div v-if="submitted && !$v.lastName.required" class="invalid-feedback">Last Name is required</div>
                                             </div>
                                         </div>
+
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label class="col-form-label">Email <span
                                                         class="text-danger">*</span></label>
                                                 <input type="email" v-model.trim="$v.email.$model" id="email" name="email" class="form-control" :class="{ 'is-invalid': submitted && $v.email.$error }" />
-                                <div v-if="submitted && $v.email.$error" class="invalid-feedback">
-                                    <span v-if="!$v.email.required">Email is required</span>
-                                    <span v-if="!$v.email.email">Email is invalid</span>
-                                </div>
+                                                <div v-if="submitted && $v.email.$error" class="invalid-feedback">
+                                                    <span v-if="!$v.email.required">Email is required</span>
+                                                    <span v-if="!$v.email.email">Email is invalid</span>
+                                                </div>
                                             </div>
                                         </div>
-                                        <!-- <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label class="col-form-label">Employee ID <span
-                                                        class="text-danger">*</span></label>
-                                                <input type="text" class="form-control">
-                                            </div>
-                                        </div> -->
+                    
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label class="col-form-label">Phone </label>
                                                 <input type="text" v-model.trim="$v.phone.$model" id="name" name="name" class="form-control" :class="{ 'is-invalid': submitted && $v.phone.$error }" />
                                                 <div v-if="submitted && !$v.phone.required" class="invalid-feedback">Phone is required</div>
                                             </div>
-                                        </div>
-                                        <!-- <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label class="col-form-label">Joining Date <span
-                                                        class="text-danger">*</span></label>
-                                                <div class="cal-icon">
-                                                    <input v-model="joinDate" class="form-control datetimepicker" type="text"></div>
-                                            </div>
-                                        </div> -->
-                                        
-                                        <!-- <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Department <span class="text-danger">*</span></label>
-                                                <select class="select">
-                                                    <option>Select Department</option>
-                                                    <option>Web Development</option>
-                                                    <option>IT Management</option>
-                                                    <option>Marketing</option>
-                                                </select>
-                                            </div>
-                                        </div> -->
+                                        </div>    
+
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Designation <span class="text-danger">*</span></label>
-                                                
-                                                <select class="form-control" v-model.trim="$v.designationId.$model">
-                                                    <option>Select Designation</option>
+                                                <select class="form-control" v-model.trim="$v.designationId.$model" :class="{ 'is-invalid': submitted && $v.designationId.$error }">
+                                                    <option disabled>Select Designation</option>
                                                     <option v-for="item in designations" :key="item.id" :value="parseInt(item.id)">{{item.name}}</option>
                                                 </select>
+                                                <div v-if="submitted && !$v.designationId.required" class="invalid-feedback">Designation is required</div>
                                             </div>
                                         </div>
+
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Level <span class="text-danger">*</span></label>
                                                 
-                                                <select class="form-control" v-model.trim="$v.rankId.$model">
+                                                <select class="form-control" v-model.trim="$v.rankId.$model" :class="{ 'is-invalid': submitted && $v.rankId.$error }">
                                                     <option>Select Level</option>
                                                     <option v-for="item in ranks" :key="item.id" :value="parseInt(item.id)">{{item.rankName}}</option>
                                                 </select>
+                                                <div v-if="submitted && !$v.rankId.required" class="invalid-feedback">Level is required</div>
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="submit-section">
                                         <button class="btn btn-primary submit-btn" type="submit">Submit</button>
                                     </div>
@@ -299,34 +278,7 @@
                                                 <input class="form-control" v-model="employee.phone" type="text" v-if="employee">
                                             </div>
                                         </div>
-                                        <!-- <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label class="col-form-label">Employee ID <span
-                                                        class="text-danger">*</span></label>
-                                                <input type="text" value="FT-0001" readonly
-                                                    class="form-control floating">
-                                            </div>
-                                        </div> -->
-                                        <!-- <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label class="col-form-label">Joining Date <span
-                                                        class="text-danger">*</span></label>
-                                                <div class="cal-icon"><input class="form-control datetimepicker"
-                                                        type="text"></div>
-                                            </div>
-                                        </div> -->
                                         
-                                        <!-- <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Department <span class="text-danger">*</span></label>
-                                                <select class="select">
-                                                    <option>Select Department</option>
-                                                    <option>Web Development</option>
-                                                    <option>IT Management</option>
-                                                    <option>Marketing</option>
-                                                </select>
-                                            </div>
-                                        </div> -->
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Designation <span class="text-danger">*</span></label>
@@ -576,16 +528,16 @@
     },
 
     clearModel () {
-            this.firstName = '';
-            this.lastName =  '';
-            this.rankId = null;
-            this.address = '';
-            this.phone = '';
-            this.email = '';
-            this.designationId = null;
-            this.employee = null;
-            this.error = '';
-            this.message = ''
+        this.firstName = '';
+        this.lastName =  '';
+        this.rankId = null;
+        this.address = '';
+        this.phone = '';
+        this.email = '';
+        this.designationId = null;
+        this.employee = null;
+        this.error = '';
+        this.message = ''
     },
 
     close() {

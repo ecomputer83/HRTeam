@@ -230,8 +230,9 @@
                                 v-model.trim="$v.gender.$model"
                                 :class="{ 'is-invalid': submitted && $v.gender.$error }"
                               >
+                                <option disabled>Select Gender</option>
                                 <option>Male</option>
-                                <option>FeMale</option>
+                                <option>Female</option>
                               </select>
                               <div
                                 v-if="submitted && !$v.gender.required"

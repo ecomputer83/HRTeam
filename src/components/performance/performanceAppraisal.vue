@@ -94,20 +94,55 @@
                             </button>
                         </div>
                         <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div
+                                        class="alert alert-danger alert-dismissible fade show"
+                                        role="alert"
+                                        v-if="error"
+                                    >
+                                    <strong>Error!</strong> {{ error }}
+                                    <button
+                                        type="button"
+                                        class="close"
+                                        data-dismiss="alert"
+                                        aria-label="Close"
+                                    >
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div
+                                        class="alert alert-success alert-dismissible fade show"
+                                        role="alert"
+                                        v-if="message"
+                                    >
+                                    <strong>Success!</strong> {{ message }}
+                                    <button
+                                        type="button"
+                                        class="close"
+                                        data-dismiss="alert"
+                                        aria-label="Close"
+                                    >
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>
+                                </div>
+                            </div>
                             <form @submit.prevent="onSubmit">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <!-- <div class="form-group">
-                                            <label class="col-form-label">Employee</label>
-                                            <select class="select">
-                                                <option>Select Employee</option>
-                                                <option>John Doe</option>
-                                                <option>Mike Litorus</option>
-                                            </select>
-                                        </div> -->
                                         <div class="form-group">
                                             <label>Select Employee <span class="text-danger">*</span></label>
-                                            <select class="form-control" v-model="employeeId" @change="onEmployeeChange($event)">
+                                            <select 
+                                                id="employeeId" 
+                                                name="employeeId"   
+                                                class="form-control" 
+                                                v-model.trim="$v.employeeId.$model"
+                                                :class="{ 'is-invalid': submitted && $v.employeeId.$error }"
+                                                @change="onEmployeeChange($event)"
+                                            >
                                             <option>Select Staff</option>
                                             <option
                                                 v-for="member in employees"
@@ -117,16 +152,31 @@
                                                 {{ member.lastName + " " + member.firstName }}
                                             </option>
                                             </select>
+                                            <div
+                                                v-if="submitted && !$v.employeeId.required"
+                                                class="invalid-feedback"
+                                            >
+                                                Employee is required
+                                            </div>
                                         </div>
                                         <div class="form-group">
                                             <label>Select Date <span class="text-danger">*</span></label>
                                             <div class="cal-icon">
                                                 <datepicker
-                                                    v-model="appraisaldate"
+                                                    id="appraisaldate" 
+                                                    name="appraisaldate"
+                                                    v-model.trim="$v.appraisaldate.$model"
                                                     bootstrap-styling
                                                     class="form-control datetimepicker"
+                                                    :class="{ 'is-invalid': submitted && $v.appraisaldate.$error }"
                                                     type="date"
                                                 />
+                                                <div
+                                                    v-if="submitted && !$v.appraisaldate.required"
+                                                    class="invalid-feedback"
+                                            >
+                                                    Date is required
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -171,11 +221,14 @@
                                                                                     Experience</td>
                                                                                 <td colspan="2">{{indicator.tech_CE}}</td>
                                                                                 <td><select
+                                                                                        id="tech_CE"
                                                                                         v-model="tech_CE"
                                                                                         name="customer_experience"
                                                                                         class="form-control"
+                                                                                        v-model.trim="$v.tech_CE.$model"
+                                                                                        :class="{ 'is-invalid': submitted && $v.tech_CE.$error }"
                                                                                     >
-                                                                                        <option>None
+                                                                                        <option disabled>None
                                                                                         </option>
                                                                                         <option> Beginner
                                                                                         </option>
@@ -185,128 +238,158 @@
                                                                                         </option>
                                                                                         <option> Expert /
                                                                                             Leader</option>
-                                                                                    </select></td>
+                                                                                    </select>
+                                                                                    <div
+                                                                                        v-if="submitted && !$v.tech_CE.required"
+                                                                                        class="invalid-feedback"
+                                                                                    >
+                                                                                        Customer Experience is required
+                                                                                        </div>
+                                                                                    </td>
                                                                             </tr>
                                                                             <tr>
                                                                                 <td scope="row" colspan="2">
                                                                                     Marketing</td>
                                                                                 <td colspan="2">{{indicator.tech_Marketing}}</td>
-                                                                                <td><select name="marketing"
-                                                                                        class="form-control"
-                                                                                        v-model="tech_Marketing"    
+                                                                                <td><select 
+                                                                                        id="tech_Marketing"
+                                                                                        name="tech_Marketing" 
+                                                                                        class="select form-control" 
+                                                                                        v-model.trim="$v.tech_Marketing.$model"
+                                                                                        :class="{ 'is-invalid': submitted && $v.tech_Marketing.$error }"
                                                                                     >
-                                                                                        <option>None
-                                                                                        </option>
-                                                                                        <option> Beginner
-                                                                                        </option>
-                                                                                        <option>
-                                                                                            Intermediate</option>
-                                                                                        <option> Advanced
-                                                                                        </option>
-                                                                                        <option> Expert /
-                                                                                            Leader</option>
-                                                                                    </select></td>
+                                                                                        <option disabled>None</option>
+                                                                                        <option>Beginner</option>
+                                                                                        <option>Intermediate</option>
+                                                                                        <option>Advanced</option>
+                                                                                        <option>Expert / Leader</option>
+                                                                                        </select>
+                                                                                        <div
+                                                                                        v-if="submitted && !$v.tech_Marketing.required"
+                                                                                        class="invalid-feedback"
+                                                                                        >
+                                                                                        Marketing is required
+                                                                                        </div></td>
                                                                             </tr>
                                                                             <tr>
                                                                                 <td scope="row" colspan="2">
                                                                                     Management</td>
                                                                                 <td colspan="2">{{indicator.tech_Management}}</td>
-                                                                                <td><select name="management"
-                                                                                        class="form-control"
-                                                                                        v-model="tech_Management"
+                                                                                <td><select 
+                                                                                        id="tech_Management"
+                                                                                        name="tech_Management" 
+                                                                                        class="select form-control" 
+                                                                                        v-model.trim="$v.tech_Management.$model"
+                                                                                        :class="{ 'is-invalid': submitted && $v.tech_Management.$error }"
                                                                                     >
-                                                                                        <option>None
-                                                                                        </option>
-                                                                                        <option> Beginner
-                                                                                        </option>
-                                                                                        <option>
-                                                                                            Intermediate</option>
-                                                                                        <option> Advanced
-                                                                                        </option>
-                                                                                        <option> Expert /
-                                                                                            Leader</option>
-                                                                                    </select></td>
+                                                                                        <option disabled>None</option>
+                                                                                        <option>Beginner</option>
+                                                                                        <option>Intermediate</option>
+                                                                                        <option>Advanced</option>
+                                                                                        <option>Expert / Leader</option>
+                                                                                        </select>
+                                                                                        <div
+                                                                                        v-if="submitted && !$v.tech_Management.required"
+                                                                                        class="invalid-feedback"
+                                                                                        >
+                                                                                        Management is required
+                                                                                        </div></td>
                                                                             </tr>
                                                                             <tr>
                                                                                 <td scope="row" colspan="2">
                                                                                     Administration</td>
                                                                                 <td colspan="2">{{indicator.tech_Administration}}</td>
-                                                                                <td><select name="administration"
-                                                                                        class="form-control"
-                                                                                        v-model="tech_Administration"
+                                                                                <td><select 
+                                                                                        id="tech_Administration"
+                                                                                        name="tech_Administration" 
+                                                                                        class="select form-control" 
+                                                                                        v-model.trim="$v.tech_Administration.$model"
+                                                                                        :class="{ 'is-invalid': submitted && $v.tech_Administration.$error }"
                                                                                     >
-                                                                                        <option>None
-                                                                                        </option>
-                                                                                        <option> Beginner
-                                                                                        </option>
-                                                                                        <option>
-                                                                                            Intermediate</option>
-                                                                                        <option> Advanced
-                                                                                        </option>
-                                                                                        <option> Expert /
-                                                                                            Leader</option>
-                                                                                    </select></td>
+                                                                                        <option disabled>None</option>
+                                                                                        <option>Beginner</option>
+                                                                                        <option>Intermediate</option>
+                                                                                        <option>Advanced</option>
+                                                                                        <option>Expert / Leader</option>
+                                                                                        </select>
+                                                                                        <div
+                                                                                            v-if="submitted && !$v.tech_Administration.required"
+                                                                                            class="invalid-feedback"
+                                                                                        >
+                                                                                        Administration is required
+                                                                                        </div></td>
                                                                             </tr>
                                                                             <tr>
                                                                                 <td scope="row" colspan="2">
                                                                                     Presentation Skill</td>
                                                                                 <td colspan="2">{{indicator.tech_Presentation}}</td>
-                                                                                <td><select
-                                                                                        name="presentation_skill"
-                                                                                        class="form-control"
-                                                                                        v-model="tech_Presentation"    
-                                                                                    >
-                                                                                        <option>None
-                                                                                        </option>
-                                                                                        <option> Beginner
-                                                                                        </option>
-                                                                                        <option>
-                                                                                            Intermediate</option>
-                                                                                        <option> Advanced
-                                                                                        </option>
-                                                                                        <option> Expert /
-                                                                                            Leader</option>
-                                                                                    </select></td>
+                                                                                <td><select 
+                                                                                        id="tech_Presentation"
+                                                                                        name="tech_Presentation" 
+                                                                                        class="select form-control" 
+                                                                                        v-model.trim="$v.tech_Presentation.$model"
+                                                                                        :class="{ 'is-invalid': submitted && $v.tech_Presentation.$error }"
+                                                                                        >
+                                                                                        <option disabled>None</option>
+                                                                                        <option>Beginner</option>
+                                                                                        <option>Intermediate</option>
+                                                                                        <option>Advanced</option>
+                                                                                        <option>Expert / Leader</option>
+                                                                                        </select>
+                                                                                        <div
+                                                                                        v-if="submitted && !$v.tech_Presentation.required"
+                                                                                        class="invalid-feedback"
+                                                                                        >
+                                                                                        Presentation is required
+                                                                                        </div></td>
                                                                             </tr>
                                                                             <tr>
                                                                                 <td scope="row" colspan="2">Quality
                                                                                     Of Work</td>
                                                                                 <td colspan="2">{{indicator.tech_QOW}}</td>
-                                                                                <td><select name="quality_of_work"
-                                                                                        class="form-control"
-                                                                                        v-model="tech_QOW"    
+                                                                                <td><select 
+                                                                                        id="tech_QOW"
+                                                                                        name="tech_QOW" 
+                                                                                        class="select form-control" 
+                                                                                        v-model.trim="$v.tech_QOW.$model"
+                                                                                        :class="{ 'is-invalid': submitted && $v.tech_QOW.$error }"
                                                                                     >
-                                                                                        <option>None
-                                                                                        </option>
-                                                                                        <option> Beginner
-                                                                                        </option>
-                                                                                        <option>
-                                                                                            Intermediate</option>
-                                                                                        <option> Advanced
-                                                                                        </option>
-                                                                                        <option> Expert /
-                                                                                            Leader</option>
-                                                                                    </select></td>
+                                                                                        <option disabled>None</option>
+                                                                                        <option>Beginner</option>
+                                                                                        <option>Intermediate</option>
+                                                                                        <option>Advanced</option>
+                                                                                        <option>Expert / Leader</option>
+                                                                                        </select>
+                                                                                        <div
+                                                                                            v-if="submitted && !$v.tech_QOW.required"
+                                                                                            class="invalid-feedback"
+                                                                                        >
+                                                                                        Quality of Work is required
+                                                                                        </div></td>
                                                                             </tr>
                                                                             <tr>
                                                                                 <td scope="row" colspan="2">
                                                                                     Efficiency</td>
                                                                                 <td colspan="2">{{indicator.tech_Efficiency}}</td>
-                                                                                <td><select name="efficiency"
-                                                                                        class="form-control"
-                                                                                        v-model="tech_Efficiency"    
-                                                                                    >
-                                                                                        <option>None
-                                                                                        </option>
-                                                                                        <option> Beginner
-                                                                                        </option>
-                                                                                        <option>
-                                                                                            Intermediate</option>
-                                                                                        <option> Advanced
-                                                                                        </option>
-                                                                                        <option> Expert /
-                                                                                            Leader</option>
-                                                                                    </select></td>
+                                                                                <td><select 
+                                                                                        id="tech_Efficiency"
+                                                                                        name="tech_Efficiency" 
+                                                                                        class="select form-control" 
+                                                                                        v-model.trim="$v.tech_Efficiency.$model"
+                                                                                        :class="{ 'is-invalid': submitted && $v.tech_Efficiency.$error }"
+                                                                                        >
+                                                                                        <option disabled>None</option>
+                                                                                        <option>Beginner</option>
+                                                                                        <option>Intermediate</option>
+                                                                                        <option>Advanced</option>
+                                                                                        <option>Expert / Leader</option>
+                                                                                        </select>
+                                                                                        <div
+                                                                                        v-if="submitted && !$v.tech_Efficiency.required"
+                                                                                        class="invalid-feedback"
+                                                                                        >
+                                                                                        Efficiency is required
+                                                                                        </div></td>
                                                                             </tr>
                                                                         </tbody>
                                                                     </table>
@@ -336,21 +419,25 @@
                                                                                     Integrity</td>
                                                                                 <td colspan="2">{{indicator.org_Integrity}}</td>
                                                                                 <td>
-                                                                                    <select name="integrity"
-                                                                                        class="form-control"
-                                                                                        v-model="org_Integrity"
-                                                                                    >
-                                                                                        <option>None
-                                                                                        </option>
-                                                                                        <option> Beginner
-                                                                                        </option>
-                                                                                        <option>
-                                                                                            Intermediate</option>
-                                                                                        <option> Advanced
-                                                                                        </option>
-                                                                                        <option> Expert /
-                                                                                            Leader</option>
-                                                                                    </select>
+                                                                                    <select 
+                                                                                        id="org_Integrity"
+                                                                                        name="org_Integrity" 
+                                                                                        class="select form-control" 
+                                                                                        v-model.trim="$v.org_Integrity.$model"
+                                                                                        :class="{ 'is-invalid': submitted && $v.org_Integrity.$error }"
+                                                                                        >
+                                                                                        <option disabled>None</option>
+                                                                                        <option>Beginner</option>
+                                                                                        <option>Intermediate</option>
+                                                                                        <option>Advanced</option>
+                                                                                        <option>Expert / Leader</option>
+                                                                                        </select>
+                                                                                        <div
+                                                                                        v-if="submitted && !$v.org_Integrity.required"
+                                                                                        class="invalid-feedback"
+                                                                                        >
+                                                                                        Integrity is required
+                                                                                        </div>
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
@@ -358,21 +445,25 @@
                                                                                     Professionalism</td>
                                                                                 <td colspan="2">{{indicator.org_Professionalism}}</td>
                                                                                 <td>
-                                                                                    <select name="professionalism"
-                                                                                        class="form-control"
-                                                                                        v-model="org_Professionalism"    
-                                                                                    >
-                                                                                        <option>None
-                                                                                        </option>
-                                                                                        <option> Beginner
-                                                                                        </option>
-                                                                                        <option>
-                                                                                            Intermediate</option>
-                                                                                        <option> Advanced
-                                                                                        </option>
-                                                                                        <option> Expert /
-                                                                                            Leader</option>
-                                                                                    </select>
+                                                                                    <select 
+                                                                                        id="org_Professionalism"
+                                                                                        name="org_Professionalism" 
+                                                                                        class="select form-control" 
+                                                                                        v-model.trim="$v.org_Professionalism.$model"
+                                                                                        :class="{ 'is-invalid': submitted && $v.org_Professionalism.$error }"
+                                                                                        >
+                                                                                        <option disabled>None</option>
+                                                                                        <option>Beginner</option>
+                                                                                        <option>Intermediate</option>
+                                                                                        <option>Advanced</option>
+                                                                                        <option>Expert / Leader</option>
+                                                                                        </select>
+                                                                                        <div
+                                                                                        v-if="submitted && !$v.org_Professionalism.required"
+                                                                                        class="invalid-feedback"
+                                                                                        >
+                                                                                        Professionalism is required
+                                                                                        </div>
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
@@ -380,21 +471,25 @@
                                                                                     Work</td>
                                                                                 <td colspan="2">{{indicator.org_Teamwork}}</td>
                                                                                 <td>
-                                                                                    <select name="team_work"
-                                                                                        class="form-control"
-                                                                                        v-model="org_Teamwork"    
-                                                                                    >
-                                                                                        <option>None
-                                                                                        </option>
-                                                                                        <option> Beginner
-                                                                                        </option>
-                                                                                        <option>
-                                                                                            Intermediate</option>
-                                                                                        <option> Advanced
-                                                                                        </option>
-                                                                                        <option> Expert /
-                                                                                            Leader</option>
-                                                                                    </select>
+                                                                                    <select 
+                                                                                        id="org_Teamwork"
+                                                                                        name="org_Teamwork" 
+                                                                                        class="select form-control" 
+                                                                                        v-model.trim="$v.org_Teamwork.$model"
+                                                                                        :class="{ 'is-invalid': submitted && $v.org_Teamwork.$error }"
+                                                                                        >
+                                                                                        <option disabled>None</option>
+                                                                                        <option>Beginner</option>
+                                                                                        <option>Intermediate</option>
+                                                                                        <option>Advanced</option>
+                                                                                        <option>Expert / Leader</option>
+                                                                                        </select>
+                                                                                        <div
+                                                                                        v-if="submitted && !$v.org_Teamwork.required"
+                                                                                        class="invalid-feedback"
+                                                                                        >
+                                                                                        Team Work is required
+                                                                                        </div>
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
@@ -402,21 +497,25 @@
                                                                                     Thinking</td>
                                                                                 <td colspan="2">{{indicator.org_CriticalThinking}}</td>
                                                                                 <td>
-                                                                                    <select name="critical_thinking"
-                                                                                        class="form-control"
-                                                                                        v-model="org_CriticalThinking"
-                                                                                    >
-                                                                                        <option>None
-                                                                                        </option>
-                                                                                        <option> Beginner
-                                                                                        </option>
-                                                                                        <option>
-                                                                                            Intermediate</option>
-                                                                                        <option> Advanced
-                                                                                        </option>
-                                                                                        <option> Expert /
-                                                                                            Leader</option>
-                                                                                    </select>
+                                                                                    <select 
+                                                                                        id="org_CriticalThinking"
+                                                                                        name="org_CriticalThinking" 
+                                                                                        class="select form-control" 
+                                                                                        v-model.trim="$v.org_CriticalThinking.$model"
+                                                                                        :class="{ 'is-invalid': submitted && $v.org_CriticalThinking.$error }"
+                                                                                        >
+                                                                                        <option disabled>None</option>
+                                                                                        <option>Beginner</option>
+                                                                                        <option>Intermediate</option>
+                                                                                        <option>Advanced</option>
+                                                                                        <option>Expert / Leader</option>
+                                                                                        </select>
+                                                                                        <div
+                                                                                        v-if="submitted && !$v.org_CriticalThinking.required"
+                                                                                        class="invalid-feedback"
+                                                                                        >
+                                                                                        Critical Thinking is required
+                                                                                        </div>
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
@@ -424,22 +523,25 @@
                                                                                     Management</td>
                                                                                 <td colspan="2">{{indicator.org_Conflict}}</td>
                                                                                 <td>
-                                                                                    <select
-                                                                                        v-model="org_Conflict"
-                                                                                        name="conflict_management"
-                                                                                        class="form-control"
-                                                                                    >
-                                                                                        <option>None
-                                                                                        </option>
-                                                                                        <option> Beginner
-                                                                                        </option>
-                                                                                        <option>
-                                                                                            Intermediate</option>
-                                                                                        <option> Advanced
-                                                                                        </option>
-                                                                                        <option> Expert /
-                                                                                            Leader</option>
-                                                                                    </select>
+                                                                                    <select 
+                                                                                        id="org_Conflict"
+                                                                                        name="org_Conflict" 
+                                                                                        class="select form-control" 
+                                                                                        v-model.trim="$v.org_Conflict.$model"
+                                                                                        :class="{ 'is-invalid': submitted && $v.org_Conflict.$error }"
+                                                                                        >
+                                                                                        <option disabled>None</option>
+                                                                                        <option>Beginner</option>
+                                                                                        <option>Intermediate</option>
+                                                                                        <option>Advanced</option>
+                                                                                        <option>Expert / Leader</option>
+                                                                                        </select>
+                                                                                        <div
+                                                                                        v-if="submitted && !$v.org_Conflict.required"
+                                                                                        class="invalid-feedback"
+                                                                                        >
+                                                                                        Conflict Management is required
+                                                                                        </div>
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
@@ -447,21 +549,25 @@
                                                                                     Attendance</td>
                                                                                 <td colspan="2">{{indicator.org_Attendance}}</td>
                                                                                 <td>
-                                                                                    <select name="attendance"
-                                                                                        class="form-control"
-                                                                                        v-model="org_Attendance"
-                                                                                    >
-                                                                                        <option>None
-                                                                                        </option>
-                                                                                        <option> Beginner
-                                                                                        </option>
-                                                                                        <option>
-                                                                                            Intermediate</option>
-                                                                                        <option> Advanced
-                                                                                        </option>
-                                                                                        <option> Expert /
-                                                                                            Leader</option>
-                                                                                    </select>
+                                                                                    <select 
+                                                                                        id="org_Attendance"
+                                                                                        name="org_Attendance" 
+                                                                                        class="select form-control" 
+                                                                                        v-model.trim="$v.org_Attendance.$model"
+                                                                                        :class="{ 'is-invalid': submitted && $v.org_Attendance.$error }"
+                                                                                        >
+                                                                                        <option disabled>None</option>
+                                                                                        <option>Beginner</option>
+                                                                                        <option>Intermediate</option>
+                                                                                        <option>Advanced</option>
+                                                                                        <option>Expert / Leader</option>
+                                                                                        </select>
+                                                                                        <div
+                                                                                        v-if="submitted && !$v.org_Attendance.required"
+                                                                                        class="invalid-feedback"
+                                                                                        >
+                                                                                        Attendance is required
+                                                                                        </div>
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
@@ -469,22 +575,25 @@
                                                                                     To Meet Deadline</td>
                                                                                 <td colspan="2">{{indicator.org_ATMD}}</td>
                                                                                 <td>
-                                                                                    <select
-                                                                                        name="ability_to_meet_deadline"
-                                                                                        class="form-control"
-                                                                                        v-model="org_ATMD"
-                                                                                    >
-                                                                                        <option>None
-                                                                                        </option>
-                                                                                        <option> Beginner
-                                                                                        </option>
-                                                                                        <option>
-                                                                                            Intermediate</option>
-                                                                                        <option> Advanced
-                                                                                        </option>
-                                                                                        <option> Expert /
-                                                                                            Leader</option>
-                                                                                    </select>
+                                                                                    <select 
+                                                                                        id="org_ATMD"
+                                                                                        name="org_ATMD" 
+                                                                                        class="select form-control" 
+                                                                                        v-model.trim="$v.org_ATMD.$model"
+                                                                                        :class="{ 'is-invalid': submitted && $v.org_ATMD.$error }"
+                                                                                        >
+                                                                                        <option disabled>None</option>
+                                                                                        <option>Beginner</option>
+                                                                                        <option>Intermediate</option>
+                                                                                        <option>Advanced</option>
+                                                                                        <option>Expert / Leader</option>
+                                                                                        </select>
+                                                                                        <div
+                                                                                        v-if="submitted && !$v.org_ATMD.required"
+                                                                                        class="invalid-feedback"
+                                                                                        >
+                                                                                        Ability To Meet Deadline is required
+                                                                                        </div>
                                                                                 </td>
                                                                             </tr>
                                                                         </tbody>
@@ -500,10 +609,23 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label class="col-form-label">Status</label>
-                                            <select class="form-control" v-model="status">
+                                            <select 
+                                                id="status"
+                                                name="status" 
+                                                class="select form-control" 
+                                                v-model.trim="$v.status.$model"
+                                                :class="{ 'is-invalid': submitted && $v.status.$error }"
+                                            >
+                                                <option disabled>Select Status</option>
                                                 <option value="1">Active</option>
                                                 <option value="0">Inactive</option>
                                             </select>
+                                            <div
+                                                v-if="submitted && !$v.status.required"
+                                                class="invalid-feedback"
+                                            >
+                                                Status is required
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -952,8 +1074,12 @@
                                 <div class="modal-btn delete-action">
                                     <div class="row">
                                         <div class="col-6">
-                                            <a href="javascript:void(0);"
-                                                class="btn btn-primary continue-btn">Delete</a>
+                                            <a @click="deletePerformanceAppraisal"
+                                                class="btn btn-primary continue-btn"
+                                                data-dismiss="modal"
+                                            >
+                                                Delete
+                                            </a>
                                         </div>
                                         <div class="col-6">
                                             <a href="javascript:void(0);" data-dismiss="modal"
@@ -978,6 +1104,9 @@
     import { employeeService} from '@/services/employeeService.js'
     import { authenticationService } from '@/services/authenticationService'
     import { performanceService } from "@/services/performanceService.js"
+    import { required } from "vuelidate/lib/validators";
+
+
     export default {
         components: {
             LayoutHeader,
@@ -1019,6 +1148,10 @@
                 org_Attendance: "",
                 org_ATMD: "",
                 company: authenticationService.currentOfficeValue,
+                message: "",
+                error: "",
+                loading: false,
+                submitted: false
             }
         },
         methods: {
@@ -1089,6 +1222,11 @@
             },
             onSubmit () {
                 this.submitted = true;
+
+                this.$v.$touch();
+                if (this.$v.$invalid) {
+                    return;
+                }
       
                 this.loading = true;
                 performanceService
@@ -1207,8 +1345,8 @@
 
             },
             deletePerformanceAppraisal () {
-                const id = this.performanceAppraisal.id;
-                performanceService.performanceAppraisal(id)
+                const id = this.appraisal.id;
+                performanceService.removePerformanceAppraisal(id)
                     .then(id => {
                         performanceService.getPerformanceAppraisals(this.company.id)
                             .then(
@@ -1222,6 +1360,26 @@
                     })
                 },
             },
+        validations: {
+            designationId: { required },
+            employeeId: { required },
+            appraisaldate: { required },
+            tech_CE: { required },
+            tech_Marketing: { required },
+            tech_Management: { required },
+            tech_Administration: { required },
+            tech_Presentation: { required },
+            tech_QOW: { required },
+            tech_Efficiency: { required },
+            org_Integrity: { required },
+            org_Professionalism: { required },
+            org_CriticalThinking: { required },
+            org_Teamwork: { required },
+            org_Conflict: { required },
+            org_Attendance: { required },
+            org_ATMD: { required },
+            status: { required },
+        },
         mounted() {
             this.getEmployees()
             this.getPerformanceAppraisals()
