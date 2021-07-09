@@ -53,14 +53,13 @@
             <div class="col-md-12">
               <div>
                 <v-data-table
-                                      :headers="headers"
-                                      :items="departments"
-                                      sort-by="name"
-                                      class="elevation-1"
-                                      >
-
-      <template v-slot:[`item.actions`]="{ item }">
-        <div class="dropdown dropdown-action">
+                  :headers="headers"
+                  :items="departments"
+                  sort-by="name"
+                  class="elevation-1"
+                >
+                      <template v-slot:[`item.actions`]="{ item }">
+                        <div class="dropdown dropdown-action">
                           <a
                             href="#"
                             class="action-icon dropdown-toggle"
@@ -85,10 +84,8 @@
                             >
                           </div>
                         </div>
-
-        
-      </template>
-                                  </v-data-table>
+                      </template>
+                    </v-data-table>
               </div>
             </div>
           </div>
@@ -231,7 +228,7 @@
 </template>
 <script>
 import LayoutHeader from "@/components/layouts/Header.vue";
-import LayoutSidebar from "@/components/layouts/Sidebar.vue";
+import LayoutSidebar from "@/components/layouts/orgAdminSidebar.vue";
 import { required } from "vuelidate/lib/validators";
 import { organizationService } from "@/services/organizationService";
 export default {
@@ -397,6 +394,6 @@ export default {
 
     this.getDepartments();
   },
-  name: "companydepartments",
+  name: "departments",
 };
 </script>

@@ -392,11 +392,11 @@
                   </div> 
                   <div class="form-group">
                       <label>Phone 1 <span class="text-danger">*</span></label>
-                      <input class="form-control" readonly  :value="applicant.Phone1"/>
+                      <input class="form-control" readonly  :value="applicant.phone1"/>
                   </div>
                   <div class="form-group">
                       <label>Phone 2 <span class="text-danger">*</span></label>
-                      <input class="form-control" readonly  :value="applicant.Phone2"/>
+                      <input class="form-control" readonly  :value="applicant.phone2"/>
                   </div> 
                   <div class="form-group">
                       <label>Email <span class="text-danger">*</span></label>
@@ -554,7 +554,7 @@ export default {
       this.error = ""
     },
     setApplicantDetail(model) {
-      this.query = model;
+      this.applicant = model;
       this.dialogDetail = true
     },
     getAllApplicants() {

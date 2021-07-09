@@ -164,8 +164,14 @@
                 </div>
                 <div class="form-group">
                   <label>Department <span class="text-danger">*</span></label>
-                  <select class="form-control" v-model="department">
-                    <option>Select Department</option>
+                  <select 
+                    id="department"
+                    name="department"
+                    class="form-control"
+                    v-model.trim="$v.department.$model"
+                    :class="{ 'is-invalid': submitted && $v.department.$error }"
+                  >
+                    <option disabled>Select Department</option>
                     <option
                       v-for="item in departments"
                       :key="item.id"
@@ -174,6 +180,12 @@
                       {{ item.name }}
                     </option>
                   </select>
+                  <div
+                    v-if="submitted && !$v.department.required"
+                    class="invalid-feedback"
+                  >
+                    Department is required
+                  </div>
                 </div>
                 <div class="submit-section">
                   <button
@@ -424,6 +436,7 @@ export default {
   },
   validations: {
     name: { required },
+    department: { required },
   },
   mounted() {
     this.getDepartments();
