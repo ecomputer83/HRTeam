@@ -245,7 +245,18 @@
                 <form @submit.prevent="submitResponse">                  
                   <div class="form-group">
                       <label>Response <span class="text-danger">*</span></label>
-                      <textarea class="form-control" v-model="response" rows="4"></textarea>
+                      <textarea 
+                        id="response" 
+                        name="response" 
+                        class="form-control" 
+                        v-model.trim="$v.response.$model" 
+                        :class="{ 'is-invalid': submitted && $v.response.$error }"
+                        rows="4"
+                      >
+                      </textarea>
+                      <div v-if="submitted && !$v.response.required" class="invalid-feedback">
+                        Response is required
+                      </div>
                   </div>
                   <div class="form-group">
                       <label>Remark <span class="text-danger">*</span></label>
@@ -485,7 +496,7 @@ export default {
     date: { required },
     form: { required },
     accusation: { required },
-    
+    response: { required },
     queryType: { required },
   },
   watch: {
@@ -645,6 +656,12 @@ export default {
       this.submitted = true;
 
         this.loading = true;
+
+        this.$v.$touch();
+        if (this.$v.$invalid) {
+          return;
+        }
+
         //console.log(this.query)
         //console.log(`this.user`, this.user)
         this.query.response = this.response;
