@@ -112,7 +112,7 @@
         </div>
         <!-- /Page Content -->
 
-        <!-- Add Resignation Modal -->
+        <!-- Send Interview Invitation Modal -->
         <v-dialog v-model="dialog" max-width="725px"
           >
             <div class="modal-content">
@@ -128,11 +128,11 @@
               </div>
               <div class="modal-body">
                 <form @submit.prevent="onSubmit">
-                  
+            
                   <div class="form-group">
                       <label>Interview Date <span class="text-danger">*</span></label>
                       <div class="cal-icon">
-                        <datepicker v-model="interviewDate" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
+                        <datepicker v-model="resignation.exitInterview.interviewDate" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
                       </div>
                   </div>
                   
@@ -149,7 +149,7 @@
               </div>
             </div>
         </v-dialog>
-        <!-- /Add Resignation Modal -->
+        <!-- /Send Interview Invitation Modal -->
         <!-- Query Details Modal -->
 
            <v-dialog v-model="dialogDetail" max-width="725px"
@@ -181,17 +181,17 @@
                       <label>Employee Reason <span class="text-danger">*</span></label>
                       <textarea class="form-control" v-model="resignation.reason" rows="4" readonly></textarea>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" v-if="resignation.exitInterview.interviewDate">
                       <label>Interview Date <span class="text-danger">*</span></label>
                       <div class="cal-icon">
                         <input class="form-control" readonly  :value="new Date(resignation.exitInterview.interviewDate).toLocaleDateString()"/>
                       </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" v-if="resignation.exitInterview.observation">
                       <label>HR Observations<span class="text-danger">*</span></label>
                       <textarea class="form-control" v-model="resignation.exitInterview.observation" rows="4" readonly></textarea>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" v-if="resignation.exitInterview.remark">
                       <label>HR Remark<span class="text-danger">*</span></label>
                       <textarea class="form-control" v-model="resignation.exitInterview.remark" rows="4" readonly></textarea>
                   </div>
@@ -202,7 +202,7 @@
         </v-dialog>
 
         <!-- /Query Details Modal -->
-        <!-- Edit Resignation Modal -->
+        <!-- Add Observation Modal -->
         <v-dialog v-model="dialogEdit" max-width="725px"
           >
             <div class="modal-content">
@@ -244,7 +244,7 @@
             </div>
           
         </v-dialog>
-        <!-- /Edit Resignation Modal -->
+        <!-- /Add Observation Modal -->
 
         <!-- Delete Resignation Modal -->
         <v-dialog v-model="dialogDelete" max-width="725px"

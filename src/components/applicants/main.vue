@@ -52,7 +52,7 @@
                           v-for="applicant in applicants"
                           v-bind:key="applicant.id"
                         >
-                          <td>{{ applicant.salutation }}</td>
+                          <td>{{ applicant.title }}</td>
 
                           <td
                             @click="setApplicantDetail(applicant)"
@@ -193,22 +193,22 @@
                         </div>
                         <div class="col-sm-6">
                           <div class="form-group">
-                            <label class="col-form-label">Salutation 
+                            <label class="col-form-label">Title 
                               <span class="text-danger">*</span>
                             </label>
                               <input 
                                 type="text" 
-                                id="salutation"
-                                name="salutation"
+                                id="title"
+                                name="title"
                                 class="form-control" 
-                                v-model.trim="$v.salutation.$model"
-                                :class="{ 'is-invalid': submitted && $v.salutation.$error }"
+                                v-model.trim="$v.title.$model"
+                                :class="{ 'is-invalid': submitted && $v.title.$error }"
                               />
                               <div
-                                v-if="submitted && !$v.salutation.required"
+                                v-if="submitted && !$v.title.required"
                                 class="invalid-feedback"
                               >
-                                Salutation is required
+                                Title is required
                               </div>
                           </div>
                         </div>
@@ -387,8 +387,8 @@
                       <input class="form-control" readonly  :value="applicant.gender"/>
                   </div>
                   <div class="form-group">
-                      <label>Salutation <span class="text-danger">*</span></label>
-                      <input class="form-control" readonly  :value="applicant.salutation"/>
+                      <label>Title <span class="text-danger">*</span></label>
+                      <input class="form-control" readonly  :value="applicant.title"/>
                   </div> 
                   <div class="form-group">
                       <label>Phone 1 <span class="text-danger">*</span></label>
@@ -443,7 +443,7 @@ import LayoutHeader from "@/components/layouts/Header.vue";
 import LayoutSidebar from "@/components/layouts/Sidebar.vue";
 import { applicantService } from "@/services/applicantService";
 import { jobService } from '@/services/jobService';
-import { required } from "vuelidate/lib/validators";
+import { required } from "vuelidate/lib/validators"
 import { authenticationService } from "@/services/authenticationService";
 import Vue from "vue";
 
@@ -462,7 +462,7 @@ export default {
       vacancyId: '',
       firstName: '',
       lastName: '',
-      salutation: '',
+      title: '',
       gender: '',
       phone1: '',
       phone2: '',
@@ -496,7 +496,7 @@ export default {
     firstName: { required },
     lastName: { required },
     gender: { required },
-    salutation: { required },
+    title: { required },
     email: { required },
     phone1: { required },
     phone2: { required },
@@ -543,7 +543,7 @@ export default {
       this.vacancyId = ""
       this.firstName = ""
       this.lastName = ""
-      this.salutation = ""
+      this.title = ""
       this.gender = ""
       this.phone1 = ""
       this.phone2 = ""
@@ -605,7 +605,7 @@ export default {
 
 
 				jobService.applyJob(this.vacancyId, this.company.id, this.firstName, this.lastName,
-				 this.salutation, this.gender, this.phone1, this.phone2, this.email, this.address, this.file)
+				 this.title, this.gender, this.phone1, this.phone2, this.email, this.address, this.file)
         			.then(
           				p => {
 							  this.message = "Your application has been submitted successfully";

@@ -374,7 +374,6 @@ export default {
     },
     clearList() {
       this.employeeId = ""
-
     },
     setEditDisciplinaryMeasure(model) {
       this.disciplinaryMeasure = model;

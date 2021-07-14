@@ -558,7 +558,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <form @submit.prevent="updateDisciplinaryMeasure">
+              <form @submit.prevent="UpdateDesignationPerformance">
                 <div class="row">
                   <div class="col-sm-12">
                     <div class="form-group">
@@ -735,7 +735,7 @@
                   </div>
                 </div>
                 <div class="submit-section">
-                  <button @click.prevent="updateDesignationPerformance" class="btn btn-primary submit-btn">Submit</button>
+                  <button @click.prevent="UpdateDesignationPerformance" class="btn btn-primary submit-btn">Submit</button>
                 </div>
               </form>
             </div>
@@ -947,14 +947,14 @@
           }
         );
      },
-     updateDesignationPerformance () {
+     UpdateDesignationPerformance () {
         this.submitted = true;
         this.loading = true;
 
-        this.$v.$touch();
-       if (this.$v.$invalid) {
-        return;
-      }
+        // this.$v.$touch();
+        // if (this.$v.$invalid) {
+        //   return;
+        // }
 
        performanceService
         .updateDesignationPerformance(

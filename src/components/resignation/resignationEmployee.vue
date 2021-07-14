@@ -179,9 +179,9 @@
                       </div>
                   </div>
                   <div class="form-group">
-                                        <label>Reason <span class="text-danger">*</span></label>
-                                        <textarea class="form-control" v-model="reason" rows="4"></textarea>
-                                    </div>
+                      <label>Reason <span class="text-danger">*</span></label>
+                      <textarea class="form-control" v-model="reason" rows="4"></textarea>
+                  </div>
                   <div class="submit-section">
                     <button
                       @click.prevent="onSubmit"
@@ -356,8 +356,7 @@ export default {
     // },
 
     getEmployeeResignations() {
-      const companyId = this.company.id;
-      employeeService.getEmployeeResignationsByEmployee(companyId).then(
+      employeeService.getEmployeeResignationsByEmployee(this.user.employee.id).then(
         (model) => {
           console.log(model)
           this.resignations = model;

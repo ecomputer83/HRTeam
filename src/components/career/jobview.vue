@@ -147,7 +147,20 @@
                             <label class="col-form-label">Firstname 
                               <span class="text-danger">*</span>
                             </label>
-                            <input class="form-control" type="text" v-model="firstName">
+                            <input 
+                              type="text" 
+                              id="firstName"
+                              name="firstName"
+                              class="form-control" 
+                              v-model.trim="$v.firstName.$model"
+                              :class="{ 'is-invalid': submitted && $v.firstName.$error }"
+                            >
+                            <div
+                              v-if="submitted && !$v.firstName.required"
+                              class="invalid-feedback"
+                            >
+                              First Name is required
+                            </div>
                           </div>
                         </div>
                         <div class="col-sm-6">
@@ -155,15 +168,41 @@
                             <label class="col-form-label">Lastname 
                               <span class="text-danger">*</span>
                             </label>
-                            <input class="form-control" type="text" v-model="lastName">
+                            <input 
+                              type="text" 
+                              id="lastName"
+                              name="lastName"
+                              class="form-control" 
+                              v-model.trim="$v.lastName.$model"
+                              :class="{ 'is-invalid': submitted && $v.lastName.$error }"
+                            />
+                            <div
+                              v-if="submitted && !$v.lastName.required"
+                              class="invalid-feedback"
+                            >
+                              Last Name is required
+                            </div>
                           </div>
                         </div>
                         <div class="col-sm-6">
                           <div class="form-group">
-                            <label class="col-form-label">Salutation 
+                            <label class="col-form-label">Title 
                               <span class="text-danger">*</span>
                             </label>
-                            <input class="form-control" type="text" v-model="salutation">
+                            <input 
+                                type="text" 
+                                id="title"
+                                name="title"
+                                class="form-control" 
+                                v-model.trim="$v.title.$model"
+                                :class="{ 'is-invalid': submitted && $v.title.$error }"
+                              />
+                              <div
+                                v-if="submitted && !$v.title.required"
+                                class="invalid-feedback"
+                              >
+                                Title is required
+                              </div>
                           </div>
                         </div>
                         <div class="col-sm-6">
@@ -171,7 +210,23 @@
                             <label class="col-form-label">Gender
                               <span class="text-danger">*</span>
                             </label>
-                            <input class="form-control" type="text" v-model="gender">
+                            <select 
+                                id="gender"
+                                name="gender"
+                                class="select form-control" 
+                                v-model.trim="$v.gender.$model"
+                                :class="{ 'is-invalid': submitted && $v.gender.$error }"
+                              >
+                                <option disabled>Select Gender</option>
+                                <option>Male</option>
+                                <option>Female</option>
+                              </select>
+                              <div
+                                v-if="submitted && !$v.gender.required"
+                                class="invalid-feedback"
+                              >
+                                Gender is required
+                              </div>
                           </div>
                         </div>
                         <div class="col-sm-6">
@@ -179,7 +234,20 @@
                             <label class="col-form-label">Phone1
                               <span class="text-danger">*</span>
                             </label>
-                            <input class="form-control" type="text" v-model="phone1">
+                            <input 
+                              type="text" 
+                              id="phone1"
+                              name="phone1"
+                              class="form-control" 
+                              v-model.trim="$v.phone1.$model"
+                              :class="{ 'is-invalid': submitted && $v.phone1.$error }"
+                            />
+                            <div
+                              v-if="submitted && !$v.phone1.required"
+                              class="invalid-feedback"
+                            >
+                              Phone 1 is required
+                            </div>
                           </div>
                         </div>
                         <div class="col-sm-6">
@@ -187,7 +255,20 @@
                             <label class="col-form-label">Phone2
                               <span class="text-danger">*</span>
                             </label>
-                            <input class="form-control" type="text" v-model="phone2">
+                            <input 
+                              type="text" 
+                              id="phone2"
+                              name="phone2"
+                              class="form-control" 
+                              v-model.trim="$v.phone2.$model"
+                              :class="{ 'is-invalid': submitted && $v.phone2.$error }"
+                            />
+                            <div
+                              v-if="submitted && !$v.phone2.required"
+                              class="invalid-feedback"
+                            >
+                              Phone 2 is required
+                            </div>
                           </div>
                         </div>
                         <div class="col-sm-6">
@@ -195,7 +276,20 @@
                             <label class="col-form-label">Email
                               <span class="text-danger">*</span>
                             </label>
-                            <input class="form-control" type="text" v-model="email">
+                            <input 
+                              type="email" 
+                              id="email"
+                              name="email"
+                              class="form-control" 
+                              v-model.trim="$v.email.$model"
+                              :class="{ 'is-invalid': submitted && $v.email.$error }"
+                            />
+                            <div
+                              v-if="submitted && !$v.email.required"
+                              class="invalid-feedback"
+                            >
+                              Email is required
+                            </div>
                           </div>
                         </div>
                         <div class="col-sm-6">
@@ -203,14 +297,33 @@
                             <label class="col-form-label">Address
                               <span class="text-danger">*</span>
                             </label>
-                            <input class="form-control" type="text" v-model="address">
+                            <input 
+                              type="text" 
+                              id="address"
+                              name="address"
+                              class="form-control" 
+                              v-model.trim="$v.address.$model"
+                              :class="{ 'is-invalid': submitted && $v.address.$error }"
+                            />
+                            <div
+                              v-if="submitted && !$v.address.required"
+                              class="invalid-feedback"
+                            >
+                              Address is required
+                            </div>
                           </div>
                         </div>
                         <div class="col-sm-12">
                           <div class="form-group">
                           <label>Upload your CV</label>
                           <div class="custom-file" v-if="!file">
-                            <input type="file" class="custom-file-input" id="cv_upload" @change="onFilePicked">
+                            <input type="file" name="file" class="custom-file-input" :class="{ 'is-invalid': submitted && $v.address.$error }" id="cv_upload" @change="onFilePicked">
+							<div
+                              v-if="submitted && !$v.address.required"
+                              class="invalid-feedback"
+                            >
+                              CV is required
+                            </div>
                             <label class="custom-file-label" for="cv_upload">Choose file</label>
                           </div>
 						  <div class="row" v-if="file">
@@ -240,6 +353,7 @@
 <script>
 	import LayoutHeaderApp from '@/components/layouts/HeaderApp.vue'
 	import { jobService } from '@/services/jobService';
+	import { required } from "vuelidate/lib/validators"
 	export default {
 		components: {
 			LayoutHeaderApp,
@@ -264,7 +378,9 @@
 				file: null,
 				fileName: null,
 				message: '',
-				error: ''
+				error: '',
+				loading: false,
+				submitted: false
             }
         },
 		methods: {
@@ -295,6 +411,13 @@
 			},
 
 			applyJob(){
+				this.submitted = true;
+
+				this.$v.$touch();
+				if (this.$v.$invalid) {
+					return;
+				}
+
 				jobService.applyJob(this.$route.params.id, this.vacancy.jobProfile.companyId, this.firstName, this.lastName,
 				 this.salutation, this.gender, this.phone1, this.phone2, this.email, this.address, this.file)
         			.then(
@@ -320,6 +443,17 @@
             	var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24); 
             	return parseInt(Difference_In_Days);
       		}
+		},
+		validations: {
+			vacancyId: { required },
+			firstName: { required },
+			lastName: { required },
+			gender: { required },
+			title: { required },
+			email: { required },
+			phone1: { required },
+			phone2: { required },
+			address: { required }   
 		},
 		mounted() {
 			this.getVacancy()

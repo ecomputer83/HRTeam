@@ -64,8 +64,12 @@
                             <li>
                               <div class="title-label">Phone:</div>
                               <div class="text">
-                                <a href="">{{ employee.phone }}</a>
+                                {{ employee.phone }}
                               </div>
+                            </li>
+                            <li>
+                              <div class="title-label">Birthday:</div>
+                              <div class="text">{{ new Date(employee.birthday).toLocaleDateString() }}</div>
                             </li>
                             <li>
                               <div class="title-label">Email:</div>
@@ -181,7 +185,7 @@
                         <li>
                           <div class="title-label">Tel</div>
                           <div class="text">
-                            <a href="">{{ employee.phone }}</a>
+                            {{ employee.phone }}
                           </div>
                         </li>
                         <li>

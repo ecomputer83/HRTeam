@@ -232,6 +232,9 @@ export default {
     setLeaveType(model) {
       this.leavetype = model;
     },
+    clearModel() {
+      this.name = ""
+    },
 
     removeLeaveType() {
       const id = this.leavetype.id;
@@ -259,7 +262,7 @@ export default {
       organizationService.addLeaveType(this.name).then(
         (id) => {
           organizationService.getLeaveTypes().then((p) => {
-            this.leavetypes = p;
+            this.leavetypes = p; this.clearModel()
           });
         },
         (error) => {
