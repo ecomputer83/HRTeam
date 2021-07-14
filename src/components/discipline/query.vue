@@ -546,7 +546,7 @@ export default {
         .then(
           (id) => {
             employeeService.getQueries(this.company.id).then((w) => {
-              this.query = w; console.log(w); this.close()
+              this.queries = w; console.log(w); this.close()
             });
           },
           (error) => {
