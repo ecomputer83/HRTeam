@@ -90,15 +90,54 @@
                 <form @submit.prevent="onSubmit">
                   <div class="form-group">
                     <label>Key Result <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" v-model="keyResult">
+                    <input 
+                      type="text" 
+                      id="keyResult"
+                      name="keyResult"
+                      class="form-control" 
+                      v-model.trim="$v.keyResult.$model"
+                      :class="{ 'is-invalid': submitted && $v.keyResult.$error }"
+                    />
+                      <div
+                        v-if="submitted && !$v.keyResult.required"
+                        class="invalid-feedback"
+                      >
+                        Key Result is required
+                      </div>
                   </div>
                   <div class="form-group">
                     <label>Key Performance Indicator <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" v-model="keyPerformanceIndicator">
+                    <input 
+                      type="text" 
+                      id="keyPerformanceIndicator"
+                      name="keyPerformanceIndicator"
+                      class="form-control" 
+                      v-model.trim="$v.keyPerformanceIndicator.$model"
+                      :class="{ 'is-invalid': submitted && $v.keyPerformanceIndicator.$error }"
+                    />
+                      <div
+                        v-if="submitted && !$v.keyPerformanceIndicator.required"
+                        class="invalid-feedback"
+                      >
+                        Key Performance Indicator is required
+                      </div>
                   </div>
                   <div class="form-group">
                     <label>Weight Age <span class="text-danger">*</span></label>
-                    <input type="number" class="form-control" v-model="weightAge">
+                    <input 
+                      type="number" 
+                      id="weightAge"
+                      name="weightAge"
+                      class="form-control" 
+                      v-model.trim="$v.weightAge.$model"
+                      :class="{ 'is-invalid': submitted && $v.weightAge.$error }"
+                    />
+                      <div
+                        v-if="submitted && !$v.weightAge.required"
+                        class="invalid-feedback"
+                      >
+                        Weight Age is required
+                      </div>
                   </div>
                   <div class="submit-section">
                     <button
@@ -240,10 +279,9 @@ export default {
   },
 
   validations: {
-    //name: { required },
-    //reason: { required },
-    //noticeDate: { required },
-    //Personal Excellence SettingsDate: { required },
+    keyResult: { required },
+    keyPerformanceIndicator: { required },
+    weightAge: { required },
   },
   watch: {
     dialog (val) {
@@ -302,6 +340,12 @@ export default {
     onSubmit() {
       this.submitted = true;
       this.loading = true;
+
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        return;
+      }
+
       performanceService
         .AddPersonalExcellenceSettings(
           this.company.id,

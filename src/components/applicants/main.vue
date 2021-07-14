@@ -328,7 +328,7 @@
                         </div>
                         <div class="col-sm-12">
                           <div class="form-group">
-                          <label>Upload your CV</label>
+                          <label>Upload your CV</label>                                                                                                                                                           
                           <div class="custom-file" v-if="!file">
                             <input type="file" class="custom-file-input" id="cv_upload" @change="onFilePicked">
                             <label class="custom-file-label" for="cv_upload">Choose file</label>
