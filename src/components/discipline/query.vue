@@ -116,18 +116,40 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form @submit.prevent="onSubmit">
+                <form @submit="onSubmit">
                   <div class="form-group">
                     <label>Employee <span class="text-danger">*</span></label>
-                    <select class="form-control" v-model="employeeId">
-                      <option>Employee</option>
+                    <select 
+                      id="employeeId" 
+                      name="employeeId" 
+                      class="select form-control" 
+                      v-model.trim="$v.employeeId.$model"
+                      :class="{ 'is-invalid': submitted && $v.employeeId.$error }"
+                    >
+                      <option disabled>Select Employee</option>
                       <option v-for="item in employees" :key="item.id" :value="item.id">{{item.firstName + ' ' + item.lastName}}</option>
                     </select>
+                    <div v-if="submitted && !$v.employeeId.required" class="invalid-feedback">
+                      Employee is required
+                    </div>
                   </div>
                   <div class="form-group">
                       <label>Date <span class="text-danger">*</span></label>
                       <div class="cal-icon">
-                        <datepicker v-model="date" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
+                        <datepicker 
+                          id="date" 
+                          name="date" 
+                          v-model.trim="$v.date.$model" 
+                          calendar-class 
+                          input-class 
+                          bootstrap-styling 
+                          class="form-control datetimepicker" 
+                          :class="{ 'is-invalid': submitted && $v.date.$error }"
+                          type="text" 
+                        />
+                        <div v-if="submitted && !$v.date.required" class="invalid-feedback">
+                          Date is required
+                        </div>
                       </div>
                   </div>
                   <!-- <div class="form-group">
@@ -136,25 +158,54 @@
                   </div> -->
                    <div class="form-group">
                       <label>Form <span class="text-danger">*</span></label>
-                      <select class="select form-control" v-model="form">
-                        <option>-- Select --</option>
+                      <select
+                        id="form"
+                        name="form"
+                        class="select form-control" 
+                        :class="{ 'is-invalid': submitted && $v.form.$error }"
+                        v-model.trim="$v.form.$model"
+                      >
+                        <option disabled>-- Select Form --</option>
                         <option value="Verbal">Verbal</option>
                         <option value="Written">Written</option>
                     </select>
+                    <div v-if="submitted && !$v.form.required" class="invalid-feedback">
+                      Form is required
+                    </div>
                   </div>
                   <div class="form-group">
                       <label>Query Type <span class="text-danger">*</span></label>
-                      <select class="form-control" v-model="queryType">
+                      <select 
+                        id="queryType"
+                        name="queryType"
+                        class="select form-control" 
+                        v-model.trim="$v.queryType.$model"
+                        :class="{ 'is-invalid': submitted && $v.queryType.$error }"
+                      >
                         <option disabled>-- Select Query Type --</option>
-                        <option value="1st query">1st Query</option>
-                        <option value="2nd query">2nd Query</option>
-                        <option value="3rd query">3rd Query</option>
+                        <option>1st Query</option>
+                        <option>2nd Query</option>
+                        <option>3rd Query</option>
                       </select>
+                      <div v-if="submitted && !$v.queryType.required" class="invalid-feedback">
+                        Query Type is required
+                      </div>
                   </div>
                   
                   <div class="form-group">
                       <label>Accusation <span class="text-danger">*</span></label>
-                      <textarea class="form-control" v-model="accusation" rows="4"></textarea>
+                      <textarea 
+                        id="accusation" 
+                        name="accusation" 
+                        class="form-control" 
+                        v-model.trim="$v.accusation.$model" 
+                        :class="{ 'is-invalid': submitted && $v.accusation.$error }"
+                        rows="4"
+                      >
+                      </textarea>
+                      <div v-if="submitted && !$v.accusation.required" class="invalid-feedback">
+                        Accusation is required
+                      </div>
                   </div>
                   <!-- <div class="form-group">
                       <label>Remark <span class="text-danger">*</span></label>
@@ -430,11 +481,12 @@ export default {
   },
 
   validations: {
-    name: { required },
-    accusation: { required },
-    form: { required },
+    employeeId: { required },
     date: { required },
-    //queryDate: { required },
+    form: { required },
+    accusation: { required },
+    
+    queryType: { required },
   },
   watch: {
     dialog (val) {
@@ -532,6 +584,11 @@ export default {
     },
     onSubmit() {
       this.submitted = true;
+
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        return;
+      }
       
       this.loading = true;
       employeeService
