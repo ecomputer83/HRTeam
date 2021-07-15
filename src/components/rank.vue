@@ -368,7 +368,7 @@ export default {
   },
   methods: {
     handleNewRank() {
-      console.log(this.rank);
+      // console.log(this.rank);
     }
   },
   name: "rank",

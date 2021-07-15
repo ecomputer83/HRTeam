@@ -261,6 +261,12 @@
                             >
                               Phone 1 is required
                             </div>
+                            <div
+                              v-if="submitted && !$v.phone1.numeric"
+                              class="invalid-feedback"
+                            >
+                              Phone 1 must be numbers
+                            </div>
                           </div>
                         </div>
                         <div class="col-sm-6">
@@ -281,6 +287,12 @@
                               class="invalid-feedback"
                             >
                               Phone 2 is required
+                            </div>
+                            <div
+                              v-if="submitted && !$v.phone2.numeric"
+                              class="invalid-feedback"
+                            >
+                              Phone 2 must be numbers
                             </div>
                           </div>
                         </div>
@@ -328,7 +340,7 @@
                         </div>
                         <div class="col-sm-12">
                           <div class="form-group">
-                          <label>Upload your CV</label>                                                                                                                                                           
+                          <label>Upload your CV</label>
                           <div class="custom-file" v-if="!file">
                             <input type="file" class="custom-file-input" id="cv_upload" @change="onFilePicked">
                             <label class="custom-file-label" for="cv_upload">Choose file</label>
@@ -443,7 +455,7 @@ import LayoutHeader from "@/components/layouts/Header.vue";
 import LayoutSidebar from "@/components/layouts/Sidebar.vue";
 import { applicantService } from "@/services/applicantService";
 import { jobService } from '@/services/jobService';
-import { required } from "vuelidate/lib/validators"
+import { required, numeric } from "vuelidate/lib/validators"
 import { authenticationService } from "@/services/authenticationService";
 import Vue from "vue";
 
@@ -498,7 +510,7 @@ export default {
     gender: { required },
     title: { required },
     email: { required },
-    phone1: { required },
+    phone1: { required, numeric },
     phone2: { required },
     address: { required }   
   },
@@ -571,7 +583,7 @@ export default {
       const companyId = this.company.id;
       jobService.getVancancies(companyId).then(
         (model) => {
-          console.log(`model`, model)
+          // console.log(`model`, model)
           this.vacancies = model;
         },
         (error) => {
@@ -582,7 +594,7 @@ export default {
     onFilePicked(event) {
       			const files = event.target.files
       			this.fileName = files[0].name
-				  console.log(this.fileName)
+				  // console.log(this.fileName)
       			const fileReader = new FileReader()
       			fileReader.addEventListener('load', () => {
         			this.file = fileReader.result

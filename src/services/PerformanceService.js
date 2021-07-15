@@ -74,7 +74,7 @@ function getDesignationPerformances() {
     return fetch(`${config.apiurl}/Designation/GetDesignationPerformances`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 
@@ -84,7 +84,7 @@ function getDesignationPerformance(id) {
     return fetch(`${config.apiurl}/Designation/GetDesignationPerformance/${id}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 
@@ -94,7 +94,7 @@ function getPerformanceIndicator(id) {
     return fetch(`${config.apiurl}/Designation/GetDesignationPerformanceByDesignationId/${id}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 
@@ -207,7 +207,7 @@ function getPerformanceAppraisals (id) {
     return fetch(`${config.apiurl}/PerformanceReview/GetAllEmployeePerfomanceAppraisal/${id}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 
@@ -288,7 +288,7 @@ function getProfessionalExcellenceSettings(id) {
     return fetch(`${config.apiurl}/PerformanceReview/GetProffesionalExcellenceSettings/${id}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 
@@ -336,7 +336,7 @@ function getPersonalExcellenceSettings(id) {
     return fetch(`${config.apiurl}/PerformanceReview/GetPersonalExcellenceSettings/${id}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 

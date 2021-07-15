@@ -114,11 +114,11 @@ export default {
   },
   methods: {
     onEditorChange({ quill, html, text }) {
-      console.log("editor change!", quill, html, text);
+      // console.log("editor change!", quill, html, text);
       this.content = html;
     },
     onEditorChange1({ quill, html, text }) {
-      console.log("editor change!", quill, html, text);
+      // console.log("editor change!", quill, html, text);
       this.content = html;
     }
   }

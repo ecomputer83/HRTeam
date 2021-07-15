@@ -1039,7 +1039,7 @@ export default {
       employeeService.getEmployees(companyId).then(
         (model) => {
           this.employees = model;
-          console.log(model);
+          // console.log(model);
         },
         (error) => {
           error = error;
@@ -1050,7 +1050,7 @@ export default {
       const companyId = this.company.id;
       employeeService.getEmployeeSalaries(companyId).then(
         (model) => {
-          console.log(model);
+          // console.log(model);
           this.salaries = model;
         },
         (error) => {
@@ -1061,7 +1061,7 @@ export default {
     getEmployeeDetail() {
       employeeService.getEmployeeDetail(this.employeeId).then(
         (model) => {
-          console.log("model detail", model);
+          // console.log("model detail", model);
           if (model.employeeStatutory) {
             this.error = null;
             this.details = model;
@@ -1157,7 +1157,8 @@ export default {
           (id) => {
             const companyId = this.company.id;
             employeeService.getEmployeeSalaries(companyId).then((w) => {
-              (this.salaries = w), console.log(w);
+              (this.salaries = w), 
+              // console.log(w);
               this.close();
             });
           },
@@ -1202,7 +1203,9 @@ export default {
             employeeService
               .getEmployeeSalaries(this.company.id)
               .then((o) => {
-                (this.salaries = o), console.log(o), this.closeEdit();
+                (this.salaries = o), 
+                // console.log(o), 
+                this.closeEdit();
               });
           },
           (error) => {
@@ -1219,7 +1222,7 @@ export default {
         employeeService.getEmployeeSalaries(this.company.id).then(
           (model) => {
             this.salaries = model;
-            console.log(model);
+            // console.log(model);
             this.closeDelete();
           },
           (error) => {

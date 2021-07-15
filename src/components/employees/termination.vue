@@ -535,11 +535,11 @@ export default {
 
     getEmployees() {
       const companyId = this.company.id;
-      console.log("this.company.id", this.company.id);
+      // console.log("this.company.id", this.company.id);
       employeeService.getEmployees(companyId).then(
         (model) => {
           this.employees = model;
-          console.log(model);
+          // console.log(model);
         },
         (error) => {
           error = error;
@@ -551,7 +551,7 @@ export default {
       skillsService.getTerminationTypes().then(
         (model) => {
           this.terminationTypes = model;
-          console.log(model);
+          // console.log(model);
         },
         (error) => {
           error = error;
@@ -560,11 +560,11 @@ export default {
     },
 
     getEmployeeTerminations() {
-      console.log("this.company.id", this.company.id);
+      // console.log("this.company.id", this.company.id);
       employeeService.getEmployeeTerminations(this.company.id).then(
         (model) => {
           this.terminatedEmployees = model;
-          console.log(model);
+          // console.log(model);
         },
         (error) => {
           error = error;
@@ -634,7 +634,7 @@ export default {
         employeeService.getEmployeeTerminations(this.company.id).then(
           (model) => {
             this.terminatedEmployees = model;
-            console.log(model);
+            // console.log(model);
           },
           (error) => {
             error = error;

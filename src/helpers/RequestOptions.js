@@ -53,7 +53,7 @@ const requestOptions = {
 function headers(form) {
     const currentUser = authenticationService.currentUserValue || {};
     const hostname = document.location.host;
-    console.log(hostname);
+    // console.log(hostname);
     const authHeader = currentUser.token ? { 'Authorization': 'Bearer ' + currentUser.token } : {}
     return {
         headers: (form) ?  {

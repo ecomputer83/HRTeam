@@ -427,7 +427,7 @@
                 
                 $(document).find('#customleave_select_to').append(selectOption);
                 this.selectedEmployees.push(this.pickEmployees[0])
-                console.log(this.selectedEmployees)
+                // console.log(this.selectedEmployees)
                 
             },
             selectedAllTo () {
@@ -456,7 +456,7 @@
                     var index = data.indexOf(parseInt(v))
                     data.splice(index, 1)
                     this.selectedEmployees = data
-                    console.log(this.selectedEmployees)
+                    // console.log(this.selectedEmployees)
                 })
                 
             },
@@ -484,7 +484,7 @@
                                     p.companyLeavePolicies = policies.filter(c=>c.policyId == p.id)
                                 })
                             })
-                            console.log(this.LeaveSettings)
+                            // console.log(this.LeaveSettings)
                                 if(model.length == 0)
                                     this.newInit = true;
                         },
@@ -497,7 +497,7 @@
                 employeeService.getEmployees(this.company.id).then(
                     (model) => {
                     this.employees = model;
-                    console.log(model);
+                    // console.log(model);
                     },
                     (error) => {
                     error = error;
@@ -526,7 +526,7 @@
                                     p.companyLeavePolicies = policies.filter(c=>c.policyId == p.id)
                                 })
                             })
-                            console.log(this.LeaveSettings)
+                            // console.log(this.LeaveSettings)
                             if(model.length == 0)
                                 this.newInit = true;
                             },
@@ -556,7 +556,7 @@
                                     p.companyLeavePolicies = policies.filter(c=>c.policyId == p.id)
                                 })
                             })
-                            console.log(this.LeaveSettings)
+                            // console.log(this.LeaveSettings)
                                 if(model.length == 0)
                                     this.newInit = true;
                         },
@@ -591,7 +591,7 @@
             var getSelect = function(ele) {
                 var selected = []
                 ele.find('option:selected').each(function() {
-                    console.log(this)
+                    // console.log(this)
                     selected.push($(this))
                 })
                 return selected;

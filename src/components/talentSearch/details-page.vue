@@ -129,7 +129,7 @@ export default {
   methods: {
     selectTimeline(event) {
       this.selectedTimeline = event;
-      console.log("clicked", event);
+      // console.log("clicked", event);
     }
   },
   name: "talent-search-detail"

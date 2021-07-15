@@ -597,13 +597,13 @@ export default {
     setEditLeave(item) {
       this.leave = item;
       this.dialogEdit = true;
-      console.log(`item`, item)
+      // console.log(`item`, item)
     },
 
     setLeaveStatus(item) {
       this.leave = item;
       this.dialogStatus = true;
-      console.log(`item`, item)
+      // console.log(`item`, item)
     },
 
     setDeleteLeave(item) {
@@ -690,7 +690,7 @@ export default {
       employeeService.getEmployeeLeaves(this.company.id).then(
         (model) => {
           this.employeeLeaves = model;
-          console.log("leaves:", model[0]);
+          // console.log("leaves:", model[0]);
         },
         (error) => {
           error = error;
@@ -701,7 +701,7 @@ export default {
       employeeService.getEmployees(this.company.id).then(
         (model) => {
           this.employees = model;
-          console.log(model);
+          // console.log(model);
         },
         (error) => {
           error = error;
@@ -712,7 +712,7 @@ export default {
       organizationService.getLeaveTypes().then(
         (model) => {
           this.leaveTypes = model;
-          console.log(model);
+          // console.log(model);
         },
         (error) => {
           error = error;

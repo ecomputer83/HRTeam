@@ -398,7 +398,7 @@ export default {
 
     setskillGrade(model) {
       this.skillGrade = model;
-      console.log(model);
+      // console.log(model);
     },
 
     onSubmit() {

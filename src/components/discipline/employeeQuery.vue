@@ -345,7 +345,9 @@ export default {
         .then(
           (id) => {
             employeeService.getQuery(this.user.employee.id).then((w) => {
-              this.query = w; console.log(w); this.close()
+              this.query = w; 
+              // console.log(w); 
+              this.close()
             });
           },
           (error) => {
@@ -358,7 +360,7 @@ export default {
         this.submitted = true;
 
         this.loading = true;
-        console.log(this.query)
+        // console.log(this.query)
 
         employeeService
           .updateQuery(
@@ -373,7 +375,9 @@ export default {
             .then(id => {
                   employeeService.getQuery(this.user.employee.id)
                     .then(
-                      o => {this.queries = o, console.log(o), this.closeEdit()}
+                      o => {this.queries = o, 
+                      // console.log(o), 
+                      this.closeEdit()}
                     )
               },
               error => {
@@ -400,7 +404,9 @@ export default {
             .then(id => {
                   employeeService.getQuery(this.user.employee.id)
                     .then(
-                      o => {this.queries = o, console.log(o), this.closeResponse()}
+                      o => {this.queries = o, 
+                      // console.log(o), 
+                      this.closeResponse()}
                     )
               },
               error => {

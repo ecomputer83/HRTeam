@@ -356,7 +356,7 @@ export default {
       organizationService.getDesignations().then(
         (model) => {
           this.designations = model;
-          console.log(model);
+          // console.log(model);
         },
         (error) => {
           error = error;
@@ -367,7 +367,7 @@ export default {
       organizationService.getDepartments().then(
         (model) => {
           this.departments = model;
-          console.log(model);
+          // console.log(model);
         },
         (error) => {
           error = error;

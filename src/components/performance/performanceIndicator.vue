@@ -848,12 +848,12 @@
       },
       setEditPerformanceIndicator(model) {
         this.performanceIndicator = model;
-        console.log(`model edit`, model)
+        // console.log(`model edit`, model)
         this.dialogEdit = true
       },
       setDeletePerformanceIndicator(model) {
         this.performanceIndicator = model;
-        console.log(`model delete`, model)
+        // console.log(`model delete`, model)
         this.dialogDelete = true;
       },
       clearModel() {
@@ -884,11 +884,11 @@
       },
       getEmployees () {
         const companyId = this.company.id;
-        console.log('this.company.id', this.company.id)
+        // console.log('this.company.id', this.company.id)
         employeeService.getEmployees(companyId)
           .then(
             model => { this.employees = model
-            console.log(model) 
+            // console.log(model) 
             },
             error => { error = error }
           )
@@ -899,7 +899,7 @@
           .then(
             (model) => {
               this.performanceIndicators = model;
-              console.log(`model`, model)
+              // console.log(`model`, model)
             },
             error => { error = error }
           )
@@ -937,7 +937,7 @@
           (id) => {
             performanceService.getDesignationPerformances(this.company.id).then((u) => {
               this.performanceIndicators = u;
-              console.log(`u`, u)
+              // console.log(`u`, u)
               this.close();
             });
           },
@@ -981,7 +981,7 @@
           (id) => {
             performanceService.getDesignationPerformances(this.company.id).then((u) => {
               this.performanceIndicators = u;
-              console.log(`u`, u)
+              // console.log(`u`, u)
               this.closeEdit();
             });
           },
@@ -1000,7 +1000,7 @@
             performanceService.getDesignationPerformances(this.company.id)
               .then(
                 model => { this.performanceIndicators = model
-                console.log(model)
+                // console.log(model)
                 this.closeDelete() },
                 error => { error = error }
               )

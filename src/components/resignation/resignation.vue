@@ -377,7 +377,7 @@ export default {
         employeeService.getEmployees(companyId)
           .then(
             model => { this.employees = model
-            console.log(model) 
+            // console.log(model) 
             },
             error => { error = error }
           )
@@ -386,7 +386,7 @@ export default {
       const companyId = this.company.id;
       employeeService.getEmployeeResignations(companyId).then(
         (model) => {
-          console.log(model)
+          // console.log(model)
           this.resignations = model;
         },
         (error) => {
@@ -459,14 +459,16 @@ export default {
         this.submitted = true;
 
         this.loading = true;
-        console.log(this.resignation)
+        // console.log(this.resignation)
         this.resignation.status = parseInt(this.resignation.status)
         await employeeService.UpdateExitInterview(this.resignation.exitInterview.id, this.resignation.exitInterview)
         employeeService.updateEmployeeResignation(this.resignation.id, this.resignation)
                 .then(id => {
                   employeeService.getEmployeeResignations(this.company.id)
                     .then(
-                      o => {this.resignations = o, console.log(o), this.closeEdit()}
+                      o => {this.resignations = o, 
+                      // console.log(o), 
+                      this.closeEdit()}
                     )
           },
                 error => {
@@ -478,13 +480,13 @@ export default {
     },
     deleteEmployeeResignation () {
       const id = this.resignation.id;
-      console.log(this.resignation)
+      // console.log(this.resignation)
         employeeService.removeEmployeeResignation(id)
           .then(id => {
             employeeService.getEmployeeResignations(this.company.id)
               .then(
                 model => { this.resignations = model
-                  console.log(model)
+                  // console.log(model)
                   this.closeDelete() },
                 error => { error = error }
               )

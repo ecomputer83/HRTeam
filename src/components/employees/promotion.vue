@@ -499,7 +499,7 @@ export default {
       employeeService.getPromotions(companyId).then(
         (model) => {
           this.promotions = model;
-          console.log(`modelP`, model)
+          // console.log(`modelP`, model)
         },
         (error) => {
           error = error;
@@ -523,7 +523,7 @@ export default {
 
     updatePromotion() {
       this.submitted = true;
-      console.log(`this.promotion`, this.promotion)
+      // console.log(`this.promotion`, this.promotion)
       this.loading = true;
       employeeService
         .updateEmployeePromotion(
@@ -537,7 +537,7 @@ export default {
           (id) => {
             employeeService.getPromotions(this.company.id).then((o) => {
               this.promotions = o; this.closeEdit();
-              console.log(`o`, o)
+              // console.log(`o`, o)
               
             });
           },
@@ -551,7 +551,7 @@ export default {
     onSubmit() {
       this.submitted = true;
       this.loading = true;
-      console.log("this.date", this.date);
+      // console.log("this.date", this.date);
       employeeService
         .addEmployeePromotion(this.from, this.to, this.date, this.employeeId, this.company.id)
         .then(

@@ -299,7 +299,7 @@ export default {
       const companyId = this.company.id;
       performanceService.getPersonalExcellenceSettings(companyId).then(
         (model) => {
-          console.log(model)
+          // console.log(model)
           this.PersonalExcellenceSettings = model;
         },
         (error) => {
@@ -308,7 +308,7 @@ export default {
       );
     },
     closeEdit() {
-      console.log("close")
+      // console.log("close")
       this.dialogEdit = false
     },
     closeDelete() {
@@ -380,7 +380,10 @@ export default {
                 .then(id => {
                       performanceService.getPersonalExcellenceSettings(this.company.id)
                         .then(
-                         o => {this.PersonalExcellenceSettings = o, console.log(o), this.closeEdit()}
+                         o => {this.PersonalExcellenceSettings = o, 
+                         // console.log(o), 
+                         this.closeEdit()
+                         }
                         )
           },
                     error => {
@@ -398,7 +401,7 @@ export default {
             performanceService.getPersonalExcellenceSettings(this.company.id)
                       .then(
                         model => { this.PersonalExcellenceSettings = model
-                        console.log(model)
+                        // console.log(model)
                         this.closeDelete() },
                         error => { error = error }
                       )

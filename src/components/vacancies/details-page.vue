@@ -220,7 +220,7 @@ export default {
             this.requisitionId = a.jobRequisition.id
             this.vacancysettingId = a.vacancysettings.id
             this.loaddependency = (this.$route.params.id && this.vacancy.id != 0)
-            console.log(this.vacancy.id)
+            // console.log(this.vacancy.id)
           },
           err => { this.error = err}
         )
@@ -237,7 +237,7 @@ export default {
           error => { this.error = error})
     },
     postVacancy() {
-      console.log(this.vacancy)
+      // console.log(this.vacancy)
       if(this.vacancy.jobProfileId == 0 || this.vacancy.designationId == 0 || this.vacancy.periodFrom == "" || this.vacancy.periodTo == ""){
         this.error = "Please fill all inputs";
         return 
@@ -260,7 +260,7 @@ export default {
         this.vacancy.quantity = parseInt(this.vacancy.quantity)
         this.vacancy.periodFrom = new Date(this.vacancy.periodFrom +" " + this.vacancy.periodFromTime)
         this.vacancy.periodTo = new Date(this.vacancy.periodTo +" " + this.vacancy.periodToTime)
-        console.log(this.vacancy)
+        // console.log(this.vacancy)
         this.vacancy.jobRequisition.id = this.requisitionId
         this.vacancy.vacancysettings.id = this.vacancysettingId
         if(!this.$route.params.id){

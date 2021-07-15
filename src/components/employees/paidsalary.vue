@@ -351,10 +351,10 @@
 
             getPaidSalaries() {
                 //const companyId = this.company.id;
-                console.log(`ID`, this.employee.employee.id)
+                // console.log(`ID`, this.employee.employee.id)
                 employeeService.getPaidSalaries(this.employee.employee.id).then(
                     (model) => {
-                        console.log('modelp', model)
+                        // console.log('modelp', model)
                         this.paidSalaries = model;
                     },
                         (error) => {

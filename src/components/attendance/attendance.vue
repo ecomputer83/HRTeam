@@ -637,7 +637,7 @@
                 const companyId = this.company.id;
                 attendanceService.getMonthlyattendance(companyId, this.month, this.year).then(
                     (model) => {
-                        console.log(model);
+                        // console.log(model);
                         this.attendances = model;
                         this.loading = false
                     },

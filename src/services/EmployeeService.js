@@ -427,7 +427,7 @@ function getEmployeeLeaves(companyId) {
     return fetch(`${config.apiurl}/employee/GetEmployeeLeaves/${companyId}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 
@@ -437,7 +437,7 @@ function getEmployeeLeaveSummary(employeeId) {
     return fetch(`${config.apiurl}/Summary/GetEmployeeLeaveSummaryByEmployee/${employeeId}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 
@@ -447,7 +447,7 @@ function getHRLeaveSummary(companyId) {
     return fetch(`${config.apiurl}/Summary/GetLeaveCountSummary/${companyId}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+           // console.log(model)
             return model
         });
 
@@ -457,7 +457,7 @@ function getDashboardCountSummary(companyId) {
     return fetch(`${config.apiurl}/Summary/GetDashboardCountSummary/${companyId}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 
@@ -467,7 +467,7 @@ function getTodayAbsence(companyId) {
     return fetch(`${config.apiurl}/Summary/GetTodayAbsence/${companyId}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 
@@ -476,7 +476,7 @@ function getUpcomingLeaves(companyId) {
     return fetch(`${config.apiurl}/Summary/getUpcomingLeaves/${companyId}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 
@@ -485,7 +485,7 @@ function getLastSalaryPayment(companyId) {
     return fetch(`${config.apiurl}/Summary/GetLastSalaryPayment/${companyId}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 
@@ -494,7 +494,7 @@ function getUpcomingResignations(companyId) {
     return fetch(`${config.apiurl}/Summary/getUpcomingResignations/${companyId}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 
@@ -504,7 +504,7 @@ function getEmployeeLeavesByEmployee(Id) {
     return fetch(`${config.apiurl}/employee/GetEmployeeLeavesByEmployee/${Id}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 
@@ -514,7 +514,7 @@ function getEmployeePolicies(companyId) {
     return fetch(`${config.apiurl}/employee/GetCompanyLeavePolicies/${companyId}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 
@@ -524,14 +524,14 @@ function getEmployeeLeaveEligibility(employeeId, typeId) {
     return fetch(`${config.apiurl}/employee/GetEmployeeLeaveEligibility/${employeeId}?typeId=${typeId}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 
 }
 
 function removeEmployee(employeeId) {
-    console.log(employeeId)
+    // console.log(employeeId)
     return fetch(`${config.apiurl}/employee/DeleteEmployee/${employeeId}`, requestOptions.delete())
         .then(handleResponse)
         .then(model => {
@@ -653,7 +653,7 @@ function getEmployeeTerminations(companyId) {
     return fetch(`${config.apiurl}/Employee/GetEmployeeTerminations/${companyId}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 
@@ -744,7 +744,7 @@ function getEmployeeResignations(companyId) {
     return fetch(`${config.apiurl}/Employee/GetEmployeeResignations/${companyId}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 
@@ -753,7 +753,7 @@ function getEmployeeResignationsByEmployee(Id) {
     return fetch(`${config.apiurl}/Employee/GetEmployeeResignationsByEmployee/${Id}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 
@@ -849,7 +849,7 @@ function getExpenseClaim(id) {
     return fetch(`${config.apiurl}/Expense​/GetExpenseClaim​/${id}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 
@@ -881,7 +881,7 @@ function getEmployeeSalary(id) {
     return fetch(`${config.apiurl}/Employee/GetEmployeeSalary/${id}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 
@@ -891,7 +891,7 @@ function getDesignation(id) {
     return fetch(`${config.apiurl}/Designation/GetDesignationByEmployee?id=${id}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 
@@ -901,7 +901,7 @@ function getEmployeeSalaries(id) {
     return fetch(`${config.apiurl}/Employee/GetallEmployeeSalaries/${id}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 
@@ -910,7 +910,7 @@ function getallEmployeeSalaries(id, month, year) {
     return fetch(`${config.apiurl}/Employee/GetallPrevEmployeeSalaries/${id}?month=${month}&year=${year}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 
@@ -953,7 +953,7 @@ function getPaidSalaries(id) {
     return fetch(`${config.apiurl}/Employee/GetPaidSalaries/${id}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 
@@ -979,7 +979,7 @@ function getDisciplinaryMeasure() {
     return fetch(`${config.apiurl}/Employee/GetDisciplinaryMeasure/${this.employeeId}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 }
@@ -988,7 +988,7 @@ function getDisciplinaryMeasures(companyId) {
     return fetch(`${config.apiurl}/Employee/GetDisciplinaryMeasures/${companyId}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 }
@@ -1040,7 +1040,7 @@ function getQuery(employeeId) {
     return fetch(`${config.apiurl}/Employee/GetQueriesByEmployee/${employeeId}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 }
@@ -1049,7 +1049,7 @@ function getQueries(companyId) {
     return fetch(`${config.apiurl}/Employee/GetQueries/${companyId}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
-            console.log(model)
+            // console.log(model)
             return model
         });
 }

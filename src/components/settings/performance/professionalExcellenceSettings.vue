@@ -301,7 +301,7 @@ export default {
       const companyId = this.company.id;
       performanceService.getprofessionalExcellenceSettings(companyId).then(
         (model) => {
-          console.log(model)
+          // console.log(model)
           this.professionalExcellenceSettings = model;
         },
         (error) => {
@@ -340,7 +340,7 @@ export default {
     getProfessionalExcellenceSettings () {
       performanceService.getProfessionalExcellenceSettings(this.company.id).then((w) => {
               this.professionalExcellenceSettings = w;
-              console.log(`w`, w)
+              // console.log(`w`, w)
             },
             (error) => {
           error = error;
@@ -389,7 +389,9 @@ export default {
                 .then(id => {
                       performanceService.getprofessionalExcellenceSettings(this.company.id)
                         .then(
-                         o => {this.professionalExcellenceSettings = o, console.log(o), this.closeEdit()}
+                         o => {this.professionalExcellenceSettings = o, 
+                         // console.log(o), 
+                         this.closeEdit()}
                         )
           },
                     error => {
@@ -407,7 +409,7 @@ export default {
             performanceService.getprofessionalExcellenceSettings(this.company.id)
                       .then(
                         model => { this.professionalExcellenceSettings = model
-                        console.log(model)
+                        // console.log(model)
                         this.closeDelete() },
                         error => { error = error }
                       )

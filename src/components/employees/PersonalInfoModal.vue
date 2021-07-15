@@ -88,6 +88,7 @@
                   class="form-control"
                   type="text"
                   v-model.trim="$v.phone.$model"
+                  :class="{ 'is-invalid': submitted && $v.phone.$error }"
                 />
               </div>
               <div
@@ -186,7 +187,7 @@
 </template>
 
 <script>
-import { required, sameAs } from "vuelidate/lib/validators";
+import { required, numeric, sameAs } from "vuelidate/lib/validators";
 import Datepicker from "vuejs-datepicker"
 import { employeeService } from "@/services/employeeService";
 export default {
@@ -218,13 +219,13 @@ export default {
   },
 
   validations: {
-    phone: { required },
+    phone: { required, numeric },
     nationality: { required },
     religion: { required },
     maritalStatus: { required },
   },
   mounted() {
-    console.log(this.model);
+    // console.log(this.model);
     this.$emit("update:employee", this.employee);
     this.$emit("update:personalInfoDialog", this.dialog);
     if ($('.datetimepicker').length > 0) {

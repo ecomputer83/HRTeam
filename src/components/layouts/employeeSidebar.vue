@@ -119,7 +119,7 @@ export default {
   },
   methods: {
     scrollHanle(evt) {
-      console.log(evt);
+      // console.log(evt);
     },
   },
 };

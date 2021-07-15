@@ -387,7 +387,7 @@
 			onFilePicked(event) {
       			const files = event.target.files
       			this.fileName = files[0].name
-				  console.log(this.fileName)
+				  // console.log(this.fileName)
       			const fileReader = new FileReader()
       			fileReader.addEventListener('load', () => {
         			this.file = fileReader.result

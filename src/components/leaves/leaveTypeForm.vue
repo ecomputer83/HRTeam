@@ -203,7 +203,7 @@ export default {
   },
   methods: {
     handleCreateOrg() {
-      console.log(this.email);
+      // console.log(this.email);
       this.isCreateOrg = true;
     }
   },

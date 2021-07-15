@@ -15,13 +15,16 @@
     
       created() {
         DataTableEventBus.$on("editData", data =>
-          console.log("editing " + data.id)
+          console.log(" ")
+          // console.log("editing " + data.id)
         );
         DataTableEventBus.$on("viewData", data =>
-          console.log("showing " + data.id)
+          console.log(" ")
+          // console.log("showing " + data.id)
         );
         DataTableEventBus.$on("deleteData", data =>
-          console.log("deleting " + data.id)
+          console.log(" ")
+          // console.log("deleting " + data.id)
         );
       },
     

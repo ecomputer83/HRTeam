@@ -1212,7 +1212,7 @@
                 .then(
                     model => { 
                         this.designations = model;
-                        console.log(`model`, model)
+                        // console.log(`model`, model)
                     },
                     error => { this.error = error }
                 )
@@ -1221,7 +1221,7 @@
                 organizationService.getDepartments().then(
                     (model) => {
                         this.departments = model;
-                        console.log(model);
+                        // console.log(model);
                     },
                     (error) => {
                         error = error;
@@ -1249,7 +1249,7 @@
             $(function () {
                 $(document).on("click", '.btn-add-row', function () {
                     var id = $(this).closest("table.table-review").attr('id');  // Id of particular table
-                    console.log(id);
+                    // console.log(id);
                     var div = $("<tr />");
                     div.html(GetDynamicTextBox(id));
                     $("#" + id + "_tbody").append(div);

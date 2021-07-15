@@ -62,7 +62,7 @@
               </tr>
               <tr>
                 <td class="d-flex align-items-center p-0 mb-2">
-                  <p class="mb-0 col-md-7 pl-0 pr-2"><i class="pr-3"></i>Remarks HR</p>
+                  <p class="mb-0 col-md-7 pl-0 pr-2"><i class="pr-3"></i>HR Remarks</p>
                   <div class="col-md-5 pr-0 pl-2 custom-control">
                   <input
                     type="text"

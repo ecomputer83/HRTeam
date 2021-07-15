@@ -117,7 +117,7 @@ import {organizationService} from '@/services/organizationService';
     },
         postBank() {
             this.submitted = true;
-            console.log(this.Id)
+            // console.log(this.Id)
             // stop here if form is invalid
             this.$v.$touch();
             if (this.$v.$invalid) {

@@ -511,7 +511,7 @@
 
       onSubmit() {
         this.submitted = true;
-            console.log("onSubmit")
+            // console.log("onSubmit")
             if(!this.profile.educationRequirement){
               this.error = "Education requirement is required, Please click on Detail tab";
               return 
@@ -585,7 +585,7 @@
                 }
         })
         }else{
-          console.log("No parameter in the router")
+          // console.log("No parameter in the router")
         }
       }
       

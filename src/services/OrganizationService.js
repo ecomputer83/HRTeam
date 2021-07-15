@@ -303,7 +303,7 @@ function addDesignation(name, department) {
         name,
         departmentId: department
     }
-    console.log(req)
+    // console.log(req)
     return fetch(`${config.apiurl}/Miscellaneous/createDesignation`, requestOptions.post(req))
         .then(handleResponse)
         .then(id => {

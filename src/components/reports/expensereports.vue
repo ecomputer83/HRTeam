@@ -323,7 +323,7 @@ export default {
       employeeService.getEmployees(companyId)
         .then(
           model => { this.employees = model
-          console.log(model) 
+          // console.log(model) 
           },
           error => { error = error }
         )
@@ -332,7 +332,7 @@ export default {
       const companyId = this.company.id;
       employeeService.getEmployeeResignations(companyId).then(
         (model) => {
-          console.log(model)
+          // console.log(model)
           this.resignations = model;
         },
         (error) => {
@@ -343,7 +343,7 @@ export default {
     getExpenseClaim() {
       employeeService.getExpenseClaim().then(
         (model) => {
-          console.log(model)
+          // console.log(model)
           this.expenses = model
         },
         (error) => {
@@ -388,7 +388,9 @@ export default {
         .then(
           (id) => {
             employeeService.getExpenseClaim(this.employeeId).then((w) => {
-              this.expenses = w, console.log(w); this.close()
+              this.expenses = w, 
+              // console.log(w); 
+              this.close()
             });
           },
           (error) => {

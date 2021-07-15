@@ -489,10 +489,10 @@
 		mounted() {
 			if(this.currentUser){
 			this.GetEmployee();
-			console.log(this.currentUser)
+			// console.log(this.currentUser)
 			//this.myAccount = this.currentUser.employee.id == this.employee.id
 			}else{
-				console.log(this.currentUser)
+				// console.log(this.currentUser)
 				//this.$route.push('/employees')
 			}
 			// Date Time Picker

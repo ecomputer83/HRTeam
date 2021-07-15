@@ -499,7 +499,7 @@ export default {
       const companyId = this.company.id;
       employeeService.getallEmployeeSalaries(companyId, this.month, this.year).then(
         (model) => {
-          console.log(model);
+          //console.log(model);
           var notpaid = model.filter(v=>v.salaryPayment == null || v.pensionPayment == null || v.taxPayment == null)
           this.paymentButton = (notpaid.length > 0)
           this.salaries = model;

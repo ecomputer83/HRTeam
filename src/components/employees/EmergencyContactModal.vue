@@ -259,14 +259,14 @@ export default {
     sphone2: { required },
   },
   mounted() {
-    console.log(this.model);
+    // console.log(this.model);
     this.$emit("update:employee", this.employee);
     this.$emit("update:emergencyContactDialog", this.dialog);
   },
   methods: {
     postEmergency() {
       this.submitted = true;
-      console.log(this.Id);
+      // console.log(this.Id);
       // stop here if form is invalid
       this.$v.$touch();
       if (this.$v.$invalid) {

@@ -394,7 +394,7 @@ export default {
     },
     getDisciplinaryMeasures() {
       //const user = this.user;
-       console.log(`company`, this.company.id)
+      // console.log(`company`, this.company.id)
       employeeService.getDisciplinaryMeasures(this.company.id).then(
         (model) => {
           this.disciplinaryMeasures = model;
@@ -433,7 +433,9 @@ export default {
         .then(
           (id) => {
             employeeService.getDisciplinaryMeasures(this.company.id).then((w) => {
-              this.disciplinaryMeasures = w; console.log(w); this.close()
+              this.disciplinaryMeasures = w; 
+              // console.log(w); 
+              this.close()
             });
           },
           (error) => {
@@ -446,7 +448,7 @@ export default {
         this.submitted = true;
 
         this.loading = true;
-        console.log(this.disciplinaryMeasure)
+        // console.log(this.disciplinaryMeasure)
         employeeService
           .updateDisciplinaryMeasure(
             this.disciplinaryMeasure.id, 
@@ -459,7 +461,9 @@ export default {
             .then(id => {
                   employeeService.getDisciplinaryMeasures(this.company.id)
                     .then(
-                      o => {this.disciplinaryMeasures = o, console.log(o), this.closeEdit()}
+                      o => {this.disciplinaryMeasures = o, 
+                      //console.log(o), 
+                      this.closeEdit()}
                     )
               },
               error => {

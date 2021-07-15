@@ -787,7 +787,7 @@ export default {
       this.GetPensionManager();
       this.GetTaxOffice();
       this.GetEmployee();
-      console.log(this.currentUser);
+      // console.log(this.currentUser);
       this.myAccount =
         this.currentUser.employee.id == this.employee.id ||
         this.currentUser.role == "HRAdmin";

@@ -1180,7 +1180,7 @@
                 employeeService.getEmployees(this.company.id).then(
                     (model) => {
                     this.employees = model;
-                    console.log(model);
+                    // console.log(model);
                     },
                     (error) => {
                     error = error;
@@ -1193,7 +1193,7 @@
                 .then(
                     (model) => {
                     this.performanceAppraisals = model;
-                    console.log(`model`, model)
+                    // console.log(`model`, model)
                     },
                     error => { error = error }
                 )
@@ -1215,7 +1215,7 @@
                 .then(
                     (model) => {
                     this.indicator = model;
-                    console.log(`model`, model)
+                    // console.log(`model`, model)
                     },
                     error => { error = error }
                 )
@@ -1254,7 +1254,7 @@
                         (id) => {
                             performanceService.getPerformanceAppraisals(this.company.id).then((u) => {
                             this.performanceAppraisals = u;
-                            console.log(`u`, u)
+                            // console.log(`u`, u)
                             this.close();
                         })
                         },
@@ -1294,7 +1294,7 @@
                         (id) => {
                             performanceService.getPerformanceAppraisals(this.company.id).then((u) => {
                             this.performanceAppraisals = u;
-                            console.log(`u`, u)
+                            // console.log(`u`, u)
                             this.close();
                         })
                         },
@@ -1333,7 +1333,7 @@
                         (id) => {
                             performanceService.getPerformanceAppraisals(this.company.id).then((u) => {
                             this.performanceAppraisal = u;
-                            console.log(`u`, u)
+                            // console.log(`u`, u)
                             this.closeEdit();
                             });
                         },
@@ -1352,7 +1352,7 @@
                             .then(
                                 model => { 
                                     this.performanceAppraisals = model
-                                    console.log(model)
+                                    // console.log(model)
                                     this.closeDelete() 
                                 },
                                 error => { error = error }
