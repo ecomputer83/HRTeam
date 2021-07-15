@@ -185,6 +185,7 @@
                                                 <label class="col-form-label">Phone </label>
                                                 <input type="text" v-model.trim="$v.phone.$model" id="name" name="name" class="form-control" :class="{ 'is-invalid': submitted && $v.phone.$error }" />
                                                 <div v-if="submitted && !$v.phone.required" class="invalid-feedback">Phone is required</div>
+                                                <div v-if="submitted && !$v.phone.numeric" class="invalid-feedback">Phone must be numbers</div>
                                             </div>
                                         </div>    
 
@@ -344,7 +345,7 @@
 <script>
     import LayoutHeader from '@/components/layouts/Header.vue'
     import LayoutSidebar from '@/components/layouts/Sidebar.vue'
-    import { required, sameAs } from 'vuelidate/lib/validators';
+    import { required, numeric, sameAs } from 'vuelidate/lib/validators';
     import { employeeService} from '@/services/employeeService.js';
     import { authenticationService } from '@/services/authenticationService';
     import { organizationService } from '@/services/organizationService';
@@ -386,7 +387,7 @@
             lastName: { required },
             rankId: { required },
             //address: { required },
-            phone: { required },
+            phone: { required, numeric },
             email: { required },
             designationId: { required }
     },
