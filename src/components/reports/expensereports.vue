@@ -34,47 +34,45 @@
             <div class="col-md-12">
               <div class="table-responsive">
                 <v-data-table
-                                      :headers="headers"
-                                      :items="expenses"
-                                      sort-by=""
-                                      class="elevation-1"
-                                      >
-
-      <template v-slot:[`item.actions`]="{ item }">
-        
-        <div class="dropdown dropdown-action">
-                          <a
-                            href="#"
-                            class="action-icon dropdown-toggle"
-                            data-toggle="dropdown"
-                            aria-expanded="false"
-                            ><i class="material-icons">more_vert</i></a
-                          >
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a
-                              class="dropdown-item"
-                              @click="setEditExpense(item)"
-                              ><i class="fa fa-pencil m-r-5"></i> Edit</a
-                            >
-                            <a
-                              class="dropdown-item"
-                              @click="setDeleteExpense(item)"
-                              ><i class="fa fa-trash-o m-r-5"></i> Delete</a
-                            >
-                          </div>
-                        </div>
-      </template>
-      <template v-slot:[`item.profile`]="{ item }">
-        <h2 class="table-avatar blue-link">
-                          <router-link to="/profile" class="avatar"
-                            ><img alt="" src="../../assets/profiles/avatar-02.jpg"
-                          /></router-link>
-                          <router-link to="/profile">{{
-                            `${item.employee.firstName} ${item.employee.lastName}`
-                          }}</router-link>
-                        </h2>
-      </template>
-                                  </v-data-table>
+                  :headers="headers"
+                  :items="expenses"
+                  sort-by=""
+                  class="elevation-1"
+                >
+                  <template v-slot:[`item.actions`]="{ item }">
+                    <div class="dropdown dropdown-action">
+                      <a
+                        href="#"
+                        class="action-icon dropdown-toggle"
+                        data-toggle="dropdown"
+                        aria-expanded="false"
+                        ><i class="material-icons">more_vert</i></a
+                      >
+                      <div class="dropdown-menu dropdown-menu-right">
+                        <a
+                          class="dropdown-item"
+                          @click="setEditExpense(item)"
+                          ><i class="fa fa-pencil m-r-5"></i> Edit</a
+                        >
+                        <a
+                          class="dropdown-item"
+                          @click="setDeleteExpense(item)"
+                          ><i class="fa fa-trash-o m-r-5"></i> Delete</a
+                        >
+                      </div>
+                    </div>
+                  </template>
+                  <template v-slot:[`item.profile`]="{ item }">
+                    <h2 class="table-avatar blue-link">
+                      <router-link to="/profile" class="avatar"
+                        ><img alt="" src="../../assets/profiles/avatar-02.jpg"
+                      /></router-link>
+                      <router-link to="/profile">{{
+                        `${item.employee.firstName} ${item.employee.lastName}`
+                      }}</router-link>
+                    </h2>
+                  </template>
+                </v-data-table>
                 
               </div>
             </div>
@@ -83,7 +81,7 @@
         </div>
         <!-- /Page Content -->
 
-        <!-- Add Resignation Modal -->
+        <!-- Add expense report Modal -->
         <v-dialog v-model="dialog" max-width="725px"
           >
             <div class="modal-content">
@@ -146,9 +144,9 @@
               </div>
             </div>
         </v-dialog>
-        <!-- /Add Resignation Modal -->
+        <!-- /Add expense report Modal -->
 
-        <!-- Edit Resignation Modal -->
+        <!-- Edit expense report Modal -->
         <v-dialog v-model="dialogEdit" max-width="725px"
           >
             <div class="modal-content">
@@ -172,20 +170,20 @@
                     </select>
                   </div>
                   <div class="form-group">
-                      <label>Notice Date <span class="text-danger">*</span></label>
+                      <label>Date <span class="text-danger">*</span></label>
                       <div class="cal-icon">
-                        <datepicker v-model="resignation.noticeDate" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
+                        <datepicker v-model="date" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
                       </div>
                   </div>
                   <div class="form-group">
                       <label>Resignation Date <span class="text-danger">*</span></label>
                       <div class="cal-icon">
-                        <datepicker v-model="resignation.resignationDate" calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
+                        <datepicker calendar-class input-class bootstrap-styling class="form-control datetimepicker" type="text" />
                       </div>
                   </div>
                   <div class="form-group">
                     <label>Reason <span class="text-danger">*</span></label>
-                    <textarea class="form-control" v-model="resignation.reason" rows="4"></textarea>
+                    <textarea class="form-control"  rows="4"></textarea>
                   </div>
                   <div class="submit-section">
                     <button class="btn btn-primary submit-btn">Submit</button>
@@ -194,7 +192,7 @@
               </div>
             </div>
         </v-dialog>
-        <!-- /Edit Resignation Modal -->
+        <!-- /Edit expense reports Modal -->
 
         <!-- Delete Resignation Modal -->
         <v-dialog v-model="dialogDelete" max-width="725px"
@@ -262,9 +260,10 @@ export default {
         value: 'profile',
       },
       { text: 'Designation', value: 'employee.designation' },
-      { text: 'Reason', value: 'reason' },
-      { text: 'Notice Date', value: 'noticeDate' },
-      { text: 'Resignation Date', value: 'resignationDate' },
+      // { text: 'Reason', value: 'reason' },
+      { text: 'Amount', value: 'amount' },
+      { text: 'Date', value: 'date' },
+      { text: 'Assignee', value: 'assignee' },
       { text: '', value: 'actions', sortable: false },
     ],
       name: "",
@@ -274,9 +273,10 @@ export default {
       assignee: "",
       assigneeId: "",
       date: "",
-      resignationDate: "",
-      resignation: {},
+      // resignationDate: "",
+      // resignation: {},
       expenses: [],
+      expense: {},
       employee: [],
       loading: false,
       error: "",
@@ -290,8 +290,8 @@ export default {
   validations: {
     name: { required },
     reason: { required },
-    noticeDate: { required },
-    resignationDate: { required },
+    date: { required },
+    assignee:  { required }
   },
   watch: {
     dialog (val) {
@@ -328,22 +328,22 @@ export default {
           error => { error = error }
         )
     },
-    getEmployeeResignations() {
-      const companyId = this.company.id;
-      employeeService.getEmployeeResignations(companyId).then(
-        (model) => {
-          // console.log(model)
-          this.resignations = model;
-        },
-        (error) => {
-          error = error;
-        }
-      );
-    },
+    // getEmployeeResignations() {
+    //   const companyId = this.company.id;
+    //   employeeService.getEmployeeResignations(companyId).then(
+    //     (model) => {
+    //       // console.log(model)
+    //       this.resignations = model;
+    //     },
+    //     (error) => {
+    //       error = error;
+    //     }
+    //   );
+    // },
     getExpenseClaim() {
-      employeeService.getExpenseClaim().then(
+      employeeService.getExpenseClaim(this.companyId).then(
         (model) => {
-          // console.log(model)
+          console.log(model)
           this.expenses = model
         },
         (error) => {
@@ -380,7 +380,7 @@ export default {
         .addExpenseClaim(
           this.date,
           this.remark,
-          this.amount = parseInt(this.amount),
+          this.amount = parseInt(this.amount.replace(/\,/g, '')),
           this.assigneeId,
           this.approval,
           this.approvalDate
@@ -389,7 +389,7 @@ export default {
           (id) => {
             employeeService.getExpenseClaim(this.employeeId).then((w) => {
               this.expenses = w, 
-              // console.log(w); 
+               console.log(w); 
               this.close()
             });
           },

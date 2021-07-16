@@ -90,7 +90,20 @@
                                 <form>
                                     <div class="form-group">
                                         <label>Policy Name <span class="text-danger">*</span></label>
-                                        <input class="form-control" type="text" v-model="name">
+                                        <input 
+                                            type="text" 
+                                            id="name"
+                                            name="name"
+                                            class="form-control" 
+                                            v-model.trim="$v.name.$model"
+                                            :class="{ 'is-invalid': submitted && $v.name.$error }"
+                                            >
+                                            <div
+                                            v-if="submitted && !$v.name.required"
+                                            class="invalid-feedback"
+                                            >
+                                                Policy Name is required
+                                            </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Description <span class="text-danger">*</span></label>

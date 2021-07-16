@@ -73,10 +73,10 @@
                   
                   <template v-slot:[`item.profile`]="{ item }">
                     <h2 class="table-avatar blue-link">
-                      <router-link to="/profile" class="avatar"
+                      <router-link to="" class="avatar"
                         ><img alt="" src="~@/assets/profiles/avatar-02.jpg"
                       /></router-link>
-                      <router-link to="/profile">{{
+                      <router-link to="">{{
                         `${item.employee.firstName} ${item.employee.lastName}`
                       }}</router-link>
                     </h2>

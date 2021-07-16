@@ -153,12 +153,12 @@
                 ></a>
                 <ul style="display: none">
                   <li>
-                    <router-link to="/expensereports" class="expensereports">
+                    <router-link to="/expense-reports" class="expensereports">
                       Expense Report
                     </router-link>
                   </li>
                   <li>
-                    <router-link to="/invoicereports" class="invoicereports">
+                    <router-link to="/invoice-reports" class="invoicereports">
                       Invoice Report
                     </router-link>
                   </li>

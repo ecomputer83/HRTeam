@@ -846,7 +846,7 @@ function addExpenseClaim(date, remark, amount, assignee) {
 }
 
 function getExpenseClaim(id) {
-    return fetch(`${config.apiurl}/Expense​/GetExpenseClaim​/${id}`, requestOptions.get())
+    return fetch(`${config.apiurl}/Expense/GetExpenseClaim/${id}`, requestOptions.get())
         .then(handleResponse)
         .then(model => {
             // console.log(model)
